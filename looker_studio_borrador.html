@@ -563,16 +563,16 @@
           <div class="charts-row">
             <div class="widget-box">
               <div class="widget-header">
-                <h3>Margen de Intermediación: Central de Abasto (02-B) vs. Supermercado (02-A)</h3>
-                <span class="widget-tag">Gráfico de Barras Agrupadas</span>
+                <h3>Cometas de Rango Flotante: Salto Mayoreo (02-B) a Góndola (02-A)</h3>
+                <span class="widget-tag">Floating Range Bars [Mayoreo -> Súper]</span>
               </div>
               <canvas id="chartIntermediacion" height="210"></canvas>
             </div>
 
             <div class="widget-box">
               <div class="widget-header">
-                <h3>Concentración de Ingresos Comerciales en Mérida (INEGI SAIC 01-B)</h3>
-                <span class="widget-tag">Distribución % Facturación</span>
+                <h3>Rosa Polar de Nightingale: Concentración Comercial (SAIC 01-B)</h3>
+                <span class="widget-tag">Polar Area Coxcomb</span>
               </div>
               <canvas id="chartConcentracion" height="210"></canvas>
             </div>
@@ -641,8 +641,8 @@
           <div class="charts-row">
             <div class="widget-box">
               <div class="widget-header">
-                <h3>Precios Auditados en las 5 Tienditas de Esquina (Fuente Propia 07-B)</h3>
-                <span class="widget-tag">Interactivo por Filtro</span>
+                <h3>Estrella Poligonal Radar: Huella de Precios en las 5 Tienditas (07-B)</h3>
+                <span class="widget-tag">Radar Multidimensional Interactivo</span>
               </div>
               <canvas id="chartTienditas" height="230"></canvas>
             </div>
@@ -686,16 +686,16 @@
           <div class="charts-row">
             <div class="widget-box">
               <div class="widget-header">
-                <h3>Esfuerzo Laboral: % del Salario Mensual Absorbido por Alimentación (03-A / 01-C)</h3>
-                <span class="widget-tag">Canasta Individual vs Familiar</span>
+                <h3>Constelación de Burbujas: Salario Diario vs. % Devorado por Comida vs. Informalidad</h3>
+                <span class="widget-tag">Bubble Matrix 3D (X, Y, Radio)</span>
               </div>
               <canvas id="chartSalarios" height="220"></canvas>
             </div>
 
             <div class="widget-box">
               <div class="widget-header">
-                <h3>Anatomía del Ticket en Apps de Delivery vs. Tienda Física (06-C)</h3>
-                <span class="widget-tag">2,501 Tickets Simulados</span>
+                <h3>Radar del Impuesto Algorítmico: Tienda Física vs. Delivery (06-C)</h3>
+                <span class="widget-tag">Comparativa Multieje (2,501 Tickets)</span>
               </div>
               <canvas id="chartDelivery" height="220"></canvas>
             </div>
@@ -837,29 +837,50 @@
 
     function updateChartTienditas(datos) {
       const prods = ["Tortilla de maiz", "Leche entera", "Frijol negro", "Pan blanco", "Huevo blanco"];
-      const avgs = prods.map(p => {
-        const sub = datos.filter(d => d.prod === p);
-        if (sub.length === 0) return 0;
-        return +(sub.reduce((acc, x) => acc + x.precio, 0) / sub.length).toFixed(2);
+      const tiendasUnicas = [...new Set(datos.map(d => d.tienda))];
+      const coloresRadar = [
+        { border: '#600d8b', bg: 'rgba(96, 13, 139, 0.14)' },
+        { border: '#ed9f22', bg: 'rgba(237, 159, 34, 0.16)' },
+        { border: '#9333ea', bg: 'rgba(147, 51, 234, 0.12)' },
+        { border: '#b45309', bg: 'rgba(180, 83, 9, 0.14)' },
+        { border: '#0d0d0d', bg: 'rgba(13, 13, 13, 0.10)' }
+      ];
+
+      const datasetsRadar = tiendasUnicas.map((tName, idx) => {
+        const subT = datos.filter(d => d.tienda === tName);
+        const vals = prods.map(p => {
+          const item = subT.find(d => d.prod === p);
+          return item ? item.precio : 0;
+        });
+        const c = coloresRadar[idx % coloresRadar.length];
+        return {
+          label: tName,
+          data: vals,
+          borderColor: c.border,
+          backgroundColor: c.bg,
+          borderWidth: 2.2,
+          pointBackgroundColor: c.border,
+          pointRadius: 4
+        };
       });
 
       const ctx = document.getElementById('chartTienditas').getContext('2d');
       if (chartTienditasInstance) chartTienditasInstance.destroy();
       chartTienditasInstance = new Chart(ctx, {
-        type: 'bar',
+        type: 'radar',
         data: {
           labels: prods,
-          datasets: [{
-            label: 'Precio Promedio Observado ($ MXN)',
-            data: avgs,
-            backgroundColor: ['#600d8b', '#8b1da8', '#600d8b', '#ed9f22', '#b45309'],
-            borderRadius: 5
-          }]
+          datasets: datasetsRadar
         },
         options: {
           responsive: true,
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true, title: { display: true, text: '$ MXN' } } }
+          scales: {
+            r: {
+              beginAtZero: true,
+              suggestedMax: 90,
+              ticks: { stepSize: 25 }
+            }
+          }
         }
       });
     }
@@ -910,59 +931,127 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // Gráfico 1: Intermediación
+      // Gráfico 1: Barras Flotantes (Comet Range [Mayoreo -> Menudeo])
       new Chart(document.getElementById('chartIntermediacion').getContext('2d'), {
         type: 'bar',
         data: {
-          labels: ['Jitomate', 'Cebolla', 'Papa Blanca', 'Limón', 'Plátano', 'Aguacate', 'Huevo'],
+          labels: ['Papa Blanca (+250%)', 'Jitomate (+179%)', 'Limón (+139%)', 'Aguacate (+108%)', 'Plátano (+108%)', 'Cebolla (+57%)', 'Huevo (+35%)'],
           datasets: [
-            { label: 'Mayoreo SNIIM ($/kg)', data: [16.15, 14.0, 16.0, 11.11, 12.0, 38.0, 36.0], backgroundColor: '#600d8b', borderRadius: 4 },
-            { label: 'Menudeo PROFECO ($/kg)', data: [45.0, 22.0, 56.0, 26.5, 24.9, 79.0, 48.5], backgroundColor: '#ed9f22', borderRadius: 4 }
+            {
+              label: 'Brecha de Intermediación [Mayoreo SNIIM -> Góndola PROFECO] ($/kg)',
+              data: [[16.0, 56.0], [16.15, 45.0], [11.11, 26.5], [38.0, 79.0], [12.0, 24.9], [14.0, 22.0], [36.0, 48.5]],
+              backgroundColor: 'rgba(237, 159, 34, 0.85)',
+              borderColor: '#600d8b',
+              borderWidth: 2,
+              borderRadius: 8,
+              borderSkipped: false
+            }
           ]
         },
-        options: { responsive: true }
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          scales: {
+            x: { beginAtZero: true, title: { display: true, text: 'Rango del Precio por Kilo ($ MXN): Inicio = Abasto | Fin = Supermercado' } }
+          }
+        }
       });
 
-      // Gráfico 2: Concentración SAIC
+      // Gráfico 2: Rosa Polar de Nightingale (Polar Area Coxcomb)
       new Chart(document.getElementById('chartConcentracion').getContext('2d'), {
-        type: 'doughnut',
+        type: 'polarArea',
         data: {
-          labels: ['Supermercados (84 tiendas)', 'Abarrotes/Tienditas (5,120)', 'Carnicerías (1,220)', 'Tortillerías y Fruterías (1,620)', 'Otros Alimentos'],
+          labels: ['Supermercados (84 tiendas)', 'Otros Alimentos', 'Abarrotes/Tienditas (5,120)', 'Carnicerías (1,220)', 'Tortillerías y Fruterías (1,620)'],
           datasets: [{
-            data: [8920.5, 2415.8, 1245.3, 1165.1, 8020.6],
-            backgroundColor: ['#600d8b', '#ed9f22', '#8b1da8', '#b45309', '#cbd5e1']
+            data: [8920.5, 5100.0, 2415.8, 1245.3, 1165.1],
+            backgroundColor: [
+              'rgba(96, 13, 139, 0.85)',
+              'rgba(237, 159, 34, 0.85)',
+              'rgba(147, 51, 234, 0.78)',
+              'rgba(180, 83, 9, 0.80)',
+              'rgba(13, 13, 13, 0.65)'
+            ],
+            borderColor: '#ffffff',
+            borderWidth: 2
           }]
         },
         options: { responsive: true }
       });
 
-      // Gráfico 3: Salarios
+      // Gráfico 3: Matriz de Burbujas (X = Salario Diario, Y = % Sueldo Absorbido por Comida Familiar, R = Informalidad %)
       new Chart(document.getElementById('chartSalarios').getContext('2d'), {
-        type: 'bar',
+        type: 'bubble',
         data: {
-          labels: ['Informal ($7.5k)', 'Mínimo ($8.3k)', 'IMSS Kanasín ($11.9k)', 'IMSS Yucatán ($14.1k)', 'IMSS Mérida ($16.7k)'],
           datasets: [
-            { label: '% Canasta Individual ($2,610)', data: [34.8, 31.2, 21.9, 18.4, 15.6], backgroundColor: '#600d8b', borderRadius: 4 },
-            { label: '% Gasto Familiar ($8,200)', data: [100.0, 98.0, 68.6, 57.8, 49.0], backgroundColor: '#ed9f22', borderRadius: 4 }
-          ]
-        },
-        options: { responsive: true }
-      });
-
-      // Gráfico 4: Delivery
-      new Chart(document.getElementById('chartDelivery').getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: ['Tienda Física', 'App Directa Súper', 'Apps Delivery (Rappi/Uber)'],
-          datasets: [
-            { label: 'Costo Base Artículos', data: [1143.82, 1143.82, 1348.67], backgroundColor: '#600d8b' },
-            { label: 'Tarifas, Envío y Propina', data: [0, 26.19, 173.44], backgroundColor: '#ed9f22' }
+            {
+              label: 'Sector Informal ($250/día · 100% Inf.)',
+              data: [{ x: 250, y: 109.3, r: 22 }],
+              backgroundColor: 'rgba(237, 159, 34, 0.85)',
+              borderColor: '#0d0d0d',
+              borderWidth: 2
+            },
+            {
+              label: 'Salario Mínimo ($278.8/día · 98% Sueldo)',
+              data: [{ x: 278.8, y: 98.0, r: 18 }],
+              backgroundColor: 'rgba(180, 83, 9, 0.85)',
+              borderColor: '#0d0d0d',
+              borderWidth: 2
+            },
+            {
+              label: 'Kanasín IMSS ($398.2/día · 56.3% Inf.)',
+              data: [{ x: 398.2, y: 68.6, r: 16 }],
+              backgroundColor: 'rgba(147, 51, 234, 0.80)',
+              borderColor: '#600d8b',
+              borderWidth: 2
+            },
+            {
+              label: 'Umán IMSS ($425.4/día · 51.0% Inf.)',
+              data: [{ x: 425.4, y: 64.2, r: 14 }],
+              backgroundColor: 'rgba(96, 13, 139, 0.75)',
+              borderColor: '#0d0d0d',
+              borderWidth: 1.5
+            },
+            {
+              label: 'Mérida IMSS ($558.1/día · 40.5% Inf.)',
+              data: [{ x: 558.1, y: 49.0, r: 12 }],
+              backgroundColor: 'rgba(96, 13, 139, 0.95)',
+              borderColor: '#ed9f22',
+              borderWidth: 2.5
+            }
           ]
         },
         options: {
           responsive: true,
-          scales: { x: { stacked: true }, y: { stacked: true } }
+          scales: {
+            x: { title: { display: true, text: 'Salario Diario Promedio ($ MXN / día)' }, min: 200, max: 620 },
+            y: { title: { display: true, text: '% del Ingreso Mensual Devorado por Comida Familiar' }, min: 35, max: 120 }
+          }
         }
+      });
+
+      // Gráfico 4: Radar Multieje de Fuga Digital en Delivery
+      new Chart(document.getElementById('chartDelivery').getContext('2d'), {
+        type: 'radar',
+        data: {
+          labels: ['Costo Base Alimentos', 'Sobreprecio Catálogo', 'Costo de Envío', 'Tarifa de Servicio', 'Propina Algoritmo'],
+          datasets: [
+            {
+              label: 'Compra Presencial / Mercado ($ MXN)',
+              data: [1143.8, 0, 24.0, 0, 0],
+              borderColor: '#600d8b',
+              backgroundColor: 'rgba(96, 13, 139, 0.18)',
+              borderWidth: 2.5
+            },
+            {
+              label: 'App Delivery Terceros ($1,522.11 Total)',
+              data: [1143.8, 204.86, 64.72, 53.23, 55.49],
+              borderColor: '#ed9f22',
+              backgroundColor: 'rgba(237, 159, 34, 0.25)',
+              borderWidth: 2.5
+            }
+          ]
+        },
+        options: { responsive: true }
       });
 
       applyLookerFilters();
