@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visor 3D: LiDAR Espacial NASA GEDI y Relieve OpenTopography</title>
+  <title>El Ojo de la NASA: ¿Dónde Falta Sombra en Mérida? | UPY</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(15, 23, 42, 0.90);
-      --border: rgba(255, 255, 255, 0.12);
-      --accent: #10b981;
-      --accent-blue: #38bdf8;
-      --text: #f8fafc;
-      --muted: #94a3b8;
+      --bg: #0d0d0d;
+      --white: #ffffff;
+      --purple: #600d8b;
+      --gold: #ed9f22;
+      --text: #0d0d0d;
+      --muted: #555555;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -33,78 +32,102 @@
     .sidebar {
       width: 380px;
       height: 100%;
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border-right: 1px solid var(--border);
-      padding: 28px;
+      background: var(--white);
+      border-right: 4px solid var(--purple);
+      padding: 26px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
       z-index: 10;
       box-shadow: 10px 0 30px rgba(0,0,0,0.5);
       overflow-y: auto;
     }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; }
     .badge {
-      display: inline-block;
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--accent);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
+      background: rgba(96, 13, 139, 0.08);
+      color: var(--purple);
+      border: 1px solid rgba(96, 13, 139, 0.25);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
     }
-    h1 { font-size: 21px; font-weight: 700; margin-top: 8px; color: #fff; }
+    .btn-back {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--purple);
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid rgba(96, 13, 139, 0.25);
+      border-radius: 6px;
+    }
+    .btn-back:hover { background: var(--purple); color: #ffffff; }
+    h1 { font-size: 22px; font-weight: 800; color: var(--purple); line-height: 1.2; }
     p { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
     .stat-box {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid var(--gold);
+      border-radius: 10px;
+      padding: 14px 16px;
     }
-    .stat-box .title { font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 600; }
-    .stat-box .val { font-size: 24px; font-weight: 700; color: #fff; margin-top: 4px; }
+    .stat-box .title { font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 700; }
+    .stat-box .val { font-size: 21px; font-weight: 800; color: var(--text); margin-top: 3px; }
+    .story-note {
+      background: #fef3c7;
+      border: 1px solid var(--gold);
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 13px;
+      color: #0d0d0d;
+      line-height: 1.45;
+    }
     .btn-action {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
-      color: #fff;
-      border: none;
+      background: var(--gold);
+      color: #0d0d0d;
+      border: 2px solid #0d0d0d;
       padding: 12px 18px;
       border-radius: 8px;
-      font-weight: 600;
+      font-weight: 800;
       font-size: 14px;
       cursor: pointer;
       font-family: inherit;
+      margin-top: auto;
     }
-    .btn-action:hover { filter: brightness(1.15); }
+    .btn-action:hover { filter: brightness(1.07); }
   </style>
 </head>
 <body>
 
   <div class="sidebar">
+    <div class="top-bar">
+      <span class="badge">Satélite NASA · Sombra</span>
+      <a href="../../../index.html" class="btn-back">Volver a la Presentación</a>
+    </div>
     <div>
-      <span class="badge">Fuente C • Módulo 08-C</span>
-      <h1>LiDAR Espacial GEDI & Relieve Satelital</h1>
-      <p>Nube tridimensional de retorno del instrumento LiDAR GEDI de la NASA (mide la altura del dosel vegetal y la cota del suelo desde la ISS) combinado con OpenTopography SRTM en Mérida.</p>
+      <h1>El Ojo de la NASA: ¿Dónde Falta Sombra?</h1>
+      <p style="margin-top: 8px;">Un láser desde la Estación Espacial Internacional mide la altura de los árboles de Mérida. Donde hay copas altas (puntos dorados), la banqueta se enfría; donde solo hay piso (morado), el calor quema.</p>
     </div>
 
     <div class="stat-box">
-      <div class="title">Altura Media de Dosel LiDAR (GEDI)</div>
+      <div class="title">Altura promedio de los árboles</div>
       <div class="val">7.84 metros</div>
-      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Vegetación urbana y copas arbóreas sobre la planicie cárstica</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Escudo natural contra el sol de más de 40°C</div>
     </div>
 
-    <div class="stat-box">
-      <div class="title">Cota Terrestre Satelital (SRTM)</div>
-      <div class="val">8.97 m s.n.m.</div>
-      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Desviación estándar: ±2.09 m (Topografía llana)</div>
+    <div class="stat-box" style="border-left-color: var(--purple);">
+      <div class="title">Altura promedio del suelo</div>
+      <div class="val">8.97 metros sobre el mar</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Planicie casi plana en toda la ciudad</div>
     </div>
 
-    <div style="font-size: 13px; color: var(--muted);">
-      <strong style="color: #fff;">Justificación Técnica para Evaluación:</strong><br>
-      A diferencia del LiDAR terrestre aerotransportado tradicional, este dataset integra el sensor <strong>NASA GEDI (LiDAR de forma de onda espacial)</strong>, demostrando el enfoque multiescalar (desde la órbita satelital hasta el suelo meridano).
+    <div class="story-note">
+      <strong>¿Por qué importa esto para tu despensa?</strong><br>
+      Caminar al mercado o esperar el camión Va y Ven bajo sombra de árboles ahorra calor y evita que la gente prefiera pedir por app desde el sillón pagando $378 extra.
     </div>
 
-    <button class="btn-action" onclick="resetView()">Restablecer Perspectiva</button>
+    <button class="btn-action" onclick="resetView()">Centrar Nube 3D</button>
   </div>
 
   <div id="viewport"></div>
@@ -112,7 +135,7 @@
   <script>
     const container = document.getElementById('viewport');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x090d16);
+    scene.background = new THREE.Color(0x0d0d0d);
 
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.set(40, 30, 45);
@@ -124,58 +147,50 @@
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-    const dLight = new THREE.DirectionalLight(0xffffff, 0.6);
-    dLight.position.set(20, 50, 20);
-    scene.add(dLight);
-
-    const grid = new THREE.GridHelper(60, 30, 0x10b981, 0x1e293b);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const grid = new THREE.GridHelper(60, 30, 0x600d8b, 0x1f1f1f);
     grid.position.y = -0.1;
     scene.add(grid);
 
-    // Simulación de nube de puntos LiDAR GEDI (Suelo en verde oscuro, dosel arbóreo en verde claro y naranja)
     const count = 1200;
     const geom = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
 
+    const cGold = new THREE.Color(0xed9f22);
+    const cPurple = new THREE.Color(0x9333ea);
+
     for (let i = 0; i < count; i++) {
       let x = (Math.random() - 0.5) * 45;
       let z = (Math.random() - 0.5) * 45;
-      
       let esDosel = Math.random() < 0.45;
-      let y = esDosel ? (2.0 + Math.random() * 8.0) : (Math.random() * 0.8);
+      let y = esDosel ? (2.5 + Math.random() * 7.5) : (Math.random() * 0.7);
 
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
 
-      if (esDosel) {
-        colors[i * 3] = 0.2 + (y / 10.0) * 0.7;     // R
-        colors[i * 3 + 1] = 0.8;                   // G
-        colors[i * 3 + 2] = 0.2;                   // B
-      } else {
-        colors[i * 3] = 0.1;
-        colors[i * 3 + 1] = 0.4;
-        colors[i * 3 + 2] = 0.6;
-      }
+      const c = esDosel ? cGold : cPurple;
+      colors[i * 3] = c.r;
+      colors[i * 3 + 1] = c.g;
+      colors[i * 3 + 2] = c.b;
     }
 
     geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-    const pMat = new THREE.PointsMaterial({ size: 0.7, vertexColors: true });
-    const pSystem = new THREE.Points(geom, pMat);
+    const pSystem = new THREE.Points(geom, new THREE.PointsMaterial({ size: 0.75, vertexColors: true }));
     scene.add(pSystem);
 
     function resetView() {
       camera.position.set(40, 30, 45);
       controls.target.set(0, 3, 0);
+      controls.update();
     }
 
     function animate() {
       requestAnimationFrame(animate);
-      pSystem.rotation.y += 0.001;
+      pSystem.rotation.y += 0.0012;
       controls.update();
       renderer.render(scene, camera);
     }

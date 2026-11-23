@@ -512,10 +512,10 @@
           </div>
 
           <div class="control-group">
-            <label>Producto Tiendita (07-B):</label>
+            <label>Producto Tiendita:</label>
             <select id="filterProducto" class="looker-select" onchange="applyLookerFilters()">
               <option value="TODOS">Todos los Productos (5)</option>
-              <option value="Tortilla de maiz">Tortilla de maíz</option>
+              <option value="Tortilla de maíz">Tortilla de maíz</option>
               <option value="Huevo blanco">Huevo blanco</option>
               <option value="Leche entera">Leche entera</option>
               <option value="Frijol negro">Frijol negro</option>
@@ -768,34 +768,34 @@
   </div>
 
   <script>
-    // DATOS REALES DE LA BITÁCORA 07-B (SELF-PRODUCED)
+    // DATOS REALES DE LA BITÁCORA 07-B (LEVANTAMIENTO EN CAMPO)
     const bitacoraTienditas = [
-      { folio: "AUD-01", zona: "Centro", colonia: "Centro Historico", tienda: "Abarrotes El Milagro", prod: "Tortilla de maiz", marca: "Tortilleria local 1 kg caliente", precio: 26.0, pago: "Efectivo" },
-      { folio: "AUD-01", zona: "Centro", colonia: "Centro Historico", tienda: "Abarrotes El Milagro", prod: "Huevo blanco", marca: "Venta a granel 1 kg", precio: 50.0, pago: "Efectivo" },
-      { folio: "AUD-01", zona: "Centro", colonia: "Centro Historico", tienda: "Abarrotes El Milagro", prod: "Leche entera", marca: "LALA 1L", precio: 26.0, pago: "Efectivo" },
-      { folio: "AUD-01", zona: "Centro", colonia: "Centro Historico", tienda: "Abarrotes El Milagro", prod: "Frijol negro", marca: "La Sierra 1 kg", precio: 25.0, pago: "Efectivo" },
-      { folio: "AUD-01", zona: "Centro", colonia: "Centro Historico", tienda: "Abarrotes El Milagro", prod: "Pan blanco", marca: "BIMBO Paquete grande", precio: 55.0, pago: "Efectivo" },
+      { folio: "AUD-01", zona: "Centro", colonia: "Centro Histórico", tienda: "Abarrotes El Milagro", prod: "Tortilla de maíz", marca: "Tortillería local 1 kg caliente", precio: 26.0, pago: "Efectivo" },
+      { folio: "AUD-01", zona: "Centro", colonia: "Centro Histórico", tienda: "Abarrotes El Milagro", prod: "Huevo blanco", marca: "Venta a granel 1 kg", precio: 50.0, pago: "Efectivo" },
+      { folio: "AUD-01", zona: "Centro", colonia: "Centro Histórico", tienda: "Abarrotes El Milagro", prod: "Leche entera", marca: "Lala 1 L", precio: 26.0, pago: "Efectivo" },
+      { folio: "AUD-01", zona: "Centro", colonia: "Centro Histórico", tienda: "Abarrotes El Milagro", prod: "Frijol negro", marca: "La Sierra 1 kg", precio: 25.0, pago: "Efectivo" },
+      { folio: "AUD-01", zona: "Centro", colonia: "Centro Histórico", tienda: "Abarrotes El Milagro", prod: "Pan blanco", marca: "Bimbo paquete grande", precio: 55.0, pago: "Efectivo" },
 
-      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Leche entera", marca: "LALA 1L", precio: 25.0, pago: "Efectivo y Transferencia" },
-      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Huevo blanco", marca: "SAN JUAN 1 panal", precio: 80.0, pago: "Efectivo y Transferencia" },
-      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Frijol negro", marca: "Grano de oro 1kg", precio: 30.0, pago: "Efectivo y Transferencia" },
-      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Pan blanco", marca: "BIMBO Paquete grande", precio: 58.0, pago: "Efectivo y Transferencia" },
+      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Leche entera", marca: "Lala 1 L", precio: 25.0, pago: "Efectivo y transferencia" },
+      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Huevo blanco", marca: "San Juan 1 panal", precio: 80.0, pago: "Efectivo y transferencia" },
+      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Frijol negro", marca: "Grano de Oro 1 kg", precio: 30.0, pago: "Efectivo y transferencia" },
+      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Pan blanco", marca: "Bimbo paquete grande", precio: 58.0, pago: "Efectivo y transferencia" },
 
-      { folio: "AUD-03", zona: "Poniente", colonia: "Poligono 108", tienda: "Abarrotes Maria Elena", prod: "Huevo blanco", marca: "Despacho a granel 1 kg", precio: 48.0, pago: "Solo Efectivo" },
-      { folio: "AUD-03", zona: "Poniente", colonia: "Poligono 108", tienda: "Abarrotes Maria Elena", prod: "Leche entera", marca: "LALA 1L", precio: 28.0, pago: "Solo Efectivo" },
-      { folio: "AUD-03", zona: "Poniente", colonia: "Poligono 108", tienda: "Abarrotes Maria Elena", prod: "Frijol negro", marca: "Grano de oro 1kg", precio: 31.0, pago: "Solo Efectivo" },
-      { folio: "AUD-03", zona: "Poniente", colonia: "Poligono 108", tienda: "Abarrotes Maria Elena", prod: "Pan blanco", marca: "BIMBO Paquete grande", precio: 60.0, pago: "Solo Efectivo" },
+      { folio: "AUD-03", zona: "Poniente", colonia: "Polígono 108", tienda: "Abarrotes María Elena", prod: "Huevo blanco", marca: "Despacho a granel 1 kg", precio: 48.0, pago: "Solo efectivo" },
+      { folio: "AUD-03", zona: "Poniente", colonia: "Polígono 108", tienda: "Abarrotes María Elena", prod: "Leche entera", marca: "Lala 1 L", precio: 28.0, pago: "Solo efectivo" },
+      { folio: "AUD-03", zona: "Poniente", colonia: "Polígono 108", tienda: "Abarrotes María Elena", prod: "Frijol negro", marca: "Grano de Oro 1 kg", precio: 31.0, pago: "Solo efectivo" },
+      { folio: "AUD-03", zona: "Poniente", colonia: "Polígono 108", tienda: "Abarrotes María Elena", prod: "Pan blanco", marca: "Bimbo paquete grande", precio: 60.0, pago: "Solo efectivo" },
 
-      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Fruteria y Abarrotes Evelia", prod: "Huevo blanco", marca: "SAN JUAN 1 panal", precio: 88.0, pago: "Efectivo y Tarjeta" },
-      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Fruteria y Abarrotes Evelia", prod: "Leche entera", marca: "NUTRI 1 L", precio: 25.0, pago: "Efectivo y Tarjeta" },
-      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Fruteria y Abarrotes Evelia", prod: "Frijol negro", marca: "La Sierra 1 kg", precio: 28.0, pago: "Efectivo y Tarjeta" },
-      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Fruteria y Abarrotes Evelia", prod: "Pan blanco", marca: "BIMBO Paquete grande", precio: 60.0, pago: "Efectivo y Tarjeta" },
+      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Frutería y Abarrotes Evelia", prod: "Huevo blanco", marca: "San Juan 1 panal", precio: 88.0, pago: "Efectivo y tarjeta" },
+      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Frutería y Abarrotes Evelia", prod: "Leche entera", marca: "Nutri 1 L", precio: 25.0, pago: "Efectivo y tarjeta" },
+      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Frutería y Abarrotes Evelia", prod: "Frijol negro", marca: "La Sierra 1 kg", precio: 28.0, pago: "Efectivo y tarjeta" },
+      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Frutería y Abarrotes Evelia", prod: "Pan blanco", marca: "Bimbo paquete grande", precio: 60.0, pago: "Efectivo y tarjeta" },
 
-      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburna", tienda: "Abarrotes Carmita", prod: "Tortilla de maiz", marca: "Tortilleria local 1 kg caliente", precio: 27.0, pago: "Efectivo, Tarjeta, Transferencia" },
-      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburna", tienda: "Abarrotes Carmita", prod: "Huevo blanco", marca: "SAN JUAN 1 panal", precio: 85.0, pago: "Efectivo, Tarjeta, Transferencia" },
-      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburna", tienda: "Abarrotes Carmita", prod: "Leche entera", marca: "LALA 1L", precio: 26.0, pago: "Efectivo, Tarjeta, Transferencia" },
-      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburna", tienda: "Abarrotes Carmita", prod: "Pan blanco", marca: "BIMBO Paquete grande", precio: 60.0, pago: "Efectivo, Tarjeta, Transferencia" },
-      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburna", tienda: "Abarrotes Carmita", prod: "Frijol negro", marca: "La Sierra 1 kg", precio: 26.0, pago: "Efectivo, Tarjeta, Transferencia" }
+      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburná", tienda: "Abarrotes Carmita", prod: "Tortilla de maíz", marca: "Tortillería local 1 kg caliente", precio: 27.0, pago: "Efectivo, tarjeta y transferencia" },
+      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburná", tienda: "Abarrotes Carmita", prod: "Huevo blanco", marca: "San Juan 1 panal", precio: 85.0, pago: "Efectivo, tarjeta y transferencia" },
+      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburná", tienda: "Abarrotes Carmita", prod: "Leche entera", marca: "Lala 1 L", precio: 26.0, pago: "Efectivo, tarjeta y transferencia" },
+      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburná", tienda: "Abarrotes Carmita", prod: "Pan blanco", marca: "Bimbo paquete grande", precio: 60.0, pago: "Efectivo, tarjeta y transferencia" },
+      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburná", tienda: "Abarrotes Carmita", prod: "Frijol negro", marca: "La Sierra 1 kg", precio: 26.0, pago: "Efectivo, tarjeta y transferencia" }
     ];
 
     let chartTienditasInstance = null;
@@ -836,7 +836,7 @@
     }
 
     function updateChartTienditas(datos) {
-      const prods = ["Tortilla de maiz", "Leche entera", "Frijol negro", "Pan blanco", "Huevo blanco"];
+      const prods = ["Tortilla de maíz", "Leche entera", "Frijol negro", "Pan blanco", "Huevo blanco"];
       const tiendasUnicas = [...new Set(datos.map(d => d.tienda))];
       const coloresRadar = [
         { border: '#600d8b', bg: 'rgba(96, 13, 139, 0.14)' },

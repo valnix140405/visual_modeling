@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visor AR / 3D: Catálogo de Modelos Holográficos de Canasta Básica</title>
+  <title>Museo Holográfico de la Despensa (Modelos 3D) | UPY</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(15, 23, 42, 0.90);
-      --border: rgba(255, 255, 255, 0.12);
-      --accent: #f59e0b;
-      --accent-blue: #38bdf8;
-      --text: #f8fafc;
-      --muted: #94a3b8;
+      --bg: #0d0d0d;
+      --white: #ffffff;
+      --purple: #600d8b;
+      --gold: #ed9f22;
+      --text: #0d0d0d;
+      --muted: #555555;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -33,103 +32,109 @@
     .sidebar {
       width: 400px;
       height: 100%;
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border-right: 1px solid var(--border);
-      padding: 28px;
+      background: var(--white);
+      border-right: 4px solid var(--gold);
+      padding: 26px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
       z-index: 10;
       box-shadow: 10px 0 30px rgba(0,0,0,0.5);
       overflow-y: auto;
     }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; }
     .badge {
-      display: inline-block;
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--accent);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 12px;
+      background: rgba(237, 159, 34, 0.16);
+      color: #b45309;
+      border: 1px solid var(--gold);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .btn-back {
+      font-size: 11.5px;
       font-weight: 700;
+      color: var(--purple);
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid rgba(96, 13, 139, 0.25);
+      border-radius: 6px;
     }
-    h1 { font-size: 21px; font-weight: 700; margin-top: 6px; color: #fff; }
+    .btn-back:hover { background: var(--purple); color: #ffffff; }
+    h1 { font-size: 22px; font-weight: 800; color: var(--purple); line-height: 1.2; }
     p { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
-    
-    .model-selector {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-    }
+    .model-selector { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
     .model-btn {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      color: #fff;
-      padding: 14px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      color: var(--text);
+      padding: 13px 15px;
       border-radius: 10px;
       text-align: left;
       cursor: pointer;
       font-family: inherit;
-      transition: all 0.2s;
+      transition: all 0.18s;
     }
-    .model-btn:hover { background: rgba(245, 158, 11, 0.1); border-color: var(--accent); }
+    .model-btn:hover { border-color: var(--purple); }
     .model-btn.active {
-      background: rgba(245, 158, 11, 0.2);
-      border-color: var(--accent);
-      box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+      background: #fef3c7;
+      border-color: var(--gold);
+      box-shadow: 0 4px 14px rgba(237, 159, 34, 0.25);
     }
-    .model-btn .title { font-weight: 700; font-size: 14px; color: #fff; }
+    .model-btn .title { font-weight: 800; font-size: 14px; color: var(--purple); }
     .model-btn .sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
-
     .specs-box {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--border);
+      background: #f3e8ff;
+      border: 1px solid var(--purple);
       border-radius: 10px;
       padding: 14px;
       font-size: 12.5px;
-      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.5;
+      color: var(--text);
+      margin-top: auto;
     }
-    .specs-box div { margin-bottom: 5px; }
   </style>
 </head>
 <body>
 
   <div class="sidebar">
-    <div>
-      <span class="badge">Fuente B • Módulo 09-B</span>
-      <h1>Assets 3D Holográficos / WebXR</h1>
-      <p>Modelos glTF/GLB optimizados para proyección en Realidad Aumentada (ARCore Geospatial) sobre comercios y tienditas de Mérida.</p>
+    <div class="top-bar">
+      <span class="badge">Museo 3D · Objetos AR</span>
+      <a href="../../../index.html" class="btn-back">Volver a la Presentación</a>
     </div>
 
     <div>
-      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Seleccionar Asset 3D</div>
+      <h1>Museo Holográfico de la Despensa</h1>
+      <p style="margin-top: 6px;">Estos son los 4 objetos 3D que flotan sobre los puestos y tienditas cuando usas la cámara de Realidad Aumentada. Gíralos con el mouse.</p>
+    </div>
+
+    <div>
+      <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Elige un holograma para girar:</div>
       <div class="model-selector">
         <button class="model-btn active" onclick="loadAsset(0)">
-          <div class="title">🧺 MOD-01: Canasta Básica de Víveres</div>
-          <div class="sub">4,250 polígonos • PBR Textures • Banqueta (Y=0.0m)</div>
+          <div class="title">01. La Canasta Básica</div>
+          <div class="sub">Aparece en la entrada del mercado con frutas y verduras</div>
         </button>
         <button class="model-btn" onclick="loadAsset(1)">
-          <div class="title">🥚 MOD-02: Reja de Huevo con Precio AR</div>
-          <div class="sub">2,890 polígonos • Letrero $48.00 MXN • Flotante (Y=1.2m)</div>
+          <div class="title">02. Reja de Huevo ($48/kg vs $88 panal)</div>
+          <div class="sub">Flota sobre las vitrinas avisando si conviene granel o panal</div>
         </button>
         <button class="model-btn" onclick="loadAsset(2)">
-          <div class="title">🥛 MOD-03: Pack Lácteo y Abarrotes</div>
-          <div class="sub">1,820 polígonos • Low-poly móvil • Interactivo</div>
+          <div class="title">03. Pack de Leche y Abarrotes</div>
+          <div class="sub">Compara precios de la tiendita contra el súper</div>
         </button>
         <button class="model-btn" onclick="loadAsset(3)">
-          <div class="title">🏷️ MOD-04: Tarjeta HUD Semáforo de Precios</div>
-          <div class="sub">650 polígonos • Billboard Facing Camera • Fachada (Y=2.2m)</div>
+          <div class="title">04. Letrero Semáforo de Ahorro</div>
+          <div class="sub">Se pega en la fachada para decirte si la tienda está cara</div>
         </button>
       </div>
     </div>
 
     <div class="specs-box" id="specsDisplay">
-      <div><strong>Formato:</strong> glTF 2.0 Binary (.glb)</div>
-      <div><strong>Optimización:</strong> Low-Poly (<15k poly)</div>
-      <div><strong>Posición AR:</strong> Nivel banqueta (Y=0.0m)</div>
-      <div><strong>Licencia:</strong> CC-BY 4.0 Open Asset</div>
+      <strong>¿Para qué sirve?</strong><br>
+      En lugar de leer tablas aburridas, la gente ve la canasta flotando frente al puesto sabiendo que ahí ahorra hasta 20 kilos de tortilla al mes.
     </div>
   </div>
 
@@ -138,7 +143,7 @@
   <script>
     const container = document.getElementById('viewport');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x090d16);
+    scene.background = new THREE.Color(0x0d0d0d);
 
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
     camera.position.set(0, 2, 4);
@@ -150,30 +155,27 @@
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    // Iluminación de estudio
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-    const light1 = new THREE.DirectionalLight(0xffffff, 0.8);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const light1 = new THREE.DirectionalLight(0xed9f22, 0.9);
     light1.position.set(5, 10, 7);
     scene.add(light1);
-    const light2 = new THREE.DirectionalLight(0x38bdf8, 0.4);
+    const light2 = new THREE.DirectionalLight(0x9333ea, 0.6);
     light2.position.set(-5, -5, -5);
     scene.add(light2);
 
-    // Pedestal circular holográfico
-    const pedGeom = new THREE.CylinderGeometry(1.5, 1.6, 0.1, 32);
-    const pedMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.8, roughness: 0.2 });
-    const pedestal = new THREE.Mesh(pedGeom, pedMat);
+    const pedestal = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.5, 1.6, 0.1, 32),
+      new THREE.MeshStandardMaterial({ color: 0x1a1a1a, metalness: 0.7, roughness: 0.25 })
+    );
     pedestal.position.y = -0.05;
     scene.add(pedestal);
 
     const ringGeom = new THREE.RingGeometry(1.55, 1.65, 32);
-    ringGeom.rotateX(-Math.PI/2);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b, side: THREE.DoubleSide });
-    const ring = new THREE.Mesh(ringGeom, ringMat);
+    ringGeom.rotateX(-Math.PI / 2);
+    const ring = new THREE.Mesh(ringGeom, new THREE.MeshBasicMaterial({ color: 0xed9f22, side: THREE.DoubleSide }));
     ring.position.y = 0.01;
     scene.add(ring);
 
-    // Grupo de modelo actual
     let currentModelGroup = new THREE.Group();
     scene.add(currentModelGroup);
 
@@ -182,106 +184,75 @@
       currentModelGroup = new THREE.Group();
 
       if (index === 0) {
-        // Canasta Básica (canasta con frutas/víveres)
-        const basketGeom = new THREE.CylinderGeometry(0.8, 0.6, 0.5, 16);
-        const basketMat = new THREE.MeshStandardMaterial({ color: 0xb45309, roughness: 0.9 });
-        const basket = new THREE.Mesh(basketGeom, basketMat);
+        const basket = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.8, 0.6, 0.5, 16),
+          new THREE.MeshStandardMaterial({ color: 0x600d8b, roughness: 0.7 })
+        );
         basket.position.y = 0.3;
         currentModelGroup.add(basket);
-
-        // Frutas dentro
-        const colors = [0xef4444, 0x22c55e, 0xf59e0b, 0x84cc16];
+        const colors = [0xed9f22, 0xffffff, 0x9333ea, 0xed9f22];
         for (let i = 0; i < 8; i++) {
-          const fruitGeom = new THREE.SphereGeometry(0.18, 12, 12);
-          const fruitMat = new THREE.MeshStandardMaterial({ color: colors[i % colors.length], roughness: 0.3 });
-          const fruit = new THREE.Mesh(fruitGeom, fruitMat);
+          const fruit = new THREE.Mesh(
+            new THREE.SphereGeometry(0.18, 12, 12),
+            new THREE.MeshStandardMaterial({ color: colors[i % colors.length], roughness: 0.3 })
+          );
           let angle = (i / 8) * Math.PI * 2;
-          fruit.position.set(Math.cos(angle) * 0.4, 0.6, Math.sin(angle) * 0.4);
+          fruit.position.set(Math.cos(angle) * 0.4, 0.62, Math.sin(angle) * 0.4);
           currentModelGroup.add(fruit);
         }
       } else if (index === 1) {
-        // Reja de Huevo con letrero de precio AR
-        const boxGeom = new THREE.BoxGeometry(1.2, 0.25, 0.9);
-        const boxMat = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.7 });
-        const box = new THREE.Mesh(boxGeom, boxMat);
+        const box = new THREE.Mesh(
+          new THREE.BoxGeometry(1.2, 0.25, 0.9),
+          new THREE.MeshStandardMaterial({ color: 0x600d8b, roughness: 0.6 })
+        );
         box.position.y = 0.2;
         currentModelGroup.add(box);
-
-        // Huevos
         for (let r = -1; r <= 1; r++) {
           for (let c = -2; c <= 2; c++) {
             const eggGeom = new THREE.SphereGeometry(0.09, 12, 12);
             eggGeom.scale(1, 1.4, 1);
-            const eggMat = new THREE.MeshStandardMaterial({ color: 0xfffbeb, roughness: 0.5 });
-            const egg = new THREE.Mesh(eggGeom, eggMat);
-            egg.position.set(c * 0.22, 0.4, r * 0.25);
+            const egg = new THREE.Mesh(eggGeom, new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 }));
+            egg.position.set(c * 0.22, 0.42, r * 0.25);
             currentModelGroup.add(egg);
           }
         }
-
-        // Letrero holográfico flotante de precio
-        const signGeom = new THREE.PlaneGeometry(0.9, 0.4);
-        const signMat = new THREE.MeshBasicMaterial({ color: 0x10b981, side: THREE.DoubleSide });
-        const sign = new THREE.Mesh(signGeom, signMat);
+        const sign = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 0.38), new THREE.MeshBasicMaterial({ color: 0xed9f22, side: THREE.DoubleSide }));
         sign.position.set(0, 1.0, 0);
         currentModelGroup.add(sign);
       } else if (index === 2) {
-        // Pack Lácteo y Abarrotes
-        const milkGeom = new THREE.BoxGeometry(0.35, 0.8, 0.35);
-        const milkMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.3 });
-        const milk = new THREE.Mesh(milkGeom, milkMat);
+        const milk = new THREE.Mesh(
+          new THREE.BoxGeometry(0.35, 0.85, 0.35),
+          new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 })
+        );
         milk.position.set(-0.3, 0.45, 0);
         currentModelGroup.add(milk);
-
-        const canGeom = new THREE.CylinderGeometry(0.25, 0.25, 0.5, 16);
-        const canMat = new THREE.MeshStandardMaterial({ color: 0xca8a04, metalness: 0.6, roughness: 0.2 });
-        const can = new THREE.Mesh(canGeom, canMat);
+        const can = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.25, 0.25, 0.5, 16),
+          new THREE.MeshStandardMaterial({ color: 0xed9f22, metalness: 0.5, roughness: 0.25 })
+        );
         can.position.set(0.35, 0.3, 0);
         currentModelGroup.add(can);
       } else if (index === 3) {
-        // Tarjeta Holográfica HUD Semáforo de Precios
-        const hudGeom = new THREE.PlaneGeometry(2.0, 1.2);
-        const hudMat = new THREE.MeshBasicMaterial({ color: 0x0f172a, side: THREE.DoubleSide });
-        const hud = new THREE.Mesh(hudGeom, hudMat);
+        const hud = new THREE.Mesh(new THREE.PlaneGeometry(2.0, 1.2), new THREE.MeshBasicMaterial({ color: 0x600d8b, side: THREE.DoubleSide }));
         hud.position.set(0, 1.1, 0);
         currentModelGroup.add(hud);
-
-        const borderGeom = new THREE.RingGeometry(0.98, 1.02, 4);
-        borderGeom.rotateZ(Math.PI/4);
-        const borderMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide });
-        const border = new THREE.Mesh(borderGeom, borderMat);
-        border.position.set(0, 1.1, 0.01);
-        border.scale.set(1.1, 0.7, 1);
-        currentModelGroup.add(border);
-
-        // Indicador Semáforo Verde (Precios Bajos en Mercado Central)
-        const dotGeom = new THREE.CircleGeometry(0.15, 16);
-        const dotMat = new THREE.MeshBasicMaterial({ color: 0x10b981 });
-        const dot = new THREE.Mesh(dotGeom, dotMat);
-        dot.position.set(-0.65, 1.35, 0.02);
+        const dot = new THREE.Mesh(new THREE.CircleGeometry(0.22, 20), new THREE.MeshBasicMaterial({ color: 0xed9f22, side: THREE.DoubleSide }));
+        dot.position.set(-0.55, 1.25, 0.03);
         currentModelGroup.add(dot);
       }
-
       scene.add(currentModelGroup);
     }
 
-    const specs = [
-      { format: "glTF 2.0 Binary (.glb)", poly: "4,250 polígonos", pos: "Nivel banqueta frente al puesto (Y=0.0m)", lic: "CC-BY 4.0 Open Asset" },
-      { format: "glTF 2.0 Binary (.glb)", poly: "2,890 polígonos", pos: "Flotante sobre vitrina o mostrador (Y=1.20m)", lic: "Sketchfab CC-BY" },
-      { format: "glTF 2.0 Binary (.glb)", poly: "1,820 polígonos", pos: "Icono interactivo seleccionable con click táctil", lic: "Poly Pizza Open Assets" },
-      { format: "Three.js / WebXR HUD", poly: "650 polígonos", pos: "Anclada a fachada (Billboard Facing Camera Y=2.2m)", lic: "Generado propio UPY" }
+    const stories = [
+      "<strong>¿Para qué sirve?</strong><br>En lugar de leer tablas aburridas, la gente ve la canasta flotando frente al puesto sabiendo que ahí ahorra hasta 20 kilos de tortilla al mes.",
+      "<strong>El dilema del huevo:</strong><br>En Polígono 108 el kilo suelto cuesta $48, mientras el panal entero en el Sur sube a $88 (= 3.4 kilos de tortilla).",
+      "<strong>La regla de la tiendita:</strong><br>La leche Lala cuesta entre $25 y $28 el litro en la esquina. Este holograma te avisa al instante si te conviene comprarla ahí o en el súper.",
+      "<strong>Semáforo en fachada:</strong><br>Flota a 2 metros sobre la puerta de la tienda para avisar con colores si esa esquina tiene precios justos o está inflada."
     ];
 
     function loadAsset(index) {
-      document.querySelectorAll('.model-btn').forEach((b, i) => {
-        b.classList.toggle('active', i === index);
-      });
-      document.getElementById('specsDisplay').innerHTML = `
-        <div><strong>Formato:</strong> ${specs[index].format}</div>
-        <div><strong>Optimización:</strong> ${specs[index].poly}</div>
-        <div><strong>Posición AR:</strong> ${specs[index].pos}</div>
-        <div><strong>Licencia:</strong> ${specs[index].lic}</div>
-      `;
+      document.querySelectorAll('.model-btn').forEach((b, i) => b.classList.toggle('active', i === index));
+      document.getElementById('specsDisplay').innerHTML = stories[index];
       buildModel(index);
     }
 
@@ -289,9 +260,7 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      if (currentModelGroup) {
-        currentModelGroup.rotation.y += 0.008;
-      }
+      if (currentModelGroup) currentModelGroup.rotation.y += 0.008;
       controls.update();
       renderer.render(scene, camera);
     }

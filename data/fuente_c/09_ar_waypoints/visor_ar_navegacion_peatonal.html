@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulador de Navegación Peatonal AR: Mercado Lucas de Gálvez</title>
+  <title>Waze del Ahorro: Esquiva Revendedores en el Mercado | UPY</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(15, 23, 42, 0.90);
-      --border: rgba(255, 255, 255, 0.15);
-      --accent: #10b981;
-      --text: #f8fafc;
-      --muted: #94a3b8;
+      --bg: #0d0d0d;
+      --white: #ffffff;
+      --purple: #600d8b;
+      --gold: #ed9f22;
+      --text: #0d0d0d;
+      --muted: #555555;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: #000;
+      background: var(--bg);
       color: var(--text);
       font-family: 'Outfit', sans-serif;
       width: 100vw;
@@ -28,64 +28,41 @@
       display: flex;
     }
     #viewport { flex: 1; height: 100%; position: relative; }
-    
-    /* HUD Overlay de Cámara AR */
     .ar-camera-overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 30px;
+      position: absolute; inset: 0; pointer-events: none;
+      display: flex; flex-direction: column; justify-content: space-between; padding: 24px 28px;
+    }
+    .hud-top-row {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap;
     }
     .hud-top {
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px 24px;
-      max-width: 550px;
-      pointer-events: auto;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      background: var(--white); border: 2px solid var(--purple); border-left: 6px solid var(--gold);
+      border-radius: 16px; padding: 16px 22px; max-width: 560px; pointer-events: auto;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
     }
+    .btn-back {
+      background: var(--white); border: 2px solid var(--purple); color: var(--purple);
+      padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 13px;
+      text-decoration: none; pointer-events: auto; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .btn-back:hover { background: var(--purple); color: #ffffff; }
     .hud-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      pointer-events: auto;
+      display: flex; justify-content: space-between; align-items: flex-end; gap: 14px; pointer-events: auto; flex-wrap: wrap;
     }
     .nav-card {
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px 24px;
-      max-width: 480px;
+      background: var(--white); border: 2px solid var(--purple); border-radius: 16px;
+      padding: 16px 22px; max-width: 520px; box-shadow: 0 12px 30px rgba(0,0,0,0.5);
     }
     .btn-step {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: #fff;
-      border: none;
-      padding: 14px 28px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      font-family: inherit;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      background: var(--gold); color: #0d0d0d; border: 2px solid #0d0d0d;
+      padding: 14px 26px; border-radius: 12px; font-weight: 800; font-size: 15px;
+      cursor: pointer; font-family: inherit; box-shadow: 0 6px 20px rgba(237, 159, 34, 0.45);
       transition: all 0.2s;
     }
-    .btn-step:hover { filter: brightness(1.15); transform: translateY(-2px); }
-
+    .btn-step:hover { filter: brightness(1.08); transform: translateY(-2px); }
     .crosshair {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 40px; height: 40px;
-      border: 2px dashed rgba(16, 185, 129, 0.6);
-      border-radius: 50%;
-      pointer-events: none;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 40px; height: 40px; border: 2px dashed rgba(237, 159, 34, 0.7); border-radius: 50%; pointer-events: none;
     }
   </style>
 </head>
@@ -95,23 +72,27 @@
     <div class="crosshair"></div>
 
     <div class="ar-camera-overlay">
-      <div class="hud-top">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-          <span style="font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.5px;">AR NAVIGATION • FUENTE C (09-C)</span>
-          <span id="wpIndex" style="font-family: 'JetBrains Mono'; font-size: 12px; color: var(--muted);">Paso 1 de 6</span>
+      <div class="hud-top-row">
+        <div class="hud-top">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 11.5px; font-weight: 800; color: var(--purple); letter-spacing: 0.4px;">WAZE DEL AHORRO · LUCAS DE GÁLVEZ</span>
+            <span id="wpIndex" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #b45309;">Paso 1 de 6</span>
+          </div>
+          <h2 id="wpTitle" style="font-size: 19px; font-weight: 800; color: #0d0d0d;">Bajas del Va y Ven (Calle 56 x 65)</h2>
+          <p id="wpDesc" style="font-size: 13.5px; color: var(--muted); margin-top: 4px;">Comienzas en la banqueta frente a la parada. Sigue la flecha dorada para entrar al mercado sin perderte.</p>
         </div>
-        <h2 id="wpTitle" style="font-size: 18px; font-weight: 700; color: #fff;">Acceso Público Exterior (Calle 56 x 65)</h2>
-        <p id="wpDesc" style="font-size: 13px; color: var(--muted); margin-top: 4px;">Punto de inicio en la banqueta este. Cruce hacia el acceso peatonal principal de Lucas de Gálvez.</p>
+
+        <a href="../../../index.html" class="btn-back">Volver a la Presentación</a>
       </div>
 
       <div class="hud-bottom">
         <div class="nav-card">
-          <div style="font-size: 11px; text-transform: uppercase; color: var(--muted); font-weight: 600;">Instrucción de Ahorro Ciudadano:</div>
-          <div id="wpAhorro" style="font-size: 14px; font-weight: 600; color: #38bdf8; margin-top: 4px;">
-            Sigue las flechas verdes hacia el pasillo interior de verduras y frutas frescas (-40% vs supermercados).
+          <div style="font-size: 11px; text-transform: uppercase; color: var(--purple); font-weight: 800;">Consejo de Ahorro en este Paso:</div>
+          <div id="wpAhorro" style="font-size: 14px; font-weight: 700; color: #0d0d0d; margin-top: 4px;">
+            Caminas solo 115 metros (90 segundos) y te ahorras hasta 45% frente al súper.
           </div>
         </div>
-        <button class="btn-step" onclick="nextWaypoint()">Avanzar Siguiente Nodo AR ➔</button>
+        <button class="btn-step" onclick="nextWaypoint()">Siguiente Paso de la Ruta</button>
       </div>
     </div>
   </div>
@@ -119,116 +100,92 @@
   <script>
     const container = document.getElementById('viewport');
     const scene = new THREE.Scene();
-
-    // Fondo simulado de cámara en pasillo de mercado
-    scene.background = new THREE.Color(0x111827);
+    scene.background = new THREE.Color(0x0d0d0d);
 
     const camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 0.1, 100);
-    camera.position.set(0, 1.6, 5); // Altura de ojos de una persona (1.6m)
+    camera.position.set(0, 1.6, 5);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
 
-    // Luces
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-    const dLight = new THREE.DirectionalLight(0xffeedd, 0.8);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+    const dLight = new THREE.DirectionalLight(0xed9f22, 0.9);
     dLight.position.set(0, 10, 5);
     scene.add(dLight);
 
-    // Suelo de mercado y muros laterales simulados
     const floorGeom = new THREE.PlaneGeometry(10, 80);
-    floorGeom.rotateX(-Math.PI/2);
-    const floorMat = new THREE.MeshStandardMaterial({ color: 0x1f2937, roughness: 0.9 });
-    const floor = new THREE.Mesh(floorGeom, floorMat);
+    floorGeom.rotateX(-Math.PI / 2);
+    const floor = new THREE.Mesh(floorGeom, new THREE.MeshStandardMaterial({ color: 0x1a1025, roughness: 0.9 }));
     floor.position.z = -35;
     scene.add(floor);
 
-    // Columnas y puestos a los lados
     for (let z = 0; z > -70; z -= 8) {
       const colGeom = new THREE.BoxGeometry(0.8, 4, 0.8);
-      const colMat = new THREE.MeshStandardMaterial({ color: 0x374151 });
-      
+      const colMat = new THREE.MeshStandardMaterial({ color: 0x600d8b });
       const leftCol = new THREE.Mesh(colGeom, colMat);
       leftCol.position.set(-4.5, 2, z);
       scene.add(leftCol);
-
       const rightCol = new THREE.Mesh(colGeom, colMat);
       rightCol.position.set(4.5, 2, z);
       scene.add(rightCol);
     }
 
-    // Flecha 3D de guiado AR flotante
     const arrowGroup = new THREE.Group();
-    const coneGeom = new THREE.ConeGeometry(0.5, 1.2, 16);
-    coneGeom.rotateX(-Math.PI/2);
-    const arrowMat = new THREE.MeshBasicMaterial({ color: 0x10b981 });
-    const arrow = new THREE.Mesh(coneGeom, arrowMat);
+    const coneGeom = new THREE.ConeGeometry(0.55, 1.3, 16);
+    coneGeom.rotateX(-Math.PI / 2);
+    const arrow = new THREE.Mesh(coneGeom, new THREE.MeshBasicMaterial({ color: 0xed9f22 }));
     arrowGroup.add(arrow);
     arrowGroup.position.set(0, 1.2, -4);
     scene.add(arrowGroup);
 
-    // Waypoints extraídos de ruta_ar_lucas_galvez.json
     const waypoints = [
       {
-        title: "Acceso Público Exterior (Calle 56 x 65)",
-        desc: "Punto de inicio en la banqueta este frente al paradero de Va y Ven.",
-        ahorro: "Distancia al pasillo de ahorro: 115 metros (aprox. 90 segundos caminando).",
-        z: -4,
-        camZ: 5
+        title: "Bajas del Va y Ven (Calle 56 x 65)",
+        desc: "Comienzas en la banqueta frente a la parada. Sigue la flecha dorada para entrar al mercado sin perderte.",
+        ahorro: "Caminas solo 115 metros (90 segundos) y te ahorras hasta 45% frente al súper.",
+        z: -4, camZ: 5
       },
       {
-        title: "Portal Monumental de Entrada",
-        desc: "Ingreso bajo la techumbre histórica del mercado central.",
-        ahorro: "Temperatura exterior >38°C; ventilación pasiva bajo el domo a 12.53m.",
-        z: -16,
-        camZ: -7
+        title: "Entras bajo el Techo Gigante (12.53 m)",
+        desc: "Aquí dejas atrás los 40°C de la calle. El aire caliente sube y sale solo por la bóveda.",
+        ahorro: "Cero aire acondicionado = el locatario no te cobra recibo de luz en el jitomate.",
+        z: -16, camZ: -7
       },
       {
-        title: "Crujía Central de Conexión",
-        desc: "Bifurcación principal entre abarrotes procesados y zona húmeda.",
-        ahorro: "Gira a la izquierda para evitar locales de intermediarios foráneos.",
-        z: -28,
-        camZ: -19
+        title: "Pasillo Central: ¡Ojo con la Desviación!",
+        desc: "Gira a la izquierda para evitar la entrada turística donde revenden más caro.",
+        ahorro: "Esquivar los primeros puestos de la puerta ya te ahorra unos $40 pesos en tu bolsa.",
+        z: -28, camZ: -19
       },
       {
-        title: "Pasillo de Frutas y Verduras Frescas",
-        desc: "Zona de productores directos provenientes de Oxkutzcab y Ticul.",
-        ahorro: "Jitomate a $16.15/kg y Limón a $18.00/kg (Ahorro directo de hasta +178% vs supermercados).",
-        z: -40,
-        camZ: -31
+        title: "Zona de Productores de Oxkutzcab y Ticul",
+        desc: "Aquí venden directo quienes traen cítricos y verduras del campo yucateco.",
+        ahorro: "Jitomate a $16/kg y Limón a $11–$18/kg: ¡menos de la mitad que en el súper!",
+        z: -40, camZ: -31
       },
       {
-        title: "Pasillo de Abarrotes y Granos a Granel",
-        desc: "Semillas, frijol negro y especias al mayoreo y menudeo.",
-        ahorro: "Venta fraccionada por cuartos de kilo (250g) respetando el presupuesto familiar.",
-        z: -52,
-        camZ: -43
+        title: "Pasillo de Frijol, Granos y Abarrotes",
+        desc: "Semillas, frijol jamapa y especias pesadas al momento sin empaques de lujo.",
+        ahorro: "Si no te alcanza para el kilo entero, pides cuarto (250 g) o $20 pesos exactos.",
+        z: -52, camZ: -43
       },
       {
-        title: "Destino Alcanzado: Núcleo de Canasta Básica Económica",
-        desc: "Has llegado al área con los precios más competitivos de todo el municipio de Mérida.",
-        ahorro: "¡Meta cumplida! Canasta básica completa un 45% más accesible que en cadenas de retail.",
-        z: -62,
-        camZ: -53
+        title: "¡Meta Cumplida: Tu Despensa Más Barata de Mérida!",
+        desc: "Llegaste al corazón del ahorro. Regresas a tu colonia en el Va y Ven por $12 pesos.",
+        ahorro: "Te ahorraste hasta $350+ pesos (= ¡13.5 kilos extra de tortilla para tu casa!).",
+        z: -62, camZ: -53
       }
     ];
 
     let currentWp = 0;
-
     function nextWaypoint() {
       currentWp = (currentWp + 1) % waypoints.length;
-      updateUI();
-    }
-
-    function updateUI() {
       const wp = waypoints[currentWp];
       document.getElementById('wpIndex').textContent = `Paso ${currentWp + 1} de ${waypoints.length}`;
       document.getElementById('wpTitle').textContent = wp.title;
       document.getElementById('wpDesc').textContent = wp.desc;
       document.getElementById('wpAhorro').textContent = wp.ahorro;
-
-      // Animar movimiento de cámara y flecha AR
       arrowGroup.position.z = wp.z;
     }
 
@@ -236,11 +193,8 @@
       requestAnimationFrame(animate);
       arrowGroup.rotation.y += 0.03;
       arrowGroup.position.y = 1.2 + Math.sin(Date.now() * 0.005) * 0.2;
-
-      // Suavizado de cámara hacia el nodo actual
       const targetZ = waypoints[currentWp].camZ;
       camera.position.z += (targetZ - camera.position.z) * 0.05;
-
       renderer.render(scene, camera);
     }
     animate();
