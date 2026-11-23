@@ -306,7 +306,7 @@
     .figure-img-box {
       width: 100%;
       background: #ffffff;
-      padding: 12px;
+      padding: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -317,6 +317,31 @@
       max-height: 480px;
       object-fit: contain;
       cursor: zoom-in;
+    }
+    .svg-infographic-box {
+      width: 100%;
+      background: #ffffff;
+      padding: 14px 16px 8px 16px;
+      cursor: zoom-in;
+    }
+    .svg-infographic-box svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .figure-source-footer {
+      padding: 8px 18px 11px 18px;
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+    }
+    .figure-actions-group {
+      display: flex;
+      gap: 6px;
     }
 
     /* KPI MINI TILES */
@@ -922,21 +947,84 @@
         <div class="media-col">
           <div class="figure-frame">
             <div class="figure-frame-header">
-              <span>MODELO CONCEPTUAL: CADENA DE TRANSMISIÓN MULTIESCALAR</span>
-              <button class="figure-zoom-btn" onclick="openZoom('reports/figuras/01_margen_intermediacion_mayoreo_vs_menudeo.png', 'Transmisión Multiescalar')">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                Zoom
-              </button>
+              <span>EL VIAJE DE TU COMIDA: DEL CAMPO A TU MESA</span>
+              <div class="figure-actions-group">
+                <button class="figure-zoom-btn" onclick="exportSvgToPng('svg-escena-1', '01_viaje_magico_abasto_vs_super.png')">PNG</button>
+                <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-1', 'El Viaje Mágico de 12 km')">Zoom</button>
+              </div>
             </div>
-            <div class="figure-img-box">
-              <img src="reports/figuras/01_margen_intermediacion_mayoreo_vs_menudeo.png" alt="Margen Comercial" onclick="openZoom(this.src, 'Figura 1: Margen de Intermediación Comercial')">
+            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-1', 'El Viaje Mágico de 12 km')">
+              <svg id="svg-escena-1" viewBox="0 0 720 410" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
+                <rect width="720" height="410" fill="#ffffff"/>
+                <text x="360" y="28" text-anchor="middle" font-size="18" font-weight="800" fill="#0d0d0d">¿Por qué la misma papa cuesta $16 en el Abasto y $56 en el súper?</text>
+                <text x="360" y="48" text-anchor="middle" font-size="12.5" font-weight="500" fill="#555555">Lo que pagas por 1 solo kilo en el súper te alcanza para 3.5 kilos en la Central de Abasto</text>
+
+                <!-- Tarjeta Izquierda: Central de Abasto -->
+                <rect x="24" y="70" width="310" height="235" rx="16" fill="#f3e8ff" stroke="#600d8b" stroke-width="2.5"/>
+                <text x="179" y="98" text-anchor="middle" font-size="14" font-weight="800" fill="#600d8b">EN LA CENTRAL DE ABASTO</text>
+                <text x="179" y="118" text-anchor="middle" font-size="12" font-weight="600" fill="#555555">Con $56 pesos te llevas:</text>
+                <!-- 3 costales/papas grandes + 1 media -->
+                <g transform="translate(52, 136)">
+                  <ellipse cx="32" cy="34" rx="26" ry="20" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2"/>
+                  <circle cx="22" cy="28" r="2.5" fill="#b45309"/><circle cx="40" cy="38" r="2.5" fill="#b45309"/><circle cx="32" cy="25" r="2" fill="#b45309"/>
+                  <text x="32" y="68" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">1 kg</text>
+                </g>
+                <g transform="translate(116, 136)">
+                  <ellipse cx="32" cy="34" rx="26" ry="20" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2"/>
+                  <circle cx="24" cy="32" r="2.5" fill="#b45309"/><circle cx="42" cy="28" r="2.5" fill="#b45309"/>
+                  <text x="32" y="68" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">2 kg</text>
+                </g>
+                <g transform="translate(180, 136)">
+                  <ellipse cx="32" cy="34" rx="26" ry="20" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2"/>
+                  <circle cx="26" cy="27" r="2.5" fill="#b45309"/><circle cx="38" cy="39" r="2.5" fill="#b45309"/>
+                  <text x="32" y="68" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">3 kg</text>
+                </g>
+                <g transform="translate(242, 144)">
+                  <ellipse cx="22" cy="26" rx="17" ry="13" fill="#fef3c7" stroke="#0d0d0d" stroke-width="2" stroke-dasharray="3,2"/>
+                  <text x="22" y="60" text-anchor="middle" font-size="11" font-weight="800" fill="#600d8b">+0.5 kg</text>
+                </g>
+                <rect x="54" y="232" width="250" height="52" rx="10" fill="#600d8b"/>
+                <text x="179" y="255" text-anchor="middle" font-size="18" font-weight="900" fill="#ffffff">3.5 KILOS ($16/kg)</text>
+                <text x="179" y="274" text-anchor="middle" font-size="11" font-weight="600" fill="#ed9f22">Precio directo antes del súper</text>
+
+                <!-- VS central -->
+                <circle cx="360" cy="186" r="22" fill="#0d0d0d" stroke="#ed9f22" stroke-width="3"/>
+                <text x="360" y="191" text-anchor="middle" font-size="13" font-weight="900" fill="#ffffff">VS</text>
+
+                <!-- Tarjeta Derecha: Supermercado -->
+                <rect x="386" y="70" width="310" height="235" rx="16" fill="#fef3c7" stroke="#ed9f22" stroke-width="2.5"/>
+                <text x="541" y="98" text-anchor="middle" font-size="14" font-weight="800" fill="#b45309">EN EL SUPERMERCADO</text>
+                <text x="541" y="118" text-anchor="middle" font-size="12" font-weight="600" fill="#555555">Con los mismos $56 pesos te llevas:</text>
+                <!-- Carrito ilustrado con 1 sola papa -->
+                <g transform="translate(476, 130)">
+                  <path d="M12 18 L28 18 L40 62 L98 62 L110 30 L34 30" fill="none" stroke="#0d0d0d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="48" cy="74" r="7" fill="#600d8b" stroke="#0d0d0d" stroke-width="2"/>
+                  <circle cx="92" cy="74" r="7" fill="#600d8b" stroke="#0d0d0d" stroke-width="2"/>
+                  <ellipse cx="68" cy="44" rx="22" ry="15" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2"/>
+                  <circle cx="62" cy="40" r="2" fill="#b45309"/><circle cx="76" cy="46" r="2" fill="#b45309"/>
+                </g>
+                <rect x="416" y="232" width="250" height="52" rx="10" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.5"/>
+                <text x="541" y="255" text-anchor="middle" font-size="18" font-weight="900" fill="#0d0d0d">1 SOLO KILO ($56/kg)</text>
+                <text x="541" y="274" text-anchor="middle" font-size="11" font-weight="700" fill="#600d8b">+250% más caro en 12 km de asfalto</text>
+
+                <!-- Tira inferior de otros productos en Kilos en el Abasto -->
+                <rect x="24" y="322" width="672" height="70" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+                <text x="44" y="346" font-size="11.5" font-weight="800" fill="#600d8b">OTROS EJEMPLOS (CON LO DE 1 KG EN EL SÚPER, ¿CUÁNTO COMPRAS EN EL ABASTO?):</text>
+                <text x="44" y="372" font-size="12.5" font-weight="700" fill="#0d0d0d">Jitomate: 2.8 kg en el Abasto (+179%)</text>
+                <text x="295" y="372" font-size="12.5" font-weight="700" fill="#0d0d0d">Limón: 2.4 kg en el Abasto (+138%)</text>
+                <text x="530" y="372" font-size="12.5" font-weight="700" fill="#0d0d0d">Aguacate: 2.1 kg (+108%)</text>
+              </svg>
+            </div>
+            <div class="figure-source-footer">
+              <span>Fuente: Central de Abasto de Mérida y monitoreo PROFECO</span>
+              <span>Precios por kilogramo en pesos mexicanos</span>
             </div>
           </div>
 
           <div class="callout-card">
             <h4>[HALLAZGO INMEDIATO EN LA CADENA]</h4>
             <p>
-              El salto entre el precio de mayoreo registrado en la Central de Abasto (SNIIM) y el precio en góndola en supermercados (PROFECO) supera el <strong>+250% en productos básicos perecederos</strong> como el limón con semilla y la papa blanca.
+              La papa no se vuelve VIP en 12 km de asfalto, pero entre la Central de Abasto y el supermercado el precio se multiplica hasta <strong>3.5 veces</strong>.
             </p>
           </div>
         </div>
@@ -1002,14 +1090,63 @@
         <div class="media-col">
           <div class="figure-frame">
             <div class="figure-frame-header">
-              <span>FIGURA 1: COMPARATIVA CIENTÍFICA MAYOREO VS MENUDEO</span>
-              <button class="figure-zoom-btn" onclick="openZoom('reports/figuras/01_margen_intermediacion_mayoreo_vs_menudeo.png', 'Figura 1: Margen de Intermediación Comercial')">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                Zoom HD
-              </button>
+              <span>ESCENA 1: BÁSCULA ABASTO VS. SUPERMERCADO</span>
+              <div class="figure-actions-group">
+                <button class="figure-zoom-btn" onclick="exportSvgToPng('svg-escena-1b', '01_abasto_vs_super_ilustrada.png')">PNG</button>
+                <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-1b', 'El Viaje Mágico de 12 km')">Zoom HD</button>
+              </div>
             </div>
-            <div class="figure-img-box">
-              <img src="reports/figuras/01_margen_intermediacion_mayoreo_vs_menudeo.png" alt="Figura 1: Margen de Intermediación" onclick="openZoom(this.src, 'Figura 1: Margen de Intermediación Comercial')">
+            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-1b', 'El Viaje Mágico de 12 km')">
+              <svg id="svg-escena-1b" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
+                <rect width="720" height="420" fill="#ffffff"/>
+                <text x="360" y="28" text-anchor="middle" font-size="18" font-weight="800" fill="#0d0d0d">¿Cuántos kilos compras en el Abasto con lo de 1 kilo del Súper?</text>
+                <text x="360" y="48" text-anchor="middle" font-size="12.5" font-weight="500" fill="#555555">El mismo alimento se infla hasta +250% solo por cambiar de tienda</text>
+
+                <!-- Filas ilustradas sin ejes técnicos -->
+                <!-- Fila 1: Papa Blanca -->
+                <rect x="20" y="68" width="680" height="62" rx="12" fill="#fef3c7" stroke="#ed9f22" stroke-width="1.8"/>
+                <text x="38" y="96" font-size="14" font-weight="800" fill="#0d0d0d">Papa Blanca</text>
+                <text x="38" y="114" font-size="11.5" font-weight="600" fill="#b45309">$16 en el Abasto -> $56 en Súper</text>
+                <rect x="275" y="83" width="215" height="32" rx="8" fill="#600d8b"/>
+                <text x="382" y="104" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">3.5 kg en el Abasto</text>
+                <text x="515" y="98" font-size="14" font-weight="900" fill="#600d8b">+250% más cara</text>
+                <text x="515" y="115" font-size="11" font-weight="600" fill="#555555">Te ahorras 1.5 kg de tortilla</text>
+
+                <!-- Fila 2: Jitomate -->
+                <rect x="20" y="142" width="680" height="62" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+                <text x="38" y="170" font-size="14" font-weight="800" fill="#0d0d0d">Jitomate Saladette</text>
+                <text x="38" y="188" font-size="11.5" font-weight="600" fill="#555555">$16 en el Abasto -> $45 en Súper</text>
+                <rect x="275" y="157" width="175" height="32" rx="8" fill="#600d8b"/>
+                <text x="362" y="178" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">2.8 kg en el Abasto</text>
+                <text x="515" y="172" font-size="14" font-weight="900" fill="#600d8b">+179% más caro</text>
+                <text x="515" y="189" font-size="11" font-weight="600" fill="#555555">Te ahorras 1.1 kg de tortilla</text>
+
+                <!-- Fila 3: Limón -->
+                <rect x="20" y="216" width="680" height="62" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+                <text x="38" y="244" font-size="14" font-weight="800" fill="#0d0d0d">Limón con Semilla</text>
+                <text x="38" y="262" font-size="11.5" font-weight="600" fill="#555555">$11 en el Abasto -> $26 en Súper</text>
+                <rect x="275" y="231" width="150" height="32" rx="8" fill="#ed9f22"/>
+                <text x="350" y="252" text-anchor="middle" font-size="13" font-weight="800" fill="#0d0d0d">2.4 kg en el Abasto</text>
+                <text x="515" y="246" font-size="14" font-weight="900" fill="#b45309">+138% más caro</text>
+                <text x="515" y="263" font-size="11" font-weight="600" fill="#555555">Más del doble por lo mismo</text>
+
+                <!-- Fila 4: Aguacate -->
+                <rect x="20" y="290" width="680" height="62" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+                <text x="38" y="318" font-size="14" font-weight="800" fill="#0d0d0d">Aguacate Hass</text>
+                <text x="38" y="336" font-size="11.5" font-weight="600" fill="#555555">$38 en el Abasto -> $79 en Súper</text>
+                <rect x="275" y="305" width="132" height="32" rx="8" fill="#ed9f22"/>
+                <text x="341" y="326" text-anchor="middle" font-size="13" font-weight="800" fill="#0d0d0d">2.1 kg en el Abasto</text>
+                <text x="515" y="320" font-size="14" font-weight="900" fill="#b45309">+108% más caro</text>
+                <text x="515" y="337" font-size="11" font-weight="600" fill="#555555">La diferencia paga 3 camiones</text>
+
+                <!-- Pie de resumen -->
+                <rect x="20" y="366" width="680" height="40" rx="10" fill="#600d8b"/>
+                <text x="360" y="391" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">El que siembra cobra poco; el súper cobra la comodidad de la góndola</text>
+              </svg>
+            </div>
+            <div class="figure-source-footer">
+              <span>Fuente: Central de Abasto de Mérida y PROFECO</span>
+              <span>Comparativa real de precios promedio</span>
             </div>
           </div>
         </div>
@@ -1076,14 +1213,79 @@
         <div class="media-col">
           <div class="figure-frame">
             <div class="figure-frame-header">
-              <span>FIGURA 2: DESGLOSE DE SOBREPRECIOS EN DELIVERY</span>
-              <button class="figure-zoom-btn" onclick="openZoom('reports/figuras/02_sobreprecio_economia_digital_delivery.png', 'Figura 2: Sobreprecio en Apps de Delivery')">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                Zoom HD
-              </button>
+              <span>ESCENA 2: EL CELULAR QUE TIRA TORTILLAS Y CAMIONES</span>
+              <div class="figure-actions-group">
+                <button class="figure-zoom-btn" onclick="exportSvgToPng('svg-escena-2', '02_impuesto_flojera_delivery.png')">PNG</button>
+                <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-2', 'El Impuesto a la Flojera')">Zoom HD</button>
+              </div>
             </div>
-            <div class="figure-img-box">
-              <img src="reports/figuras/02_sobreprecio_economia_digital_delivery.png" alt="Figura 2: Delivery" onclick="openZoom(this.src, 'Figura 2: Sobreprecio en Apps de Delivery')">
+            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-2', 'El Impuesto a la Flojera')">
+              <svg id="svg-escena-2" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
+                <rect width="720" height="420" fill="#ffffff"/>
+                <text x="360" y="28" text-anchor="middle" font-size="18" font-weight="800" fill="#0d0d0d">Lo que tiras a la basura por pedir el súper desde el sillón</text>
+                <text x="360" y="48" text-anchor="middle" font-size="12.5" font-weight="500" fill="#555555">Tu carrito de $1,144 termina costando $1,522 en Rappi o UberEats (+$378 extra)</text>
+
+                <!-- Izquierda: Smartphone ilustrado -->
+                <rect x="34" y="72" width="190" height="310" rx="22" fill="#0d0d0d" stroke="#600d8b" stroke-width="3"/>
+                <rect x="46" y="92" width="166" height="268" rx="12" fill="#ffffff"/>
+                <rect x="98" y="79" width="62" height="6" rx="3" fill="#333333"/>
+                <text x="129" y="122" text-anchor="middle" font-size="12" font-weight="800" fill="#600d8b">APP DE DELIVERY</text>
+                <rect x="58" y="136" width="142" height="80" rx="10" fill="#fef3c7" stroke="#ed9f22" stroke-width="1.5"/>
+                <text x="129" y="160" text-anchor="middle" font-size="11" font-weight="800" fill="#b45309">RECARGO OCULTO</text>
+                <text x="129" y="186" text-anchor="middle" font-size="22" font-weight="900" fill="#0d0d0d">+$378</text>
+                <text x="129" y="205" text-anchor="middle" font-size="9.5" font-weight="700" fill="#555555">Catálogo + Envío + Propina</text>
+
+                <rect x="58" y="228" width="142" height="114" rx="10" fill="#f3e8ff" stroke="#600d8b" stroke-width="1.5"/>
+                <text x="129" y="256" text-anchor="middle" font-size="11" font-weight="800" fill="#600d8b">COMIDA REAL</text>
+                <text x="129" y="284" text-anchor="middle" font-size="20" font-weight="900" fill="#0d0d0d">$1,144</text>
+                <text x="129" y="308" text-anchor="middle" font-size="9.5" font-weight="600" fill="#555555">Lo mismo que costaba</text>
+                <text x="129" y="322" text-anchor="middle" font-size="9.5" font-weight="600" fill="#555555">yendo a la tienda</text>
+
+                <!-- Flecha animada / visual hacia la derecha -->
+                <path d="M236 176 L278 176" stroke="#ed9f22" stroke-width="4" stroke-dasharray="6,4"/>
+                <polygon points="278,168 294,176 278,184" fill="#ed9f22"/>
+
+                <!-- Derecha Arriba: Torre de 14.5 Tortillas -->
+                <rect x="304" y="72" width="388" height="145" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.8"/>
+                <text x="498" y="98" text-anchor="middle" font-size="13" font-weight="800" fill="#600d8b">ESOS $378 EXTRA EQUIVALEN A:</text>
+                <text x="498" y="122" text-anchor="middle" font-size="18" font-weight="900" fill="#0d0d0d">14.5 Kilos de Tortilla Caliente</text>
+                <!-- 14 discos dorados + 1 medio -->
+                <g transform="translate(328, 138)">
+                  <circle cx="14" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="10" cy="11" r="1.5" fill="#b45309"/><circle cx="18" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="42" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="38" cy="11" r="1.5" fill="#b45309"/><circle cx="46" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="70" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="66" cy="11" r="1.5" fill="#b45309"/><circle cx="74" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="98" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="94" cy="11" r="1.5" fill="#b45309"/><circle cx="102" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="126" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="122" cy="11" r="1.5" fill="#b45309"/><circle cx="130" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="154" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="150" cy="11" r="1.5" fill="#b45309"/><circle cx="158" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="182" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="178" cy="11" r="1.5" fill="#b45309"/><circle cx="186" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="210" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="206" cy="11" r="1.5" fill="#b45309"/><circle cx="214" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="238" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="234" cy="11" r="1.5" fill="#b45309"/><circle cx="242" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="266" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="262" cy="11" r="1.5" fill="#b45309"/><circle cx="270" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="294" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="290" cy="11" r="1.5" fill="#b45309"/><circle cx="298" cy="17" r="1.5" fill="#b45309"/>
+                  <circle cx="322" cy="14" r="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.3"/><circle cx="318" cy="11" r="1.5" fill="#b45309"/><circle cx="326" cy="17" r="1.5" fill="#b45309"/>
+                  <text x="170" y="52" text-anchor="middle" font-size="11.5" font-weight="700" fill="#555555">(+ 2.5 kilos más por cada solo pedido que haces en app)</text>
+                </g>
+
+                <!-- Derecha Abajo: 31 Viajes en Va y Ven -->
+                <rect x="304" y="232" width="388" height="150" rx="16" fill="#f3e8ff" stroke="#600d8b" stroke-width="2"/>
+                <text x="498" y="258" text-anchor="middle" font-size="13" font-weight="800" fill="#600d8b">O EN CAMIÓN VA Y VEN ($12 EL PASAJE):</text>
+                <text x="498" y="282" text-anchor="middle" font-size="18" font-weight="900" fill="#0d0d0d">31 Viajes Pagados en Mérida</text>
+                <!-- Camioncitos ilustrados -->
+                <g transform="translate(342, 294)">
+                  <rect x="0" y="4" width="34" height="18" rx="4" fill="#600d8b" stroke="#0d0d0d" stroke-width="1.2"/><rect x="4" y="7" width="26" height="7" fill="#ffffff"/><circle cx="8" cy="24" r="4" fill="#ed9f22" stroke="#0d0d0d"/><circle cx="26" cy="24" r="4" fill="#ed9f22" stroke="#0d0d0d"/>
+                  <rect x="44" y="4" width="34" height="18" rx="4" fill="#600d8b" stroke="#0d0d0d" stroke-width="1.2"/><rect x="48" y="7" width="26" height="7" fill="#ffffff"/><circle cx="52" cy="24" r="4" fill="#ed9f22" stroke="#0d0d0d"/><circle cx="70" cy="24" r="4" fill="#ed9f22" stroke="#0d0d0d"/>
+                  <rect x="88" y="4" width="34" height="18" rx="4" fill="#600d8b" stroke="#0d0d0d" stroke-width="1.2"/><rect x="92" y="7" width="26" height="7" fill="#ffffff"/><circle cx="96" cy="24" r="4" fill="#ed9f22" stroke="#0d0d0d"/><circle cx="114" cy="24" r="4" fill="#ed9f22" stroke="#0d0d0d"/>
+                  <rect x="132" y="4" width="34" height="18" rx="4" fill="#600d8b" stroke="#0d0d0d" stroke-width="1.2"/><rect x="136" y="7" width="26" height="7" fill="#ffffff"/><circle cx="140" cy="24" r="4" fill="#ed9f22" stroke="#0d0d0d"/><circle cx="158" cy="24" r="4" fill="#ed9f22" stroke="#0d0d0d"/>
+                  <rect x="176" y="4" width="34" height="18" rx="4" fill="#600d8b" stroke="#0d0d0d" stroke-width="1.2"/><rect x="180" y="7" width="26" height="7" fill="#ffffff"/><circle cx="184" cy="24" r="4" fill="#ed9f22" stroke="#0d0d0d"/><circle cx="202" cy="24" r="4" fill="#ed9f22" stroke="#0d0d0d"/>
+                  <text x="235" y="19" font-size="13" font-weight="900" fill="#600d8b">+ 26 viajes más</text>
+                </g>
+                <rect x="322" y="338" width="352" height="32" rx="8" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.2"/>
+                <text x="498" y="359" text-anchor="middle" font-size="11.5" font-weight="900" fill="#0d0d0d">Si pides 4 veces al mes = $18,158 al año = ¡698 kg de tortilla!</text>
+              </svg>
+            </div>
+            <div class="figure-source-footer">
+              <span>Fuente: Comparativa de 2,501 carritos en apps de entrega vs. tienda física</span>
+              <span>Equivalencia: 1 kg Tortilla = $26 · 1 Va y Ven = $12</span>
             </div>
           </div>
         </div>
@@ -1150,29 +1352,150 @@
         </div>
 
         <div class="media-col">
+          <!-- ESCENA 3: CALENDARIO DE 2 MONEDITAS -->
           <div class="figure-frame">
             <div class="figure-frame-header">
-              <span>FIGURA 3: % DE INGRESO ABSORBIDO POR CANASTA BÁSICA</span>
-              <button class="figure-zoom-btn" onclick="openZoom('reports/figuras/03_horas_trabajo_esfuerzo_laboral_canasta.png', 'Figura 3: Esfuerzo Laboral y Salarios')">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                Zoom HD
-              </button>
+              <span>ESCENA 3: EL CALENDARIO QUE SE COME TU SUELDO</span>
+              <div class="figure-actions-group">
+                <button class="figure-zoom-btn" onclick="exportSvgToPng('svg-escena-3', '03_calendario_sueldo_comida.png')">PNG</button>
+                <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-3', 'El Mes que se Come tu Sueldo')">Zoom HD</button>
+              </div>
             </div>
-            <div class="figure-img-box">
-              <img src="reports/figuras/03_horas_trabajo_esfuerzo_laboral_canasta.png" alt="Figura 3: Salarios" onclick="openZoom(this.src, 'Figura 3: Esfuerzo Laboral y Salarios')">
+            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-3', 'El Mes que se Come tu Sueldo')">
+              <svg id="svg-escena-3" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
+                <rect width="720" height="340" fill="#ffffff"/>
+                <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="800" fill="#0d0d0d">Con salario mínimo, trabajas 28 días al mes solo para comer</text>
+                <text x="360" y="46" text-anchor="middle" font-size="12" font-weight="500" fill="#555555">Te quedan exactamente 2 días libres para pagar renta, luz, transporte y gustos</text>
+
+                <!-- Calendario limpio 6x5 = 30 días -->
+                <g transform="translate(26, 66)">
+                  <!-- Fila 1 (Días 1-5: Morado Comida tuya) -->
+                  <rect x="0" y="0" width="76" height="44" rx="8" fill="#600d8b"/><text x="38" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 01</text><text x="38" y="35" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
+                  <rect x="82" y="0" width="76" height="44" rx="8" fill="#600d8b"/><text x="120" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 02</text><text x="120" y="35" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
+                  <rect x="164" y="0" width="76" height="44" rx="8" fill="#600d8b"/><text x="202" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 03</text><text x="202" y="35" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
+                  <rect x="246" y="0" width="76" height="44" rx="8" fill="#600d8b"/><text x="284" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 04</text><text x="284" y="35" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
+                  <rect x="328" y="0" width="76" height="44" rx="8" fill="#600d8b"/><text x="366" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 05</text><text x="366" y="35" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
+                  <!-- Fila 2 (Días 6-10: Morado) -->
+                  <rect x="0" y="50" width="76" height="44" rx="8" fill="#600d8b"/><text x="38" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 06</text><text x="38" y="85" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
+                  <rect x="82" y="50" width="76" height="44" rx="8" fill="#600d8b"/><text x="120" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 07</text><text x="120" y="85" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
+                  <rect x="164" y="50" width="76" height="44" rx="8" fill="#600d8b"/><text x="202" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 08</text><text x="202" y="85" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
+                  <rect x="246" y="50" width="76" height="44" rx="8" fill="#600d8b"/><text x="284" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 09</text><text x="284" y="85" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
+                  <rect x="328" y="50" width="76" height="44" rx="8" fill="#600d8b"/><text x="366" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 10</text><text x="366" y="85" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
+                  <!-- Fila 3-5 (Días 11-28: Dorado Comida Familia) -->
+                  <rect x="0" y="100" width="404" height="144" rx="12" fill="#fef3c7" stroke="#ed9f22" stroke-width="2"/>
+                  <text x="202" y="148" text-anchor="middle" font-size="22" font-weight="900" fill="#0d0d0d">DÍAS 11 AL 28 (18 DÍAS MÁS)</text>
+                  <text x="202" y="176" text-anchor="middle" font-size="14" font-weight="800" fill="#b45309">TRABAJANDO PARA LA DESPENSA FAMILIAR</text>
+                  <text x="202" y="200" text-anchor="middle" font-size="11.5" font-weight="600" fill="#555555">(Gasto promedio de una familia: $8,200 pesos al mes)</text>
+                  <!-- Fila 6 derecha: Días 29 y 30 -->
+                  <rect x="424" y="0" width="244" height="244" rx="16" fill="#f8fafc" stroke="#0d0d0d" stroke-width="2"/>
+                  <text x="546" y="34" text-anchor="middle" font-size="13" font-weight="800" fill="#600d8b">LO QUE TE SOBRA AL MES:</text>
+                  <circle cx="512" cy="95" r="28" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2.5"/>
+                  <text x="512" y="101" text-anchor="middle" font-size="14" font-weight="900" fill="#0d0d0d">Día 29</text>
+                  <circle cx="580" cy="95" r="28" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2.5"/>
+                  <text x="580" y="101" text-anchor="middle" font-size="14" font-weight="900" fill="#0d0d0d">Día 30</text>
+                  <text x="546" y="154" text-anchor="middle" font-size="18" font-weight="900" fill="#0d0d0d">SOLO $164 PESOS</text>
+                  <text x="546" y="176" text-anchor="middle" font-size="11.5" font-weight="700" fill="#555555">(= 6.3 kg de tortilla libres)</text>
+                  <rect x="444" y="194" width="204" height="36" rx="8" fill="#600d8b"/>
+                  <text x="546" y="216" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff">Renta, luz y camión piden fiado</text>
+                </g>
+              </svg>
+            </div>
+            <div class="figure-source-footer">
+              <span>Fuente: Encuesta Nacional de Ocupación (INEGI) y Canasta Básica Yucatán</span>
+              <span>Cálculo basado en salario mínimo ($8,364/mes)</span>
             </div>
           </div>
 
+          <!-- ESCENA 4: LAS 5 FACHADAS DE TIENDITAS -->
           <div class="figure-frame">
             <div class="figure-frame-header">
-              <span>FIGURA 4: AUDITORÍA PROPIA EN 5 TIENDITAS DE ESQUINA (07-B)</span>
-              <button class="figure-zoom-btn" onclick="openZoom('reports/figuras/04_encuesta_hogares_percepcion_salario_gasto.png', 'Figura 4: Auditoría de Campo en 5 Tienditas (07-B)')">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                Zoom HD
-              </button>
+              <span>ESCENA 4: TUS 5 TIENDITAS REALES EN COLONIAS DE MÉRIDA</span>
+              <div class="figure-actions-group">
+                <button class="figure-zoom-btn" onclick="exportSvgToPng('svg-escena-4', '04_cinco_tienditas_merida.png')">PNG</button>
+                <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-4', 'La Esquina vs Tu Quincena')">Zoom HD</button>
+              </div>
             </div>
-            <div class="figure-img-box">
-              <img src="reports/figuras/04_encuesta_hogares_percepcion_salario_gasto.png" alt="Figura 4: Tienditas 07-B" onclick="openZoom(this.src, 'Figura 4: Auditoría de Campo en 5 Tienditas (07-B)')">
+            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-4', 'La Esquina vs Tu Quincena')">
+              <svg id="svg-escena-4" viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
+                <rect width="720" height="330" fill="#ffffff"/>
+                <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="800" fill="#0d0d0d">Lo que descubrimos caminando 5 tienditas de esquina en Mérida</text>
+
+                <!-- 5 Fachaditas de Tienda -->
+                <!-- 1. Centro -->
+                <g transform="translate(20, 48)">
+                  <rect x="0" y="24" width="124" height="122" rx="10" fill="#f3e8ff" stroke="#600d8b" stroke-width="2"/>
+                  <polygon points="-4,26 128,26 118,4 6,4" fill="#600d8b"/>
+                  <text x="62" y="19" text-anchor="middle" font-size="10" font-weight="800" fill="#ffffff">CENTRO</text>
+                  <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">El Milagro</text>
+                  <text x="62" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Tortilla: $26</text>
+                  <text x="62" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Huevo kg: $50</text>
+                  <text x="62" y="106" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Bimbo: $55</text>
+                  <rect x="14" y="118" width="96" height="20" rx="5" fill="#600d8b"/><text x="62" y="132" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Solo Efectivo</text>
+                </g>
+
+                <!-- 2. Santiago -->
+                <g transform="translate(158, 48)">
+                  <rect x="0" y="24" width="124" height="122" rx="10" fill="#fef3c7" stroke="#ed9f22" stroke-width="2"/>
+                  <polygon points="-4,26 128,26 118,4 6,4" fill="#ed9f22"/>
+                  <text x="62" y="19" text-anchor="middle" font-size="10" font-weight="800" fill="#0d0d0d">SANTIAGO</text>
+                  <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">La Isabelita</text>
+                  <text x="62" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Leche: $25</text>
+                  <text x="62" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Panal Huevo: $80</text>
+                  <text x="62" y="106" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Bimbo: $58</text>
+                  <rect x="14" y="118" width="96" height="20" rx="5" fill="#0d0d0d"/><text x="62" y="132" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Acepta SPEI</text>
+                </g>
+
+                <!-- 3. Polígono 108 -->
+                <g transform="translate(296, 48)">
+                  <rect x="0" y="24" width="124" height="122" rx="10" fill="#f3e8ff" stroke="#600d8b" stroke-width="2"/>
+                  <polygon points="-4,26 128,26 118,4 6,4" fill="#600d8b"/>
+                  <text x="62" y="19" text-anchor="middle" font-size="10" font-weight="800" fill="#ffffff">POLÍGONO 108</text>
+                  <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">María Elena</text>
+                  <text x="62" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Leche: $28</text>
+                  <text x="62" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Huevo kg: $48</text>
+                  <text x="62" y="106" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Bimbo: $60</text>
+                  <rect x="14" y="118" width="96" height="20" rx="5" fill="#600d8b"/><text x="62" y="132" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Solo Efectivo</text>
+                </g>
+
+                <!-- 4. Mercedes Barrera -->
+                <g transform="translate(434, 48)">
+                  <rect x="0" y="24" width="124" height="122" rx="10" fill="#fef3c7" stroke="#ed9f22" stroke-width="2"/>
+                  <polygon points="-4,26 128,26 118,4 6,4" fill="#ed9f22"/>
+                  <text x="62" y="19" text-anchor="middle" font-size="9.5" font-weight="800" fill="#0d0d0d">M. BARRERA</text>
+                  <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">Evelia</text>
+                  <text x="62" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Leche: $25</text>
+                  <text x="62" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Panal Huevo: $88</text>
+                  <text x="62" y="106" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Bimbo: $60</text>
+                  <rect x="14" y="118" width="96" height="20" rx="5" fill="#0d0d0d"/><text x="62" y="132" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Acepta Tarjeta</text>
+                </g>
+
+                <!-- 5. Chuburná -->
+                <g transform="translate(572, 48)">
+                  <rect x="0" y="24" width="124" height="122" rx="10" fill="#f3e8ff" stroke="#600d8b" stroke-width="2"/>
+                  <polygon points="-4,26 128,26 118,4 6,4" fill="#600d8b"/>
+                  <text x="62" y="19" text-anchor="middle" font-size="10" font-weight="800" fill="#ffffff">CHUBURNÁ</text>
+                  <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">Carmita</text>
+                  <text x="62" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Tortilla: $27</text>
+                  <text x="62" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Panal Huevo: $85</text>
+                  <text x="62" y="106" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Bimbo: $60</text>
+                  <rect x="14" y="118" width="96" height="20" rx="5" fill="#0d0d0d"/><text x="62" y="132" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Todo Pago</text>
+                </g>
+
+                <!-- Duelos Chistosos Abajo -->
+                <rect x="20" y="214" width="332" height="96" rx="12" fill="#600d8b"/>
+                <text x="186" y="242" text-anchor="middle" font-size="13" font-weight="800" fill="#ed9f22">EL DUELO DEL HUEVO</text>
+                <text x="186" y="266" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff">Panal en Mercedes Barrera ($88) =</text>
+                <text x="186" y="288" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff">¡3.4 KILOS DE TORTILLA!</text>
+
+                <rect x="368" y="214" width="328" height="96" rx="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.5"/>
+                <text x="532" y="242" text-anchor="middle" font-size="13" font-weight="900" fill="#600d8b">EL MISTERIO DEL PAN BIMBO</text>
+                <text x="532" y="266" text-anchor="middle" font-size="12" font-weight="700" fill="#0d0d0d">Un paquete grande ($60) cuesta lo mismo que</text>
+                <text x="532" y="288" text-anchor="middle" font-size="14" font-weight="900" fill="#0d0d0d">2.3 KILOS DE TORTILLA CALIENTE</text>
+              </svg>
+            </div>
+            <div class="figure-source-footer">
+              <span>Fuente: Bitácora propia levantada en campo en 5 colonias de Mérida</span>
+              <span>Auditoría directa de precios en tienda de barrio</span>
             </div>
           </div>
         </div>
@@ -1204,14 +1527,55 @@
 
           <div class="figure-frame">
             <div class="figure-frame-header">
-              <span>FIGURA 5: PERFIL ALTIMÉTRICO LIDAR DOMO LUCAS DE GÁLVEZ</span>
-              <button class="figure-zoom-btn" onclick="openZoom('reports/figuras/05_perfil_altimetrico_lidar_mercado_lucas_galvez.png', 'Figura 5: Perfil Altimétrico LiDAR')">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                Zoom HD
-              </button>
+              <span>ESCENA 5: EL DOMO DEL MERCADO VS. EL SÚPER CONGELADO</span>
+              <div class="figure-actions-group">
+                <button class="figure-zoom-btn" onclick="exportSvgToPng('svg-escena-5', '05_domo_mercado_vs_super_clima.png')">PNG</button>
+                <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-5', '¿Por qué un Láser 3D Explica el Precio del Jitomate?')">Zoom HD</button>
+              </div>
             </div>
-            <div class="figure-img-box">
-              <img src="reports/figuras/05_perfil_altimetrico_lidar_mercado_lucas_galvez.png" alt="Figura 5: LiDAR Perfil" onclick="openZoom(this.src, 'Figura 5: Perfil Altimétrico LiDAR')">
+            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-5', '¿Por qué un Láser 3D Explica el Precio del Jitomate?')">
+              <svg id="svg-escena-5" viewBox="0 0 720 350" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
+                <rect width="720" height="350" fill="#ffffff"/>
+                <text x="360" y="24" text-anchor="middle" font-size="16" font-weight="800" fill="#0d0d0d">Calor de >40°C en Mérida: ¿Quién paga el aire acondicionado?</text>
+
+                <!-- Izquierda: Domo Mercado -->
+                <rect x="16" y="42" width="334" height="292" rx="14" fill="#f3e8ff" stroke="#600d8b" stroke-width="2"/>
+                <text x="183" y="68" text-anchor="middle" font-size="13" font-weight="800" fill="#600d8b">MERCADO LUCAS DE GÁLVEZ</text>
+                <!-- Silueta Domo Parabólico de 12.53m -->
+                <path d="M46 218 Q183 84 320 218 Z" fill="#ed9f22" fill-opacity="0.28" stroke="#600d8b" stroke-width="3.5"/>
+                <line x1="40" y1="218" x2="326" y2="218" stroke="#0d0d0d" stroke-width="3"/>
+                <!-- Flechas onduladas de calor saliendo gratis -->
+                <path d="M140 198 L140 142" stroke="#b45309" stroke-width="2.5" stroke-dasharray="4,3"/>
+                <polygon points="134,144 140,132 146,144" fill="#b45309"/>
+                <path d="M183 198 L183 122" stroke="#b45309" stroke-width="2.5" stroke-dasharray="4,3"/>
+                <polygon points="177,124 183,112 189,124" fill="#b45309"/>
+                <path d="M226 198 L226 142" stroke="#b45309" stroke-width="2.5" stroke-dasharray="4,3"/>
+                <polygon points="220,144 226,132 232,144" fill="#b45309"/>
+                <text x="183" y="236" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">Techo gigante de 12.5 m (4 pisos)</text>
+                <rect x="34" y="250" width="298" height="70" rx="10" fill="#600d8b"/>
+                <text x="183" y="274" text-anchor="middle" font-size="12" font-weight="800" fill="#ed9f22">RECIBO DE LUZ EN CLIMA: $0 PESOS</text>
+                <text x="183" y="294" text-anchor="middle" font-size="11" font-weight="600" fill="#ffffff">El calor sube y sale solo (-4.2°C).</text>
+                <text x="183" y="310" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">Resultado: Jitomate 45% más barato.</text>
+
+                <!-- Derecha: Súper Congelado -->
+                <rect x="370" y="42" width="334" height="292" rx="14" fill="#fef3c7" stroke="#ed9f22" stroke-width="2"/>
+                <text x="537" y="68" text-anchor="middle" font-size="13" font-weight="800" fill="#b45309">SUPERMERCADO DE CADENA</text>
+                <!-- Caja cerrada con aire acondicionado -->
+                <rect x="424" y="132" width="226" height="86" rx="6" fill="#ffffff" stroke="#0d0d0d" stroke-width="3"/>
+                <rect x="444" y="146" width="84" height="26" rx="4" fill="#600d8b"/>
+                <text x="486" y="163" text-anchor="middle" font-size="9.5" font-weight="800" fill="#ffffff">CLIMA 24/7</text>
+                <rect x="546" y="146" width="84" height="26" rx="4" fill="#0d0d0d"/>
+                <text x="588" y="163" text-anchor="middle" font-size="9.5" font-weight="800" fill="#ed9f22">CAJA CERRADA</text>
+                <text x="537" y="204" text-anchor="middle" font-size="11" font-weight="700" fill="#555555">Techo bajo atrapa todo el calor</text>
+                <rect x="388" y="250" width="298" height="70" rx="10" fill="#0d0d0d"/>
+                <text x="537" y="274" text-anchor="middle" font-size="12" font-weight="800" fill="#ed9f22">FACTURA MILLONARIA DE CFE</text>
+                <text x="537" y="294" text-anchor="middle" font-size="11" font-weight="600" fill="#ffffff">¿Quién paga la electricidad?</text>
+                <text x="537" y="310" text-anchor="middle" font-size="11" font-weight="700" fill="#ed9f22">Tú, disfrazado en el +179% del jitomate.</text>
+              </svg>
+            </div>
+            <div class="figure-source-footer">
+              <span>Fuente: Escaneo láser 3D del Mercado Lucas de Gálvez</span>
+              <span>Comparativa bioclimática urbana</span>
             </div>
           </div>
         </div>
@@ -1285,14 +1649,51 @@
 
           <div class="figure-frame">
             <div class="figure-frame-header">
-              <span>FIGURA 6: TOPOGRAFÍA SATELITAL SRTM / NASA GEDI</span>
-              <button class="figure-zoom-btn" onclick="openZoom('reports/figuras/06_topografia_satelital_srtm_merida.png', 'Figura 6: Relieve Satelital SRTM')">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                Zoom HD
-              </button>
+              <span>ESCENA 6: MÉRIDA PLANA COMO COMAL & EL TRUCO DEL VA Y VEN</span>
+              <div class="figure-actions-group">
+                <button class="figure-zoom-btn" onclick="exportSvgToPng('svg-escena-6', '06_merida_comal_y_vayven.png')">PNG</button>
+                <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-6', 'Mérida Plana como Comal & El Hack del Va y Ven')">Zoom HD</button>
+              </div>
             </div>
-            <div class="figure-img-box">
-              <img src="reports/figuras/06_topografia_satelital_srtm_merida.png" alt="Figura 6: SRTM" onclick="openZoom(this.src, 'Figura 6: Relieve Satelital SRTM')">
+            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-6', 'Mérida Plana como Comal & El Hack del Va y Ven')">
+              <svg id="svg-escena-6" viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
+                <rect width="720" height="320" fill="#ffffff"/>
+                <text x="360" y="24" text-anchor="middle" font-size="16.5" font-weight="800" fill="#0d0d0d">Mérida es tan plana como una tortilla... ¡y 565 rutas te llevan al ahorro!</text>
+
+                <!-- Izquierda: Cerros vs Mérida Comal -->
+                <rect x="16" y="42" width="334" height="260" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.8"/>
+                <text x="183" y="66" text-anchor="middle" font-size="12.5" font-weight="800" fill="#600d8b">OTRAS CIUDADES VS. MÉRIDA</text>
+                <!-- Cerros punteados atrás -->
+                <path d="M36 205 L96 105 L156 175 L220 92 L292 185 L330 205 Z" fill="#f3e8ff" stroke="#9333ea" stroke-width="2" stroke-dasharray="4,3"/>
+                <text x="220" y="84" text-anchor="middle" font-size="10" font-weight="700" fill="#600d8b">Ciudades con cerros</text>
+                <!-- Mérida plana abajo -->
+                <rect x="36" y="192" width="294" height="22" rx="8" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2"/>
+                <text x="183" y="236" text-anchor="middle" font-size="12" font-weight="800" fill="#0d0d0d">Mérida: plana como comal (0.55°)</text>
+                <text x="183" y="256" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">A solo 9 metros del mar: cuando llueve</text>
+                <text x="183" y="272" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">fuerte, el Sur se encharca y frena tianguis.</text>
+
+                <!-- Derecha: El Hack del Va y Ven ($12 vs $378) -->
+                <rect x="370" y="42" width="334" height="260" rx="14" fill="#600d8b"/>
+                <text x="537" y="68" text-anchor="middle" font-size="13" font-weight="800" fill="#ed9f22">EL HACK URBANO DEL VA Y VEN</text>
+                <!-- Camión grande -->
+                <g transform="translate(472, 82)">
+                  <rect x="0" y="0" width="130" height="58" rx="10" fill="#ed9f22" stroke="#ffffff" stroke-width="2"/>
+                  <rect x="12" y="10" width="106" height="22" rx="4" fill="#ffffff"/>
+                  <circle cx="28" cy="60" r="10" fill="#0d0d0d" stroke="#ffffff" stroke-width="2"/>
+                  <circle cx="102" cy="60" r="10" fill="#0d0d0d" stroke="#ffffff" stroke-width="2"/>
+                  <text x="65" y="25" text-anchor="middle" font-size="11" font-weight="900" fill="#600d8b">VA Y VEN $12</text>
+                </g>
+                <text x="537" y="176" text-anchor="middle" font-size="15" font-weight="900" fill="#ffffff">565 rutas convergen al Mercado</text>
+                <rect x="392" y="192" width="290" height="90" rx="10" fill="#ffffff"/>
+                <text x="537" y="216" text-anchor="middle" font-size="12" font-weight="800" fill="#600d8b">Gastas $24 (ida y vuelta) en camión</text>
+                <text x="537" y="238" text-anchor="middle" font-size="13" font-weight="900" fill="#0d0d0d">y te ahorras hasta $350+ pesos</text>
+                <text x="537" y="258" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">frente a pedir por app o comprar en súper.</text>
+                <text x="537" y="274" text-anchor="middle" font-size="10" font-weight="700" fill="#b45309">(¡Eso equivale a 13.5 kg de tortilla gratis!)</text>
+              </svg>
+            </div>
+            <div class="figure-source-footer">
+              <span>Fuente: Relieve satelital NASA/INEGI y red de transporte Va y Ven</span>
+              <span>Conectividad directa al Centro Histórico</span>
             </div>
           </div>
         </div>
@@ -1783,11 +2184,52 @@
       }
     }
 
-    // MODAL DE ZOOM
+    // MODAL DE ZOOM (SOPORTA IMAGEN Y SVG)
     function openZoom(src, title) {
       document.getElementById('zoomImg').src = src;
-      document.getElementById('zoomTitle').textContent = title || "Figura en Alta Resolución (300 DPI)";
+      document.getElementById('zoomTitle').textContent = title || "Infografía en Alta Resolución";
       document.getElementById('zoomModal').classList.add('active');
+    }
+
+    function openSvgZoom(svgId, title) {
+      const svgEl = document.getElementById(svgId);
+      if (!svgEl) return;
+      const serializer = new XMLSerializer();
+      const svgStr = serializer.serializeToString(svgEl);
+      const blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      document.getElementById('zoomImg').src = url;
+      document.getElementById('zoomTitle').textContent = title || "Infografía Ilustrada";
+      document.getElementById('zoomModal').classList.add('active');
+    }
+
+    function exportSvgToPng(svgId, filename) {
+      event.stopPropagation();
+      const svgEl = document.getElementById(svgId);
+      if (!svgEl) return;
+      const serializer = new XMLSerializer();
+      const svgStr = serializer.serializeToString(svgEl);
+      const svgBlob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1440;
+        canvas.height = 840;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+        const pngUrl = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = pngUrl;
+        a.download = filename || 'infografia_upy.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      };
+      img.src = url;
     }
 
     function closeZoom(e) {

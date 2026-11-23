@@ -130,7 +130,7 @@ def generar_figura_1():
             draw_tortilla_icon(ax2, 0.45 + k * 0.65, i, r=0.25, color=PURPURA if k == 0 else ORO, zorder=4)
         if frac > 0.15:
             draw_tortilla_icon(ax2, 0.45 + n_full * 0.65, i, r=0.25 * (0.55 + 0.45 * frac), color=ORO_SOFT, zorder=4)
-        ax2.text(0.45 + ratio * 0.65 + 0.32, i, f"{ratio:.1f}x\n({nota.splitlines()[0]})",
+        ax2.text(0.45 + ratio * 0.65 + 0.32, i, f"{ratio:.1f}x\n({nota.splitlines()[0].replace('de abasto', 'en el Abasto')})",
                  va='center', ha='left', fontsize=8.5, fontweight='bold', color=NEGRO)
 
     ax2.set_yticks(y_pos)
