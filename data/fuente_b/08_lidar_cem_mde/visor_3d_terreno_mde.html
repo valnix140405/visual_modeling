@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visor 3D: Malla de Elevación LiDAR CEM 3.0 INEGI Mérida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Three.js & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card-bg: rgba(15, 23, 42, 0.90);
+      --border: rgba(255, 255, 255, 0.12);
+      --accent: #f59e0b;
+      --accent-blue: #38bdf8;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+    }
+    #viewport { flex: 1; height: 100%; position: relative; }
+    .sidebar {
+      width: 380px;
+      height: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-right: 1px solid var(--border);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 10;
+      box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+      overflow-y: auto;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    h1 { font-size: 22px; font-weight: 700; margin-top: 8px; color: #fff; }
+    p { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+    .stat-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .stat-box .title { font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+    .stat-box .val { font-size: 24px; font-weight: 700; color: #fff; margin-top: 4px; }
+    .legend-item { display: flex; align-items: center; gap: 10px; font-size: 13px; margin-top: 8px; }
+    .legend-color { width: 14px; height: 14px; border-radius: 3px; }
+    .btn-reset {
+      background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+      color: #fff;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .btn-reset:hover { filter: brightness(1.15); }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div>
+      <span class="badge">Fuente B • Módulo 08-B</span>
+      <h1>Modelo 3D: Relieve LiDAR / CEM 3.0</h1>
+      <p>Continuo de Elevaciones Mexicano (INEGI) de la mancha urbana de Mérida derivado de vuelos LiDAR aerotransportados.</p>
+    </div>
+
+    <div class="stat-box">
+      <div class="title">Cota Promedio en Mérida</div>
+      <div class="val">8.85 m s.n.m.</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Rango de elevación: 6.2 m a 11.4 m</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="title">Pendiente Media Regional</div>
+      <div class="val">0.68° (Planicie)</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Vulnerabilidad a encharcamientos pluviales en cuencas del Centro y Sur</div>
+    </div>
+
+    <div>
+      <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; color: var(--muted);">Escala Hipsométrica 3D</div>
+      <div class="legend-item"><div class="legend-color" style="background: #ef4444;"></div> Altas (10m - 12m s.n.m. - Crestas Norte)</div>
+      <div class="legend-item"><div class="legend-color" style="background: #f59e0b;"></div> Medias (8m - 10m s.n.m. - Meseta Central)</div>
+      <div class="legend-item"><div class="legend-color" style="background: #10b981;"></div> Bajas (6m - 8m s.n.m. - Cuencas del Sur)</div>
+    </div>
+
+    <button class="btn-reset" onclick="resetCamera()">Restablecer Cámara 3D</button>
+  </div>
+
+  <div id="viewport"></div>
+
+  <script>
+    const container = document.getElementById('viewport');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b1120);
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(30, 25, 40);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+
+    // Luces
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffeedd, 0.8);
+    dirLight.position.set(40, 60, 40);
+    scene.add(dirLight);
+
+    // Eje de referencia y rejilla
+    const grid = new THREE.GridHelper(50, 25, 0x38bdf8, 0x1e293b);
+    grid.position.y = -0.1;
+    scene.add(grid);
+
+    // Datos de elevación CEM 3.0 de Mérida (malla 5x3 interpolada)
+    const pointsData = [
+      {x: -15, z: -10, y: 11.2, name: "Norte - Altabrisa"},
+      {x: 0,   z: -10, y: 10.5, name: "Norte - Montejo"},
+      {x: 15,  z: -10, y: 9.8,  name: "Noreste - Cholul"},
+      {x: -15, z: 0,   y: 9.1,  name: "Poniente - Chenkú"},
+      {x: 0,   z: 0,   y: 8.8,  name: "Centro - Mercado Lucas de Gálvez"},
+      {x: 15,  z: 0,   y: 8.2,  name: "Oriente - Kanasín"},
+      {x: -15, z: 10,  y: 7.4,  name: "Suroeste - Sambulá"},
+      {x: 0,   z: 10,  y: 6.8,  name: "Sur - San José Tecoh"},
+      {x: 15,  z: 10,  y: 6.4,  name: "Sur - Dzununcán"}
+    ];
+
+    // Crear superficie tridimensional (terreno con relieve exagerado para visualización)
+    const geom = new THREE.PlaneGeometry(36, 26, 12, 12);
+    geom.rotateX(-Math.PI / 2);
+    const pos = geom.attributes.position;
+
+    for (let i = 0; i < pos.count; i++) {
+      let px = pos.getX(i);
+      let pz = pos.getZ(i);
+      // Interpolación de elevación con pendiente suave hacia el sur
+      let elev = 8.85 - (pz * 0.25) + (Math.sin(px * 0.3) * 0.4);
+      pos.setY(i, (elev - 6.0) * 1.8); // Escala vertical
+    }
+    geom.computeVertexNormals();
+
+    const mat = new THREE.MeshStandardMaterial({
+      color: 0x22c55e,
+      roughness: 0.8,
+      metalness: 0.1,
+      wireframe: false,
+      flatShading: true
+    });
+    const terrain = new THREE.Mesh(geom, mat);
+    scene.add(terrain);
+
+    // Wireframe de contorno
+    const wireMat = new THREE.MeshBasicMaterial({ color: 0x15803d, wireframe: true });
+    const wireMesh = new THREE.Mesh(geom, wireMat);
+    wireMesh.position.y += 0.05;
+    scene.add(wireMesh);
+
+    // Marcadores de puntos clave en la malla
+    pointsData.forEach(pt => {
+      const pinGeom = new THREE.CylinderGeometry(0.1, 0.1, (pt.y - 6.0) * 1.8 + 2, 8);
+      const pinMat = new THREE.MeshBasicMaterial({ color: pt.y > 9.5 ? 0xef4444 : (pt.y > 8.0 ? 0xf59e0b : 0x10b981) });
+      const pin = new THREE.Mesh(pinGeom, pinMat);
+      pin.position.set(pt.x, ((pt.y - 6.0) * 1.8 + 2)/2, pt.z);
+      scene.add(pin);
+
+      const sphereGeom = new THREE.SphereGeometry(0.6, 16, 16);
+      const sphere = new THREE.Mesh(sphereGeom, pinMat);
+      sphere.position.set(pt.x, (pt.y - 6.0) * 1.8 + 2, pt.z);
+      scene.add(sphere);
+    });
+
+    function resetCamera() {
+      camera.position.set(30, 25, 40);
+      controls.target.set(0, 4, 0);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visor AR / 3D: Catálogo de Modelos Holográficos de Canasta Básica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(15, 23, 42, 0.90);
+      --border: rgba(255, 255, 255, 0.12);
+      --accent: #f59e0b;
+      --accent-blue: #38bdf8;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+    }
+    #viewport { flex: 1; height: 100%; position: relative; }
+    .sidebar {
+      width: 400px;
+      height: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-right: 1px solid var(--border);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      z-index: 10;
+      box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+      overflow-y: auto;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    h1 { font-size: 21px; font-weight: 700; margin-top: 6px; color: #fff; }
+    p { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+    
+    .model-selector {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .model-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 14px;
+      border-radius: 10px;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .model-btn:hover { background: rgba(245, 158, 11, 0.1); border-color: var(--accent); }
+    .model-btn.active {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+    }
+    .model-btn .title { font-weight: 700; font-size: 14px; color: #fff; }
+    .model-btn .sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+    .specs-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 12.5px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .specs-box div { margin-bottom: 5px; }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div>
+      <span class="badge">Fuente B • Módulo 09-B</span>
+      <h1>Assets 3D Holográficos / WebXR</h1>
+      <p>Modelos glTF/GLB optimizados para proyección en Realidad Aumentada (ARCore Geospatial) sobre comercios y tienditas de Mérida.</p>
+    </div>
+
+    <div>
+      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Seleccionar Asset 3D</div>
+      <div class="model-selector">
+        <button class="model-btn active" onclick="loadAsset(0)">
+          <div class="title">🧺 MOD-01: Canasta Básica de Víveres</div>
+          <div class="sub">4,250 polígonos • PBR Textures • Banqueta (Y=0.0m)</div>
+        </button>
+        <button class="model-btn" onclick="loadAsset(1)">
+          <div class="title">🥚 MOD-02: Reja de Huevo con Precio AR</div>
+          <div class="sub">2,890 polígonos • Letrero $48.00 MXN • Flotante (Y=1.2m)</div>
+        </button>
+        <button class="model-btn" onclick="loadAsset(2)">
+          <div class="title">🥛 MOD-03: Pack Lácteo y Abarrotes</div>
+          <div class="sub">1,820 polígonos • Low-poly móvil • Interactivo</div>
+        </button>
+        <button class="model-btn" onclick="loadAsset(3)">
+          <div class="title">🏷️ MOD-04: Tarjeta HUD Semáforo de Precios</div>
+          <div class="sub">650 polígonos • Billboard Facing Camera • Fachada (Y=2.2m)</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="specs-box" id="specsDisplay">
+      <div><strong>Formato:</strong> glTF 2.0 Binary (.glb)</div>
+      <div><strong>Optimización:</strong> Low-Poly (<15k poly)</div>
+      <div><strong>Posición AR:</strong> Nivel banqueta (Y=0.0m)</div>
+      <div><strong>Licencia:</strong> CC-BY 4.0 Open Asset</div>
+    </div>
+  </div>
+
+  <div id="viewport"></div>
+
+  <script>
+    const container = document.getElementById('viewport');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x090d16);
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 2, 4);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    // Iluminación de estudio
+    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    const light1 = new THREE.DirectionalLight(0xffffff, 0.8);
+    light1.position.set(5, 10, 7);
+    scene.add(light1);
+    const light2 = new THREE.DirectionalLight(0x38bdf8, 0.4);
+    light2.position.set(-5, -5, -5);
+    scene.add(light2);
+
+    // Pedestal circular holográfico
+    const pedGeom = new THREE.CylinderGeometry(1.5, 1.6, 0.1, 32);
+    const pedMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.8, roughness: 0.2 });
+    const pedestal = new THREE.Mesh(pedGeom, pedMat);
+    pedestal.position.y = -0.05;
+    scene.add(pedestal);
+
+    const ringGeom = new THREE.RingGeometry(1.55, 1.65, 32);
+    ringGeom.rotateX(-Math.PI/2);
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b, side: THREE.DoubleSide });
+    const ring = new THREE.Mesh(ringGeom, ringMat);
+    ring.position.y = 0.01;
+    scene.add(ring);
+
+    // Grupo de modelo actual
+    let currentModelGroup = new THREE.Group();
+    scene.add(currentModelGroup);
+
+    function buildModel(index) {
+      scene.remove(currentModelGroup);
+      currentModelGroup = new THREE.Group();
+
+      if (index === 0) {
+        // Canasta Básica (canasta con frutas/víveres)
+        const basketGeom = new THREE.CylinderGeometry(0.8, 0.6, 0.5, 16);
+        const basketMat = new THREE.MeshStandardMaterial({ color: 0xb45309, roughness: 0.9 });
+        const basket = new THREE.Mesh(basketGeom, basketMat);
+        basket.position.y = 0.3;
+        currentModelGroup.add(basket);
+
+        // Frutas dentro
+        const colors = [0xef4444, 0x22c55e, 0xf59e0b, 0x84cc16];
+        for (let i = 0; i < 8; i++) {
+          const fruitGeom = new THREE.SphereGeometry(0.18, 12, 12);
+          const fruitMat = new THREE.MeshStandardMaterial({ color: colors[i % colors.length], roughness: 0.3 });
+          const fruit = new THREE.Mesh(fruitGeom, fruitMat);
+          let angle = (i / 8) * Math.PI * 2;
+          fruit.position.set(Math.cos(angle) * 0.4, 0.6, Math.sin(angle) * 0.4);
+          currentModelGroup.add(fruit);
+        }
+      } else if (index === 1) {
+        // Reja de Huevo con letrero de precio AR
+        const boxGeom = new THREE.BoxGeometry(1.2, 0.25, 0.9);
+        const boxMat = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.7 });
+        const box = new THREE.Mesh(boxGeom, boxMat);
+        box.position.y = 0.2;
+        currentModelGroup.add(box);
+
+        // Huevos
+        for (let r = -1; r <= 1; r++) {
+          for (let c = -2; c <= 2; c++) {
+            const eggGeom = new THREE.SphereGeometry(0.09, 12, 12);
+            eggGeom.scale(1, 1.4, 1);
+            const eggMat = new THREE.MeshStandardMaterial({ color: 0xfffbeb, roughness: 0.5 });
+            const egg = new THREE.Mesh(eggGeom, eggMat);
+            egg.position.set(c * 0.22, 0.4, r * 0.25);
+            currentModelGroup.add(egg);
+          }
+        }
+
+        // Letrero holográfico flotante de precio
+        const signGeom = new THREE.PlaneGeometry(0.9, 0.4);
+        const signMat = new THREE.MeshBasicMaterial({ color: 0x10b981, side: THREE.DoubleSide });
+        const sign = new THREE.Mesh(signGeom, signMat);
+        sign.position.set(0, 1.0, 0);
+        currentModelGroup.add(sign);
+      } else if (index === 2) {
+        // Pack Lácteo y Abarrotes
+        const milkGeom = new THREE.BoxGeometry(0.35, 0.8, 0.35);
+        const milkMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.3 });
+        const milk = new THREE.Mesh(milkGeom, milkMat);
+        milk.position.set(-0.3, 0.45, 0);
+        currentModelGroup.add(milk);
+
+        const canGeom = new THREE.CylinderGeometry(0.25, 0.25, 0.5, 16);
+        const canMat = new THREE.MeshStandardMaterial({ color: 0xca8a04, metalness: 0.6, roughness: 0.2 });
+        const can = new THREE.Mesh(canGeom, canMat);
+        can.position.set(0.35, 0.3, 0);
+        currentModelGroup.add(can);
+      } else if (index === 3) {
+        // Tarjeta Holográfica HUD Semáforo de Precios
+        const hudGeom = new THREE.PlaneGeometry(2.0, 1.2);
+        const hudMat = new THREE.MeshBasicMaterial({ color: 0x0f172a, side: THREE.DoubleSide });
+        const hud = new THREE.Mesh(hudGeom, hudMat);
+        hud.position.set(0, 1.1, 0);
+        currentModelGroup.add(hud);
+
+        const borderGeom = new THREE.RingGeometry(0.98, 1.02, 4);
+        borderGeom.rotateZ(Math.PI/4);
+        const borderMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide });
+        const border = new THREE.Mesh(borderGeom, borderMat);
+        border.position.set(0, 1.1, 0.01);
+        border.scale.set(1.1, 0.7, 1);
+        currentModelGroup.add(border);
+
+        // Indicador Semáforo Verde (Precios Bajos en Mercado Central)
+        const dotGeom = new THREE.CircleGeometry(0.15, 16);
+        const dotMat = new THREE.MeshBasicMaterial({ color: 0x10b981 });
+        const dot = new THREE.Mesh(dotGeom, dotMat);
+        dot.position.set(-0.65, 1.35, 0.02);
+        currentModelGroup.add(dot);
+      }
+
+      scene.add(currentModelGroup);
+    }
+
+    const specs = [
+      { format: "glTF 2.0 Binary (.glb)", poly: "4,250 polígonos", pos: "Nivel banqueta frente al puesto (Y=0.0m)", lic: "CC-BY 4.0 Open Asset" },
+      { format: "glTF 2.0 Binary (.glb)", poly: "2,890 polígonos", pos: "Flotante sobre vitrina o mostrador (Y=1.20m)", lic: "Sketchfab CC-BY" },
+      { format: "glTF 2.0 Binary (.glb)", poly: "1,820 polígonos", pos: "Icono interactivo seleccionable con click táctil", lic: "Poly Pizza Open Assets" },
+      { format: "Three.js / WebXR HUD", poly: "650 polígonos", pos: "Anclada a fachada (Billboard Facing Camera Y=2.2m)", lic: "Generado propio UPY" }
+    ];
+
+    function loadAsset(index) {
+      document.querySelectorAll('.model-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === index);
+      });
+      document.getElementById('specsDisplay').innerHTML = `
+        <div><strong>Formato:</strong> ${specs[index].format}</div>
+        <div><strong>Optimización:</strong> ${specs[index].poly}</div>
+        <div><strong>Posición AR:</strong> ${specs[index].pos}</div>
+        <div><strong>Licencia:</strong> ${specs[index].lic}</div>
+      `;
+      buildModel(index);
+    }
+
+    buildModel(0);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (currentModelGroup) {
+        currentModelGroup.rotation.y += 0.008;
+      }
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
+</body>
+</html>

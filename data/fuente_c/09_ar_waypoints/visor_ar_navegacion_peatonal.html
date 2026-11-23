@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Navegación Peatonal AR: Mercado Lucas de Gálvez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(15, 23, 42, 0.90);
+      --border: rgba(255, 255, 255, 0.15);
+      --accent: #10b981;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #000;
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+    }
+    #viewport { flex: 1; height: 100%; position: relative; }
+    
+    /* HUD Overlay de Cámara AR */
+    .ar-camera-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 30px;
+    }
+    .hud-top {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 24px;
+      max-width: 550px;
+      pointer-events: auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+    .hud-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      pointer-events: auto;
+    }
+    .nav-card {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 24px;
+      max-width: 480px;
+    }
+    .btn-step {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s;
+    }
+    .btn-step:hover { filter: brightness(1.15); transform: translateY(-2px); }
+
+    .crosshair {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px; height: 40px;
+      border: 2px dashed rgba(16, 185, 129, 0.6);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="viewport">
+    <div class="crosshair"></div>
+
+    <div class="ar-camera-overlay">
+      <div class="hud-top">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span style="font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.5px;">AR NAVIGATION • FUENTE C (09-C)</span>
+          <span id="wpIndex" style="font-family: 'JetBrains Mono'; font-size: 12px; color: var(--muted);">Paso 1 de 6</span>
+        </div>
+        <h2 id="wpTitle" style="font-size: 18px; font-weight: 700; color: #fff;">Acceso Público Exterior (Calle 56 x 65)</h2>
+        <p id="wpDesc" style="font-size: 13px; color: var(--muted); margin-top: 4px;">Punto de inicio en la banqueta este. Cruce hacia el acceso peatonal principal de Lucas de Gálvez.</p>
+      </div>
+
+      <div class="hud-bottom">
+        <div class="nav-card">
+          <div style="font-size: 11px; text-transform: uppercase; color: var(--muted); font-weight: 600;">Instrucción de Ahorro Ciudadano:</div>
+          <div id="wpAhorro" style="font-size: 14px; font-weight: 600; color: #38bdf8; margin-top: 4px;">
+            Sigue las flechas verdes hacia el pasillo interior de verduras y frutas frescas (-40% vs supermercados).
+          </div>
+        </div>
+        <button class="btn-step" onclick="nextWaypoint()">Avanzar Siguiente Nodo AR ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('viewport');
+    const scene = new THREE.Scene();
+
+    // Fondo simulado de cámara en pasillo de mercado
+    scene.background = new THREE.Color(0x111827);
+
+    const camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 1.6, 5); // Altura de ojos de una persona (1.6m)
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    // Luces
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const dLight = new THREE.DirectionalLight(0xffeedd, 0.8);
+    dLight.position.set(0, 10, 5);
+    scene.add(dLight);
+
+    // Suelo de mercado y muros laterales simulados
+    const floorGeom = new THREE.PlaneGeometry(10, 80);
+    floorGeom.rotateX(-Math.PI/2);
+    const floorMat = new THREE.MeshStandardMaterial({ color: 0x1f2937, roughness: 0.9 });
+    const floor = new THREE.Mesh(floorGeom, floorMat);
+    floor.position.z = -35;
+    scene.add(floor);
+
+    // Columnas y puestos a los lados
+    for (let z = 0; z > -70; z -= 8) {
+      const colGeom = new THREE.BoxGeometry(0.8, 4, 0.8);
+      const colMat = new THREE.MeshStandardMaterial({ color: 0x374151 });
+      
+      const leftCol = new THREE.Mesh(colGeom, colMat);
+      leftCol.position.set(-4.5, 2, z);
+      scene.add(leftCol);
+
+      const rightCol = new THREE.Mesh(colGeom, colMat);
+      rightCol.position.set(4.5, 2, z);
+      scene.add(rightCol);
+    }
+
+    // Flecha 3D de guiado AR flotante
+    const arrowGroup = new THREE.Group();
+    const coneGeom = new THREE.ConeGeometry(0.5, 1.2, 16);
+    coneGeom.rotateX(-Math.PI/2);
+    const arrowMat = new THREE.MeshBasicMaterial({ color: 0x10b981 });
+    const arrow = new THREE.Mesh(coneGeom, arrowMat);
+    arrowGroup.add(arrow);
+    arrowGroup.position.set(0, 1.2, -4);
+    scene.add(arrowGroup);
+
+    // Waypoints extraídos de ruta_ar_lucas_galvez.json
+    const waypoints = [
+      {
+        title: "Acceso Público Exterior (Calle 56 x 65)",
+        desc: "Punto de inicio en la banqueta este frente al paradero de Va y Ven.",
+        ahorro: "Distancia al pasillo de ahorro: 115 metros (aprox. 90 segundos caminando).",
+        z: -4,
+        camZ: 5
+      },
+      {
+        title: "Portal Monumental de Entrada",
+        desc: "Ingreso bajo la techumbre histórica del mercado central.",
+        ahorro: "Temperatura exterior >38°C; ventilación pasiva bajo el domo a 12.53m.",
+        z: -16,
+        camZ: -7
+      },
+      {
+        title: "Crujía Central de Conexión",
+        desc: "Bifurcación principal entre abarrotes procesados y zona húmeda.",
+        ahorro: "Gira a la izquierda para evitar locales de intermediarios foráneos.",
+        z: -28,
+        camZ: -19
+      },
+      {
+        title: "Pasillo de Frutas y Verduras Frescas",
+        desc: "Zona de productores directos provenientes de Oxkutzcab y Ticul.",
+        ahorro: "Jitomate a $16.15/kg y Limón a $18.00/kg (Ahorro directo de hasta +178% vs supermercados).",
+        z: -40,
+        camZ: -31
+      },
+      {
+        title: "Pasillo de Abarrotes y Granos a Granel",
+        desc: "Semillas, frijol negro y especias al mayoreo y menudeo.",
+        ahorro: "Venta fraccionada por cuartos de kilo (250g) respetando el presupuesto familiar.",
+        z: -52,
+        camZ: -43
+      },
+      {
+        title: "Destino Alcanzado: Núcleo de Canasta Básica Económica",
+        desc: "Has llegado al área con los precios más competitivos de todo el municipio de Mérida.",
+        ahorro: "¡Meta cumplida! Canasta básica completa un 45% más accesible que en cadenas de retail.",
+        z: -62,
+        camZ: -53
+      }
+    ];
+
+    let currentWp = 0;
+
+    function nextWaypoint() {
+      currentWp = (currentWp + 1) % waypoints.length;
+      updateUI();
+    }
+
+    function updateUI() {
+      const wp = waypoints[currentWp];
+      document.getElementById('wpIndex').textContent = `Paso ${currentWp + 1} de ${waypoints.length}`;
+      document.getElementById('wpTitle').textContent = wp.title;
+      document.getElementById('wpDesc').textContent = wp.desc;
+      document.getElementById('wpAhorro').textContent = wp.ahorro;
+
+      // Animar movimiento de cámara y flecha AR
+      arrowGroup.position.z = wp.z;
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      arrowGroup.rotation.y += 0.03;
+      arrowGroup.position.y = 1.2 + Math.sin(Date.now() * 0.005) * 0.2;
+
+      // Suavizado de cámara hacia el nodo actual
+      const targetZ = waypoints[currentWp].camZ;
+      camera.position.z += (targetZ - camera.position.z) * 0.05;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
+</body>
+</html>

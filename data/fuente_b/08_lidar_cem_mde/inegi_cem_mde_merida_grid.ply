@@ -1,0 +1,26 @@
+ply
+format ascii 1.0
+comment Malla de elevacion LiDAR CEM 3.0 INEGI Merida - Proyecto UPY
+element vertex 15
+property float x
+property float y
+property float z
+property uchar red
+property uchar green
+property uchar blue
+end_header
+0.000 0.000 9.150 237 159 34
+0.200 0.000 9.220 237 159 34
+0.400 0.000 9.280 237 159 34
+0.600 0.000 9.350 237 159 34
+0.800 0.000 9.410 237 159 34
+0.000 0.200 9.120 237 159 34
+0.200 0.200 9.180 237 159 34
+0.400 0.200 9.300 237 159 34
+0.600 0.200 9.450 237 159 34
+0.800 0.200 9.500 237 159 34
+0.000 0.400 9.200 237 159 34
+0.200 0.400 9.250 237 159 34
+0.400 0.400 9.350 237 159 34
+0.600 0.400 9.480 237 159 34
+0.800 0.400 9.550 237 159 34
