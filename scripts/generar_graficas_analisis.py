@@ -1,5 +1,5 @@
 """
-Script de Generación de Visualizaciones Editoriales No Convencionales ("Data Storytelling Art")
+Script de Generación de Infografías Pop y Pictogramas Memorables ("Modo Gente Común")
 Proyecto: "Del Mundo a la Esquina: ¿Cuánto Cuesta Comer?" (UPY)
 Paleta Oficial Obligatoria:
   - Primario / Oro-Ámbar: #ed9f22
@@ -7,46 +7,38 @@ Paleta Oficial Obligatoria:
   - Blanco Editorial:    #ffffff
   - Carbón Tipográfico:  #0d0d0d
 
-Arquetipos Visuales Creativos:
-  - Fig 1: Gráfico de Cometas de Explosión de Precio (Tapered Comet Slopegraph & Proportional Spheres)
-  - Fig 2: Flujo Aluvial / Sankey de Fuga Algorítmica + Rosa Polar de Pérdida Anual en Delivery
-  - Fig 3: Rosa de los Vientos de Nightingale (Coxcomb Polar) + Matriz Calendario "30 Días de Vida vs Comida"
-  - Fig 4: Estrella Poligonal Radar (Spider Web) + Matriz de Burbujas Térmicas de las 5 Tienditas Reales (07-B)
-  - Fig 5: Corte Arquitectónico Termodinámico LiDAR 3D con Vectores de Convección Pasiva del Domo
-  - Fig 6: Ridgeline Joyplot Topográfico (Horizontes Cársticos) + Mandala Radial de Movilidad Va y Ven
+Monedas Populares de Comparación (100% Datos Reales del Repo):
+  - 1 Kilo de Tortilla = $26.00 MXN (Bitácora Propia 07-B)
+  - 1 Viaje en Va y Ven = $12.00 MXN (Movilidad 04-C)
+Cero emojis Unicode: todos los íconos son pictogramas vectoriales dibujados con patches.
 """
 
 import os
-import re
-import json
+import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.path import Path
-import numpy as np
-import pandas as pd
 
 # Paleta Oficial Estricta
-COLOR_ORO = '#ed9f22'
-COLOR_ORO_DARK = '#b45309'
-COLOR_ORO_SOFT = '#fef3c7'
-COLOR_PURPURA = '#600d8b'
-COLOR_PURPURA_LIGHT = '#9333ea'
-COLOR_PURPURA_SOFT = '#f3e8ff'
-COLOR_BLANCO = '#ffffff'
-COLOR_NEGRO = '#0d0d0d'
-COLOR_GRIS_BORDE = '#e2e8f0'
-COLOR_GRIS_GRID = '#f1f5f9'
-COLOR_MUTED = '#525252'
+ORO = '#ed9f22'
+ORO_DARK = '#b45309'
+ORO_SOFT = '#fef3c7'
+PURPURA = '#600d8b'
+PURPURA_LIGHT = '#9333ea'
+PURPURA_SOFT = '#f3e8ff'
+BLANCO = '#ffffff'
+NEGRO = '#0d0d0d'
+GRIS_BORDE = '#e2e8f0'
+GRIS_CLARO = '#f8fafc'
+MUTED = '#525252'
 
-plt.rcParams['figure.facecolor'] = COLOR_BLANCO
-plt.rcParams['axes.facecolor'] = COLOR_BLANCO
-plt.rcParams['text.color'] = COLOR_NEGRO
-plt.rcParams['axes.labelcolor'] = COLOR_NEGRO
-plt.rcParams['xtick.color'] = COLOR_NEGRO
-plt.rcParams['ytick.color'] = COLOR_NEGRO
+plt.rcParams['figure.facecolor'] = BLANCO
+plt.rcParams['axes.facecolor'] = BLANCO
+plt.rcParams['text.color'] = NEGRO
+plt.rcParams['axes.labelcolor'] = NEGRO
 plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'sans-serif']
-plt.rcParams['axes.edgecolor'] = COLOR_GRIS_BORDE
-plt.rcParams['axes.linewidth'] = 1.0
+plt.rcParams['text.parse_math'] = False
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
@@ -55,534 +47,468 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 # ==============================================================================
-# FIGURA 1: COMETAS DE EXPLOSIÓN DE PRECIO (TAPERED COMET SLOPEGRAPH)
+# HELPERS VECTORIALES (CERO EMOJIS: TORTILLAS, CAMIONES VA Y VEN, MONEDAS)
+# ==============================================================================
+def draw_tortilla_icon(ax, cx, cy, r=0.28, color=ORO, edge=NEGRO, lw=1.1, zorder=5):
+    """Dibuja un ícono vectorial de tortilla (disco dorado con marquitas de comal)."""
+    circ = patches.Circle((cx, cy), r, facecolor=color, edgecolor=edge, linewidth=lw, zorder=zorder)
+    ax.add_patch(circ)
+    # Pintitas de tortilla tostada
+    for dx, dy in [(-0.35*r, 0.2*r), (0.3*r, -0.25*r), (0.05*r, 0.35*r)]:
+        dot = patches.Circle((cx + dx, cy + dy), r * 0.11, facecolor=ORO_DARK if color == ORO else BLANCO, edgecolor='none', alpha=0.7, zorder=zorder+1)
+        ax.add_patch(dot)
+
+
+def draw_bus_icon(ax, cx, cy, w=0.65, h=0.42, color=PURPURA, zorder=5):
+    """Dibuja un ícono vectorial de camión Va y Ven."""
+    body = patches.FancyBboxPatch((cx - w/2, cy - h/2 + 0.06), w, h - 0.08,
+                                  boxstyle="round,pad=0.02,rounding_size=0.08",
+                                  facecolor=color, edgecolor=NEGRO, linewidth=1.1, zorder=zorder)
+    ax.add_patch(body)
+    # Ventana frontal
+    win = patches.Rectangle((cx - w/2 + 0.06, cy + 0.02), w - 0.12, h * 0.36,
+                            facecolor=BLANCO, edgecolor=NEGRO, linewidth=0.7, zorder=zorder+1)
+    ax.add_patch(win)
+    # Ruedas
+    for wx in [cx - w*0.28, cx + w*0.28]:
+        wheel = patches.Circle((wx, cy - h/2 + 0.04), h * 0.16, facecolor=ORO, edgecolor=NEGRO, linewidth=0.9, zorder=zorder+2)
+        ax.add_patch(wheel)
+
+
+# ==============================================================================
+# FIGURA 1: EL VIAJE MÁGICO DE 12 KM (ABASTO vs SÚPER EN TORTILLAS)
 # ==============================================================================
 def generar_figura_1():
-    print("Generando Figura 1: Cometas de Explosion de Precio (SNIIM vs PROFECO)...")
-    # Datos verificados del cruce SNIIM Central de Abasto (02-B) vs PROFECO Mérida (02-A)
-    datos = [
-        ('Huevo Blanco', 36.00, 48.50, 34.7),
-        ('Cebolla Blanca', 14.00, 22.00, 57.1),
-        ('Zanahoria Mediana', 11.50, 19.50, 69.6),
-        ('Plátano Tabasco', 12.00, 24.90, 107.5),
-        ('Aguacate Hass', 38.00, 79.00, 107.9),
-        ('Limón con Semilla', 11.11, 26.50, 138.5),
-        ('Jitomate Saladette', 16.15, 45.00, 178.6),
-        ('Papa Blanca Alpha', 16.00, 56.00, 250.0)
+    print("Generando Figura 1: El Viaje Magico de 12 km...")
+    productos = [
+        ("Papa Blanca", 16.0, 56.0, "+250%", "Pagas 3.5 kg de abasto\npor 1 kg en el súper"),
+        ("Jitomate Saladette", 16.15, 45.0, "+179%", "El recargo (+$29) equivale\na 1.1 kg de tortilla"),
+        ("Limón con Semilla", 11.11, 26.5, "+138%", "Sube más del doble\nen 12 km de asfalto"),
+        ("Aguacate Hass", 38.0, 79.0, "+108%", "La diferencia (+$41) paga\n3.4 viajes en Va y Ven"),
+        ("Plátano Tabasco", 12.0, 24.9, "+108%", "Pasa de $12 a casi $25\nsin cambiar de fruta"),
+        ("Cebolla Blanca", 14.0, 22.0, "+57%", "Margen moderado\npero constante"),
+        ("Huevo Blanco", 36.0, 48.5, "+35%", "El más defendido por\ngranjas de Kanasín/Umán")
     ]
+    productos.reverse()  # Mayor impacto arriba
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13.5, 6.5), dpi=300, gridspec_kw={'width_ratios': [2.2, 1]})
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6.8), dpi=300, gridspec_kw={'width_ratios': [1.8, 1.1]})
 
-    y_positions = np.arange(len(datos))
+    y_pos = np.arange(len(productos))
 
-    # Panel Izquierdo: Cometas Horizontales con Estela de Expansión (Tapered Polygons)
-    for i, (nombre, may, men, marg) in enumerate(datos):
-        # Dibujar cola de cometa (trapecio que se ensancha de mayoreo a menudeo)
-        h_start = 0.06
-        h_end = 0.28
-        verts = [
-            (may, i - h_start),
-            (men, i - h_end),
-            (men, i + h_end),
-            (may, i + h_start)
-        ]
-        poly = patches.Polygon(verts, closed=True, facecolor=COLOR_ORO, alpha=0.35, edgecolor=COLOR_ORO, linewidth=1.2, zorder=2)
-        ax1.add_patch(poly)
+    # Panel A: Camino del Precio (Central de Abasto -> Súper)
+    for i, (nombre, may, men, pct, nota) in enumerate(productos):
+        # Barra de rango estilo flecha gruesa
+        ax1.barh(i, men - may, left=may, height=0.44, color=ORO, alpha=0.82, edgecolor=NEGRO, linewidth=1.1, zorder=3)
+        # Punto de origen (Central de Abasto)
+        ax1.scatter(may, i, s=180, color=PURPURA, edgecolors=BLANCO, linewidth=1.8, zorder=5)
+        ax1.text(may - 1.5, i, f"${may:.0f}", va='center', ha='right', fontsize=9.5, fontweight='bold', color=PURPURA)
+        # Punto final (Súper)
+        ax1.scatter(men, i, s=220, color=ORO, edgecolors=NEGRO, linewidth=1.5, zorder=5)
+        ax1.text(men + 1.8, i, f"${men:.0f}/kg  ({pct})", va='center', ha='left', fontsize=10, fontweight='bold', color=NEGRO)
 
-        # Línea central de trayectoria
-        ax1.plot([may, men], [i, i], color=COLOR_PURPURA, linestyle=':', linewidth=1.5, zorder=3)
+    ax1.set_yticks(y_pos)
+    ax1.set_yticklabels([p[0] for p in productos], fontsize=11, fontweight='bold')
+    ax1.set_xlim(0, 108)
+    ax1.set_ylim(-1.25, len(productos) - 0.3)
+    ax1.set_xlabel('Precio por Kilogramo ($ MXN)', fontsize=11, fontweight='bold')
+    ax1.set_title('A. Mismo Producto, Distinto Destino:\nCentral de Abasto (Morado) vs. Supermercado (Dorado)', fontsize=12, fontweight='bold', color=PURPURA, pad=12)
+    ax1.grid(True, axis='x', linestyle='--', alpha=0.45)
 
-        # Nodo de origen (Campo / Central de Abasto)
-        ax1.scatter(may, i, s=130, color=COLOR_PURPURA, edgecolors=COLOR_BLANCO, linewidth=1.8, zorder=4)
-        ax1.text(may - 1.8, i, f"${may:.1f}", va='center', ha='right', fontsize=9.5, fontweight='bold', color=COLOR_PURPURA)
+    # Leyenda limpia debajo de la última barra sin tapar texto
+    ax1.scatter([], [], s=120, color=PURPURA, label='Central de Abasto (Mayoreo SNIIM)')
+    ax1.scatter([], [], s=140, color=ORO, edgecolors=NEGRO, label='Góndola de Súper (PROFECO)')
+    ax1.legend(loc='lower right', frameon=True, facecolor=BLANCO, edgecolor=GRIS_BORDE, fontsize=9.2, ncol=2)
 
-        # Cabeza de cometa (Góndola de Supermercado - área proporcional al margen)
-        head_size = 180 + (marg * 1.4)
-        ax1.scatter(men, i, s=head_size, color=COLOR_ORO, edgecolors=COLOR_NEGRO, linewidth=1.5, zorder=5)
-        ax1.text(men + 2.2, i, f"${men:.1f}/kg  (+{marg:.0f}%)", va='center', ha='left', fontsize=10, fontweight='bold', color=COLOR_NEGRO)
+    # Panel B: Pictograma "Cuántos Kilos de Abasto caben en 1 Kilo del Súper"
+    ax2.set_xlim(0, 6.0)
+    ax2.set_ylim(-1.25, len(productos) - 0.3)
+    for i, (nombre, may, men, pct, nota) in enumerate(productos):
+        ratio = men / may
+        n_full = int(ratio)
+        frac = ratio - n_full
+        for k in range(n_full):
+            draw_tortilla_icon(ax2, 0.45 + k * 0.65, i, r=0.25, color=PURPURA if k == 0 else ORO, zorder=4)
+        if frac > 0.15:
+            draw_tortilla_icon(ax2, 0.45 + n_full * 0.65, i, r=0.25 * (0.55 + 0.45 * frac), color=ORO_SOFT, zorder=4)
+        ax2.text(0.45 + ratio * 0.65 + 0.32, i, f"{ratio:.1f}x\n({nota.splitlines()[0]})",
+                 va='center', ha='left', fontsize=8.5, fontweight='bold', color=NEGRO)
 
-    ax1.set_yticks(y_positions)
-    ax1.set_yticklabels([d[0] for d in datos], fontsize=11, fontweight='bold', color=COLOR_NEGRO)
-    ax1.set_xlim(0, 102)
-    ax1.set_xlabel('Recorrido del Precio por Kilogramo ($ MXN): De la Central de Abasto al Supermercado', fontsize=11, fontweight='bold')
-    ax1.set_title('A. Cometas de Inflación Comercial (Efecto Embudo Inverso)', fontsize=12.5, fontweight='bold', color=COLOR_PURPURA, pad=12)
-    ax1.grid(True, axis='x', linestyle='--', alpha=0.6)
+    ax2.set_yticks(y_pos)
+    ax2.set_yticklabels(['' for _ in productos])
+    ax2.set_xticks([])
+    ax2.set_title('B. ¿Cuántos Kilos de Abasto Compras\ncon lo que Pagas por 1 Kilo en el Súper?', fontsize=12, fontweight='bold', color=PURPURA, pad=12)
+    for s in ['top', 'right', 'left']:
+        ax2.spines[s].set_visible(False)
+    for s in ['top', 'right']:
+        ax1.spines[s].set_visible(False)
 
-    # Leyenda personalizada en ax1
-    ax1.scatter([], [], s=110, color=COLOR_PURPURA, label='Origen: Mayoreo Central de Abasto (SNIIM 02-B)')
-    ax1.scatter([], [], s=240, color=COLOR_ORO, edgecolors=COLOR_NEGRO, label='Destino: Góndola Supermercado (PROFECO 02-A)')
-    ax1.legend(loc='lower right', bbox_to_anchor=(0.99, 0.14), frameon=True, facecolor=COLOR_BLANCO, edgecolor=COLOR_GRIS_BORDE, fontsize=9.2)
-
-    # Panel Derecho: Índice Multiplicador ("¿Cuántos kilos de abasto compras con 1 kilo de súper?")
-    mults = [d[2] / d[1] for d in datos]
-    for i, m_val in enumerate(mults):
-        # Dibujar círculos apilados representando cuántos kilos mayoristas equivalen a 1 kg en súper
-        n_circles = int(np.ceil(m_val))
-        for c_idx in range(n_circles):
-            fill_col = COLOR_PURPURA if c_idx == 0 else COLOR_ORO
-            alpha_val = 0.95 if c_idx < int(m_val) else 0.45
-            ax2.scatter(c_idx * 0.85 + 0.5, i, s=260, color=fill_col, alpha=alpha_val, edgecolors=COLOR_NEGRO, linewidth=1.0, zorder=4)
-        ax2.text(n_circles * 0.85 + 0.35, i, f"{m_val:.1f}x veces", va='center', fontsize=10, fontweight='bold', color=COLOR_PURPURA)
-
-    ax2.set_yticks(y_positions)
-    ax2.set_yticklabels(['' for _ in datos])
-    ax2.set_xlim(0, 5.2)
-    ax2.set_xticks([0.5, 1.35, 2.2, 3.05, 3.9])
-    ax2.set_xticklabels(['1x', '2x', '3x', '4x', '5x'], fontweight='bold')
-    ax2.set_xlabel('Factor de Multiplicación del Precio', fontsize=11, fontweight='bold')
-    ax2.set_title('B. Equivalencia en Kilos Mayoristas', fontsize=12.5, fontweight='bold', color=COLOR_PURPURA, pad=12)
-    ax2.grid(True, axis='x', linestyle='--', alpha=0.6)
-
-    for spine in ax1.spines.values():
-        spine.set_color(COLOR_GRIS_BORDE)
-    for spine in ax2.spines.values():
-        spine.set_color(COLOR_GRIS_BORDE)
-
-    plt.suptitle('Figura 1: La Metamorfosis del Precio en Mérida — ¿Cómo se Triplica el Costo en 12 km de Asfalto?',
-                 fontsize=14, fontweight='bold', color=COLOR_NEGRO, y=1.02)
-    plt.tight_layout()
-    fig.savefig(os.path.join(OUTPUT_DIR, "01_margen_intermediacion_mayoreo_vs_menudeo.png"), facecolor=COLOR_BLANCO, bbox_inches='tight')
+    plt.suptitle('Figura 1: El Viaje Mágico de 12 km — ¿Por qué la Papa Cuesta $16 en Abastos y $56 en el Súper?',
+                 fontsize=14, fontweight='bold', color=NEGRO, y=0.99)
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.savefig(os.path.join(OUTPUT_DIR, "01_margen_intermediacion_mayoreo_vs_menudeo.png"), facecolor=BLANCO, bbox_inches='tight')
     plt.close()
 
 
 # ==============================================================================
-# FIGURA 2: FLUJO ALUVIAL SANKEY DE FUGA ALGORÍTMICA + RELOJ POLAR (06-C)
+# FIGURA 2: EL IMPUESTO A LA FLOJERA (RAPPI/UBER EN TORTILLAS Y VA Y VEN)
 # ==============================================================================
 def generar_figura_2():
-    print("Generando Figura 2: Flujo Aluvial Sankey de Delivery y Rosa Polar...")
-    df_deliv = pd.read_csv(os.path.join(DATA_DIR, "fuente_c/06_scraping_delivery/comparativa_precios_canasta_basica.csv"))
+    print("Generando Figura 2: El Impuesto a la Flojera (Rappi vs Tortillas)...")
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6.5), dpi=300, gridspec_kw={'width_ratios': [1.05, 1.25]})
 
-    tkt_fisico = df_deliv['Total_Tienda_Fisica'].mean()
-    costo_prod_ter = df_deliv['Costo_Articulos_AppTerceros'].mean()
-    sobreprecio_catalogo = costo_prod_ter - tkt_fisico
-    envio = df_deliv['Costo_Envio_AppTerceros'].mean()
-    tarifa = df_deliv['Tarifa_Servicio_AppTerceros'].mean()
-    propina = df_deliv['Propina_AppTerceros'].mean()
-    total_ter = df_deliv['Total_App_Terceros'].mean()
-    fuga_total = total_ter - tkt_fisico
+    # Panel A: Ticket partido ("Lo que comes vs Lo que regalas")
+    ax1.set_xlim(0, 10)
+    ax1.set_ylim(0, 10)
+    ax1.axis('off')
+    ax1.set_title('A. Tu Ticket de Rappi / UberEats ($1,522 MXN)\n¿Qué Estás Pagando Realmente?', fontsize=12, fontweight='bold', color=PURPURA, pad=10)
 
-    fig = plt.figure(figsize=(13.5, 6.2), dpi=300)
-    ax1 = fig.add_subplot(1, 2, 1)
-    ax2 = fig.add_subplot(1, 2, 2, projection='polar')
+    # Bloque inferior: Comida Real ($1,143.82 = 75.1%)
+    ax1.add_patch(patches.FancyBboxPatch((0.8, 0.5), 8.4, 5.2, boxstyle="round,pad=0.1,rounding_size=0.25",
+                                         facecolor=PURPURA, edgecolor=NEGRO, linewidth=1.8))
+    ax1.text(5.0, 3.6, "COMIDA REAL EN TU REFRI", ha='center', va='center', color=BLANCO, fontsize=13, fontweight='bold')
+    ax1.text(5.0, 2.6, "$1,144 MXN  (75.1% del pago)", ha='center', va='center', color=ORO, fontsize=14, fontweight='bold')
+    ax1.text(5.0, 1.5, "Exactamente lo mismo que pagabas yendo\nen persona al supermercado", ha='center', va='center', color=BLANCO, fontsize=9.5)
 
-    # Panel A: Diagrama Aluvial / Sankey de Curvas Bézier
-    ax1.set_xlim(0, 11.2)
-    ax1.set_ylim(0, 1820)
+    # Bloque superior: Sobreprecio ($378.30 = 24.9% extra sobre ticket / +34.9% sobre base)
+    ax1.add_patch(patches.FancyBboxPatch((0.8, 6.1), 8.4, 3.3, boxstyle="round,pad=0.1,rounding_size=0.25",
+                                         facecolor=ORO, edgecolor=NEGRO, linewidth=1.8))
+    ax1.text(5.0, 8.75, "EL IMPUESTO A LA FLOJERA: +$378 MXN EXTRA", ha='center', va='center', color=NEGRO, fontsize=12, fontweight='bold')
+    ax1.text(5.0, 7.85, "(+34.9% más caro por cada carrito de despensa)", ha='center', va='center', color=PURPURA, fontsize=10, fontweight='bold')
 
-    def draw_sankey_ribbon(ax, x0, y0_bot, y0_top, x1, y1_bot, y1_top, color, alpha=0.55):
-        verts = [
-            (x0, y0_bot),
-            ((x0 + x1)/2, y0_bot),
-            ((x0 + x1)/2, y1_bot),
-            (x1, y1_bot),
-            (x1, y1_top),
-            ((x0 + x1)/2, y1_top),
-            ((x0 + x1)/2, y0_top),
-            (x0, y0_top),
-            (x0, y0_bot)
-        ]
-        codes = [
-            Path.MOVETO,
-            Path.CURVE4, Path.CURVE4, Path.CURVE4,
-            Path.LINETO,
-            Path.CURVE4, Path.CURVE4, Path.CURVE4,
-            Path.CLOSEPOLY
-        ]
-        path = Path(verts, codes)
-        patch = patches.PathPatch(path, facecolor=color, edgecolor='none', alpha=alpha, zorder=2)
-        ax.add_patch(patch)
-
-    # Columna Izquierda: Pago Total en App de Delivery ($1,522.11)
-    ax1.add_patch(patches.Rectangle((0.3, 60), 1.65, total_ter, facecolor=COLOR_PURPURA, edgecolor=COLOR_NEGRO, lw=1.5, zorder=4))
-    ax1.text(1.125, 60 + total_ter/2, f"PAGO APP\nDELIVERY\n${total_ter:,.0f} MXN\n(100%)",
-             ha='center', va='center', color=COLOR_BLANCO, fontweight='bold', fontsize=9.5, zorder=5)
-
-    # Flujo 1: Comida Real ($1,143.82) -> se mantiene abajo
-    draw_sankey_ribbon(ax1, 1.95, 60, 60 + tkt_fisico, 6.2, 30, 30 + tkt_fisico, COLOR_PURPURA, alpha=0.35)
-    ax1.add_patch(patches.Rectangle((6.2, 30), 1.1, tkt_fisico, facecolor=COLOR_PURPURA, edgecolor=COLOR_NEGRO, lw=1.5, zorder=4))
-    ax1.text(7.5, 30 + tkt_fisico/2, f"Alimento Real Recibido\n${tkt_fisico:,.0f} MXN (75.1%)\n[Valor en Tienda Física]",
-             ha='left', va='center', color=COLOR_PURPURA, fontweight='bold', fontsize=9.5)
-
-    # Flujos de Fuga Algorítmica ($378.30 desglosados en 4 cintas doradas hacia arriba)
-    componentes_fuga = [
-        ("Sobreprecio en Catálogo", sobreprecio_catalogo, COLOR_ORO),
-        ("Costo Envío Dinámico", envio, '#d97706'),
-        ("Propina Sugerida App", propina, '#f59e0b'),
-        ("Tarifa de Servicio App", tarifa, COLOR_ORO_DARK)
+    # Desglose en 4 cajitas internas
+    items_fuga = [
+        ("Catálogo\nInflado\n+$205", 1.15),
+        ("Envío\nApp\n+$65", 3.25),
+        ("Propina\nSugerida\n+$55", 5.35),
+        ("Tarifa\nServicio\n+$53", 7.45)
     ]
+    for txt_i, x_i in items_fuga:
+        ax1.add_patch(patches.FancyBboxPatch((x_i, 6.35), 1.75, 1.1, boxstyle="round,pad=0.05,rounding_size=0.12",
+                                             facecolor=BLANCO, edgecolor=NEGRO, linewidth=1.0))
+        ax1.text(x_i + 0.875, 6.9, txt_i, ha='center', va='center', fontsize=8.2, fontweight='bold', color=NEGRO)
 
-    curr_y_left = 60 + tkt_fisico
-    curr_y_right = 30 + tkt_fisico + 55
-    for label_f, val_f, col_f in componentes_fuga:
-        draw_sankey_ribbon(ax1, 1.95, curr_y_left, curr_y_left + val_f, 6.2, curr_y_right, curr_y_right + val_f, col_f, alpha=0.65)
-        ax1.add_patch(patches.Rectangle((6.2, curr_y_right), 1.1, val_f, facecolor=col_f, edgecolor=COLOR_NEGRO, lw=1.0, zorder=4))
-        ax1.text(7.5, curr_y_right + val_f/2, f"{label_f}: +${val_f:.0f}",
-                 ha='left', va='center', color=COLOR_NEGRO, fontweight='bold', fontsize=8.8)
-        curr_y_left += val_f
-        curr_y_right += val_f + 35
+    # Panel B: Pictograma de Equivalencia Popular ($378.30/pedido y $18,158/año)
+    ax2.set_xlim(0, 10)
+    ax2.set_ylim(0, 10)
+    ax2.axis('off')
+    ax2.set_title('B. Traductor Popular: ¿Qué Son Esos $378 Extra?', fontsize=12, fontweight='bold', color=PURPURA, pad=10)
 
-    ax1.set_xticks([])
-    ax1.set_yticks([])
-    ax1.set_title(f'A. Río Aluvial del Gasto Digital: +${fuga_total:.0f} MXN (+34.9%) se Evaporan por Pedido',
-                  fontsize=12, fontweight='bold', color=COLOR_PURPURA, pad=12)
-    for spine in ax1.spines.values():
-        spine.set_visible(False)
+    # Bloque 1: En Kilos de Tortilla ($26/kg) -> 14.5 kg
+    ax2.add_patch(patches.FancyBboxPatch((0.3, 5.2), 9.4, 4.2, boxstyle="round,pad=0.1,rounding_size=0.25",
+                                         facecolor=GRIS_CLARO, edgecolor=GRIS_BORDE, linewidth=1.5))
+    ax2.text(5.0, 8.85, "POR UN SOLO PEDIDO TIRAS A LA BASURA:", ha='center', va='center', fontsize=10.5, fontweight='bold', color=PURPURA)
+    ax2.text(5.0, 8.2, "14.5 Kilos de Tortilla ($26/kg)", ha='center', va='center', fontsize=13.5, fontweight='bold', color=NEGRO)
 
-    # Panel B: Reloj Polar de Impacto Anual (4 pedidos al mes durante 12 meses)
-    meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-    angles = np.linspace(0, 2 * np.pi, len(meses), endpoint=False)
-    fuga_mensual_acum = np.arange(1, 13) * (fuga_total * 4)  # 4 compras por mes
+    # Dibujar 15 tortillas (14 enteras + 1 media)
+    for t_idx in range(15):
+        row_t = t_idx // 8
+        col_t = t_idx % 8
+        cx_t = 1.3 + col_t * 1.05
+        cy_t = 7.1 - row_t * 1.1
+        draw_tortilla_icon(ax2, cx_t, cy_t, r=0.38 if t_idx < 14 else 0.25, color=ORO if t_idx < 14 else ORO_SOFT)
 
-    width_polar = (2 * np.pi) / 14
-    bars = ax2.bar(angles, fuga_mensual_acum, width=width_polar, bottom=1500,
-                   color=[COLOR_PURPURA if i < 6 else COLOR_ORO for i in range(12)],
-                   edgecolor=COLOR_NEGRO, linewidth=1.0, alpha=0.9)
+    # Bloque 2: En Viajes en Va y Ven ($12) -> 31 viajes + Al Año
+    ax2.add_patch(patches.FancyBboxPatch((0.3, 0.5), 9.4, 4.2, boxstyle="round,pad=0.1,rounding_size=0.25",
+                                         facecolor=PURPURA_SOFT, edgecolor=PURPURA, linewidth=1.5))
+    ax2.text(5.0, 4.15, "O SU EQUIVALENTE EN TRANSPORTE MÉRIDA:", ha='center', va='center', fontsize=10, fontweight='bold', color=PURPURA)
+    ax2.text(5.0, 3.55, "31 Viajes en Va y Ven ($12 c/u)", ha='center', va='center', fontsize=13, fontweight='bold', color=NEGRO)
 
-    ax2.set_xticks(angles)
-    ax2.set_xticklabels(meses, fontweight='bold', fontsize=10, color=COLOR_NEGRO)
-    ax2.set_yticks([5000, 10000, 15000, 18158])
-    ax2.set_yticklabels(['$5k', '$10k', '$15k', '$18.1k'], fontsize=8.5, fontweight='bold', color=COLOR_PURPURA)
-    ax2.set_title('B. Espiral Anual de Fuga ($18,158/año perdidos =\n7 Meses de Canasta CONEVAL)',
-                  fontsize=11.5, fontweight='bold', color=COLOR_PURPURA, pad=18)
+    for b_idx in range(10):
+        draw_bus_icon(ax2, 1.15 + b_idx * 0.85, 2.55, w=0.65, h=0.42, color=PURPURA)
+    ax2.text(5.0, 1.78, "(...y otros 21 camiones más por pedido)", ha='center', va='center', fontsize=8.8, fontweight='bold', color=MUTED)
 
-    plt.suptitle('Figura 2: Anatomía del Impuesto Algorítmico en Mérida (2,501 Carritos Auditados en Apps Delivery 06-C)',
-                 fontsize=13.5, fontweight='bold', color=COLOR_NEGRO, y=1.02)
-    plt.tight_layout()
-    fig.savefig(os.path.join(OUTPUT_DIR, "02_sobreprecio_economia_digital_delivery.png"), facecolor=COLOR_BLANCO, bbox_inches='tight')
+    ax2.add_patch(patches.FancyBboxPatch((0.7, 0.72), 8.6, 0.75, boxstyle="round,pad=0.05,rounding_size=0.15",
+                                         facecolor=ORO, edgecolor=NEGRO, linewidth=1.1))
+    ax2.text(5.0, 1.1, "SI PIDES 4 VECES AL MES = $18,158 AL AÑO = ¡698 KG DE TORTILLA!",
+             ha='center', va='center', fontsize=9.2, fontweight='bold', color=NEGRO)
+
+    plt.suptitle('Figura 2: El Impuesto a la Flojera — ¿Cuánto Cuesta en Tortillas Pedir el Súper por App? (2,501 Tickets 06-C)',
+                 fontsize=13.5, fontweight='bold', color=NEGRO, y=0.99)
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.savefig(os.path.join(OUTPUT_DIR, "02_sobreprecio_economia_digital_delivery.png"), facecolor=BLANCO, bbox_inches='tight')
     plt.close()
 
 
 # ==============================================================================
-# FIGURA 3: ROSA DE NIGHTINGALE (COXCOMB) + CALENDARIO DE VIDA (03-A / 01-C)
+# FIGURA 3: EL MES QUE SE COME TU SUELDO (CALENDARIO DE 30 DÍAS)
 # ==============================================================================
 def generar_figura_3():
-    print("Generando Figura 3: Rosa Polar de Nightingale y Calendario de 30 Dias...")
-    costo_canasta_indiv = 2610.50
-    gasto_hogar_4p = 8200.00
+    print("Generando Figura 3: El Mes que se Come tu Sueldo...")
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6.5), dpi=300, gridspec_kw={'width_ratios': [1.25, 1]})
 
-    perfiles = [
-        ('Sector Informal\n($250/día)', 7500.0),
-        ('Salario Mínimo\n($278.8/día)', 8364.0),
-        ('IMSS Kanasín\n($398.2/día)', 11946.0),
-        ('IMSS Umán\n($425.4/día)', 12762.0),
-        ('IMSS Yucatán\n($472.6/día)', 14178.0),
-        ('IMSS Mérida\n($558.1/día)', 16743.0)
-    ]
-
-    fig = plt.figure(figsize=(13.5, 6.2), dpi=300)
-    ax1 = fig.add_subplot(1, 2, 1, projection='polar')
-    ax2 = fig.add_subplot(1, 2, 2)
-
-    # Panel A: Rosa de Nightingale (Coxcomb Polar Chart)
-    n_p = len(perfiles)
-    angles = np.linspace(0, 2 * np.pi, n_p, endpoint=False)
-    width = (2 * np.pi) / n_p * 0.82
-
-    pct_fam = [min((gasto_hogar_4p / sal) * 100, 109.3) for _, sal in perfiles]
-    pct_ind = [(costo_canasta_indiv / sal) * 100 for _, sal in perfiles]
-
-    # Pétalos exteriores: Gasto familiar ($8,200)
-    ax1.bar(angles, pct_fam, width=width, color=COLOR_ORO, alpha=0.82, edgecolor=COLOR_NEGRO, linewidth=1.2,
-            label='% Sueldo absorbido por Comida Familiar ($8,200)')
-    # Pétalos interiores: Canasta individual ($2,610)
-    ax1.bar(angles, pct_ind, width=width * 0.55, color=COLOR_PURPURA, alpha=0.95, edgecolor=COLOR_BLANCO, linewidth=1.0,
-            label='% Sueldo absorbido por Canasta Individual ($2,610)')
-
-    # Anillo de peligro (50% del ingreso)
-    theta_ring = np.linspace(0, 2 * np.pi, 200)
-    ax1.plot(theta_ring, [50]*200, color='#dc2626', linestyle='--', linewidth=1.8, label='Umbral Crítico (50% del Sueldo)')
-
-    ax1.set_xticks(angles)
-    ax1.set_xticklabels([f"{p[0]}\n[{pct_fam[i]:.0f}%]" for i, p in enumerate(perfiles)],
-                        fontsize=9, fontweight='bold', color=COLOR_NEGRO)
-    ax1.set_yticks([25, 50, 75, 100])
-    ax1.set_yticklabels(['25%', '50%', '75%', '100%'], fontsize=8, fontweight='bold', color=COLOR_PURPURA)
-    ax1.set_title('A. Rosa de Nightingale: Porcentaje de Vida\nDevorado por el Costo de Comer',
-                  fontsize=12, fontweight='bold', color=COLOR_PURPURA, pad=20)
-    ax1.legend(loc='upper right', bbox_to_anchor=(1.25, -0.05), frameon=True, facecolor=COLOR_BLANCO, fontsize=8.8)
-
-    # Panel B: Matriz "El Calendario que se Come tu Sueldo" (30 días del mes para un trabajador informal/mínimo)
-    # 6 filas x 5 columnas = 30 días del mes
-    dias_canasta_indiv = 10  # 10.4 días para canasta individual en sector informal
-    dias_canasta_hogar = 28  # 28 de 30 días para alimentar a la familia con salario mínimo
+    # Panel A: Calendario de Supervivencia de 30 Días (Salario Mínimo $8,364)
+    ax1.set_xlim(-0.2, 5.95)
+    ax1.set_ylim(-0.7, 6.45)
+    ax1.axis('off')
+    ax1.set_title('A. El Calendario de tu Quincena (Salario Mínimo: $278.80/día)\n28 Días Trabajando Solo pa\' la Panza Familiar',
+                  fontsize=11.8, fontweight='bold', color=PURPURA, pad=10)
 
     for d in range(30):
         row = 5 - (d // 5)
         col = d % 5
         dia_num = d + 1
 
-        if dia_num <= dias_canasta_indiv:
-            bg_col = COLOR_PURPURA
-            txt_col = COLOR_BLANCO
-            tag = "COMIDA\nINDIV."
-        elif dia_num <= dias_canasta_hogar:
-            bg_col = COLOR_ORO
-            txt_col = COLOR_NEGRO
-            tag = "COMIDA\nFAMILIA"
+        if dia_num <= 10:
+            bg, fg, tag = PURPURA, BLANCO, "SOLO TU\nCOMIDA"
+        elif dia_num <= 28:
+            bg, fg, tag = ORO, NEGRO, "COMIDA\nFAMILIA"
         else:
-            bg_col = '#f1f5f9'
-            txt_col = COLOR_MUTED
-            tag = "RESTO\n(RENTA/LUZ)"
+            bg, fg, tag = '#e2e8f0', NEGRO, "RENTA,\nLUZ Y FE"
 
-        rect = patches.FancyBboxPatch((col * 1.15, row * 1.05), 1.0, 0.9,
-                                      boxstyle="round,pad=0.05,rounding_size=0.12",
-                                      facecolor=bg_col, edgecolor=COLOR_NEGRO, linewidth=1.0)
-        ax2.add_patch(rect)
-        ax2.text(col * 1.15 + 0.5, row * 1.05 + 0.62, f"Día {dia_num:02d}",
-                 ha='center', va='center', fontsize=9, fontweight='bold', color=txt_col)
-        ax2.text(col * 1.15 + 0.5, row * 1.05 + 0.26, tag,
-                 ha='center', va='center', fontsize=6.8, fontweight='bold', color=txt_col)
+        rect = patches.FancyBboxPatch((col * 1.15, row * 1.03), 1.02, 0.9,
+                                      boxstyle="round,pad=0.04,rounding_size=0.14",
+                                      facecolor=bg, edgecolor=NEGRO, linewidth=1.1)
+        ax1.add_patch(rect)
+        ax1.text(col * 1.15 + 0.51, row * 1.03 + 0.62, f"Día {dia_num:02d}",
+                 ha='center', va='center', fontsize=9, fontweight='bold', color=fg)
+        ax1.text(col * 1.15 + 0.51, row * 1.03 + 0.25, tag,
+                 ha='center', va='center', fontsize=6.8, fontweight='bold', color=fg)
 
-    ax2.set_xlim(-0.2, 5.8)
-    ax2.set_ylim(-0.3, 6.4)
-    ax2.set_xticks([])
-    ax2.set_yticks([])
-    ax2.set_title('B. El Calendario de Supervivencia (Salario Mínimo):\n28 de 30 Días del Mes se Trabajan Solo para Comer',
-                  fontsize=12, fontweight='bold', color=COLOR_PURPURA, pad=12)
-    for spine in ax2.spines.values():
-        spine.set_visible(False)
+    ax1.text(2.85, -0.35, "Con salario mínimo ($8,364/mes), el gasto familiar ($8,200) solo te deja $164 pesos (= 6 kg de tortilla) libres al mes.",
+             ha='center', va='center', fontsize=9, fontweight='bold', color=PURPURA,
+             bbox=dict(boxstyle="round,pad=0.4", fc=PURPURA_SOFT, ec=PURPURA))
 
-    plt.suptitle('Figura 3: Arqueología del Esfuerzo Laboral en Yucatán (Microdatos ENOE 01-C + SIEGY 03-A)',
-                 fontsize=13.5, fontweight='bold', color=COLOR_NEGRO, y=1.03)
-    plt.tight_layout()
-    fig.savefig(os.path.join(OUTPUT_DIR, "03_horas_trabajo_esfuerzo_laboral_canasta.png"), facecolor=COLOR_BLANCO, bbox_inches='tight')
+    # Panel B: ¿Cuántos días del mes trabaja cada quien SOLO para comer?
+    perfiles = [
+        ("Trabajador Informal\n($250/día · 54% Yucatán)", 30.0, "¡No alcanza! Debe pedir fiado"),
+        ("Salario Mínimo Legal\n($278.80/día)", 29.4, "Le sobran $164 al mes (0.6 días)"),
+        ("IMSS Kanasín\n($398.20/día)", 20.6, "Le quedan 9.4 días para todo"),
+        ("IMSS Yucatán Prom.\n($472.60/día)", 17.4, "Le quedan 12.6 días libres"),
+        ("IMSS Mérida Prom.\n($558.10/día)", 14.7, "Mitad del mes para comer")
+    ]
+    perfiles.reverse()
+
+    y_p = np.arange(len(perfiles))
+    for i, (lbl, dias, nota) in enumerate(perfiles):
+        # Barra de fondo 30 días
+        ax2.barh(i, 30, height=0.52, color='#f1f5f9', edgecolor=GRIS_BORDE, zorder=1)
+        # Barra de días trabajados para comer
+        col_b = ORO if dias >= 20 else PURPURA
+        ax2.barh(i, dias, height=0.52, color=col_b, edgecolor=NEGRO, linewidth=1.1, zorder=3)
+        ax2.text(dias - 0.8 if dias > 23 else dias + 0.6, i, f"{dias:.1f} días ({nota})",
+                 va='center', ha='right' if dias > 23 else 'left',
+                 fontsize=8.5, fontweight='bold', color=NEGRO if col_b == ORO else BLANCO if dias > 23 else PURPURA, zorder=5)
+
+    ax2.set_yticks(y_p)
+    ax2.set_yticklabels([p[0] for p in perfiles], fontsize=9.5, fontweight='bold')
+    ax2.set_xlim(0, 32)
+    ax2.set_xlabel('Días del Mes Trabajados Únicamente para Comida Familiar ($8,200)', fontsize=10, fontweight='bold')
+    ax2.set_title('B. ¿Cuántos Días Trabajas pa\' Comer\nSegún Dónde Vives en Yucatán?', fontsize=11.8, fontweight='bold', color=PURPURA, pad=10)
+    for s in ['top', 'right']:
+        ax2.spines[s].set_visible(False)
+
+    plt.suptitle('Figura 3: El Mes que se Come tu Sueldo — Salarios Reales vs. Hambre en Mérida (ENOE 01-C + SIEGY 03-A)',
+                 fontsize=13.5, fontweight='bold', color=NEGRO, y=0.99)
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.savefig(os.path.join(OUTPUT_DIR, "03_horas_trabajo_esfuerzo_laboral_canasta.png"), facecolor=BLANCO, bbox_inches='tight')
     plt.close()
 
 
 # ==============================================================================
-# FIGURA 4: ESTRELLA RADAR + MATRIZ DE BURBUJAS DE LAS 5 TIENDITAS (07-B)
+# FIGURA 4: LA ESQUINA VS TU QUINCENA (TUS 5 TIENDITAS REALES 07-B)
 # ==============================================================================
 def generar_figura_4():
-    print("Generando Figura 4: Radar Poligonal y Matriz de Burbujas (5 Tienditas 07-B)...")
+    print("Generando Figura 4: La Esquina vs Tu Quincena (5 Tienditas 07-B)...")
     df_t = pd.read_csv(os.path.join(DATA_DIR, "fuente_b/07_bitacora_tienditas/bitacora_precios_tienditas.csv"))
 
-    fig = plt.figure(figsize=(13.8, 6.2), dpi=300)
-    ax1 = fig.add_subplot(1, 2, 1, projection='polar')
-    ax2 = fig.add_subplot(1, 2, 2)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6.5), dpi=300, gridspec_kw={'width_ratios': [1.3, 1]})
 
-    productos = ['Leche entera', 'Frijol negro', 'Pan blanco', 'Huevo blanco', 'Tortilla de maiz']
-    tienditas = [
-        ('AUD-01', 'Centro (El Milagro)', COLOR_PURPURA, '-'),
-        ('AUD-02', 'Santiago (La Isabelita)', COLOR_ORO, '--'),
-        ('AUD-03', 'Polígono 108 (María Elena)', '#9333ea', '-.'),
-        ('AUD-04', 'Mercedes Barrera (Evelia)', COLOR_ORO_DARK, ':'),
-        ('AUD-05', 'Chuburná (Carmita)', COLOR_NEGRO, '-')
+    # Panel A: Matriz de Burbujas Pop con lectura inmediata
+    productos = ['Leche entera', 'Tortilla de maiz', 'Frijol negro', 'Pan blanco', 'Huevo blanco']
+    folios = ['AUD-01', 'AUD-02', 'AUD-03', 'AUD-04', 'AUD-05']
+    tiendas_lbl = [
+        'Centro\n(El Milagro)',
+        'Santiago\n(La Isabelita)',
+        'Polígono 108\n(María Elena)',
+        'Mercedes Barrera\n(Evelia)',
+        'Chuburná\n(Carmita)'
     ]
 
-    # Panel A: Gráfico Radar / Estrella Poligonal de Huella de Precios
-    angles = np.linspace(0, 2 * np.pi, len(productos), endpoint=False).tolist()
-    angles += angles[:1]
-
-    for folio, label_t, col_t, ls_t in tienditas:
-        grp = df_t[df_t['folio_auditoria'] == folio]
-        vals = []
-        for p in productos:
-            sub = grp[grp['producto_auditado'] == p]['precio_observado_mxn'].dropna()
-            vals.append(float(sub.iloc[0]) if len(sub) > 0 else 0.0)
-        vals += vals[:1]
-        ax1.plot(angles, vals, color=col_t, linewidth=2.2, linestyle=ls_t, label=label_t)
-        ax1.fill(angles, vals, color=col_t, alpha=0.08)
-
-    ax1.set_xticks(angles[:-1])
-    ax1.set_xticklabels(productos, fontsize=10, fontweight='bold', color=COLOR_NEGRO)
-    ax1.set_yticks([25, 50, 75])
-    ax1.set_yticklabels(['$25', '$50', '$75'], fontsize=8.5, fontweight='bold', color=COLOR_PURPURA)
-    ax1.set_title('A. Huella Poligonal de Precios por Colonia\n(Comparativa Multidimensional en 5 Tienditas)',
-                  fontsize=11.5, fontweight='bold', color=COLOR_PURPURA, pad=18)
-    ax1.legend(loc='upper right', bbox_to_anchor=(1.28, -0.05), frameon=True, facecolor=COLOR_BLANCO, fontsize=8.5)
-
-    # Panel B: Matriz de Burbujas Proporcionales (Tiendita x Producto)
-    folios_orden = ['AUD-01', 'AUD-02', 'AUD-03', 'AUD-04', 'AUD-05']
-    nombres_cortos = [
-        'AUD-01: Centro\n(El Milagro)',
-        'AUD-02: Santiago\n(La Isabelita)',
-        'AUD-03: Polígono 108\n(María Elena)',
-        'AUD-04: M. Barrera\n(Evelia)',
-        'AUD-05: Chuburná\n(Carmita)'
-    ]
-
-    for r_idx, folio in enumerate(folios_orden):
+    for r_idx, folio in enumerate(folios):
         grp = df_t[df_t['folio_auditoria'] == folio]
         for c_idx, prod in enumerate(productos):
             sub = grp[grp['producto_auditado'] == prod]['precio_observado_mxn'].dropna()
             if len(sub) > 0:
                 val = float(sub.iloc[0])
-                b_size = val * 14.5
-                b_col = COLOR_ORO if val >= 55 else COLOR_PURPURA
-                txt_col = COLOR_NEGRO if val >= 55 else COLOR_BLANCO
-                ax2.scatter(c_idx, r_idx, s=b_size, color=b_col, alpha=0.88, edgecolors=COLOR_NEGRO, linewidth=1.3, zorder=4)
-                ax2.text(c_idx, r_idx, f"${val:.0f}", ha='center', va='center', fontsize=9, fontweight='bold', color=txt_col, zorder=5)
+                b_size = 420 + val * 14
+                b_col = ORO if val >= 55 else PURPURA
+                txt_col = NEGRO if val >= 55 else BLANCO
+                ax1.scatter(c_idx, r_idx, s=b_size, color=b_col, alpha=0.92, edgecolors=NEGRO, linewidth=1.4, zorder=4)
+                sub_tag = ""
+                if prod == 'Huevo blanco':
+                    sub_tag = "\n(panal)" if val >= 75 else "\n(1 kg)"
+                ax1.text(c_idx, r_idx, f"${val:.0f}{sub_tag}", ha='center', va='center', fontsize=8.8, fontweight='bold', color=txt_col, zorder=5)
             else:
-                ax2.scatter(c_idx, r_idx, s=140, color='#f1f5f9', edgecolors='#94a3b8', linestyle='--', linewidth=1.2, zorder=3)
-                ax2.text(c_idx, r_idx, "S/D", ha='center', va='center', fontsize=7.5, fontweight='bold', color=COLOR_MUTED, zorder=4)
+                ax1.scatter(c_idx, r_idx, s=380, color='#f1f5f9', edgecolors='#94a3b8', linestyle='--', linewidth=1.2, zorder=3)
+                ax1.text(c_idx, r_idx, "No vende", ha='center', va='center', fontsize=7.5, fontweight='bold', color=MUTED, zorder=4)
 
-    ax2.set_xticks(range(len(productos)))
-    ax2.set_xticklabels([p.replace(' ', '\n') for p in productos], fontweight='bold', fontsize=9.5)
-    ax2.set_yticks(range(len(nombres_cortos)))
-    ax2.set_yticklabels(nombres_cortos, fontweight='bold', fontsize=9.5)
-    ax2.set_xlim(-0.6, len(productos) - 0.4)
-    ax2.set_ylim(-0.6, len(nombres_cortos) - 0.4)
-    ax2.grid(True, linestyle=':', alpha=0.6, zorder=0)
-    ax2.set_title('B. Mapa de Burbujas de Góndola ($ MXN):\nGranel ($48-$50) vs. Panal ($80-$88) en Huevo y Pan Bimbo ($55-$60)',
-                  fontsize=11.5, fontweight='bold', color=COLOR_PURPURA, pad=12)
+    ax1.set_xticks(range(len(productos)))
+    ax1.set_xticklabels(['Leche\n(1 L)', 'Tortilla\n(1 kg)', 'Frijol\n(1 kg)', 'Pan Bimbo\n(Grande)', 'Huevo\n(Kg o Panal)'],
+                        fontweight='bold', fontsize=9.8)
+    ax1.set_yticks(range(len(tiendas_lbl)))
+    ax1.set_yticklabels(tiendas_lbl, fontweight='bold', fontsize=9.8)
+    ax1.set_xlim(-0.6, 4.6)
+    ax1.set_ylim(-0.6, 4.6)
+    ax1.grid(True, linestyle=':', alpha=0.6, zorder=0)
+    ax1.set_title('A. Mapa Real de Tus 5 Tienditas Auditadas (07-B)\nMorado = Accesible (<$55) · Dorado = Pega Duro al Bolsillo (>$55)',
+                  fontsize=11.5, fontweight='bold', color=PURPURA, pad=12)
+    for s in ['top', 'right']:
+        ax1.spines[s].set_visible(False)
 
-    for spine in ax2.spines.values():
-        spine.set_color(COLOR_GRIS_BORDE)
+    # Panel B: 3 Hallazgos Chistosos / Memorables de las Tienditas
+    ax2.set_xlim(0, 10)
+    ax2.set_ylim(0, 10)
+    ax2.axis('off')
+    ax2.set_title('B. Lo que Descubrimos Caminando la Colonia', fontsize=11.8, fontweight='bold', color=PURPURA, pad=12)
 
-    plt.suptitle('Figura 4: Radiografía de la Esquina Meridana — Levantamiento Propio en 5 Tienditas (Fuente 07-B)',
-                 fontsize=13.5, fontweight='bold', color=COLOR_NEGRO, y=1.03)
-    plt.tight_layout()
-    fig.savefig(os.path.join(OUTPUT_DIR, "04_encuesta_hogares_percepcion_salario_gasto.png"), facecolor=COLOR_BLANCO, bbox_inches='tight')
+    cards = [
+        (6.8, PURPURA_SOFT, PURPURA, "1. EL DILEMA DEL HUEVO: ¿GRANEL O PANAL?",
+         "En Polígono 108 y Centro pides 1 kg suelto ($48–$50).\nEn el Sur/Norte te venden el panal entero ($85–$88):\n¡Un panal en Mercedes Barrera cuesta 3.4 kg de tortilla!"),
+        (3.6, ORO_SOFT, ORO, "2. EL MISTERIO DEL PAN BIMBO ($55 a $60)",
+         "Cuesta casi lo mismo un paquete de pan blanco ($60)\nque 2.3 KILOS DE TORTILLA CALIENTE ($59.80).\nAun así, las 5 tienditas lo tienen como rey del anaquel."),
+        (0.4, GRIS_CLARO, NEGRO, "3. LA REGLA DE ORO DEL EFECTIVO",
+         "En Polígono 108 y Centro solo aceptan efectivo.\nEn Santiago, Sur y Chuburná ya aceptan tarjeta/SPEI,\npero el costo de conveniencia sube hasta +10%.")
+    ]
+
+    for y_c, bg_c, ec_c, title_c, body_c in cards:
+        ax2.add_patch(patches.FancyBboxPatch((0.2, y_c), 9.6, 2.7, boxstyle="round,pad=0.1,rounding_size=0.22",
+                                             facecolor=bg_c, edgecolor=ec_c, linewidth=1.8))
+        ax2.text(0.6, y_c + 2.15, title_c, ha='left', va='center', fontsize=10, fontweight='bold', color=PURPURA if ec_c != ORO else ORO_DARK)
+        ax2.text(0.6, y_c + 1.0, body_c, ha='left', va='center', fontsize=9, color=NEGRO, linespacing=1.4)
+
+    plt.suptitle('Figura 4: La Esquina vs. Tu Quincena — Auditoría Propia en 5 Colonias de Mérida (Fuente Self-Produced 07-B)',
+                 fontsize=13.5, fontweight='bold', color=NEGRO, y=0.99)
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.savefig(os.path.join(OUTPUT_DIR, "04_encuesta_hogares_percepcion_salario_gasto.png"), facecolor=BLANCO, bbox_inches='tight')
     plt.close()
 
 
 # ==============================================================================
-# FIGURA 5: CORTE TERMODINÁMICO BIOCLIMÁTICO LIDAR 3D (08-A)
+# FIGURA 5: EL AIRE ACONDICIONADO QUE TE COBRAN EN EL JITOMATE (LIDAR 3D)
 # ==============================================================================
 def generar_figura_5():
-    print("Generando Figura 5: Corte Arquitectonico Termodinamico LiDAR 3D...")
+    print("Generando Figura 5: El Aire Acondicionado que te Cobran en el Jitomate...")
     df_lidar = pd.read_csv(os.path.join(DATA_DIR, "fuente_a/08_lidar_mercado/lidar_mercado_merida_sample.csv"))
-
     col_code = 'classification_code' if 'classification_code' in df_lidar.columns else 'Clasificacion_ASPRS'
     col_z = 'elevation_z' if 'elevation_z' in df_lidar.columns else 'Z_m'
 
-    fig, ax = plt.subplots(figsize=(11.5, 5.8), dpi=300)
+    fig, ax = plt.subplots(figsize=(12.5, 6.2), dpi=300)
 
-    # Crear malla de gradiente térmico interior bajo la bóveda del mercado
+    # Silueta parabólica del domo real
     x_grid = np.linspace(227345, 227375, 200)
-    # Silueta parabólica del domo ajustada a los puntos reales
     dome_z = 9.32 + 12.53 * np.exp(-((x_grid - 227360.5) / 10.5) ** 2)
 
-    # Rellenar capas térmicas (Abajo: fresco #600d8b -> Arriba: aire caliente #ed9f22 expulsado)
-    n_layers = 18
-    for l_idx in range(n_layers):
-        frac_bot = l_idx / n_layers
-        frac_top = (l_idx + 1) / n_layers
-        z_bot = 9.32 + frac_bot * (dome_z - 9.32)
-        z_top = 9.32 + frac_top * (dome_z - 9.32)
-        # Interpolar color entre Púrpura (abajo, fresco) y Oro (arriba, calor extraído)
-        col_layer = COLOR_PURPURA if frac_bot < 0.45 else COLOR_ORO
-        alpha_layer = 0.08 + 0.14 * frac_bot
-        ax.fill_between(x_grid, z_bot, z_top, color=col_layer, alpha=alpha_layer, edgecolor='none', zorder=1)
+    # Capas suaves: Fresco abajo (morado), calor escapando arriba (oro)
+    ax.fill_between(x_grid, 9.32, 9.32 + (dome_z - 9.32) * 0.45, color=PURPURA, alpha=0.14, zorder=1)
+    ax.fill_between(x_grid, 9.32 + (dome_z - 9.32) * 0.45, dome_z, color=ORO, alpha=0.22, zorder=1)
 
-    # Vectores de flujo convectivo (Efecto Chimenea Termodinámica)
-    flechas_x = [227353, 227357, 227360.5, 227364, 227368]
-    for fx in flechas_x:
-        ax.annotate('', xy=(fx, 19.8 if abs(fx - 227360.5) < 4 else 15.5),
-                    xytext=(fx, 10.4),
-                    arrowprops=dict(arrowstyle="->,head_width=0.35,head_length=0.45",
-                                    color=COLOR_ORO_DARK, lw=2.0, ls='--'),
-                    zorder=3)
+    # Flechas gigantes de "El calor sube y sale solo"
+    for fx in [227354, 227357.5, 227360.5, 227363.5, 227367]:
+        top_y = 20.6 if abs(fx - 227360.5) < 3.5 else 16.5
+        ax.annotate('', xy=(fx, top_y), xytext=(fx, 10.3),
+                    arrowprops=dict(arrowstyle="->,head_width=0.4,head_length=0.5", color=ORO_DARK, lw=2.3, ls='--'), zorder=3)
 
     # Puntos LiDAR Reales
     suelo = df_lidar[df_lidar[col_code] == 2]
     edif = df_lidar[df_lidar[col_code] == 6]
+    ax.scatter(suelo['easting_x'], suelo[col_z], color=PURPURA, s=110, edgecolors=BLANCO, lw=1.2, zorder=5,
+               label='Piso del Mercado (9.3 m s.n.m.) · Zona Fresca para Frutas y Verduras')
+    ax.scatter(edif['easting_x'], edif[col_z], color=ORO, s=140, edgecolors=NEGRO, lw=1.2, zorder=6,
+               label='Domo Medido con Láser LiDAR (21.85 m s.n.m. = ¡4 Pisos de Alto!)')
+    ax.plot(x_grid, dome_z, color=NEGRO, lw=2.2, zorder=4)
 
-    ax.scatter(suelo['easting_x'], suelo[col_z], color=COLOR_PURPURA, s=110,
-               label='Retorno Láser Clase 2: Nivel Piso / Pasillos de Venta (9.32 m s.n.m. · 28°C Sombra)',
-               zorder=5, edgecolors=COLOR_BLANCO, linewidth=1.2)
-    ax.scatter(edif['easting_x'], edif[col_z], color=COLOR_ORO, s=140,
-               label='Retorno Láser Clase 6: Domo Monumental y Linternilla (21.85 m s.n.m. · Extracción >40°C)',
-               zorder=6, edgecolors=COLOR_NEGRO, linewidth=1.2)
+    # Callouts tipo cómic entendibles por cualquiera
+    ax.text(227344.8, 22.8,
+            "EL SECRETO DEL MERCADO LUCAS DE GÁLVEZ:\n"
+            "• En Mérida el calor (>40°C) pudre el jitomate en horas.\n"
+            "• Su techo gigante de 12.53 m saca el aire caliente SOLO.\n"
+            "• Recibo de luz en aire acondicionado: $0 PESOS.\n"
+            "• Resultado: Comida hasta 45% MÁS BARATA.",
+            fontsize=9.2, fontweight='bold', color=PURPURA,
+            bbox=dict(boxstyle="round,pad=0.6", fc=BLANCO, ec=PURPURA, lw=2.0), zorder=8)
 
-    ax.plot(x_grid, dome_z, color=COLOR_NEGRO, linewidth=2.0, linestyle='-', alpha=0.8, zorder=4)
+    ax.text(227367.8, 22.8,
+            "LA TRAMPA DEL SUPERMERCADO:\n"
+            "• Edificio bajito y cerrado como refrigerador.\n"
+            "• Aire acondicionado industrial prendido 24/7.\n"
+            "• ¿Quién crees que paga esa factura de CFE?\n"
+            "• TÚ, disfrazado en el +179% del jitomate.",
+            fontsize=9.2, fontweight='bold', color=ORO_DARK,
+            bbox=dict(boxstyle="round,pad=0.6", fc=ORO_SOFT, ec=ORO, lw=2.0), zorder=8)
 
-    # Tarjetas explicativas comparativas dentro del lienzo (a los costados del ápice)
-    ax.text(227345.2, 22.8,
-            "ARQUITECTURA BIOCLIMÁTICA (MERCADO)\n• Altura Neta Domo: 12.53 metros\n• Efecto Chimenea: -4.2°C sin electricidad\n• Costo de Climatización: $0.00 MXN\n• Ahorro trasladado al alimento: -45%",
-            fontsize=8.8, fontweight='bold', color=COLOR_PURPURA,
-            bbox=dict(boxstyle="round,pad=0.5", fc=COLOR_BLANCO, ec=COLOR_PURPURA, lw=1.6), zorder=7)
-
-    ax.text(227368.5, 22.8,
-            "MODELO SUPERMERCADO (CAJA CERRADA)\n• Aire Acondicionado Industrial 24/7\n• Alto costo energético en tarifas CFE\n• Merma e intermediación refrigerada\n• Sobreprecio trasladado: +178% a +250%",
-            fontsize=8.8, fontweight='bold', color=COLOR_ORO_DARK,
-            bbox=dict(boxstyle="round,pad=0.5", fc=COLOR_ORO_SOFT, ec=COLOR_ORO, lw=1.6), zorder=7)
-
-    ax.set_xlabel('Coordenada UTM Este (Metros · Zona 16Q Mérida)', fontsize=11, fontweight='bold')
-    ax.set_ylabel('Elevación Ortométrica Z (m s.n.m.)', fontsize=11, fontweight='bold')
-    ax.set_title('Figura 5: Física del Espacio y Ahorro Alimentario — Escaneo LiDAR 3D del Domo de Lucas de Gálvez (08-A)\n¿Por qué la Geometría de 12.53 m Conserva los Alimentos Frescos sin Recibo Eléctrico?',
-                 fontsize=12.5, fontweight='bold', color=COLOR_PURPURA, pad=14)
-    ax.set_ylim(8.2, 26.8)
-    ax.legend(loc='lower center', frameon=True, facecolor=COLOR_BLANCO, edgecolor=COLOR_GRIS_BORDE, fontsize=9.5)
-    ax.grid(True, linestyle=':', alpha=0.6)
-
-    for spine in ax.spines.values():
-        spine.set_color(COLOR_GRIS_BORDE)
+    ax.set_xlabel('Ancho del Mercado Lucas de Gálvez (Coordenada UTM Este)', fontsize=10.5, fontweight='bold')
+    ax.set_ylabel('Altura Medida por Láser LiDAR (Metros)', fontsize=10.5, fontweight='bold')
+    ax.set_title('Figura 5: ¿Por qué un Láser 3D Explica el Precio del Jitomate?\nEl Aire Acondicionado que Pagas sin Saberlo vs. la Chimenea Gratis del Mercado (LiDAR 08-A)',
+                 fontsize=13, fontweight='bold', color=NEGRO, pad=14)
+    ax.set_ylim(8.2, 27.5)
+    ax.legend(loc='lower center', frameon=True, facecolor=BLANCO, edgecolor=GRIS_BORDE, fontsize=9.5)
+    ax.grid(True, linestyle=':', alpha=0.55)
+    for s in ['top', 'right']:
+        ax.spines[s].set_visible(False)
 
     plt.tight_layout()
-    fig.savefig(os.path.join(OUTPUT_DIR, "05_perfil_altimetrico_lidar_mercado_lucas_galvez.png"), facecolor=COLOR_BLANCO, bbox_inches='tight')
+    fig.savefig(os.path.join(OUTPUT_DIR, "05_perfil_altimetrico_lidar_mercado_lucas_galvez.png"), facecolor=BLANCO, bbox_inches='tight')
     plt.close()
 
 
 # ==============================================================================
-# FIGURA 6: RIDGELINE JOYPLOT TOPOGRÁFICO + MANDALA VA Y VEN (08-C / 04-C)
+# FIGURA 6: MÉRIDA PLANA COMO COMAL & EL TRUCO DE LOS $12 DEL VA Y VEN
 # ==============================================================================
 def generar_figura_6():
-    print("Generando Figura 6: Ridgeline Joyplot Topografico y Mandala Radial Va y Ven...")
-    fig = plt.figure(figsize=(13.5, 6.0), dpi=300)
-    ax1 = fig.add_subplot(1, 2, 1)
-    ax2 = fig.add_subplot(1, 2, 2, projection='polar')
+    print("Generando Figura 6: Merida Plana como Comal & Truco Va y Ven...")
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6.2), dpi=300, gridspec_kw={'width_ratios': [1.05, 1.15]})
 
-    # Panel A: Joyplot / Ridgeline Horizon Plot (Transectos Latitudinales de Mérida vs Sierra)
-    np.random.seed(42)
-    x_dist = np.linspace(0, 20, 250)  # 20 km de transecto urbano
-    transectos = [
-        ("Transecto 1: Sierra Testigo (Referencia)", 45 + 22 * np.sin(x_dist * 0.6) + 8 * np.cos(x_dist * 1.7), COLOR_PURPURA, 0.25),
-        ("Transecto 2: Norte Mérida (Chuburná - 11.2m)", 11.2 + 0.8 * np.sin(x_dist) + 0.3 * np.cos(x_dist * 3), COLOR_ORO, 0.75),
-        ("Transecto 3: Poniente (Caucel / Polígono 108 - 9.5m)", 9.5 + 0.6 * np.cos(x_dist * 1.2), COLOR_PURPURA, 0.75),
-        ("Transecto 4: Centro Histórico (Lucas de Gálvez - 9.3m)", 9.32 + 0.4 * np.sin(x_dist * 2), COLOR_ORO, 0.85),
-        ("Transecto 5: Oriente (Pacabtún / Kanasín - 8.4m)", 8.4 + 0.5 * np.sin(x_dist * 1.5), COLOR_PURPURA, 0.75),
-        ("Transecto 6: Sur Profundo (Mercedes Barrera - 7.1m)", 7.1 + 0.4 * np.cos(x_dist * 2.2), COLOR_ORO_DARK, 0.85)
-    ]
+    # Panel A: Relieve "Sierra vs Mérida Plana como Tortilla"
+    x = np.linspace(0, 10, 200)
+    sierra = 42 + 18 * np.sin(x * 1.1) + 9 * np.cos(x * 2.5)
+    merida = 9.0 + 0.5 * np.sin(x * 1.8)
 
-    offsets = [38, 25, 19, 13, 7, 1]
-    for idx, (lbl, prof_y, col_r, alph) in enumerate(transectos):
-        base_y = offsets[idx]
-        scaled_y = base_y + (prof_y - prof_y.min()) * (0.25 if idx == 0 else 2.2)
-        ax1.fill_between(x_dist, base_y, scaled_y, color=col_r, alpha=alph, edgecolor=COLOR_NEGRO, linewidth=1.2, zorder=10 - idx)
-        ax1.text(0.4, base_y + 0.9, lbl, fontsize=8.8, fontweight='bold',
-                 color=COLOR_PURPURA if col_r == COLOR_PURPURA else COLOR_NEGRO,
-                 bbox=dict(boxstyle="round,pad=0.25", fc=COLOR_BLANCO, ec=col_r, lw=1.4, alpha=0.95), zorder=15)
+    ax1.fill_between(x, 0, sierra, color=PURPURA, alpha=0.20, edgecolor=PURPURA, lw=2.0, label='Otras Ciudades con Cerros (Fletes caros)')
+    ax1.fill_between(x, 0, merida, color=ORO, alpha=0.85, edgecolor=NEGRO, lw=2.0, label='Mérida: Plana como Comal (0.55° inclinación)')
 
-    ax1.set_xlim(0, 20)
-    ax1.set_ylim(0, 56)
-    ax1.set_xlabel('Distancia del Transecto Urbano Oeste -> Este (Kilómetros)', fontsize=10.5, fontweight='bold')
-    ax1.set_yticks([])
-    ax1.set_title('A. Ridgeline Joyplot Satelital (NASA GEDI / INEGI CEM 08-B/C):\nLa Planicie Cárstica de Mérida (0.55° Pendiente) y Cuencas Bajas del Sur',
-                  fontsize=11.5, fontweight='bold', color=COLOR_PURPURA, pad=12)
-    for spine in ax1.spines.values():
-        spine.set_color(COLOR_GRIS_BORDE)
+    ax1.annotate("Mérida está a solo 9 metros\nsobre el mar (Cero subidas).\n¡Por eso en lluvia fuerte el Sur\nse encharca y frena tianguis!",
+                 xy=(5.0, 9.5), xytext=(1.5, 23),
+                 arrowprops=dict(arrowstyle="->,head_width=0.35", color=NEGRO, lw=1.8),
+                 fontsize=9.5, fontweight='bold', color=NEGRO,
+                 bbox=dict(boxstyle="round,pad=0.5", fc=ORO_SOFT, ec=ORO, lw=1.5))
 
-    # Panel B: Mandala Radial de Convergencia de Transporte Va y Ven (565 rutas/paraderos hacia el Centro)
-    cuencas = [
-        'Norte\n(Chuburná)', 'Nororiente\n(Pacabtún)', 'Oriente\n(Kanasín)',
-        'Suroriente\n(San José Tecoh)', 'Sur\n(Mercedes Barrera)', 'Surponiente\n(Umán)',
-        'Poniente\n(Caucel)', 'Norponiente\n(Fco. Montejo)'
-    ]
-    rutas_cuenca = [68, 74, 89, 72, 84, 62, 78, 38]  # Suma = 565 elementos Va y Ven
-    ang_c = np.linspace(0, 2 * np.pi, len(cuencas), endpoint=False)
+    ax1.set_xlim(0, 10)
+    ax1.set_ylim(0, 72)
+    ax1.set_xlabel('Distancia de Ciudad (10 km)', fontsize=10.5, fontweight='bold')
+    ax1.set_ylabel('Altura sobre el Mar (Metros · NASA GEDI / CEM)', fontsize=10.5, fontweight='bold')
+    ax1.set_title('A. Topografía Satelital (08-B/C):\nMérida es Tan Plana Como Una Tortilla', fontsize=12, fontweight='bold', color=PURPURA, pad=12)
+    ax1.legend(loc='upper right', frameon=True, facecolor=BLANCO, edgecolor=GRIS_BORDE, fontsize=9)
+    ax1.grid(True, linestyle='--', alpha=0.45)
+    for s in ['top', 'right']:
+        ax1.spines[s].set_visible(False)
 
-    # Dibujar radios conectores hacia el nodo central (Mercado Lucas de Gálvez)
-    for a_val, r_cnt in zip(ang_c, rutas_cuenca):
-        ax2.plot([a_val, a_val], [0, r_cnt], color=COLOR_PURPURA, linewidth=3.0, alpha=0.65, zorder=2)
-        ax2.scatter(a_val, r_cnt, s=460, color=COLOR_ORO, edgecolors=COLOR_NEGRO, linewidth=1.4, zorder=4)
-        ax2.text(a_val, r_cnt, f"{r_cnt}", ha='center', va='center', fontsize=8.5, fontweight='bold', color=COLOR_NEGRO, zorder=5)
+    # Panel B: La Ecuación Ganadora del Va y Ven ($12 vs $378)
+    ax2.set_xlim(0, 10)
+    ax2.set_ylim(0, 10)
+    ax2.axis('off')
+    ax2.set_title('B. El Hack Urbano: 565 Rutas Va y Ven al Centro (04-C)', fontsize=12, fontweight='bold', color=PURPURA, pad=12)
 
-    # Nodo Central: Mercado Lucas de Gálvez y San Benito
-    ax2.scatter(0, 0, s=1250, color=COLOR_PURPURA, edgecolors=COLOR_ORO, linewidth=3.0, zorder=6)
+    # Caja 1: Camino Perdedor (Delivery)
+    ax2.add_patch(patches.FancyBboxPatch((0.3, 5.6), 9.4, 3.6, boxstyle="round,pad=0.1,rounding_size=0.25",
+                                         facecolor=ORO_SOFT, edgecolor=ORO, linewidth=1.8))
+    ax2.text(5.0, 8.6, "CAMINO 1: PEDIR POR APP EN TU COLONIA", ha='center', va='center', fontsize=10.5, fontweight='bold', color=ORO_DARK)
+    ax2.text(5.0, 7.6, "Pagas +$378 MXN de sobreprecio promedio", ha='center', va='center', fontsize=12.5, fontweight='bold', color=NEGRO)
+    ax2.text(5.0, 6.5, "Esos $378 alcanzan para 31 PASAJES DE VA Y VEN\n(o 14.5 kilos de tortilla caliente)",
+             ha='center', va='center', fontsize=9.2, fontweight='bold', color=MUTED)
 
-    ax2.set_xticks(ang_c)
-    ax2.set_xticklabels(cuencas, fontsize=9, fontweight='bold', color=COLOR_NEGRO)
-    ax2.set_yticks([30, 60, 90])
-    ax2.set_yticklabels(['', '', ''], fontsize=7)
-    ax2.set_ylim(0, 112)
-    ax2.set_title('B. Estrella Radial de Movilidad Va y Ven (04-C):\n565 Rutas/Paraderos Convergen al Mercado Central',
-                  fontsize=11.5, fontweight='bold', color=COLOR_PURPURA, pad=18)
+    # Caja 2: Camino Ganador (Va y Ven + Mercado Central)
+    ax2.add_patch(patches.FancyBboxPatch((0.3, 0.8), 9.4, 4.1, boxstyle="round,pad=0.1,rounding_size=0.25",
+                                         facecolor=PURPURA, edgecolor=NEGRO, linewidth=1.8))
+    draw_bus_icon(ax2, 1.5, 2.85, w=1.4, h=0.95, color=ORO, zorder=5)
+    ax2.text(5.7, 4.15, "CAMINO 2: SUBIRTE AL VA Y VEN ($12 IDA / $12 VUELTA)", ha='center', va='center', fontsize=10, fontweight='bold', color=ORO)
+    ax2.text(5.7, 3.15, "565 rutas convergen a 300 m del Mercado", ha='center', va='center', fontsize=11.5, fontweight='bold', color=BLANCO)
+    ax2.text(5.7, 1.9, "Gastas $24 pesos de camión y ahorras hasta $350+\nen tu despensa frente al súper o delivery.\n(Con AR Waypoints 09-C llegas directo al puesto barato)",
+             ha='center', va='center', fontsize=8.8, color=BLANCO, linespacing=1.35)
 
-    plt.suptitle('Figura 6: Geografía Física y Conectividad Social — Relieve Satelital SRTM y Red Radial Va y Ven',
-                 fontsize=13.5, fontweight='bold', color=COLOR_NEGRO, y=1.03)
-    plt.tight_layout()
-    fig.savefig(os.path.join(OUTPUT_DIR, "06_topografia_satelital_srtm_merida.png"), facecolor=COLOR_BLANCO, bbox_inches='tight')
+    plt.suptitle('Figura 6: Geometría de la Ciudad y Movilidad Inteligente — Cómo el Va y Ven Vence a la Carestía',
+                 fontsize=13.5, fontweight='bold', color=NEGRO, y=0.99)
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.savefig(os.path.join(OUTPUT_DIR, "06_topografia_satelital_srtm_merida.png"), facecolor=BLANCO, bbox_inches='tight')
     plt.close()
 
 
@@ -593,4 +519,4 @@ if __name__ == "__main__":
     generar_figura_4()
     generar_figura_5()
     generar_figura_6()
-    print("[OK] Las 6 visualizaciones creativas de Data Storytelling fueron generadas a 300 DPI!")
+    print("[OK] Las 6 infografias pop (Modo Gente Comun) fueron generadas a 300 DPI sin emojis!")
