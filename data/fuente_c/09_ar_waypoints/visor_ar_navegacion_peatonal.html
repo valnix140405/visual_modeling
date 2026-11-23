@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Waze del Ahorro: Esquiva Revendedores en el Mercado | UPY</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visor AR — El Waze del Ahorro en el Mercado (09-C)</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     :root {
@@ -20,190 +17,331 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg);
-      color: var(--text);
-      font-family: 'Outfit', sans-serif;
-      width: 100vw;
-      height: 100vh;
+      color: var(--white);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       overflow: hidden;
-      display: flex;
+      height: 100vh;
+      width: 100vw;
     }
-    #viewport { flex: 1; height: 100%; position: relative; }
-    .ar-camera-overlay {
-      position: absolute; inset: 0; pointer-events: none;
-      display: flex; flex-direction: column; justify-content: space-between; padding: 24px 28px;
+    #canvas-container { position: fixed; inset: 0; z-index: 1; }
+    .hud-top-left {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 10;
+      background: var(--white);
+      color: var(--text);
+      border-left: 6px solid var(--purple);
+      border-radius: 12px;
+      padding: 16px 20px;
+      max-width: 400px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
     }
-    .hud-top-row {
-      display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap;
+    .badge {
+      display: inline-block;
+      background: var(--purple);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
     }
-    .hud-top {
-      background: var(--white); border: 2px solid var(--purple); border-left: 6px solid var(--gold);
-      border-radius: 16px; padding: 16px 22px; max-width: 560px; pointer-events: auto;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    h1 { font-size: 18px; line-height: 1.25; margin-bottom: 6px; }
+    .subtitle { font-size: 13px; line-height: 1.45; color: var(--muted); margin-bottom: 12px; }
+    .wp-card {
+      background: #f5f3f7;
+      border-radius: 10px;
+      padding: 12px;
+      border-bottom: 3px solid var(--gold);
+      margin-bottom: 12px;
     }
+    .wp-step {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--purple);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .wp-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .wp-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+    .nav-btns { display: flex; gap: 8px; }
+    .btn-nav {
+      flex: 1;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-prev { background: #ece8f0; color: var(--purple); }
+    .btn-next { background: var(--gold); color: var(--text); }
+    .hud-top-right { position: fixed; top: 16px; right: 16px; z-index: 10; }
     .btn-back {
-      background: var(--white); border: 2px solid var(--purple); color: var(--purple);
-      padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 13px;
-      text-decoration: none; pointer-events: auto; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      display: inline-block;
+      background: var(--white);
+      color: var(--purple);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 2px solid var(--purple);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
     }
-    .btn-back:hover { background: var(--purple); color: #ffffff; }
+    .btn-back:hover { background: var(--purple); color: var(--white); }
     .hud-bottom {
-      display: flex; justify-content: space-between; align-items: flex-end; gap: 14px; pointer-events: auto; flex-wrap: wrap;
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      white-space: nowrap;
     }
-    .nav-card {
-      background: var(--white); border: 2px solid var(--purple); border-radius: 16px;
-      padding: 16px 22px; max-width: 520px; box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-    }
-    .btn-step {
-      background: var(--gold); color: #0d0d0d; border: 2px solid #0d0d0d;
-      padding: 14px 26px; border-radius: 12px; font-weight: 800; font-size: 15px;
-      cursor: pointer; font-family: inherit; box-shadow: 0 6px 20px rgba(237, 159, 34, 0.45);
-      transition: all 0.2s;
-    }
-    .btn-step:hover { filter: brightness(1.08); transform: translateY(-2px); }
-    .crosshair {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 40px; height: 40px; border: 2px dashed rgba(237, 159, 34, 0.7); border-radius: 50%; pointer-events: none;
+    @media (max-width: 640px) {
+      .hud-top-left { max-width: calc(100vw - 32px); top: 62px; }
+      .hud-bottom { display: none; }
     }
   </style>
 </head>
 <body>
+  <div id="canvas-container"></div>
 
-  <div id="viewport">
-    <div class="crosshair"></div>
+  <div class="hud-top-right">
+    <a href="../../../index.html" class="btn-back">Volver a la Presentación</a>
+  </div>
 
-    <div class="ar-camera-overlay">
-      <div class="hud-top-row">
-        <div class="hud-top">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <span style="font-size: 11.5px; font-weight: 800; color: var(--purple); letter-spacing: 0.4px;">WAZE DEL AHORRO · LUCAS DE GÁLVEZ</span>
-            <span id="wpIndex" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #b45309;">Paso 1 de 6</span>
-          </div>
-          <h2 id="wpTitle" style="font-size: 19px; font-weight: 800; color: #0d0d0d;">Bajas del Va y Ven (Calle 56 x 65)</h2>
-          <p id="wpDesc" style="font-size: 13.5px; color: var(--muted); margin-top: 4px;">Comienzas en la banqueta frente a la parada. Sigue la flecha dorada para entrar al mercado sin perderte.</p>
-        </div>
-
-        <a href="../../../index.html" class="btn-back">Volver a la Presentación</a>
-      </div>
-
-      <div class="hud-bottom">
-        <div class="nav-card">
-          <div style="font-size: 11px; text-transform: uppercase; color: var(--purple); font-weight: 800;">Consejo de Ahorro en este Paso:</div>
-          <div id="wpAhorro" style="font-size: 14px; font-weight: 700; color: #0d0d0d; margin-top: 4px;">
-            Caminas solo 115 metros (90 segundos) y te ahorras hasta 45% frente al súper.
-          </div>
-        </div>
-        <button class="btn-step" onclick="nextWaypoint()">Siguiente Paso de la Ruta</button>
-      </div>
+  <div class="hud-top-left">
+    <span class="badge">Ruta Guiada AR 09-C · Mercado Lucas de Gálvez</span>
+    <h1>El Waze del Ahorro en el Mercado</h1>
+    <p class="subtitle">
+      Sigue las flechas doradas por el pasillo para llegar directo a los puestos con el mejor precio del día, sin dar vueltas.
+    </p>
+    <div class="wp-card">
+      <div class="wp-step" id="wp-step">Parada 1 de 6 · Entrada Principal</div>
+      <div class="wp-title" id="wp-title">Acceso Calle 65 (Inicio)</div>
+      <div class="wp-desc" id="wp-desc">Entras al pasillo central fresco bajo el domo de 12.53 m. Las flechas doradas marcan la ruta de ahorro.</div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-nav btn-prev" onclick="prevWaypoint()">Anterior</button>
+      <button class="btn-nav btn-next" onclick="nextWaypoint()">Siguiente Puesto</button>
     </div>
   </div>
 
+  <div class="hud-bottom">
+    Usa los botones Siguiente Puesto / Anterior para avanzar por el pasillo 3D
+  </div>
+
   <script>
-    const container = document.getElementById('viewport');
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0d0d0d);
-
-    const camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 0.1, 100);
-    camera.position.set(0, 1.6, 5);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    container.appendChild(renderer.domElement);
-
-    scene.add(new THREE.AmbientLight(0xffffff, 0.75));
-    const dLight = new THREE.DirectionalLight(0xed9f22, 0.9);
-    dLight.position.set(0, 10, 5);
-    scene.add(dLight);
-
-    const floorGeom = new THREE.PlaneGeometry(10, 80);
-    floorGeom.rotateX(-Math.PI / 2);
-    const floor = new THREE.Mesh(floorGeom, new THREE.MeshStandardMaterial({ color: 0x1a1025, roughness: 0.9 }));
-    floor.position.z = -35;
-    scene.add(floor);
-
-    for (let z = 0; z > -70; z -= 8) {
-      const colGeom = new THREE.BoxGeometry(0.8, 4, 0.8);
-      const colMat = new THREE.MeshStandardMaterial({ color: 0x600d8b });
-      const leftCol = new THREE.Mesh(colGeom, colMat);
-      leftCol.position.set(-4.5, 2, z);
-      scene.add(leftCol);
-      const rightCol = new THREE.Mesh(colGeom, colMat);
-      rightCol.position.set(4.5, 2, z);
-      scene.add(rightCol);
-    }
-
-    const arrowGroup = new THREE.Group();
-    const coneGeom = new THREE.ConeGeometry(0.55, 1.3, 16);
-    coneGeom.rotateX(-Math.PI / 2);
-    const arrow = new THREE.Mesh(coneGeom, new THREE.MeshBasicMaterial({ color: 0xed9f22 }));
-    arrowGroup.add(arrow);
-    arrowGroup.position.set(0, 1.2, -4);
-    scene.add(arrowGroup);
-
-    const waypoints = [
-      {
-        title: "Bajas del Va y Ven (Calle 56 x 65)",
-        desc: "Comienzas en la banqueta frente a la parada. Sigue la flecha dorada para entrar al mercado sin perderte.",
-        ahorro: "Caminas solo 115 metros (90 segundos) y te ahorras hasta 45% frente al súper.",
-        z: -4, camZ: 5
-      },
-      {
-        title: "Entras bajo el Techo Gigante (12.53 m)",
-        desc: "Aquí dejas atrás los 40°C de la calle. El aire caliente sube y sale solo por la bóveda.",
-        ahorro: "Cero aire acondicionado = el locatario no te cobra recibo de luz en el jitomate.",
-        z: -16, camZ: -7
-      },
-      {
-        title: "Pasillo Central: ¡Ojo con la Desviación!",
-        desc: "Gira a la izquierda para evitar la entrada turística donde revenden más caro.",
-        ahorro: "Esquivar los primeros puestos de la puerta ya te ahorra unos $40 pesos en tu bolsa.",
-        z: -28, camZ: -19
-      },
-      {
-        title: "Zona de Productores de Oxkutzcab y Ticul",
-        desc: "Aquí venden directo quienes traen cítricos y verduras del campo yucateco.",
-        ahorro: "Jitomate a $16/kg y Limón a $11–$18/kg: ¡menos de la mitad que en el súper!",
-        z: -40, camZ: -31
-      },
-      {
-        title: "Pasillo de Frijol, Granos y Abarrotes",
-        desc: "Semillas, frijol jamapa y especias pesadas al momento sin empaques de lujo.",
-        ahorro: "Si no te alcanza para el kilo entero, pides cuarto (250 g) o $20 pesos exactos.",
-        z: -52, camZ: -43
-      },
-      {
-        title: "¡Meta Cumplida: Tu Despensa Más Barata de Mérida!",
-        desc: "Llegaste al corazón del ahorro. Regresas a tu colonia en el Va y Ven por $12 pesos.",
-        ahorro: "Te ahorraste hasta $350+ pesos (= ¡13.5 kilos extra de tortilla para tu casa!).",
-        z: -62, camZ: -53
-      }
+    const WAYPOINTS = [
+      { z: 0,   step: 'Parada 1 de 6 · Entrada Principal', title: 'Acceso Calle 65 (Inicio)', desc: 'Entras al pasillo central fresco bajo el domo. Las flechas doradas te guían directo a los mejores precios.' },
+      { z: -12, step: 'Parada 2 de 6 · Pasillo Verduras',  title: 'Jitomate Saladette $16/kg', desc: 'Ahorras $12 por kilo frente al promedio de supermercado ($28/kg).' },
+      { z: -24, step: 'Parada 3 de 6 · Cítricos',          title: 'Limón Persa $11/kg', desc: 'Cosecha local de Yucatán. En tienda de cadena cuesta más del doble.' },
+      { z: -36, step: 'Parada 4 de 6 · Productores',       title: 'Productores de Oxkutzcab', desc: 'Compra directa sin intermediarios: naranja dulce, chile habanero y aguacate fresco.' },
+      { z: -48, step: 'Parada 5 de 6 · Básicos',           title: 'Huevo Fresco $48/kg', desc: 'Lleva el cartón completo con $14 de ahorro por kilo.' },
+      { z: -60, step: 'Parada 6 de 6 · Meta Cumplida',     title: 'Despensa Completa: -$520', desc: 'Saliste con la despensa llena y $520 libres en tu bolsa (20 kg de tortilla extra).' }
     ];
 
-    let currentWp = 0;
-    function nextWaypoint() {
-      currentWp = (currentWp + 1) % waypoints.length;
-      const wp = waypoints[currentWp];
-      document.getElementById('wpIndex').textContent = `Paso ${currentWp + 1} de ${waypoints.length}`;
-      document.getElementById('wpTitle').textContent = wp.title;
-      document.getElementById('wpDesc').textContent = wp.desc;
-      document.getElementById('wpAhorro').textContent = wp.ahorro;
-      arrowGroup.position.z = wp.z;
+    function createBanner(title, subtitle, bg = '#ffffff', fg = '#600d8b') {
+      const c = document.createElement('canvas');
+      c.width = 480;
+      c.height = 170;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = bg;
+      ctx.beginPath();
+      ctx.roundRect(8, 8, 464, 154, 18);
+      ctx.fill();
+      ctx.lineWidth = 8;
+      ctx.strokeStyle = '#ed9f22';
+      ctx.stroke();
+
+      ctx.fillStyle = fg;
+      ctx.font = 'bold 34px Segoe UI, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(title, 240, 72);
+
+      ctx.fillStyle = bg === '#ffffff' ? '#0d0d0d' : '#ed9f22';
+      ctx.font = 'bold 26px Segoe UI, sans-serif';
+      ctx.fillText(subtitle, 240, 124);
+
+      const tex = new THREE.CanvasTexture(c);
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true }));
+      sp.scale.set(4.6, 1.65, 1);
+      return sp;
     }
+
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#0d0d0d');
+    scene.fog = new THREE.FogExp2('#0d0d0d', 0.022);
+
+    const camera = new THREE.PerspectiveCamera(56, window.innerWidth / window.innerHeight, 0.1, 140);
+    camera.position.set(0, 2.3, 5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    scene.add(new THREE.AmbientLight('#ffffff', 0.65));
+    const light1 = new THREE.DirectionalLight('#ed9f22', 1.1);
+    light1.position.set(6, 12, 10);
+    scene.add(light1);
+    const light2 = new THREE.DirectionalLight('#600d8b', 0.8);
+    light2.position.set(-6, 10, -20);
+    scene.add(light2);
+
+    // Market Aisle Floor
+    const aisle = new THREE.Mesh(
+      new THREE.PlaneGeometry(14, 90),
+      new THREE.MeshStandardMaterial({ color: '#1b1b1b', roughness: 0.85 })
+    );
+    aisle.rotation.x = -Math.PI / 2;
+    aisle.position.z = -35;
+    scene.add(aisle);
+
+    const aisleGrid = new THREE.GridHelper(90, 45, '#600d8b', '#272727');
+    aisleGrid.position.set(0, 0.02, -35);
+    scene.add(aisleGrid);
+
+    // Overhead corridor ribs
+    for (let z = 0; z >= -68; z -= 8) {
+      const arch = new THREE.Mesh(
+        new THREE.TorusGeometry(6.8, 0.14, 8, 28, Math.PI),
+        new THREE.MeshStandardMaterial({ color: '#600d8b', emissive: '#600d8b', emissiveIntensity: 0.25 })
+      );
+      arch.position.set(0, 2.5, z);
+      scene.add(arch);
+    }
+
+    // Merchant Stalls along both sides of the corridor
+    const STALL_LABELS = [
+      { z: -12, side: -1, title: 'JITOMATE $16/kg', sub: 'Ahorras $12 vs súper' },
+      { z: -24, side: 1,  title: 'LIMÓN $11/kg',    sub: 'Cosecha de Yucatán' },
+      { z: -36, side: -1, title: 'OXKUTZCAB',       sub: 'Directo del productor' },
+      { z: -48, side: 1,  title: 'HUEVO $48/kg',    sub: 'Fresco de granja' },
+      { z: -60, side: -1, title: 'AHORRO: -$520',   sub: 'Meta de despensa' }
+    ];
+
+    for (let z = -6; z >= -64; z -= 6) {
+      [-1, 1].forEach((side) => {
+        const stall = new THREE.Group();
+        stall.position.set(side * 4.8, 0, z);
+
+        const counter = new THREE.Mesh(
+          new THREE.BoxGeometry(2.6, 1.1, 4.4),
+          new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.6 })
+        );
+        counter.position.y = 0.55;
+        stall.add(counter);
+
+        // Produce crates
+        for (let c = -1; c <= 1; c++) {
+          const crate = new THREE.Mesh(
+            new THREE.BoxGeometry(1.4, 0.45, 1.1),
+            new THREE.MeshStandardMaterial({ color: (c + z) % 2 === 0 ? '#ed9f22' : '#600d8b' })
+          );
+          crate.position.set(0, 1.32, c * 1.3);
+          stall.add(crate);
+        }
+
+        // Awning
+        const awning = new THREE.Mesh(
+          new THREE.BoxGeometry(3.2, 0.16, 4.8),
+          new THREE.MeshStandardMaterial({ color: (side === 1 ? '#600d8b' : '#ed9f22') })
+        );
+        awning.position.set(-side * 0.3, 3.0, 0);
+        awning.rotation.z = side * 0.18;
+        stall.add(awning);
+
+        scene.add(stall);
+      });
+    }
+
+    // Crisp hanging price signs for key stops
+    STALL_LABELS.forEach((lbl) => {
+      const sign = createBanner(lbl.title, lbl.sub);
+      sign.position.set(lbl.side * 3.8, 4.3, lbl.z);
+      scene.add(sign);
+    });
+
+    // Animated glowing golden directional chevrons along the floor
+    const chevrons = [];
+    for (let z = -3; z >= -63; z -= 3.5) {
+      const chevGroup = new THREE.Group();
+      chevGroup.position.set(0, 0.12, z);
+
+      const leftWing = new THREE.Mesh(
+        new THREE.BoxGeometry(0.9, 0.08, 0.24),
+        new THREE.MeshBasicMaterial({ color: '#ed9f22', transparent: true, opacity: 0.85 })
+      );
+      leftWing.rotation.y = Math.PI / 5;
+      leftWing.position.x = -0.32;
+      chevGroup.add(leftWing);
+
+      const rightWing = new THREE.Mesh(
+        new THREE.BoxGeometry(0.9, 0.08, 0.24),
+        new THREE.MeshBasicMaterial({ color: '#ed9f22', transparent: true, opacity: 0.85 })
+      );
+      rightWing.rotation.y = -Math.PI / 5;
+      rightWing.position.x = 0.32;
+      chevGroup.add(rightWing);
+
+      scene.add(chevGroup);
+      chevrons.push(chevGroup);
+    }
+
+    let currentIdx = 0;
+    let targetCamZ = WAYPOINTS[0].z + 5;
+
+    function updateHUD() {
+      const wp = WAYPOINTS[currentIdx];
+      document.getElementById('wp-step').textContent = wp.step;
+      document.getElementById('wp-title').textContent = wp.title;
+      document.getElementById('wp-desc').textContent = wp.desc;
+      targetCamZ = wp.z + 5.5;
+    }
+
+    function nextWaypoint() {
+      currentIdx = (currentIdx + 1) % WAYPOINTS.length;
+      updateHUD();
+    }
+
+    function prevWaypoint() {
+      currentIdx = (currentIdx - 1 + WAYPOINTS.length) % WAYPOINTS.length;
+      updateHUD();
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 
     function animate() {
       requestAnimationFrame(animate);
-      arrowGroup.rotation.y += 0.03;
-      arrowGroup.position.y = 1.2 + Math.sin(Date.now() * 0.005) * 0.2;
-      const targetZ = waypoints[currentWp].camZ;
-      camera.position.z += (targetZ - camera.position.z) * 0.05;
+      camera.position.z += (targetCamZ - camera.position.z) * 0.07;
+      camera.lookAt(0, 2.0, camera.position.z - 12);
+
+      const t = Date.now() * 0.005;
+      chevrons.forEach((c, idx) => {
+        const pulse = 0.45 + 0.55 * Math.sin(t + idx * 0.6);
+        c.children.forEach((w) => { w.material.opacity = pulse; });
+      });
+
       renderer.render(scene, camera);
     }
     animate();
-
-    window.addEventListener('resize', () => {
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
-    });
   </script>
 </body>
 </html>
