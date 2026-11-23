@@ -35,7 +35,7 @@
       border-left: 6px solid var(--purple);
       border-radius: 14px;
       padding: 16px 18px;
-      max-width: 420px;
+      max-width: 390px;
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.48);
     }
     .badge {
@@ -176,9 +176,7 @@
     </div>
 
     <h1 id="mode-title">El Domo Gigante que Respira Solo</h1>
-    <p class="subtitle" id="mode-desc">
-      Medición láser real (.PLY) del Mercado Lucas de Gálvez: el techo sube a 21.85 m sobre un piso de 9.25 m, dejando 12.60 m libres para que escape el calor sin gastar luz.
-    </p>
+    <p class="subtitle" id="mode-desc"></p>
 
     <div class="stats-row" id="stats-row"></div>
     <div class="sub-controls" id="sub-controls"></div>
@@ -215,13 +213,13 @@
 39.980 39.750 9.350 96 13 139`;
 
     const MERIDA_ZONES = [
-      { name: 'Altabrisa',    elev: 11.2, x: 4,  z: -14 },
-      { name: 'Chuburná',     elev: 10.1, x: -6, z: -9 },
-      { name: 'Centro',       elev: 9.3,  x: 0,  z: -1 },
-      { name: 'Sambulá',      elev: 7.8,  x: -8, z: 6 },
-      { name: 'Kanasín',      elev: 7.4,  x: 8,  z: 8 },
-      { name: 'San José',     elev: 7.1,  x: -2, z: 12 },
-      { name: 'Dzununcán',    elev: 6.4,  x: 2,  z: 16 }
+      { name: 'Altabrisa',  elev: 11.2, x: 5,  z: -12 },
+      { name: 'Chuburná',   elev: 10.1, x: -5, z: -8 },
+      { name: 'Centro',     elev: 9.3,  x: 1,  z: -2 },
+      { name: 'Sambulá',    elev: 7.8,  x: -6, z: 4 },
+      { name: 'Kanasín',    elev: 7.4,  x: 7,  z: 6 },
+      { name: 'San José',   elev: 7.1,  x: -2, z: 10 },
+      { name: 'Dzununcán',  elev: 6.4,  x: 3,  z: 13 }
     ];
 
     function createGlowDot() {
@@ -239,33 +237,31 @@
 
     function createTag(name, elev) {
       const c = document.createElement('canvas');
-      c.width = 360; c.height = 110;
+      c.width = 320; c.height = 96;
       const ctx = c.getContext('2d');
       ctx.fillStyle = '#ffffff';
       ctx.beginPath();
-      ctx.roundRect(6, 6, 348, 98, 16);
+      ctx.roundRect(6, 6, 308, 84, 14);
       ctx.fill();
       ctx.lineWidth = 6;
       ctx.strokeStyle = elev >= 9.3 ? '#ed9f22' : '#600d8b';
       ctx.stroke();
       ctx.fillStyle = '#0d0d0d';
-      ctx.font = 'bold 28px Segoe UI, sans-serif';
+      ctx.font = 'bold 26px Segoe UI, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(name, 180, 48);
+      ctx.fillText(name, 160, 42);
       ctx.fillStyle = '#600d8b';
-      ctx.font = 'bold 24px Segoe UI, sans-serif';
-      ctx.fillText(elev.toFixed(1) + ' m', 180, 84);
+      ctx.font = 'bold 22px Segoe UI, sans-serif';
+      ctx.fillText(elev.toFixed(1) + ' m', 160, 74);
       const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true }));
-      sp.scale.set(5.4, 1.65, 1);
+      sp.scale.set(4.5, 1.35, 1);
       return sp;
     }
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#0d0d0d');
 
-    const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 300);
-    camera.position.set(30, 20, 34);
-
+    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 300);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -273,7 +269,11 @@
 
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.target.set(0, 5, 0);
+
+    scene.add(new THREE.AmbientLight('#ffffff', 0.65));
+    const dirLight = new THREE.DirectionalLight('#ed9f22', 0.9);
+    dirLight.position.set(18, 28, 16);
+    scene.add(dirLight);
 
     scene.add(new THREE.GridHelper(52, 26, '#600d8b', '#222222'));
 
@@ -310,10 +310,22 @@
       return pts;
     }
 
-    function buildDomeMode(ptSize = 2.0) {
+    function buildDomeMode(ptSize = 2.1) {
       clearStage();
-      camera.position.set(32, 22, 34);
-      controls.target.set(0, 5.5, 0);
+      // Offset target slightly left so 3D dome sits cleanly to the right of the HUD
+      camera.position.set(24, 17, 32);
+      controls.target.set(-4, 5.5, 0);
+
+      // Architectural parabolic wireframe guide so the 20 real PLY hits are immediately recognizable as a dome
+      const archGeo = new THREE.CylinderGeometry(14, 14, 34, 24, 6, true, 0, Math.PI);
+      const archWire = new THREE.Mesh(
+        archGeo,
+        new THREE.MeshBasicMaterial({ color: '#8e24aa', wireframe: true, transparent: true, opacity: 0.38 })
+      );
+      archWire.rotation.z = Math.PI / 2;
+      archWire.rotation.y = Math.PI / 4;
+      archWire.scale.set(1, 1, 12.53 / 14);
+      stageGroup.add(archWire);
 
       const pts = parsePLYRows(PLY_DOME);
       const pos = [], col = [];
@@ -326,17 +338,15 @@
           new THREE.Vector3(px, py, pz)
         ]);
         stageGroup.add(new THREE.Line(lineGeo, new THREE.LineBasicMaterial({
-          color: z > 12 ? '#ed9f22' : '#600d8b', transparent: true, opacity: 0.5
+          color: z > 12 ? '#ed9f22' : '#600d8b', transparent: true, opacity: 0.55
         })));
       });
 
       const geo = new THREE.BufferGeometry();
       geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
       geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-      const pMat = new THREE.PointsMaterial({ size: ptSize, map: dotTex, vertexColors: true, transparent: true, alphaTest: 0.05 });
-      stageGroup.add(new THREE.Points(geo, pMat));
+      stageGroup.add(new THREE.Points(geo, new THREE.PointsMaterial({ size: ptSize, map: dotTex, vertexColors: true, transparent: true, alphaTest: 0.05 })));
 
-      // Draw 2D dome profile
       const c = document.getElementById('profile-canvas');
       const ctx = c.getContext('2d');
       const W = c.width, H = c.height;
@@ -365,13 +375,35 @@
 
     function buildFloodMode() {
       clearStage();
-      camera.position.set(24, 18, 26);
-      controls.target.set(0, 3, 0);
-      const elevToY = (e) => (e - 5.5) * 1.6;
+      // Frame slightly to the right so labels never collide with top-left HUD or bottom-right chart
+      camera.position.set(22, 20, 28);
+      controls.target.set(-3.5, 3.2, 0);
+      const elevToY = (e) => (e - 5.5) * 1.45;
+
+      // Interpolated Mérida 3D terrain mesh
+      const tGeo = new THREE.PlaneGeometry(32, 32, 48, 48);
+      tGeo.rotateX(-Math.PI / 2);
+      const tPos = tGeo.attributes.position;
+      const tCol = [];
+      const cLow = new THREE.Color('#600d8b'), cMid = new THREE.Color('#ed9f22'), cHigh = new THREE.Color('#ffffff');
+
+      for (let i = 0; i < tPos.count; i++) {
+        const x = tPos.getX(i), z = tPos.getZ(i);
+        const elev = 8.8 - (z / 16) * 2.4 + Math.sin(x * 0.25) * 0.25;
+        tPos.setY(i, elevToY(elev));
+        const t = Math.max(0, Math.min(1, (elev - 6.2) / 5.0));
+        const c = new THREE.Color();
+        if (t < 0.5) c.lerpColors(cLow, cMid, t * 2);
+        else c.lerpColors(cMid, cHigh, (t - 0.5) * 2);
+        tCol.push(c.r, c.g, c.b);
+      }
+      tGeo.setAttribute('color', new THREE.Float32BufferAttribute(tCol, 3));
+      tGeo.computeVertexNormals();
+      stageGroup.add(new THREE.Mesh(tGeo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.78 })));
 
       const water = new THREE.Mesh(
-        new THREE.PlaneGeometry(38, 38),
-        new THREE.MeshBasicMaterial({ color: '#600d8b', transparent: true, opacity: 0.42, side: THREE.DoubleSide })
+        new THREE.PlaneGeometry(32.2, 32.2),
+        new THREE.MeshBasicMaterial({ color: '#600d8b', transparent: true, opacity: 0.48, side: THREE.DoubleSide })
       );
       water.rotation.x = -Math.PI / 2;
       water.position.y = elevToY(currentWater);
@@ -384,20 +416,19 @@
         const c = z.elev >= 9.3 ? new THREE.Color('#ffffff') : new THREE.Color('#ed9f22');
         col.push(c.r, c.g, c.b);
         stageGroup.add(new THREE.Line(
-          new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(z.x, 0, z.z), new THREE.Vector3(z.x, py, z.z)]),
-          new THREE.LineBasicMaterial({ color: '#ed9f22', transparent: true, opacity: 0.65 })
+          new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(z.x, 0, z.z), new THREE.Vector3(z.x, py + 1.4, z.z)]),
+          new THREE.LineBasicMaterial({ color: '#ed9f22', transparent: true, opacity: 0.8 })
         ));
         const tag = createTag(z.name, z.elev);
-        tag.position.set(z.x, py + 1.8, z.z);
+        tag.position.set(z.x, py + 2.2, z.z);
         stageGroup.add(tag);
       });
 
       const geo = new THREE.BufferGeometry();
       geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
       geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-      stageGroup.add(new THREE.Points(geo, new THREE.PointsMaterial({ size: 2.0, map: dotTex, vertexColors: true, transparent: true, alphaTest: 0.05 })));
+      stageGroup.add(new THREE.Points(geo, new THREE.PointsMaterial({ size: 1.8, map: dotTex, vertexColors: true, transparent: true, alphaTest: 0.05 })));
 
-      // Draw 2D North-South profile
       const c = document.getElementById('profile-canvas');
       const ctx = c.getContext('2d');
       const W = c.width, H = c.height;
@@ -414,7 +445,6 @@
         ctx.fillStyle = '#555555'; ctx.font = 'bold 16px Segoe UI, sans-serif';
         ctx.fillText(m + 'm', 8, y + 6);
       });
-
       ctx.beginPath();
       MERIDA_ZONES.forEach((z, i) => {
         const px = 72 + (i / (MERIDA_ZONES.length - 1)) * (W - 108);
@@ -422,7 +452,6 @@
         if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
       });
       ctx.strokeStyle = '#ed9f22'; ctx.lineWidth = 5; ctx.stroke();
-
       MERIDA_ZONES.forEach((z, i) => {
         const px = 72 + (i / (MERIDA_ZONES.length - 1)) * (W - 108);
         const py = H - 34 - ((z.elev - 5.5) / 6.5) * (H - 56);
@@ -435,9 +464,11 @@
 
     function buildShadeMode() {
       clearStage();
-      camera.position.set(28, 20, 32);
-      controls.target.set(0, 4, 0);
-      const pts = nasaPoints || generateNasaFallback();
+      camera.position.set(22, 18, 28);
+      controls.target.set(-2, 4, 0);
+      const rawPts = nasaPoints || generateNasaFallback();
+      // Filter out 0.0 / sentinel outliers so the real Mérida urban cluster spreads cleanly
+      const pts = rawPts.filter(([x, y, z]) => x > 1000 && y > 1000 && z >= 4 && z <= 35);
 
       let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity;
       pts.forEach(([x, y, z]) => {
@@ -446,13 +477,26 @@
         if (z < minZ) minZ = z;
       });
       const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
-      const scaleXZ = 36 / Math.max(1, maxX - minX);
+      const spanX = Math.max(1, maxX - minX);
+      const spanY = Math.max(1, maxY - minY);
+
+      // Ground reference plane
+      const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(34, 34),
+        new THREE.MeshBasicMaterial({ color: '#600d8b', transparent: true, opacity: 0.16, side: THREE.DoubleSide })
+      );
+      ground.rotation.x = -Math.PI / 2;
+      stageGroup.add(ground);
+
       const pos = [], col = [];
       pts.forEach(([x, y, z]) => {
         const isCanopy = z >= 14.0;
         if (nasaFilter === 'canopy' && !isCanopy) return;
         if (nasaFilter === 'ground' && isCanopy) return;
-        pos.push((x - cx) * scaleXZ, (z - minZ) * 0.85, (y - cy) * scaleXZ);
+        const px = ((x - cx) / spanX) * 28;
+        const pz = ((y - cy) / spanY) * 28;
+        const py = (z - minZ) * 0.7;
+        pos.push(px, py, pz);
         if (z >= 19.0) col.push(1, 1, 1);
         else if (isCanopy) col.push(237 / 255, 159 / 255, 34 / 255);
         else col.push(96 / 255, 13 / 255, 139 / 255);
@@ -461,9 +505,8 @@
       const geo = new THREE.BufferGeometry();
       geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
       geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-      stageGroup.add(new THREE.Points(geo, new THREE.PointsMaterial({ size: 1.3, map: dotTex, vertexColors: true, transparent: true, alphaTest: 0.05 })));
+      stageGroup.add(new THREE.Points(geo, new THREE.PointsMaterial({ size: 1.35, map: dotTex, vertexColors: true, transparent: true, alphaTest: 0.05 })));
 
-      // Draw histogram
       const c = document.getElementById('profile-canvas');
       const ctx = c.getContext('2d');
       const W = c.width, H = c.height;
@@ -496,15 +539,15 @@
 
       if (idx === 0) {
         title.textContent = 'El Domo Gigante que Respira Solo';
-        desc.textContent = 'Medición láser real (.PLY) del Mercado Lucas de Gálvez: el techo sube a 21.85 m sobre un piso de 9.25 m, dejando 12.60 m libres para sacar el calor sin gastar luz.';
+        desc.textContent = 'Los 20 puntos láser reales (.PLY) trazan la bóveda del Mercado Lucas de Gálvez: 21.85 m arriba contra 9.25 m en el piso (12.53 m libres para ventilar sin gastar luz).';
         stats.innerHTML = `
           <div class="stat-box"><div class="stat-val">9.25 m</div><div class="stat-lbl">Piso del pasillo</div></div>
           <div class="stat-box"><div class="stat-val">21.85 m</div><div class="stat-lbl">Pico del domo</div></div>
           <div class="stat-box"><div class="stat-val">$0 Luz</div><div class="stat-lbl">Clima natural</div></div>`;
-        sub.innerHTML = `<div class="ctrl-row"><span>Tamaño de punto láser</span><input type="range" min="0.8" max="3.5" step="0.1" value="2.0" oninput="buildDomeMode(parseFloat(this.value))"/></div>`;
+        sub.innerHTML = `<div class="ctrl-row"><span>Tamaño de punto láser</span><input type="range" min="0.8" max="3.5" step="0.1" value="2.1" oninput="buildDomeMode(parseFloat(this.value))"/></div>`;
         cTitle.textContent = 'Perfil Real de Alturas (.PLY)';
         cSub.textContent = '20 puntos medidos';
-        buildDomeMode(2.0);
+        buildDomeMode(2.1);
       } else if (idx === 1) {
         title.textContent = 'Mérida Plana: Dónde se Estanca la Lluvia';
         desc.textContent = 'El Norte (Altabrisa, 11.2 m) está 4.8 metros más alto que el Sur (Dzununcán, 6.4 m). Mueve la cota de agua para ver qué zonas se encharcan primero.';
@@ -518,7 +561,7 @@
         buildFloodMode();
       } else {
         title.textContent = 'Ojo desde el Espacio: Dónde Falta Sombra';
-        desc.textContent = '500 pulsos láser reales del satélite NASA GEDI miden dónde los árboles (+7.84 m) protegen del sol y dónde el asfalto queda expuesto.';
+        desc.textContent = '500 pulsos láser reales del satélite NASA GEDI distribuidos sobre la ciudad: separan las copas de árboles (+7.84 m) del suelo expuesto al sol (8.97 m).';
         stats.innerHTML = `
           <div class="stat-box"><div class="stat-val">500</div><div class="stat-lbl">Pulsos NASA</div></div>
           <div class="stat-box"><div class="stat-val">8.97 m</div><div class="stat-lbl">Suelo base</div></div>

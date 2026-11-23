@@ -49,7 +49,7 @@
       align-items: center;
       justify-content: center;
       gap: 38px;
-      padding: 24px;
+      padding: 20px 24px;
       flex-wrap: wrap;
     }
 
@@ -155,16 +155,31 @@
       z-index: 25;
     }
     .phone-status {
-      height: 34px;
-      background: rgba(13, 13, 13, 0.9);
+      height: 30px;
+      background: #0d0d0d;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 22px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
+      color: var(--white);
       z-index: 20;
     }
+    .app-subheader {
+      background: var(--purple);
+      color: var(--white);
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--gold);
+      z-index: 20;
+    }
+    .app-subheader span:last-child { color: var(--gold); font-size: 10px; letter-spacing: 0.5px; }
+
     .screen {
       flex: 1;
       position: relative;
@@ -178,7 +193,7 @@
     .street-vp {
       flex: 1;
       position: relative;
-      background: linear-gradient(180deg, #1d1429 0%, #3a2352 48%, #242129 48%, #121014 100%);
+      background: linear-gradient(180deg, #1d1429 0%, #3a2352 55%, #242129 55%, #121014 100%);
       overflow: hidden;
     }
     #cam-video {
@@ -192,10 +207,10 @@
     }
     .compass-bar {
       position: absolute;
-      top: 12px;
-      left: 14px;
-      right: 74px;
-      background: rgba(13, 13, 13, 0.78);
+      top: 10px;
+      left: 12px;
+      right: 72px;
+      background: rgba(13, 13, 13, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 999px;
       padding: 6px 12px;
@@ -207,18 +222,18 @@
     }
     .mini-radar {
       position: absolute;
-      top: 10px;
+      top: 8px;
       right: 12px;
-      width: 54px;
-      height: 54px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
-      background: rgba(13, 13, 13, 0.85);
+      background: rgba(13, 13, 13, 0.9);
       border: 2px solid var(--gold);
       z-index: 15;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 800;
       color: var(--gold);
     }
@@ -233,45 +248,61 @@
     }
     .skyline-store {
       position: absolute;
-      bottom: 34%;
-      width: 240px;
-      height: 175px;
-      border-radius: 12px 12px 0 0;
+      bottom: 16%;
+      width: 244px;
+      height: 155px;
+      border-radius: 10px 10px 0 0;
       background: #23192d;
-      border: 2px solid rgba(255, 255, 255, 0.16);
+      border: 2px solid rgba(255, 255, 255, 0.18);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding-bottom: 14px;
+      padding-bottom: 12px;
     }
     .skyline-store.best { background: #36184c; border-color: var(--gold); }
     .store-roof {
       position: absolute;
-      top: -12px;
-      width: 106%;
-      height: 22px;
-      background: var(--purple);
+      top: -14px;
+      width: 108%;
+      height: 24px;
+      background: repeating-linear-gradient(90deg, var(--purple) 0 18px, #ffffff 18px 36px);
       border-radius: 6px;
+      border: 2px solid var(--purple);
     }
-    .skyline-store.best .store-roof { background: var(--gold); }
-    .store-door { width: 64px; height: 74px; background: rgba(255, 255, 255, 0.12); border-radius: 6px 6px 0 0; }
+    .skyline-store.best .store-roof {
+      background: repeating-linear-gradient(90deg, var(--gold) 0 18px, #ffffff 18px 36px);
+      border-color: var(--gold);
+    }
+    .store-windows {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .win {
+      width: 48px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      border-radius: 4px;
+    }
+    .store-door { width: 58px; height: 52px; background: rgba(237, 159, 34, 0.22); border: 2px solid rgba(255,255,255,0.2); border-radius: 6px 6px 0 0; }
     .ar-card {
       position: absolute;
-      top: -145px;
+      top: -158px;
       left: 50%;
       transform: translateX(-50%);
       width: 246px;
       background: var(--white);
       color: var(--text);
       border-radius: 14px;
-      padding: 12px 14px;
+      padding: 11px 14px;
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
       border: 3px solid var(--purple);
       text-align: center;
     }
     .skyline-store.best .ar-card { border-color: var(--gold); }
-    .ar-pin { width: 3px; height: 26px; background: var(--gold); position: absolute; bottom: -28px; left: 50%; transform: translateX(-50%); }
+    .ar-pin { width: 3px; height: 22px; background: var(--gold); position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); }
     .ar-tag { display: inline-block; background: var(--purple); color: var(--white); font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 999px; margin-bottom: 4px; }
     .skyline-store.best .ar-tag { background: var(--gold); color: var(--text); }
     .ar-name { font-size: 15px; font-weight: 800; }
@@ -303,16 +334,23 @@
     .scan-vp {
       flex: 1;
       background: linear-gradient(180deg, #241931 0%, #37254d 58%, #1c1821 58%, #100e13 100%);
-      padding: 16px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
+    }
+    .scan-reticle {
+      border: 2px dashed rgba(237, 159, 34, 0.55);
+      border-radius: 18px;
+      padding: 10px;
+      position: relative;
     }
     .scan-header {
       background: rgba(13, 13, 13, 0.8);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 10px;
-      padding: 8px 12px;
+      padding: 7px 12px;
       font-size: 11px;
       font-weight: 700;
       display: flex;
@@ -321,7 +359,7 @@
     .ar-result {
       background: var(--white);
       color: var(--text);
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 14px 16px;
       border: 3px solid var(--gold);
       box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55);
@@ -345,9 +383,25 @@
       color: var(--white);
       cursor: pointer;
       text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .item-tile.active { background: rgba(96, 13, 139, 0.85); border-color: var(--gold); }
-    .tile-name { font-size: 13px; font-weight: 800; }
+    .tile-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--gold);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .tile-name { font-size: 12px; font-weight: 800; }
     .tile-sub { font-size: 11px; color: var(--gold); font-weight: 700; }
 
     /* STEP 3: WAZE INSIDE MARKET */
@@ -422,12 +476,12 @@
         Apuntas tu teléfono hacia la calle y la app proyecta cuánto cuesta la misma despensa en cada tienda cercana. Así sabes de inmediato dónde ahorras $520.
       </p>
       <div class="tip-box" id="story-tip">
-        <strong>Prueba en el celular:</strong> Toca cualquiera de las 4 tiendas abajo dentro de la pantalla del teléfono para girar hacia ella.
+        <strong>Prueba en el celular:</strong> Toca cualquiera de las 4 tiendas abajo dentro del teléfono para girar hacia ella.
       </div>
 
       <div class="wizard-btns">
         <button class="btn-wiz btn-prev" onclick="nextTour(-1)">Paso Anterior</button>
-        <button class="btn-wiz btn-next" onclick="nextTour(1)">Siguiente Paso</button>
+        <button class="btn-wiz btn-next" id="btn-next-tour" onclick="nextTour(1)">Siguiente Paso</button>
       </div>
       <button class="btn-cam" id="btn-cam" onclick="toggleCamera()" style="display:block;">
         Opcional: Encender Cámara Real en Paso 1
@@ -438,7 +492,11 @@
       <div class="notch"></div>
       <div class="phone-status">
         <span>9:41</span>
-        <span id="phone-app-name">AR Despensa</span>
+        <span>5G</span>
+      </div>
+      <div class="app-subheader">
+        <span id="phone-app-name">Radar de Calle AR</span>
+        <span>MÉRIDA</span>
       </div>
 
       <!-- SCREEN 1: STREET RADAR -->
@@ -460,6 +518,7 @@
                 <div class="ar-price">$1,420</div>
                 <div class="ar-sub">La despensa más barata</div>
               </div>
+              <div class="store-windows"><div class="win"></div><div class="win"></div></div>
               <div class="store-door"></div>
             </div>
             <div class="skyline-store" style="left: 400px;">
@@ -471,6 +530,7 @@
                 <div class="ar-price">$1,690</div>
                 <div class="ar-sub">Equivale a 10 kg de tortilla</div>
               </div>
+              <div class="store-windows"><div class="win"></div><div class="win"></div></div>
               <div class="store-door"></div>
             </div>
             <div class="skyline-store" style="left: 745px;">
@@ -482,6 +542,7 @@
                 <div class="ar-price">$1,780</div>
                 <div class="ar-sub">Equivale a 30 viajes Va y Ven</div>
               </div>
+              <div class="store-windows"><div class="win"></div><div class="win"></div></div>
               <div class="store-door"></div>
             </div>
             <div class="skyline-store" style="left: 1090px;">
@@ -493,6 +554,7 @@
                 <div class="ar-price">$1,940</div>
                 <div class="ar-sub">+$520 sobre el mercado</div>
               </div>
+              <div class="store-windows"><div class="win"></div><div class="win"></div></div>
               <div class="store-door"></div>
             </div>
           </div>
@@ -510,29 +572,43 @@
         <div class="scan-vp">
           <div class="scan-header">
             <span>Cámara enfocando producto</span>
-            <span style="color:#ed9f22;">EN VIVO</span>
+            <span style="color:#ed9f22;">ESCANEANDO</span>
           </div>
-          <div class="ar-result">
-            <div class="ar-result-top">
-              <span class="ar-pill" id="ar-badge">Semáforo: Conviene</span>
-              <span class="ar-savings" id="ar-save">Ahorras $130</span>
+          <div class="scan-reticle">
+            <div class="ar-result">
+              <div class="ar-result-top">
+                <span class="ar-pill" id="ar-badge">Semáforo: Conviene</span>
+                <span class="ar-savings" id="ar-save">Ahorras $130</span>
+              </div>
+              <div class="ar-title" id="ar-title">Canasta de Frutas y Verduras</div>
+              <div class="compare-grid">
+                <div class="cmp-box best"><div class="cmp-lbl">En el Mercado</div><div class="cmp-val" id="ar-mkt">$320</div></div>
+                <div class="cmp-box"><div class="cmp-lbl">En el Súper</div><div class="cmp-val" id="ar-sup">$450</div></div>
+              </div>
+              <div class="cmp-equiv" id="ar-equiv">Ese ahorro equivale a 5 kg de tortilla ($26/kg)</div>
             </div>
-            <div class="ar-title" id="ar-title">Canasta de Frutas y Verduras</div>
-            <div class="compare-grid">
-              <div class="cmp-box best"><div class="cmp-lbl">En el Mercado</div><div class="cmp-val" id="ar-mkt">$320</div></div>
-              <div class="cmp-box"><div class="cmp-lbl">En el Súper</div><div class="cmp-val" id="ar-sup">$450</div></div>
-            </div>
-            <div class="cmp-equiv" id="ar-equiv">Ese ahorro equivale a 5 kg de tortilla ($26/kg)</div>
           </div>
           <div>
             <div style="font-size:11px;font-weight:700;color:#ed9f22;text-align:center;margin-bottom:6px;text-transform:uppercase;">
               Toca un producto para escanearlo
             </div>
             <div class="shelf-grid">
-              <button class="item-tile active" onclick="scanItem(0, this)"><div class="tile-name">Canasta Fresca</div><div class="tile-sub">Mercado $320</div></button>
-              <button class="item-tile" onclick="scanItem(1, this)"><div class="tile-name">Cartón de Huevo</div><div class="tile-sub">Mercado $48/kg</div></button>
-              <button class="item-tile" onclick="scanItem(2, this)"><div class="tile-name">Leche + Aceite</div><div class="tile-sub">Pack $68</div></button>
-              <button class="item-tile" onclick="scanItem(3, this)"><div class="tile-name">Despensa Total</div><div class="tile-sub">Mercado $1,420</div></button>
+              <button class="item-tile active" onclick="scanItem(0, this)">
+                <div class="tile-icon">01</div>
+                <div><div class="tile-name">Canasta Fresca</div><div class="tile-sub">Mercado $320</div></div>
+              </button>
+              <button class="item-tile" onclick="scanItem(1, this)">
+                <div class="tile-icon">02</div>
+                <div><div class="tile-name">Cartón de Huevo</div><div class="tile-sub">Mercado $48/kg</div></div>
+              </button>
+              <button class="item-tile" onclick="scanItem(2, this)">
+                <div class="tile-icon">03</div>
+                <div><div class="tile-name">Leche + Aceite</div><div class="tile-sub">Pack $68</div></div>
+              </button>
+              <button class="item-tile" onclick="scanItem(3, this)">
+                <div class="tile-icon">04</div>
+                <div><div class="tile-name">Despensa Total</div><div class="tile-sub">Mercado $1,420</div></div>
+              </button>
             </div>
           </div>
         </div>
@@ -611,12 +687,12 @@
       document.getElementById('story-tip').innerHTML = t.tip;
       document.getElementById('phone-app-name').textContent = t.app;
       document.getElementById('btn-cam').style.display = idx === 0 ? 'block' : 'none';
+      document.getElementById('btn-next-tour').textContent = idx === 2 ? 'Reiniciar Tour' : 'Siguiente Paso';
     }
     function nextTour(delta) {
       goStep((currentStep + delta + TOUR.length) % TOUR.length);
     }
 
-    // Step 1: Street stores
     const offsets = [0, -345, -690, -1035];
     function focusStore(i, btn) {
       document.getElementById('panorama').style.transform = `translateX(${offsets[i]}px)`;
@@ -624,7 +700,6 @@
       btn.classList.add('active');
     }
 
-    // Step 2: Pantry scanner
     const ITEMS = [
       { badge: 'Semáforo: Conviene', save: 'Ahorras $130', title: 'Canasta de Frutas y Verduras', mkt: '$320', sup: '$450', equiv: 'Ese ahorro equivale a 5 kg de tortilla ($26/kg)' },
       { badge: 'Semáforo: Muy Barato', save: 'Ahorras $14/kg', title: 'Huevo Blanco (Por Kilo)', mkt: '$48/kg', sup: '$62/kg', equiv: 'Con 2 kilos que compres te sobra para 2 viajes Va y Ven' },
@@ -643,7 +718,6 @@
       btn.classList.add('active');
     }
 
-    // Step 3: Waze inside market
     const WAZE = [
       { dist: 'Parada 1 de 5 · Entrada Calle 65', gps: 'Camina recto por el pasillo central', step: 'Inicio del recorrido', price: 'Meta: Ahorrar $520', desc: 'Las flechas doradas te llevan directo a los puestos más baratos del día.' },
       { dist: 'A 12 metros · A la izquierda', gps: 'Puesto de Jitomate Saladette', step: 'Parada 2 de 5 · Verduras', price: 'Jitomate a $16/kg', desc: 'Ahorras $12 por kilo frente al promedio de supermercado ($28/kg).' },
