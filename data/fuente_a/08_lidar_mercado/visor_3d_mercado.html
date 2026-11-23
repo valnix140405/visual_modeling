@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visor 3D — El Domo Gigante que Respira Solo (08-A)</title>
+  <title>LiDAR 08-A — Nube de Puntos Real del Domo Lucas de Gálvez</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
@@ -24,11 +24,7 @@
       height: 100vh;
       width: 100vw;
     }
-    #canvas-container {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-    }
+    #canvas-container { position: fixed; inset: 0; z-index: 1; }
     .hud-top-left {
       position: fixed;
       top: 16px;
@@ -48,73 +44,68 @@
       color: var(--white);
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
       padding: 4px 10px;
       border-radius: 999px;
       margin-bottom: 8px;
     }
-    h1 {
-      font-size: 18px;
-      line-height: 1.25;
-      margin-bottom: 6px;
-      color: var(--text);
-    }
-    .subtitle {
-      font-size: 13px;
-      line-height: 1.45;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
+    h1 { font-size: 18px; line-height: 1.25; margin-bottom: 6px; }
+    .subtitle { font-size: 13px; line-height: 1.45; color: var(--muted); margin-bottom: 12px; }
     .stats-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
       margin-bottom: 12px;
     }
     .stat-box {
       background: #f5f3f7;
       border-radius: 8px;
-      padding: 8px 10px;
+      padding: 8px;
       border-bottom: 3px solid var(--gold);
     }
-    .stat-val {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--purple);
-    }
-    .stat-lbl {
-      font-size: 11px;
-      color: var(--muted);
-    }
-    .controls-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .btn-action {
-      background: var(--gold);
-      color: var(--text);
-      border: none;
+    .stat-val { font-size: 14px; font-weight: 800; color: var(--purple); }
+    .stat-lbl { font-size: 10px; color: var(--muted); }
+    .ctrl-group {
+      background: #f5f3f7;
       border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      width: 100%;
-      transition: transform 0.15s ease, opacity 0.15s ease;
+      padding: 10px 12px;
+      font-size: 12px;
     }
-    .btn-action:hover { opacity: 0.92; transform: translateY(-1px); }
-    .btn-action.active-super {
+    .ctrl-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .ctrl-row:last-child { margin-bottom: 0; }
+    input[type="range"] { width: 55%; accent-color: var(--purple); cursor: pointer; }
+    .btn-toggle {
       background: var(--purple);
       color: var(--white);
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
     }
-    .hud-top-right {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      z-index: 10;
+    .legend {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 700;
     }
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    .hud-top-right { position: fixed; top: 16px; right: 16px; z-index: 10; }
     .btn-back {
       display: inline-block;
       background: var(--white);
@@ -126,30 +117,33 @@
       border-radius: 999px;
       border: 2px solid var(--purple);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-      transition: background 0.15s ease, color 0.15s ease;
     }
-    .btn-back:hover {
-      background: var(--purple);
-      color: var(--white);
-    }
-    .hud-bottom {
+    .btn-back:hover { background: var(--purple); color: var(--white); }
+    .profile-card {
       position: fixed;
       bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
+      right: 16px;
       z-index: 10;
-      background: rgba(255, 255, 255, 0.96);
+      background: var(--white);
       color: var(--text);
-      padding: 10px 18px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      white-space: nowrap;
+      border-radius: 12px;
+      padding: 12px 14px;
+      width: 370px;
+      border-top: 4px solid var(--gold);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
     }
-    @media (max-width: 640px) {
+    .profile-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--purple);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    #profile-canvas { width: 100%; height: 130px; display: block; }
+    @media (max-width: 720px) {
       .hud-top-left { max-width: calc(100vw - 32px); top: 62px; }
-      .hud-bottom { display: none; }
+      .profile-card { width: calc(100vw - 32px); right: 16px; bottom: 12px; }
     }
   </style>
 </head>
@@ -161,329 +155,216 @@
   </div>
 
   <div class="hud-top-left">
-    <span class="badge">Escaneo Láser 08-A · Mercado Lucas de Gálvez</span>
-    <h1>El Domo Gigante que Respira Solo</h1>
-    <p class="subtitle" id="mode-desc">
-      Con 12.53 metros de altura libre, el aire caliente sube y escapa por el tragaluz central. Cero aire acondicionado para refrescar los puestos.
+    <span class="badge">LiDAR Real 08-A · Archivo .PLY</span>
+    <h1>Nube de Puntos del Mercado Lucas de Gálvez</h1>
+    <p class="subtitle">
+      Medición láser real del techo y el pasillo: el punto más bajo del piso está a 9.25 m y la parte más alta del domo llega a 21.85 m.
     </p>
     <div class="stats-row">
       <div class="stat-box">
-        <div class="stat-val" id="stat-height">12.53 m</div>
-        <div class="stat-lbl">Altura libre real</div>
+        <div class="stat-val">9.25 m</div>
+        <div class="stat-lbl">Nivel de piso</div>
       </div>
       <div class="stat-box">
-        <div class="stat-val" id="stat-cost">$0 Luz</div>
-        <div class="stat-lbl" id="stat-cost-lbl">Ventilación natural</div>
+        <div class="stat-val">21.85 m</div>
+        <div class="stat-lbl">Pico del domo</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">12.60 m</div>
+        <div class="stat-lbl">Altura libre</div>
       </div>
     </div>
-    <div class="controls-row">
-      <button class="btn-action" id="btn-toggle-mode" onclick="toggleSuperMode()">
-        Simular Calor &gt;40°C / Modo Súper Cerrado
-      </button>
+    <div class="ctrl-group">
+      <div class="ctrl-row">
+        <span>Tamaño de punto láser</span>
+        <input type="range" id="pt-size" min="0.8" max="3.5" step="0.1" value="2.0" />
+      </div>
+      <div class="ctrl-row">
+        <span>Líneas de altura al suelo</span>
+        <button class="btn-toggle" id="btn-stems" onclick="toggleStems()">Ocultar líneas</button>
+      </div>
+    </div>
+    <div class="legend">
+      <span><i class="dot" style="background:#600d8b;"></i>Suelo / Pasillo (9.2–9.4 m)</span>
+      <span><i class="dot" style="background:#ed9f22;"></i>Domo / Techo (14.2–21.8 m)</span>
     </div>
   </div>
 
-  <div class="hud-bottom">
-    Arrastra para rotar 360 grados · Rueda del ratón para acercar o alejar · Clic derecho para mover
+  <div class="profile-card">
+    <div class="profile-title">
+      <span>Perfil Real de Alturas (Corte 2D)</span>
+      <span>20 puntos medidos</span>
+    </div>
+    <canvas id="profile-canvas" width="680" height="240"></canvas>
   </div>
 
   <script>
-    function createTextSign(title, subtitle, bgCol, textCol, borderCol) {
-      const canvas = document.createElement('canvas');
-      canvas.width = 512;
-      canvas.height = 192;
-      const ctx = canvas.getContext('2d');
+    const FALLBACK_PLY = `0.000 0.000 9.250 96 13 139
+0.930 0.350 9.280 96 13 139
+2.280 0.700 9.310 96 13 139
+5.080 4.650 18.450 237 159 34
+5.980 5.350 18.520 237 159 34
+7.180 6.050 19.100 237 159 34
+8.380 6.750 19.250 237 159 34
+9.980 8.450 21.800 237 159 34
+11.280 9.150 21.850 237 159 34
+12.680 9.950 21.750 237 159 34
+14.980 14.750 18.600 237 159 34
+20.080 19.650 9.400 96 13 139
+21.380 20.550 9.380 96 13 139
+25.180 24.750 14.200 237 159 34
+25.980 25.650 15.800 237 159 34
+27.280 26.550 16.100 237 159 34
+29.880 30.050 9.300 96 13 139
+35.080 34.650 17.900 237 159 34
+36.380 35.550 18.100 237 159 34
+39.980 39.750 9.350 96 13 139`;
 
-      ctx.fillStyle = bgCol;
-      ctx.beginPath();
-      ctx.roundRect(8, 8, 496, 176, 22);
-      ctx.fill();
-
-      ctx.lineWidth = 10;
-      ctx.strokeStyle = borderCol;
-      ctx.stroke();
-
-      ctx.fillStyle = textCol;
-      ctx.font = 'bold 36px Segoe UI, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(title, 256, 78);
-
-      ctx.font = '600 26px Segoe UI, sans-serif';
-      ctx.fillStyle = borderCol === '#ffffff' ? '#ed9f22' : borderCol;
-      if (bgCol === '#ed9f22') ctx.fillStyle = '#0d0d0d';
-      ctx.fillText(subtitle, 256, 134);
-
-      const tex = new THREE.CanvasTexture(canvas);
-      tex.needsUpdate = true;
-      const mat = new THREE.SpriteMaterial({ map: tex, transparent: true });
-      const sprite = new THREE.Sprite(mat);
-      sprite.scale.set(9.5, 3.6, 1);
-      return sprite;
+    function parsePLY(text) {
+      const lines = text.trim().split(/\r?\n/);
+      const endIdx = lines.findIndex(l => l.trim() === 'end_header');
+      const dataLines = endIdx >= 0 ? lines.slice(endIdx + 1) : lines;
+      return dataLines.map(l => l.trim().split(/\s+/).map(Number)).filter(a => a.length >= 6);
     }
 
-    const container = document.getElementById('canvas-container');
+    function createGlowDotTexture() {
+      const c = document.createElement('canvas');
+      c.width = 64; c.height = 64;
+      const ctx = c.getContext('2d');
+      const g = ctx.createRadialGradient(32, 32, 4, 32, 32, 30);
+      g.addColorStop(0, 'rgba(255,255,255,1)');
+      g.addColorStop(0.55, 'rgba(255,255,255,0.85)');
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(c);
+    }
+
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#0d0d0d');
-    scene.fog = new THREE.FogExp2('#0d0d0d', 0.011);
 
-    const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 250);
-    camera.position.set(24, 16, 28);
+    const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 300);
+    camera.position.set(34, 24, 38);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    container.appendChild(renderer.domElement);
+    document.getElementById('canvas-container').appendChild(renderer.domElement);
 
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.06;
-    controls.target.set(0, 5.5, 0);
-    controls.maxPolarAngle = Math.PI / 2 - 0.03;
+    controls.target.set(0, 6, 0);
 
-    // Lights
-    scene.add(new THREE.AmbientLight('#ffffff', 0.55));
-    const keyLight = new THREE.DirectionalLight('#ed9f22', 1.15);
-    keyLight.position.set(18, 30, 15);
-    keyLight.castShadow = true;
-    scene.add(keyLight);
-
-    const fillLight = new THREE.DirectionalLight('#600d8b', 0.85);
-    fillLight.position.set(-18, 14, -15);
-    scene.add(fillLight);
-
-    // Ground platform (9.30m baseline)
-    const floorGeo = new THREE.PlaneGeometry(52, 52);
-    const floorMat = new THREE.MeshStandardMaterial({ color: '#181818', roughness: 0.9 });
-    const floor = new THREE.Mesh(floorGeo, floorMat);
-    floor.rotation.x = -Math.PI / 2;
-    floor.receiveShadow = true;
-    scene.add(floor);
-
-    const grid = new THREE.GridHelper(52, 26, '#600d8b', '#262626');
-    grid.position.y = 0.02;
+    const grid = new THREE.GridHelper(56, 28, '#600d8b', '#222222');
     scene.add(grid);
 
-    // Market Stalls under the dome
-    const stallsGroup = new THREE.Group();
-    const stallPositions = [
-      [-8, -7], [0, -7], [8, -7],
-      [-8,  0],           [8,  0],
-      [-8,  7], [0,  7], [8,  7]
-    ];
-    stallPositions.forEach(([x, z], idx) => {
-      const stall = new THREE.Group();
-      stall.position.set(x, 0, z);
+    const stemsGroup = new THREE.Group();
+    scene.add(stemsGroup);
 
-      // Base counter
-      const base = new THREE.Mesh(
-        new THREE.BoxGeometry(4.4, 1.1, 3.2),
-        new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.7 })
-      );
-      base.position.y = 0.55;
-      base.castShadow = true;
-      stall.add(base);
+    let pointsMat = null;
 
-      // Produce crates on counter
-      for (let c = -1; c <= 1; c++) {
-        const crate = new THREE.Mesh(
-          new THREE.BoxGeometry(1.1, 0.45, 1.8),
-          new THREE.MeshStandardMaterial({ color: (idx + c) % 2 === 0 ? '#ed9f22' : '#600d8b', roughness: 0.5 })
-        );
-        crate.position.set(c * 1.25, 1.32, 0);
-        stall.add(crate);
-      }
+    function renderPoints(pts) {
+      const cx = 20;
+      const cy = 20;
+      const baseZ = 9.25;
 
-      // Awning poles
-      [[-2.0, -1.4], [2.0, -1.4], [-2.0, 1.4], [2.0, 1.4]].forEach(([px, pz]) => {
-        const pole = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.06, 0.06, 2.8, 8),
-          new THREE.MeshStandardMaterial({ color: '#888888' })
-        );
-        pole.position.set(px, 1.4, pz);
-        stall.add(pole);
+      const positions = [];
+      const colors = [];
+
+      pts.forEach(([x, y, z, r, g, b]) => {
+        const px = x - cx;
+        const pz = y - cy;
+        const py = z - baseZ;
+        positions.push(px, py, pz);
+        colors.push(r / 255, g / 255, b / 255);
+
+        // Vertical laser measurement stem
+        const lineGeo = new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(px, 0, pz),
+          new THREE.Vector3(px, py, pz)
+        ]);
+        const lineMat = new THREE.LineBasicMaterial({
+          color: z > 12 ? '#ed9f22' : '#600d8b',
+          transparent: true,
+          opacity: 0.48
+        });
+        stemsGroup.add(new THREE.Line(lineGeo, lineMat));
       });
 
-      // Awning roof
-      const awning = new THREE.Mesh(
-        new THREE.BoxGeometry(4.8, 0.14, 3.6),
-        new THREE.MeshStandardMaterial({ color: idx % 2 === 0 ? '#600d8b' : '#ed9f22', roughness: 0.4 })
-      );
-      awning.position.y = 2.85;
-      awning.castShadow = true;
-      stall.add(awning);
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
-      stallsGroup.add(stall);
-    });
-    scene.add(stallsGroup);
-
-    // Parabolic Dome Group (12.53m height)
-    const domeGroup = new THREE.Group();
-    const archCount = 7;
-    const spanX = 26;
-    const heightY = 12.53;
-
-    for (let i = 0; i < archCount; i++) {
-      const zPos = -13 + (i * 26) / (archCount - 1);
-      const pts = [];
-      const segments = 32;
-      for (let s = 0; s <= segments; s++) {
-        const t = (s / segments) * 2 - 1; // -1 to 1
-        const x = t * (spanX / 2);
-        const y = heightY * (1 - t * t);
-        pts.push(new THREE.Vector3(x, y, zPos));
-      }
-      const curve = new THREE.CatmullRomCurve3(pts);
-      const tubeGeo = new THREE.TubeGeometry(curve, 36, 0.24, 10, false);
-      const tubeMat = new THREE.MeshStandardMaterial({
-        color: i === 3 ? '#ed9f22' : '#600d8b',
-        emissive: i === 3 ? '#ed9f22' : '#600d8b',
-        emissiveIntensity: 0.28,
-        roughness: 0.3
-      });
-      domeGroup.add(new THREE.Mesh(tubeGeo, tubeMat));
-    }
-
-    // Longitudinal purlins (leaving central skylight gap between x = -2.5 and 2.5)
-    [-11, -7.5, -4, 4, 7.5, 11].forEach((x) => {
-      const t = x / (spanX / 2);
-      const y = heightY * (1 - t * t);
-      const purlin = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.11, 0.11, 26, 8),
-        new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.4 })
-      );
-      purlin.rotation.x = Math.PI / 2;
-      purlin.position.set(x, y, 0);
-      domeGroup.add(purlin);
-    });
-
-    // Translucent vault shell (two side wings leaving open skylight)
-    const shellGeo = new THREE.CylinderGeometry(13, 13, 26, 32, 1, true, 0.22, Math.PI - 0.44);
-    const shellMat = new THREE.MeshStandardMaterial({
-      color: '#600d8b',
-      transparent: true,
-      opacity: 0.14,
-      side: THREE.DoubleSide,
-      wireframe: false
-    });
-    const shell = new THREE.Mesh(shellGeo, shellMat);
-    shell.rotation.z = Math.PI / 2;
-    shell.rotation.y = Math.PI / 2;
-    shell.scale.set(1, 1, 12.53 / 13);
-    domeGroup.add(shell);
-
-    // Skylight glowing rim at 12.53m
-    const skylightRim = new THREE.Mesh(
-      new THREE.BoxGeometry(4.4, 0.28, 26.2),
-      new THREE.MeshStandardMaterial({
-        color: '#ed9f22',
-        emissive: '#ed9f22',
-        emissiveIntensity: 0.6,
+      pointsMat = new THREE.PointsMaterial({
+        size: 2.0,
+        map: createGlowDotTexture(),
+        vertexColors: true,
         transparent: true,
-        opacity: 0.35
-      })
-    );
-    skylightRim.position.set(0, 12.2, 0);
-    domeGroup.add(skylightRim);
+        alphaTest: 0.05
+      });
+      scene.add(new THREE.Points(geo, pointsMat));
 
-    scene.add(domeGroup);
-
-    // Closed Supermarket Box Group (hidden initially)
-    const superBoxGroup = new THREE.Group();
-    const lowCeiling = new THREE.Mesh(
-      new THREE.BoxGeometry(26, 0.4, 26),
-      new THREE.MeshStandardMaterial({ color: '#ffffff', transparent: true, opacity: 0.85 })
-    );
-    lowCeiling.position.y = 4.6;
-    superBoxGroup.add(lowCeiling);
-
-    const glassWalls = new THREE.Mesh(
-      new THREE.BoxGeometry(26, 4.6, 26),
-      new THREE.MeshStandardMaterial({ color: '#600d8b', transparent: true, opacity: 0.22, side: THREE.DoubleSide })
-    );
-    glassWalls.position.y = 2.3;
-    superBoxGroup.add(glassWalls);
-
-    // AC units on top of closed roof
-    [-6, 0, 6].forEach((x) => {
-      const ac = new THREE.Mesh(
-        new THREE.BoxGeometry(2.4, 1.2, 2.4),
-        new THREE.MeshStandardMaterial({ color: '#ed9f22' })
-      );
-      ac.position.set(x, 5.4, 0);
-      superBoxGroup.add(ac);
-    });
-    superBoxGroup.visible = false;
-    scene.add(superBoxGroup);
-
-    // Signs
-    const signDome = createTextSign('DOMO ABIERTO: 12.53 m', 'El aire caliente escapa solo', '#ffffff', '#600d8b', '#ed9f22');
-    signDome.position.set(0, 14.5, 0);
-    scene.add(signDome);
-
-    const signMarket = createTextSign('PUESTOS FRESCOS', 'Sin aire acondicionado ($0 Luz)', '#600d8b', '#ffffff', '#ed9f22');
-    signMarket.position.set(0, 4.8, 10.5);
-    scene.add(signMarket);
-
-    const signSuper = createTextSign('SÚPER CERRADO: 4.5 m', 'Calor atrapado + Clima caro', '#ed9f22', '#0d0d0d', '#600d8b');
-    signSuper.position.set(0, 8.2, 0);
-    signSuper.visible = false;
-    scene.add(signSuper);
-
-    // Animated rising heat particles
-    const particleCount = 320;
-    const pGeo = new THREE.BufferGeometry();
-    const pPos = new Float32Array(particleCount * 3);
-    const pSpeed = new Float32Array(particleCount);
-    for (let i = 0; i < particleCount; i++) {
-      pPos[i * 3] = (Math.random() - 0.5) * 20;
-      pPos[i * 3 + 1] = 1 + Math.random() * 14;
-      pPos[i * 3 + 2] = (Math.random() - 0.5) * 22;
-      pSpeed[i] = 0.035 + Math.random() * 0.045;
+      drawProfile2D(pts);
     }
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-    const pMat = new THREE.PointsMaterial({
-      color: '#ed9f22',
-      size: 0.34,
-      transparent: true,
-      opacity: 0.85
-    });
-    const heatParticles = new THREE.Points(pGeo, pMat);
-    scene.add(heatParticles);
 
-    let isSuperMode = false;
-    function toggleSuperMode() {
-      isSuperMode = !isSuperMode;
-      const btn = document.getElementById('btn-toggle-mode');
-      const desc = document.getElementById('mode-desc');
-      const hVal = document.getElementById('stat-height');
-      const cVal = document.getElementById('stat-cost');
-      const cLbl = document.getElementById('stat-cost-lbl');
+    function drawProfile2D(pts) {
+      const c = document.getElementById('profile-canvas');
+      const ctx = c.getContext('2d');
+      const W = c.width, H = c.height;
+      ctx.clearRect(0, 0, W, H);
 
-      domeGroup.visible = !isSuperMode;
-      signDome.visible = !isSuperMode;
-      signMarket.visible = !isSuperMode;
-      superBoxGroup.visible = isSuperMode;
-      signSuper.visible = isSuperMode;
+      // Grid lines
+      ctx.strokeStyle = '#ece8f0';
+      ctx.lineWidth = 2;
+      [9, 13, 17, 21].forEach((m) => {
+        const y = H - 28 - ((m - 8) / 15) * (H - 48);
+        ctx.beginPath();
+        ctx.moveTo(52, y);
+        ctx.lineTo(W - 16, y);
+        ctx.stroke();
+        ctx.fillStyle = '#555555';
+        ctx.font = 'bold 18px Segoe UI, sans-serif';
+        ctx.fillText(m + ' m', 6, y + 6);
+      });
 
-      if (isSuperMode) {
-        btn.classList.add('active-super');
-        btn.textContent = 'Regresar al Domo Abierto ($0 Luz)';
-        desc.textContent = 'En un súper cerrado de techo bajo, el calor queda atrapado a 4.5 m y obliga a pagar miles de pesos en clima artificial.';
-        hVal.textContent = '4.50 m';
-        cVal.textContent = 'Clima Caro';
-        cLbl.textContent = 'Aire atrapado adentro';
-        pMat.color.set('#ffffff');
-      } else {
-        btn.classList.remove('active-super');
-        btn.textContent = 'Simular Calor >40°C / Modo Súper Cerrado';
-        desc.textContent = 'Con 12.53 metros de altura libre, el aire caliente sube y escapa por el tragaluz central. Cero aire acondicionado para refrescar los puestos.';
-        hVal.textContent = '12.53 m';
-        cVal.textContent = '$0 Luz';
-        cLbl.textContent = 'Ventilación natural';
-        pMat.color.set('#ed9f22');
-      }
+      // Polyline of real surveyed heights
+      ctx.beginPath();
+      pts.forEach(([x, y, z], i) => {
+        const px = 60 + (i / (pts.length - 1)) * (W - 84);
+        const py = H - 28 - ((z - 8) / 15) * (H - 48);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.strokeStyle = '#600d8b';
+      ctx.lineWidth = 4;
+      ctx.stroke();
+
+      // Dots
+      pts.forEach(([x, y, z], i) => {
+        const px = 60 + (i / (pts.length - 1)) * (W - 84);
+        const py = H - 28 - ((z - 8) / 15) * (H - 48);
+        ctx.fillStyle = z > 12 ? '#ed9f22' : '#600d8b';
+        ctx.beginPath();
+        ctx.arc(px, py, 7, 0, Math.PI * 2);
+        ctx.fill();
+      });
     }
+
+    document.getElementById('pt-size').addEventListener('input', (e) => {
+      if (pointsMat) pointsMat.size = parseFloat(e.target.value);
+    });
+
+    let showStems = true;
+    function toggleStems() {
+      showStems = !showStems;
+      stemsGroup.visible = showStems;
+      document.getElementById('btn-stems').textContent = showStems ? 'Ocultar líneas' : 'Mostrar líneas';
+    }
+
+    fetch('./domo_mercado_lucas_galvez_lidar.ply')
+      .then(r => r.ok ? r.text() : Promise.reject())
+      .then(txt => renderPoints(parsePLY(txt)))
+      .catch(() => renderPoints(parsePLY(FALLBACK_PLY)));
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -493,28 +374,6 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      const pos = pGeo.attributes.position.array;
-      for (let i = 0; i < particleCount; i++) {
-        const ix = i * 3;
-        if (!isSuperMode) {
-          // Funnel gently toward center skylight and escape upward
-          pos[ix] += (0 - pos[ix]) * 0.008;
-          pos[ix + 1] += pSpeed[i];
-          if (pos[ix + 1] > 16) {
-            pos[ix] = (Math.random() - 0.5) * 20;
-            pos[ix + 1] = 1.2;
-            pos[ix + 2] = (Math.random() - 0.5) * 22;
-          }
-        } else {
-          // Trapped swirling under 4.5m ceiling
-          pos[ix] += Math.sin(Date.now() * 0.002 + i) * 0.05;
-          pos[ix + 1] += pSpeed[i] * 0.5;
-          if (pos[ix + 1] > 4.2) {
-            pos[ix + 1] = 1.0;
-          }
-        }
-      }
-      pGeo.attributes.position.needsUpdate = true;
       controls.update();
       renderer.render(scene, camera);
     }

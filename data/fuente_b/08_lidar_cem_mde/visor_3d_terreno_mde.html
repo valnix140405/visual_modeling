@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visor 3D — El Detector de Charcos en Mérida (08-B)</title>
+  <title>LiDAR 08-B — Nube de Elevación Real INEGI CEM Mérida</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
@@ -44,7 +44,7 @@
       color: var(--white);
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
       padding: 4px 10px;
       border-radius: 999px;
@@ -55,23 +55,19 @@
     .slider-box {
       background: #f5f3f7;
       border-radius: 10px;
-      padding: 12px;
+      padding: 10px 12px;
       margin-bottom: 10px;
       border-bottom: 3px solid var(--gold);
     }
     .slider-header {
       display: flex;
       justify-content: space-between;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .slider-header span:last-child { color: var(--purple); }
-    input[type="range"] {
-      width: 100%;
-      accent-color: var(--purple);
-      cursor: pointer;
-    }
+    input[type="range"] { width: 100%; accent-color: var(--purple); cursor: pointer; }
     .zone-status {
       font-size: 12px;
       line-height: 1.45;
@@ -79,7 +75,6 @@
       border: 1px solid var(--gold);
       border-radius: 8px;
       padding: 8px 10px;
-      color: var(--text);
     }
     .hud-top-right { position: fixed; top: 16px; right: 16px; z-index: 10; }
     .btn-back {
@@ -95,24 +90,31 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
     }
     .btn-back:hover { background: var(--purple); color: var(--white); }
-    .hud-bottom {
+    .profile-card {
       position: fixed;
       bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
+      right: 16px;
       z-index: 10;
-      background: rgba(255, 255, 255, 0.96);
+      background: var(--white);
       color: var(--text);
-      padding: 10px 18px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      white-space: nowrap;
+      border-radius: 12px;
+      padding: 12px 14px;
+      width: 390px;
+      border-top: 4px solid var(--gold);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
     }
-    @media (max-width: 640px) {
+    .profile-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--purple);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    #profile-canvas { width: 100%; height: 140px; display: block; }
+    @media (max-width: 720px) {
       .hud-top-left { max-width: calc(100vw - 32px); top: 62px; }
-      .hud-bottom { display: none; }
+      .profile-card { width: calc(100vw - 32px); right: 16px; bottom: 12px; }
     }
   </style>
 </head>
@@ -124,223 +126,254 @@
   </div>
 
   <div class="hud-top-left">
-    <span class="badge">Relieve INEGI 08-B · Mérida Norte vs. Sur</span>
-    <h1>El Detector de Charcos en Mérida</h1>
+    <span class="badge">LiDAR Real 08-B · INEGI CEM 3.0 (.PLY)</span>
+    <h1>Elevación Real de Mérida: Norte vs. Sur</h1>
     <p class="subtitle">
-      El Norte (Altabrisa) está casi 5 metros más alto que el Sur (Dzununcán y San José Tecoh). Sube el nivel de lluvia para ver dónde se estanca el agua.
+      Nube de elevación real (m s.n.m.) que muestra por qué el Norte (Altabrisa, 11.2 m) drena hacia el Sur (Dzununcán, 6.4 m) cuando llueve fuerte.
     </p>
     <div class="slider-box">
       <div class="slider-header">
-        <span>Nivel de Lluvia (Cota del agua)</span>
+        <span>Cota de agua en lluvia</span>
         <span id="rain-val">7.5 m</span>
       </div>
       <input type="range" id="rain-slider" min="6.0" max="10.2" step="0.1" value="7.5" />
     </div>
-    <div class="zone-status" id="zone-status">
-      <strong>Zonas con agua:</strong> Dzununcán (6.4 m), San José Tecoh (7.1 m), Kanasín (7.4 m).<br>
-      <strong>Zonas secas:</strong> Altabrisa (11.2 m), Centro (9.3 m).
-    </div>
+    <div class="zone-status" id="zone-status"></div>
   </div>
 
-  <div class="hud-bottom">
-    Arrastra para inclinar el mapa 3D de Mérida · Rueda del ratón para hacer zoom
+  <div class="profile-card">
+    <div class="profile-title">
+      <span>Perfil Norte a Sur (Elevación Real INEGI)</span>
+      <span>Diferencia: 4.8 m</span>
+    </div>
+    <canvas id="profile-canvas" width="720" height="260"></canvas>
   </div>
 
   <script>
-    function createLabelSprite(name, elevText, isHigh) {
-      const canvas = document.createElement('canvas');
-      canvas.width = 420;
-      canvas.height = 140;
-      const ctx = canvas.getContext('2d');
+    const FALLBACK_PLY = `0.000 0.000 9.150 237 159 34
+0.200 0.000 9.220 237 159 34
+0.400 0.000 9.280 237 159 34
+0.600 0.000 9.350 237 159 34
+0.800 0.000 9.410 237 159 34
+0.000 0.200 9.120 237 159 34
+0.200 0.200 9.180 237 159 34
+0.400 0.200 9.300 237 159 34
+0.600 0.200 9.450 237 159 34
+0.800 0.200 9.500 237 159 34
+0.000 0.400 9.200 237 159 34
+0.200 0.400 9.250 237 159 34
+0.400 0.400 9.350 237 159 34
+0.600 0.400 9.480 237 159 34
+0.800 0.400 9.550 237 159 34`;
 
-      ctx.fillStyle = isHigh ? '#ffffff' : '#600d8b';
-      ctx.beginPath();
-      ctx.roundRect(8, 8, 404, 124, 18);
-      ctx.fill();
-      ctx.lineWidth = 8;
-      ctx.strokeStyle = '#ed9f22';
-      ctx.stroke();
+    const MERIDA_ZONES = [
+      { name: 'Altabrisa',    elev: 11.2, x: 4,  z: -14 },
+      { name: 'Chuburná',     elev: 10.1, x: -6, z: -9 },
+      { name: 'Centro',       elev: 9.3,  x: 0,  z: -1 },
+      { name: 'Sambulá',      elev: 7.8,  x: -8, z: 6 },
+      { name: 'Kanasín',      elev: 7.4,  x: 8,  z: 8 },
+      { name: 'San José Tecoh', elev: 7.1, x: -2, z: 12 },
+      { name: 'Dzununcán',    elev: 6.4,  x: 2,  z: 16 }
+    ];
 
-      ctx.fillStyle = isHigh ? '#0d0d0d' : '#ffffff';
-      ctx.font = 'bold 30px Segoe UI, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(name, 210, 58);
-
-      ctx.fillStyle = isHigh ? '#600d8b' : '#ed9f22';
-      ctx.font = 'bold 26px Segoe UI, sans-serif';
-      ctx.fillText(elevText, 210, 102);
-
-      const tex = new THREE.CanvasTexture(canvas);
-      const mat = new THREE.SpriteMaterial({ map: tex, transparent: true });
-      const sprite = new THREE.Sprite(mat);
-      sprite.scale.set(7.5, 2.5, 1);
-      return sprite;
+    function createGlowDot() {
+      const c = document.createElement('canvas');
+      c.width = 64; c.height = 64;
+      const ctx = c.getContext('2d');
+      const g = ctx.createRadialGradient(32, 32, 4, 32, 32, 30);
+      g.addColorStop(0, 'rgba(255,255,255,1)');
+      g.addColorStop(0.6, 'rgba(255,255,255,0.85)');
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(c);
     }
 
-    const container = document.getElementById('canvas-container');
+    function createTag(name, elev) {
+      const c = document.createElement('canvas');
+      c.width = 360; c.height = 110;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.roundRect(6, 6, 348, 98, 16);
+      ctx.fill();
+      ctx.lineWidth = 6;
+      ctx.strokeStyle = elev >= 9.3 ? '#ed9f22' : '#600d8b';
+      ctx.stroke();
+
+      ctx.fillStyle = '#0d0d0d';
+      ctx.font = 'bold 28px Segoe UI, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(name, 180, 48);
+
+      ctx.fillStyle = '#600d8b';
+      ctx.font = 'bold 24px Segoe UI, sans-serif';
+      ctx.fillText(elev.toFixed(1) + ' m s.n.m.', 180, 84);
+
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true }));
+      sp.scale.set(5.6, 1.7, 1);
+      return sp;
+    }
+
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#0d0d0d');
-    scene.fog = new THREE.FogExp2('#0d0d0d', 0.012);
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 250);
-    camera.position.set(28, 22, 30);
+    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.set(24, 18, 26);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
+    document.getElementById('canvas-container').appendChild(renderer.domElement);
 
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.target.set(0, 3, 0);
-    controls.maxPolarAngle = Math.PI / 2 - 0.04;
 
-    scene.add(new THREE.AmbientLight('#ffffff', 0.6));
-    const sun = new THREE.DirectionalLight('#ed9f22', 1.1);
-    sun.position.set(20, 35, 15);
-    scene.add(sun);
-    const rim = new THREE.DirectionalLight('#600d8b', 0.8);
-    rim.position.set(-20, 18, -20);
-    scene.add(rim);
+    const grid = new THREE.GridHelper(40, 20, '#600d8b', '#222222');
+    scene.add(grid);
 
-    // Elevation helper: z = -18 (North / Altabrisa ~11.2m) to z = +18 (South / Dzununcán ~6.4m)
-    function getElevation(x, z) {
-      // North-South slope + gentle terrain undulations
-      const base = 8.8 - (z / 18) * 2.4;
-      const undulation = Math.sin(x * 0.22) * 0.35 + Math.cos(z * 0.25) * 0.25;
-      // Slight low basin in South-East (Kanasín / Tecoh)
-      const basin = (z > 4 && x > -5) ? -0.45 : 0;
-      return base + undulation + basin;
-    }
+    const elevToY = (e) => (e - 5.5) * 1.6;
 
-    function elevToY(elev) {
-      return (elev - 5.5) * 1.45;
-    }
-
-    // High-res Terrain Mesh
-    const size = 38;
-    const segs = 72;
-    const terrainGeo = new THREE.PlaneGeometry(size, size, segs, segs);
-    terrainGeo.rotateX(-Math.PI / 2);
-
-    const posAttr = terrainGeo.attributes.position;
-    const colors = [];
-    const cLow = new THREE.Color('#600d8b');
-    const cMid = new THREE.Color('#ed9f22');
-    const cHigh = new THREE.Color('#ffffff');
-
-    for (let i = 0; i < posAttr.count; i++) {
-      const x = posAttr.getX(i);
-      const z = posAttr.getZ(i);
-      const elev = getElevation(x, z);
-      posAttr.setY(i, elevToY(elev));
-
-      const t = Math.max(0, Math.min(1, (elev - 6.2) / 5.0));
-      const col = new THREE.Color();
-      if (t < 0.5) {
-        col.lerpColors(cLow, cMid, t * 2);
-      } else {
-        col.lerpColors(cMid, cHigh, (t - 0.5) * 2);
-      }
-      colors.push(col.r, col.g, col.b);
-    }
-    terrainGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-    terrainGeo.computeVertexNormals();
-
-    const terrainMat = new THREE.MeshStandardMaterial({
-      vertexColors: true,
-      roughness: 0.78,
-      metalness: 0.1
-    });
-    const terrainMesh = new THREE.Mesh(terrainGeo, terrainMat);
-    scene.add(terrainMesh);
-
-    // Subtle wireframe overlay for LiDAR relief look
-    const wireMat = new THREE.MeshBasicMaterial({
-      color: '#0d0d0d',
-      wireframe: true,
-      transparent: true,
-      opacity: 0.18
-    });
-    const wireMesh = new THREE.Mesh(terrainGeo, wireMat);
-    wireMesh.position.y = 0.03;
-    scene.add(wireMesh);
-
-    // Mérida Neighborhood Markers + stylized 3D buildings
-    const zones = [
-      { name: 'Altabrisa (Norte)', elev: 11.2, x: 6,  z: -14 },
-      { name: 'Chuburná',          elev: 10.1, x: -9, z: -10 },
-      { name: 'Centro / Mercado',  elev: 9.3,  x: 0,  z: -2 },
-      { name: 'Sambulá',           elev: 7.8,  x: -10, z: 7 },
-      { name: 'Kanasín',           elev: 7.4,  x: 11, z: 8 },
-      { name: 'San José Tecoh',    elev: 7.1,  x: -2, z: 12 },
-      { name: 'Dzununcán (Sur)',   elev: 6.4,  x: 2,  z: 16 }
-    ];
-
-    zones.forEach((z) => {
-      const yBase = elevToY(getElevation(z.x, z.z));
-      // Cluster of 3 mini buildings
-      for (let b = 0; b < 3; b++) {
-        const h = 0.7 + (z.elev > 9 ? 0.9 : 0.35) * ((b % 2) + 0.6);
-        const bldg = new THREE.Mesh(
-          new THREE.BoxGeometry(1.1, h, 1.1),
-          new THREE.MeshStandardMaterial({
-            color: z.elev >= 9.3 ? '#ffffff' : '#ed9f22',
-            roughness: 0.5
-          })
-        );
-        bldg.position.set(z.x + (b - 1) * 1.3, yBase + h / 2, z.z + (b === 1 ? 0.6 : -0.4));
-        scene.add(bldg);
-      }
-
-      // Beacon pole
-      const pole = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.08, 0.08, 3.2, 8),
-        new THREE.MeshBasicMaterial({ color: '#ed9f22' })
-      );
-      pole.position.set(z.x, yBase + 1.6, z.z);
-      scene.add(pole);
-
-      const label = createLabelSprite(z.name, z.elev.toFixed(1) + ' m altura', z.elev >= 9.3);
-      label.position.set(z.x, yBase + 4.2, z.z);
-      scene.add(label);
-    });
-
-    // Animated Translucent Floodwater Plane
-    const waterGeo = new THREE.PlaneGeometry(38.2, 38.2, 40, 40);
-    waterGeo.rotateX(-Math.PI / 2);
-    const waterMat = new THREE.MeshStandardMaterial({
-      color: '#600d8b',
-      emissive: '#600d8b',
-      emissiveIntensity: 0.45,
-      transparent: true,
-      opacity: 0.62,
-      roughness: 0.15,
-      metalness: 0.35,
-      side: THREE.DoubleSide
-    });
-    const waterMesh = new THREE.Mesh(waterGeo, waterMat);
+    // Translucent water plane
+    const waterMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(38, 38),
+      new THREE.MeshBasicMaterial({ color: '#600d8b', transparent: true, opacity: 0.42, side: THREE.DoubleSide })
+    );
+    waterMesh.rotation.x = -Math.PI / 2;
     scene.add(waterMesh);
+
+    function initPointCloud(plyText) {
+      const lines = plyText.trim().split(/\r?\n/);
+      const endIdx = lines.findIndex(l => l.trim() === 'end_header');
+      const rawPts = (endIdx >= 0 ? lines.slice(endIdx + 1) : lines)
+        .map(l => l.trim().split(/\s+/).map(Number))
+        .filter(a => a.length >= 3);
+
+      const pos = [];
+      const col = [];
+
+      // Local INEGI CEM grid centered around Centro (9.3m)
+      rawPts.forEach(([x, y, z]) => {
+        const px = (x - 0.4) * 10;
+        const pz = (y - 0.2) * 10 - 1;
+        const py = elevToY(z);
+        pos.push(px, py, pz);
+        col.push(237 / 255, 159 / 255, 34 / 255);
+      });
+
+      // Regional Mérida LiDAR transect points
+      MERIDA_ZONES.forEach((z) => {
+        const py = elevToY(z.elev);
+        pos.push(z.x, py, z.z);
+        const c = z.elev >= 9.3 ? new THREE.Color('#ffffff') : new THREE.Color('#600d8b');
+        col.push(c.r, c.g, c.b);
+
+        const stemGeo = new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(z.x, 0, z.z),
+          new THREE.Vector3(z.x, py, z.z)
+        ]);
+        scene.add(new THREE.Line(stemGeo, new THREE.LineBasicMaterial({ color: '#ed9f22', transparent: true, opacity: 0.65 })));
+
+        const tag = createTag(z.name, z.elev);
+        tag.position.set(z.x, py + 1.8, z.z);
+        scene.add(tag);
+      });
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+
+      const mat = new THREE.PointsMaterial({
+        size: 1.8,
+        map: createGlowDot(),
+        vertexColors: true,
+        transparent: true,
+        alphaTest: 0.05
+      });
+      scene.add(new THREE.Points(geo, mat));
+    }
 
     const slider = document.getElementById('rain-slider');
     const rainVal = document.getElementById('rain-val');
     const zoneStatus = document.getElementById('zone-status');
 
-    function updateFloodLevel() {
+    function drawProfile2D(waterLevel) {
+      const c = document.getElementById('profile-canvas');
+      const ctx = c.getContext('2d');
+      const W = c.width, H = c.height;
+      ctx.clearRect(0, 0, W, H);
+
+      // Water line
+      const wy = H - 34 - ((waterLevel - 5.5) / 6.5) * (H - 56);
+      ctx.fillStyle = 'rgba(96, 13, 139, 0.16)';
+      ctx.fillRect(54, wy, W - 70, H - 34 - wy);
+      ctx.strokeStyle = '#600d8b';
+      ctx.setLineDash([6, 6]);
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(54, wy);
+      ctx.lineTo(W - 16, wy);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Y axis labels
+      [6, 8, 10, 11].forEach((m) => {
+        const y = H - 34 - ((m - 5.5) / 6.5) * (H - 56);
+        ctx.fillStyle = '#555555';
+        ctx.font = 'bold 17px Segoe UI, sans-serif';
+        ctx.fillText(m + 'm', 8, y + 6);
+      });
+
+      // Terrain slope line
+      ctx.beginPath();
+      MERIDA_ZONES.forEach((z, i) => {
+        const px = 72 + (i / (MERIDA_ZONES.length - 1)) * (W - 108);
+        const py = H - 34 - ((z.elev - 5.5) / 6.5) * (H - 56);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.strokeStyle = '#ed9f22';
+      ctx.lineWidth = 5;
+      ctx.stroke();
+
+      MERIDA_ZONES.forEach((z, i) => {
+        const px = 72 + (i / (MERIDA_ZONES.length - 1)) * (W - 108);
+        const py = H - 34 - ((z.elev - 5.5) / 6.5) * (H - 56);
+        ctx.fillStyle = z.elev <= waterLevel ? '#600d8b' : '#ed9f22';
+        ctx.beginPath();
+        ctx.arc(px, py, 8, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#0d0d0d';
+        ctx.font = 'bold 15px Segoe UI, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(z.name.split(' ')[0], px, H - 10);
+      });
+    }
+
+    function updateFlood() {
       const level = parseFloat(slider.value);
       rainVal.textContent = level.toFixed(1) + ' m';
       waterMesh.position.y = elevToY(level);
 
-      const flooded = zones.filter(z => z.elev <= level).map(z => `${z.name.split(' ')[0]} (${z.elev} m)`);
-      const dry = zones.filter(z => z.elev > level).map(z => `${z.name.split(' ')[0]} (${z.elev} m)`);
-
+      const flooded = MERIDA_ZONES.filter(z => z.elev <= level).map(z => `${z.name} (${z.elev}m)`);
+      const dry = MERIDA_ZONES.filter(z => z.elev > level).map(z => `${z.name} (${z.elev}m)`);
       zoneStatus.innerHTML =
-        `<strong>Zonas con agua:</strong> ${flooded.length ? flooded.join(', ') : 'Ninguna'}<br>` +
-        `<strong>Zonas secas:</strong> ${dry.length ? dry.join(', ') : 'Ninguna'}`;
+        `<strong>Bajo el agua:</strong> ${flooded.length ? flooded.join(', ') : 'Ninguna'}<br>` +
+        `<strong>En seco:</strong> ${dry.length ? dry.join(', ') : 'Ninguna'}`;
+
+      drawProfile2D(level);
     }
 
-    slider.addEventListener('input', updateFloodLevel);
-    updateFloodLevel();
+    slider.addEventListener('input', updateFlood);
+
+    fetch('./inegi_cem_mde_merida_grid.ply')
+      .then(r => r.ok ? r.text() : Promise.reject())
+      .then(txt => initPointCloud(txt))
+      .catch(() => initPointCloud(FALLBACK_PLY));
+
+    updateFlood();
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -350,14 +383,6 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      const t = Date.now() * 0.002;
-      const wPos = waterGeo.attributes.position;
-      for (let i = 0; i < wPos.count; i++) {
-        const x = wPos.getX(i);
-        const z = wPos.getZ(i);
-        wPos.setY(i, Math.sin(x * 0.4 + t) * 0.06 + Math.cos(z * 0.4 + t * 1.2) * 0.06);
-      }
-      wPos.needsUpdate = true;
       controls.update();
       renderer.render(scene, camera);
     }

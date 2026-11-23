@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visor 3D — El Museo Holográfico de tu Despensa (09-B)</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <title>App AR 09-B — Escáner de Precios en el Celular</title>
   <style>
     :root {
       --bg: #0d0d0d;
@@ -17,26 +15,51 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg);
+      background: #141118;
       color: var(--white);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    #canvas-container { position: fixed; inset: 0; z-index: 1; }
-    .hud-top-left {
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 10;
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      background: var(--bg);
+      border-bottom: 2px solid var(--purple);
+    }
+    .brand { font-size: 14px; font-weight: 800; color: var(--gold); }
+    .btn-back {
+      background: var(--white);
+      color: var(--purple);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 2px solid var(--purple);
+    }
+    .btn-back:hover { background: var(--purple); color: var(--white); }
+
+    .stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      padding: 24px;
+      flex-wrap: wrap;
+    }
+    .info-panel {
       background: var(--white);
       color: var(--text);
       border-left: 6px solid var(--purple);
-      border-radius: 12px;
-      padding: 16px 20px;
-      max-width: 400px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 380px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
     }
     .badge {
       display: inline-block;
@@ -44,387 +67,304 @@
       color: var(--white);
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.6px;
       text-transform: uppercase;
       padding: 4px 10px;
       border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    .info-panel h1 { font-size: 22px; line-height: 1.25; margin-bottom: 10px; }
+    .info-panel p { font-size: 14px; line-height: 1.5; color: var(--muted); margin-bottom: 14px; }
+    .tip-box {
+      background: #f5f3f7;
+      border-radius: 10px;
+      padding: 12px;
+      border-bottom: 3px solid var(--gold);
+      font-size: 13px;
+    }
+
+    /* Smartphone Frame */
+    .phone {
+      width: 360px;
+      height: 700px;
+      background: #0d0d0d;
+      border-radius: 42px;
+      border: 8px solid #2b2633;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 2px var(--purple);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .notch {
+      width: 110px;
+      height: 20px;
+      background: #0d0d0d;
+      border-radius: 0 0 14px 14px;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 25;
+    }
+    .phone-status {
+      height: 34px;
+      background: rgba(13, 13, 13, 0.9);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 22px;
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 20;
+    }
+    .viewport {
+      flex: 1;
+      position: relative;
+      background: linear-gradient(180deg, #241931 0%, #37254d 58%, #1c1821 58%, #100e13 100%);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .scan-header {
+      background: rgba(13, 13, 13, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .scan-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    /* AR Result Overlay Card inside phone */
+    .ar-result {
+      background: var(--white);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 16px;
+      border: 3px solid var(--gold);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55);
+      position: relative;
+    }
+    .ar-result-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 8px;
     }
-    h1 { font-size: 18px; line-height: 1.25; margin-bottom: 6px; }
-    .subtitle { font-size: 13px; line-height: 1.45; color: var(--muted); margin-bottom: 12px; }
-    .model-tabs {
+    .ar-pill {
+      background: var(--purple);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+    .ar-savings {
+      background: var(--gold);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 900;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+    .ar-title { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+    .compare-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
-    .tab-btn {
+    .cmp-box {
       background: #f5f3f7;
-      color: var(--text);
-      border: 2px solid transparent;
       border-radius: 8px;
-      padding: 9px 10px;
-      font-size: 12px;
-      font-weight: 800;
+      padding: 8px;
+      text-align: center;
+    }
+    .cmp-box.best { border: 2px solid var(--gold); background: #fff9ef; }
+    .cmp-lbl { font-size: 10px; color: var(--muted); font-weight: 700; }
+    .cmp-val { font-size: 18px; font-weight: 900; color: var(--purple); }
+    .cmp-equiv {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      background: #f5f3f7;
+      border-radius: 8px;
+      padding: 7px 10px;
+      text-align: center;
+    }
+
+    /* Interactive Shelf Items to Tap */
+    .shelf-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .shelf-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .item-tile {
+      background: rgba(255, 255, 255, 0.12);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 10px;
+      color: var(--white);
       cursor: pointer;
       text-align: left;
+      transition: transform 0.15s ease, border-color 0.15s ease;
     }
-    .tab-btn.active {
-      background: var(--purple);
-      color: var(--white);
+    .item-tile:hover { transform: translateY(-2px); }
+    .item-tile.active {
+      background: rgba(96, 13, 139, 0.85);
       border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(237, 159, 34, 0.35);
     }
-    .item-card {
-      background: #fff9ef;
-      border: 1px solid var(--gold);
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 12px;
-      line-height: 1.45;
-    }
-    .hud-top-right { position: fixed; top: 16px; right: 16px; z-index: 10; }
-    .btn-back {
-      display: inline-block;
-      background: var(--white);
-      color: var(--purple);
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 13px;
-      padding: 10px 16px;
-      border-radius: 999px;
-      border: 2px solid var(--purple);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-    }
-    .btn-back:hover { background: var(--purple); color: var(--white); }
-    .hud-bottom {
-      position: fixed;
-      bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      background: rgba(255, 255, 255, 0.96);
-      color: var(--text);
-      padding: 10px 18px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      white-space: nowrap;
-    }
-    @media (max-width: 640px) {
-      .hud-top-left { max-width: calc(100vw - 32px); top: 62px; }
-      .hud-bottom { display: none; }
-    }
+    .tile-name { font-size: 13px; font-weight: 800; margin-bottom: 2px; }
+    .tile-sub { font-size: 11px; color: var(--gold); font-weight: 700; }
   </style>
 </head>
 <body>
-  <div id="canvas-container"></div>
-
-  <div class="hud-top-right">
+  <div class="topbar">
+    <div class="brand">Simulador Móvil AR 09-B · Escáner de Despensa</div>
     <a href="../../../index.html" class="btn-back">Volver a la Presentación</a>
   </div>
 
-  <div class="hud-top-left">
-    <span class="badge">Museo Holográfico 09-B · Piezas 3D</span>
-    <h1>El Museo Holográfico de tu Despensa</h1>
-    <p class="subtitle">
-      Así se ven los productos básicos flotando sobre el pedestal holográfico con su etiqueta real de precio y ahorro.
-    </p>
-    <div class="model-tabs">
-      <button class="tab-btn active" onclick="loadAsset(0)">1. Canasta Fresca</button>
-      <button class="tab-btn" onclick="loadAsset(1)">2. Cartón de Huevos</button>
-      <button class="tab-btn" onclick="loadAsset(2)">3. Leche y Aceite</button>
-      <button class="tab-btn" onclick="loadAsset(3)">4. Semáforo AR</button>
+  <div class="stage">
+    <div class="info-panel">
+      <span class="badge">Realidad Aumentada 09-B</span>
+      <h1>Apunta al producto y ve si te conviene comprarlo ahí</h1>
+      <p>
+        Al enfocar un alimento con la cámara del celular, la app compara al instante el precio del mercado contra el súper y te traduce el ahorro en cosas de todos los días.
+      </p>
+      <div class="tip-box">
+        <strong>Cómo probarlo:</strong> Toca cualquiera de los 4 productos en la parte inferior de la pantalla del teléfono para escanearlo y ver su tarjeta AR.
+      </div>
     </div>
-    <div class="item-card" id="item-info">
-      <strong>Canasta de Frutas y Verduras:</strong> En el mercado pagas $320 por lo mismo que en el súper cuesta $450.
-    </div>
-  </div>
 
-  <div class="hud-bottom">
-    Arrastra para girar el holograma 360 grados · Rueda del ratón para acercar
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="phone-status">
+        <span>9:41</span>
+        <span>Escáner AR</span>
+      </div>
+
+      <div class="viewport">
+        <div class="scan-header">
+          <span><i class="scan-dot"></i>Cámara enfocando producto</span>
+          <span style="color:#ed9f22;">EN VIVO</span>
+        </div>
+
+        <div class="ar-result">
+          <div class="ar-result-top">
+            <span class="ar-pill" id="ar-badge">Semáforo: Conviene</span>
+            <span class="ar-savings" id="ar-save">Ahorras $130</span>
+          </div>
+          <div class="ar-title" id="ar-title">Canasta de Frutas y Verduras</div>
+          <div class="compare-grid">
+            <div class="cmp-box best">
+              <div class="cmp-lbl">En el Mercado</div>
+              <div class="cmp-val" id="ar-mkt">$320</div>
+            </div>
+            <div class="cmp-box">
+              <div class="cmp-lbl">En el Súper</div>
+              <div class="cmp-val" id="ar-sup">$450</div>
+            </div>
+          </div>
+          <div class="cmp-equiv" id="ar-equiv">
+            Ese ahorro equivale a 5 kg de tortilla ($26/kg)
+          </div>
+        </div>
+
+        <div>
+          <div class="shelf-label">Toca un producto para escanearlo</div>
+          <div class="shelf-grid">
+            <button class="item-tile active" onclick="scanItem(0, this)">
+              <div class="tile-name">Canasta Fresca</div>
+              <div class="tile-sub">Mercado $320</div>
+            </button>
+            <button class="item-tile" onclick="scanItem(1, this)">
+              <div class="tile-name">Cartón de Huevo</div>
+              <div class="tile-sub">Mercado $48/kg</div>
+            </button>
+            <button class="item-tile" onclick="scanItem(2, this)">
+              <div class="tile-name">Leche + Aceite</div>
+              <div class="tile-sub">Pack $68</div>
+            </button>
+            <button class="item-tile" onclick="scanItem(3, this)">
+              <div class="tile-name">Despensa Completa</div>
+              <div class="tile-sub">Mercado $1,420</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
-    function createLabel(title, subtitle, bg = '#ffffff', fg = '#600d8b', border = '#ed9f22') {
-      const c = document.createElement('canvas');
-      c.width = 512;
-      c.height = 176;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = bg;
-      ctx.beginPath();
-      ctx.roundRect(8, 8, 496, 160, 20);
-      ctx.fill();
-      ctx.lineWidth = 8;
-      ctx.strokeStyle = border;
-      ctx.stroke();
-
-      ctx.fillStyle = fg;
-      ctx.font = 'bold 34px Segoe UI, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(title, 256, 72);
-
-      ctx.fillStyle = bg === '#ffffff' ? '#0d0d0d' : '#ed9f22';
-      ctx.font = 'bold 26px Segoe UI, sans-serif';
-      ctx.fillText(subtitle, 256, 126);
-
-      const tex = new THREE.CanvasTexture(c);
-      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true }));
-      sp.scale.set(4.8, 1.65, 1);
-      return sp;
-    }
-
-    function createStickerTexture(text, bg, fg) {
-      const c = document.createElement('canvas');
-      c.width = 256;
-      c.height = 256;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, 256, 256);
-      ctx.strokeStyle = '#ed9f22';
-      ctx.lineWidth = 14;
-      ctx.strokeRect(10, 10, 236, 236);
-      ctx.fillStyle = fg;
-      ctx.font = 'bold 40px Segoe UI, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(text, 128, 140);
-      return new THREE.CanvasTexture(c);
-    }
-
-    const container = document.getElementById('canvas-container');
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#0d0d0d');
-
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 120);
-    camera.position.set(0, 4.2, 8.2);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
-
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.target.set(0, 1.8, 0);
-
-    scene.add(new THREE.AmbientLight('#ffffff', 0.65));
-    const keyLight = new THREE.DirectionalLight('#ed9f22', 1.2);
-    keyLight.position.set(6, 10, 8);
-    scene.add(keyLight);
-    const backLight = new THREE.DirectionalLight('#600d8b', 0.9);
-    backLight.position.set(-6, 6, -6);
-    scene.add(backLight);
-
-    // Holographic Pedestal
-    const pedestal = new THREE.Group();
-    const baseDisc = new THREE.Mesh(
-      new THREE.CylinderGeometry(2.6, 2.9, 0.35, 48),
-      new THREE.MeshStandardMaterial({ color: '#600d8b', roughness: 0.3, metalness: 0.4 })
-    );
-    baseDisc.position.y = 0.17;
-    pedestal.add(baseDisc);
-
-    const holoRing1 = new THREE.Mesh(
-      new THREE.TorusGeometry(2.55, 0.05, 16, 64),
-      new THREE.MeshBasicMaterial({ color: '#ed9f22' })
-    );
-    holoRing1.rotation.x = Math.PI / 2;
-    holoRing1.position.y = 0.38;
-    pedestal.add(holoRing1);
-
-    const holoBeam = new THREE.Mesh(
-      new THREE.CylinderGeometry(2.1, 2.5, 4.2, 32, 1, true),
-      new THREE.MeshBasicMaterial({ color: '#600d8b', transparent: true, opacity: 0.12, side: THREE.DoubleSide })
-    );
-    holoBeam.position.y = 2.4;
-    pedestal.add(holoBeam);
-    scene.add(pedestal);
-
-    const showcaseGroup = new THREE.Group();
-    showcaseGroup.position.y = 1.2;
-    scene.add(showcaseGroup);
-
-    const INFOS = [
-      '<strong>Canasta de Frutas y Verduras:</strong> En el mercado pagas $320 por lo mismo que en el súper cuesta $450.',
-      '<strong>Cartón de Huevos ($48/kg):</strong> En el mercado te ahorras hasta $14 por kilo frente a tiendas de cadena.',
-      '<strong>Leche y Aceite de Cocina ($68):</strong> Productos de despensa diaria con etiqueta clara para comparar en segundos.',
-      '<strong>Semáforo de Ahorro AR:</strong> Te dice al instante qué tienda te ahorra dinero y cuánta tortilla extra te llevas.'
+    const ITEMS = [
+      {
+        badge: 'Semáforo: Conviene',
+        save: 'Ahorras $130',
+        title: 'Canasta de Frutas y Verduras',
+        mkt: '$320',
+        sup: '$450',
+        equiv: 'Ese ahorro equivale a 5 kg de tortilla ($26/kg)'
+      },
+      {
+        badge: 'Semáforo: Muy Barato',
+        save: 'Ahorras $14/kg',
+        title: 'Huevo Blanco (Por Kilo)',
+        mkt: '$48/kg',
+        sup: '$62/kg',
+        equiv: 'Con 2 kilos que compres te sobra para 2 viajes Va y Ven'
+      },
+      {
+        badge: 'Semáforo: Precio Justo',
+        save: 'Ahorras $18',
+        title: 'Leche 1 L + Aceite Vegetal',
+        mkt: '$68',
+        sup: '$86',
+        equiv: 'Ahorro directo en productos básicos de la semana'
+      },
+      {
+        badge: 'Semáforo: Máximo Ahorro',
+        save: 'Ahorras $520',
+        title: 'Despensa Mensual Completa',
+        mkt: '$1,420',
+        sup: '$1,940',
+        equiv: 'Te sobran $520: igual a 20 kg de tortilla o 43 viajes Va y Ven'
+      }
     ];
 
-    function buildAsset(idx) {
-      while (showcaseGroup.children.length > 0) {
-        showcaseGroup.remove(showcaseGroup.children[0]);
-      }
+    function scanItem(idx, btn) {
+      const it = ITEMS[idx];
+      document.getElementById('ar-badge').textContent = it.badge;
+      document.getElementById('ar-save').textContent = it.save;
+      document.getElementById('ar-title').textContent = it.title;
+      document.getElementById('ar-mkt').textContent = it.mkt;
+      document.getElementById('ar-sup').textContent = it.sup;
+      document.getElementById('ar-equiv').textContent = it.equiv;
 
-      if (idx === 0) {
-        // Woven basket + arched handle + colorful produce
-        const basketBody = new THREE.Mesh(
-          new THREE.CylinderGeometry(1.55, 1.1, 1.15, 24, 1, false),
-          new THREE.MeshStandardMaterial({ color: '#ed9f22', roughness: 0.7 })
-        );
-        basketBody.position.y = 0.6;
-        showcaseGroup.add(basketBody);
-
-        const rim = new THREE.Mesh(
-          new THREE.TorusGeometry(1.55, 0.1, 12, 32),
-          new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.4 })
-        );
-        rim.rotation.x = Math.PI / 2;
-        rim.position.y = 1.18;
-        showcaseGroup.add(rim);
-
-        const handle = new THREE.Mesh(
-          new THREE.TorusGeometry(1.5, 0.08, 12, 32, Math.PI),
-          new THREE.MeshStandardMaterial({ color: '#600d8b', roughness: 0.4 })
-        );
-        handle.position.y = 1.18;
-        showcaseGroup.add(handle);
-
-        // Produce items inside
-        const items = [
-          { x: -0.5, y: 1.3, z: 0.3, r: 0.42, c: '#ed9f22' },
-          { x: 0.5,  y: 1.35, z: -0.2, r: 0.45, c: '#600d8b' },
-          { x: 0.0,  y: 1.55, z: 0.1, r: 0.48, c: '#ffffff' },
-          { x: -0.2, y: 1.25, z: -0.5, r: 0.36, c: '#ed9f22' },
-          { x: 0.45, y: 1.25, z: 0.45, r: 0.35, c: '#600d8b' }
-        ];
-        items.forEach((it) => {
-          const fruit = new THREE.Mesh(
-            new THREE.SphereGeometry(it.r, 20, 20),
-            new THREE.MeshStandardMaterial({ color: it.c, roughness: 0.35 })
-          );
-          fruit.position.set(it.x, it.y, it.z);
-          showcaseGroup.add(fruit);
-        });
-
-        const tag = createLabel('CANASTA DE MERCADO: $320', 'Ahorras $130 frente al súper');
-        tag.position.set(0, 3.3, 0);
-        showcaseGroup.add(tag);
-      } else if (idx === 1) {
-        // Open egg carton with 12 3D eggs
-        const tray = new THREE.Mesh(
-          new THREE.BoxGeometry(2.6, 0.35, 1.8),
-          new THREE.MeshStandardMaterial({ color: '#600d8b', roughness: 0.7 })
-        );
-        tray.position.y = 0.5;
-        showcaseGroup.add(tray);
-
-        const lid = new THREE.Mesh(
-          new THREE.BoxGeometry(2.6, 0.18, 1.8),
-          new THREE.MeshStandardMaterial({ color: '#ed9f22', roughness: 0.6 })
-        );
-        lid.position.set(0, 1.4, -1.45);
-        lid.rotation.x = -Math.PI / 3;
-        showcaseGroup.add(lid);
-
-        for (let r = 0; r < 3; r++) {
-          for (let c = 0; c < 4; c++) {
-            const egg = new THREE.Mesh(
-              new THREE.SphereGeometry(0.24, 18, 18),
-              new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.3 })
-            );
-            egg.scale.set(1, 1.35, 1);
-            egg.position.set(-0.9 + c * 0.6, 0.85, -0.55 + r * 0.55);
-            showcaseGroup.add(egg);
-          }
-        }
-
-        const tag = createLabel('HUEVO FRESCO: $48/kg', 'Hasta $14 más barato que en súper');
-        tag.position.set(0, 2.9, 0);
-        showcaseGroup.add(tag);
-      } else if (idx === 2) {
-        // Milk carton + Cooking oil bottle
-        const milkTex = createStickerTexture('LECHE 1L', '#ffffff', '#600d8b');
-        const milk = new THREE.Mesh(
-          new THREE.BoxGeometry(0.95, 1.75, 0.95),
-          new THREE.MeshStandardMaterial({ map: milkTex, roughness: 0.4 })
-        );
-        milk.position.set(-0.95, 1.0, 0);
-        showcaseGroup.add(milk);
-
-        const gable = new THREE.Mesh(
-          new THREE.ConeGeometry(0.67, 0.55, 4),
-          new THREE.MeshStandardMaterial({ color: '#600d8b' })
-        );
-        gable.rotation.y = Math.PI / 4;
-        gable.position.set(-0.95, 2.15, 0);
-        showcaseGroup.add(gable);
-
-        // Oil bottle
-        const oilBody = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.48, 0.52, 1.75, 24),
-          new THREE.MeshStandardMaterial({ color: '#ed9f22', roughness: 0.25, transparent: true, opacity: 0.9 })
-        );
-        oilBody.position.set(0.95, 1.0, 0);
-        showcaseGroup.add(oilBody);
-
-        const oilNeck = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.18, 0.45, 0.45, 20),
-          new THREE.MeshStandardMaterial({ color: '#ed9f22', roughness: 0.25 })
-        );
-        oilNeck.position.set(0.95, 2.1, 0);
-        showcaseGroup.add(oilNeck);
-
-        const oilCap = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.2, 0.2, 0.22, 16),
-          new THREE.MeshStandardMaterial({ color: '#ffffff' })
-        );
-        oilCap.position.set(0.95, 2.42, 0);
-        showcaseGroup.add(oilCap);
-
-        const tag = createLabel('BÁSICOS: $68 PACK', 'Leche + Aceite de cocina');
-        tag.position.set(0, 3.3, 0);
-        showcaseGroup.add(tag);
-      } else {
-        // 3D AR Traffic-Light HUD Board
-        const frame = new THREE.Mesh(
-          new THREE.BoxGeometry(2.8, 2.6, 0.24),
-          new THREE.MeshStandardMaterial({ color: '#600d8b', roughness: 0.35 })
-        );
-        frame.position.y = 1.5;
-        showcaseGroup.add(frame);
-
-        [
-          { y: 2.25, col: '#ed9f22' },
-          { y: 1.50, col: '#ffffff' },
-          { y: 0.75, col: '#600d8b' }
-        ].forEach((orb) => {
-          const sphere = new THREE.Mesh(
-            new THREE.SphereGeometry(0.28, 24, 24),
-            new THREE.MeshStandardMaterial({ color: orb.col, emissive: orb.col, emissiveIntensity: 0.45 })
-          );
-          sphere.position.set(-0.85, orb.y, 0.2);
-          showcaseGroup.add(sphere);
-        });
-
-        const tag = createLabel('SEMÁFORO DE AHORRO', 'Ahorras $520 = 20 kg tortilla');
-        tag.position.set(0, 3.4, 0);
-        showcaseGroup.add(tag);
-      }
+      document.querySelectorAll('.item-tile').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
     }
-
-    function loadAsset(idx) {
-      document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
-      document.getElementById('item-info').innerHTML = INFOS[idx];
-      buildAsset(idx);
-    }
-
-    loadAsset(0);
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    function animate() {
-      requestAnimationFrame(animate);
-      showcaseGroup.rotation.y += 0.006;
-      holoRing1.rotation.z += 0.01;
-      controls.update();
-      renderer.render(scene, camera);
-    }
-    animate();
   </script>
 </body>
 </html>

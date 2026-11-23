@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visor 3D — El Ojo desde el Espacio: Dónde Falta Sombra (08-C)</title>
+  <title>LiDAR 08-C — Nube Espacial Real NASA GEDI (500 Puntos)</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
@@ -44,7 +44,7 @@
       color: var(--white);
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
       padding: 4px 10px;
       border-radius: 999px;
@@ -54,33 +54,47 @@
     .subtitle { font-size: 13px; line-height: 1.45; color: var(--muted); margin-bottom: 12px; }
     .stats-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
       margin-bottom: 12px;
     }
     .stat-box {
       background: #f5f3f7;
       border-radius: 8px;
-      padding: 8px 10px;
+      padding: 8px;
       border-bottom: 3px solid var(--gold);
     }
-    .stat-val { font-size: 15px; font-weight: 800; color: var(--purple); }
-    .stat-lbl { font-size: 11px; color: var(--muted); }
-    .btn-action {
-      background: var(--gold);
+    .stat-val { font-size: 14px; font-weight: 800; color: var(--purple); }
+    .stat-lbl { font-size: 10px; color: var(--muted); }
+    .filter-btns {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .btn-filter {
+      flex: 1;
+      border: 2px solid #e2dce8;
+      background: #f5f3f7;
       color: var(--text);
-      border: none;
       border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 13px;
+      padding: 7px 6px;
+      font-size: 11px;
       font-weight: 800;
       cursor: pointer;
-      width: 100%;
     }
-    .btn-action.hot {
+    .btn-filter.active {
       background: var(--purple);
       color: var(--white);
+      border-color: var(--gold);
     }
+    .ctrl-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    input[type="range"] { width: 55%; accent-color: var(--purple); cursor: pointer; }
     .hud-top-right { position: fixed; top: 16px; right: 16px; z-index: 10; }
     .btn-back {
       display: inline-block;
@@ -95,24 +109,31 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
     }
     .btn-back:hover { background: var(--purple); color: var(--white); }
-    .hud-bottom {
+    .profile-card {
       position: fixed;
       bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
+      right: 16px;
       z-index: 10;
-      background: rgba(255, 255, 255, 0.96);
+      background: var(--white);
       color: var(--text);
-      padding: 10px 18px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      white-space: nowrap;
+      border-radius: 12px;
+      padding: 12px 14px;
+      width: 380px;
+      border-top: 4px solid var(--gold);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
     }
-    @media (max-width: 640px) {
+    .profile-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--purple);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    #hist-canvas { width: 100%; height: 130px; display: block; }
+    @media (max-width: 720px) {
       .hud-top-left { max-width: calc(100vw - 32px); top: 62px; }
-      .hud-bottom { display: none; }
+      .profile-card { width: calc(100vw - 32px); right: 16px; bottom: 12px; }
     }
   </style>
 </head>
@@ -124,275 +145,204 @@
   </div>
 
   <div class="hud-top-left">
-    <span class="badge">Satélite NASA + Láser 08-C · Sombra Urbana</span>
-    <h1>El Ojo desde el Espacio: Dónde Falta Sombra</h1>
-    <p class="subtitle" id="shade-desc">
-      El satélite detecta dónde los árboles de 7.84 m cubren la banqueta y el paradero del camión, bajando el calor para quien camina al mercado.
+    <span class="badge">LiDAR Espacial 08-C · NASA GEDI (.PLY)</span>
+    <h1>Nube Láser de Árboles y Suelo en Mérida</h1>
+    <p class="subtitle">
+      500 pulsos láser reales desde el espacio: separan el suelo sin sombra (8.97 m) de las copas de árboles que refrescan la calle (+7.84 m).
     </p>
     <div class="stats-row">
       <div class="stat-box">
-        <div class="stat-val" id="stat-tree">7.84 m</div>
-        <div class="stat-lbl">Altura promedio copa</div>
+        <div class="stat-val" id="pt-count">500</div>
+        <div class="stat-lbl">Pulsos láser</div>
       </div>
       <div class="stat-box">
-        <div class="stat-val" id="stat-temp">32 °C</div>
-        <div class="stat-lbl" id="stat-temp-lbl">Bajo sombra de árbol</div>
+        <div class="stat-val">8.97 m</div>
+        <div class="stat-lbl">Suelo base</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">7.84 m</div>
+        <div class="stat-lbl">Altura copa</div>
       </div>
     </div>
-    <button class="btn-action" id="btn-toggle-trees" onclick="toggleTrees()">
-      Ver Calle Sin Árboles (Asfalto Caliente)
-    </button>
+    <div class="filter-btns">
+      <button class="btn-filter active" onclick="setFilter('all', this)">Todos (500)</button>
+      <button class="btn-filter" onclick="setFilter('canopy', this)">Copa / Sombra</button>
+      <button class="btn-filter" onclick="setFilter('ground', this)">Suelo Caliente</button>
+    </div>
+    <div class="ctrl-row">
+      <span>Tamaño de pulso láser</span>
+      <input type="range" id="pt-size" min="0.6" max="2.8" step="0.1" value="1.3" />
+    </div>
   </div>
 
-  <div class="hud-bottom">
-    Arrastra para explorar la calle 3D · Rueda del ratón para acercar
+  <div class="profile-card">
+    <div class="profile-title">
+      <span>Distribución Real de Alturas (NASA GEDI)</span>
+      <span>Suelo vs. Copa</span>
+    </div>
+    <canvas id="hist-canvas" width="680" height="240"></canvas>
   </div>
 
   <script>
-    function createSign(title, subtitle, bg, fg, border) {
+    function createGlowDot() {
       const c = document.createElement('canvas');
-      c.width = 480;
-      c.height = 160;
+      c.width = 64; c.height = 64;
       const ctx = c.getContext('2d');
-      ctx.fillStyle = bg;
-      ctx.beginPath();
-      ctx.roundRect(8, 8, 464, 144, 18);
-      ctx.fill();
-      ctx.lineWidth = 8;
-      ctx.strokeStyle = border;
-      ctx.stroke();
-
-      ctx.fillStyle = fg;
-      ctx.font = 'bold 32px Segoe UI, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(title, 240, 68);
-
-      ctx.fillStyle = border;
-      if (bg === '#ed9f22') ctx.fillStyle = '#0d0d0d';
-      ctx.font = 'bold 25px Segoe UI, sans-serif';
-      ctx.fillText(subtitle, 240, 118);
-
-      const tex = new THREE.CanvasTexture(c);
-      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true }));
-      sp.scale.set(7.5, 2.5, 1);
-      return sp;
+      const g = ctx.createRadialGradient(32, 32, 4, 32, 32, 30);
+      g.addColorStop(0, 'rgba(255,255,255,1)');
+      g.addColorStop(0.55, 'rgba(255,255,255,0.85)');
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(c);
     }
 
-    const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#0d0d0d');
-    scene.fog = new THREE.FogExp2('#0d0d0d', 0.012);
 
-    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 220);
-    camera.position.set(22, 16, 24);
+    const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 300);
+    camera.position.set(28, 20, 32);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    container.appendChild(renderer.domElement);
+    document.getElementById('canvas-container').appendChild(renderer.domElement);
 
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.target.set(0, 2.5, 0);
-    controls.maxPolarAngle = Math.PI / 2 - 0.04;
+    controls.target.set(0, 4, 0);
 
-    scene.add(new THREE.AmbientLight('#ffffff', 0.45));
-    const sun = new THREE.DirectionalLight('#ed9f22', 1.35);
-    sun.position.set(16, 28, 12);
-    sun.castShadow = true;
-    sun.shadow.mapSize.width = 2048;
-    sun.shadow.mapSize.height = 2048;
-    sun.shadow.camera.left = -22;
-    sun.shadow.camera.right = 22;
-    sun.shadow.camera.top = 22;
-    sun.shadow.camera.bottom = -22;
-    scene.add(sun);
+    scene.add(new THREE.GridHelper(50, 25, '#600d8b', '#222222'));
 
-    const rim = new THREE.DirectionalLight('#600d8b', 0.65);
-    rim.position.set(-16, 12, -14);
-    scene.add(rim);
+    let allPoints = [];
+    let cloudMesh = null;
+    let pointsMat = null;
+    const dotTex = createGlowDot();
 
-    // Street & Sidewalks
-    const roadMat = new THREE.MeshStandardMaterial({ color: '#1b1b1b', roughness: 0.85 });
-    const road = new THREE.Mesh(new THREE.BoxGeometry(10, 0.2, 42), roadMat);
-    road.position.y = 0;
-    road.receiveShadow = true;
-    scene.add(road);
-
-    // Dashed center line
-    for (let z = -18; z <= 18; z += 4) {
-      const dash = new THREE.Mesh(
-        new THREE.BoxGeometry(0.25, 0.22, 1.8),
-        new THREE.MeshBasicMaterial({ color: '#ed9f22' })
-      );
-      dash.position.set(0, 0.02, z);
-      scene.add(dash);
+    function generateFallback() {
+      const pts = [];
+      for (let i = 0; i < 500; i++) {
+        const rx = ((Math.sin(i * 12.9898) * 43758.5453) % 1 + 1) % 1;
+        const ry = ((Math.sin(i * 78.233) * 43758.5453) % 1 + 1) % 1;
+        const rz = ((Math.sin(i * 45.164) * 43758.5453) % 1 + 1) % 1;
+        const z = 8.97 + rz * 15.0;
+        pts.push([rx * 20000, ry * 20000, z]);
+      }
+      return pts;
     }
 
-    const sidewalkMat = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.7 });
-    [-7.5, 7.5].forEach((x) => {
-      const sw = new THREE.Mesh(new THREE.BoxGeometry(5, 0.38, 42), sidewalkMat);
-      sw.position.set(x, 0.1, 0);
-      sw.receiveShadow = true;
-      scene.add(sw);
-    });
+    function buildCloud(filterMode) {
+      if (cloudMesh) scene.remove(cloudMesh);
+      if (!allPoints.length) return;
 
-    // Houses / Shops along the street
-    [-12, -4, 4, 12].forEach((z, idx) => {
-      const h = 3.2 + (idx % 2) * 1.1;
-      const house = new THREE.Mesh(
-        new THREE.BoxGeometry(4.2, h, 5.2),
-        new THREE.MeshStandardMaterial({ color: idx % 2 === 0 ? '#600d8b' : '#ffffff', roughness: 0.6 })
-      );
-      house.position.set(-12.2, h / 2, z);
-      house.castShadow = true;
-      house.receiveShadow = true;
-      scene.add(house);
-    });
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity;
+      allPoints.forEach(([x, y, z]) => {
+        if (x < minX) minX = x; if (x > maxX) maxX = x;
+        if (y < minY) minY = y; if (y > maxY) maxY = y;
+        if (z < minZ) minZ = z;
+      });
+      const cx = (minX + maxX) / 2;
+      const cy = (minY + maxY) / 2;
+      const scaleXZ = 36 / Math.max(1, maxX - minX);
 
-    // Va y Ven Bus Stop Shelter on East Sidewalk
-    const stopGroup = new THREE.Group();
-    stopGroup.position.set(7.6, 0.3, 0);
-    const stopRoof = new THREE.Mesh(
-      new THREE.BoxGeometry(2.6, 0.16, 5.0),
-      new THREE.MeshStandardMaterial({ color: '#600d8b' })
-    );
-    stopRoof.position.y = 2.6;
-    stopRoof.castShadow = true;
-    stopGroup.add(stopRoof);
+      const pos = [];
+      const col = [];
+      let shown = 0;
 
-    [-2.1, 2.1].forEach((pz) => {
-      const post = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.08, 0.08, 2.5, 8),
-        new THREE.MeshStandardMaterial({ color: '#ed9f22' })
-      );
-      post.position.set(0.9, 1.25, pz);
-      post.castShadow = true;
-      stopGroup.add(post);
-    });
+      allPoints.forEach(([x, y, z]) => {
+        const isCanopy = z >= 14.0;
+        if (filterMode === 'canopy' && !isCanopy) return;
+        if (filterMode === 'ground' && isCanopy) return;
 
-    const bench = new THREE.Mesh(
-      new THREE.BoxGeometry(0.8, 0.45, 3.4),
-      new THREE.MeshStandardMaterial({ color: '#ed9f22' })
-    );
-    bench.position.set(0.3, 0.25, 0);
-    bench.castShadow = true;
-    stopGroup.add(bench);
-    scene.add(stopGroup);
-
-    // 3D Trees Group (7.84 m average height)
-    const treesGroup = new THREE.Group();
-    const treePositions = [
-      [6.4, -13], [6.4, -5.5], [6.4, 5.5], [6.4, 13],
-      [-6.4, -9], [-6.4, 0], [-6.4, 9]
-    ];
-
-    treePositions.forEach(([tx, tz], i) => {
-      const tree = new THREE.Group();
-      tree.position.set(tx, 0.3, tz);
-
-      const trunk = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.24, 0.36, 3.6, 10),
-        new THREE.MeshStandardMaterial({ color: '#ed9f22', roughness: 0.85 })
-      );
-      trunk.position.y = 1.8;
-      trunk.castShadow = true;
-      tree.add(trunk);
-
-      // Multi-layered canopy up to ~7.84 m
-      const canopyColors = ['#600d8b', '#7b1fa2', '#ed9f22'];
-      [
-        { r: 2.3, y: 4.4 },
-        { r: 1.9, y: 5.8 },
-        { r: 1.35, y: 7.0 }
-      ].forEach((tier, tIdx) => {
-        const leaf = new THREE.Mesh(
-          new THREE.DodecahedronGeometry(tier.r, 1),
-          new THREE.MeshStandardMaterial({
-            color: tIdx === 2 && i % 2 === 0 ? canopyColors[2] : canopyColors[0],
-            roughness: 0.6
-          })
-        );
-        leaf.position.y = tier.y;
-        leaf.castShadow = true;
-        leaf.receiveShadow = true;
-        tree.add(leaf);
+        shown++;
+        pos.push((x - cx) * scaleXZ, (z - minZ) * 0.85, (y - cy) * scaleXZ);
+        if (z >= 19.0) {
+          col.push(1, 1, 1);
+        } else if (isCanopy) {
+          col.push(237 / 255, 159 / 255, 34 / 255);
+        } else {
+          col.push(96 / 255, 13 / 255, 139 / 255);
+        }
       });
 
-      treesGroup.add(tree);
+      document.getElementById('pt-count').textContent = shown;
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+
+      pointsMat = new THREE.PointsMaterial({
+        size: parseFloat(document.getElementById('pt-size').value),
+        map: dotTex,
+        vertexColors: true,
+        transparent: true,
+        alphaTest: 0.05
+      });
+      cloudMesh = new THREE.Points(geo, pointsMat);
+      scene.add(cloudMesh);
+    }
+
+    function drawHistogram(pts) {
+      const c = document.getElementById('hist-canvas');
+      const ctx = c.getContext('2d');
+      const W = c.width, H = c.height;
+      ctx.clearRect(0, 0, W, H);
+
+      const bins = [0, 0, 0, 0, 0, 0]; // <11, 11-14, 14-17, 17-20, 20-23, >23
+      const labels = ['<11m', '11-14m', '14-17m', '17-20m', '20-23m', '>23m'];
+      pts.forEach(([, , z]) => {
+        const idx = Math.min(5, Math.max(0, Math.floor((z - 8) / 3)));
+        bins[idx]++;
+      });
+      const maxBin = Math.max(1, ...bins);
+
+      bins.forEach((cnt, i) => {
+        const barW = 76;
+        const gap = 26;
+        const x = 44 + i * (barW + gap);
+        const h = (cnt / maxBin) * (H - 72);
+        const y = H - 36 - h;
+
+        ctx.fillStyle = i < 2 ? '#600d8b' : '#ed9f22';
+        ctx.beginPath();
+        ctx.roundRect(x, y, barW, h, 8);
+        ctx.fill();
+
+        ctx.fillStyle = '#0d0d0d';
+        ctx.font = 'bold 17px Segoe UI, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(cnt, x + barW / 2, y - 6);
+        ctx.fillStyle = '#555555';
+        ctx.fillText(labels[i], x + barW / 2, H - 10);
+      });
+    }
+
+    function setFilter(mode, btn) {
+      document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      buildCloud(mode);
+    }
+
+    document.getElementById('pt-size').addEventListener('input', (e) => {
+      if (pointsMat) pointsMat.size = parseFloat(e.target.value);
     });
-    scene.add(treesGroup);
 
-    // Subtle NASA LiDAR laser scan beam sweeping overhead
-    const laserPlane = new THREE.Mesh(
-      new THREE.PlaneGeometry(24, 0.12),
-      new THREE.MeshBasicMaterial({ color: '#ed9f22', transparent: true, opacity: 0.7, side: THREE.DoubleSide })
-    );
-    laserPlane.position.set(0, 11, 0);
-    laserPlane.rotation.x = Math.PI / 2;
-    scene.add(laserPlane);
-
-    // Floating 3D Signs
-    const signShade = createSign('SOMBRA REAL: 7.84 m', 'Protege el paradero del camión', '#ffffff', '#600d8b', '#ed9f22');
-    signShade.position.set(6.5, 9.6, -5.5);
-    scene.add(signShade);
-
-    const signHot = createSign('ASFALTO SIN SOMBRA: 44 °C', 'Calor extremo al esperar camión', '#ed9f22', '#0d0d0d', '#600d8b');
-    signHot.position.set(0, 6.5, 0);
-    signHot.visible = false;
-    scene.add(signHot);
-
-    // Heat shimmer particles (active when trees are hidden)
-    const heatCount = 220;
-    const hGeo = new THREE.BufferGeometry();
-    const hPos = new Float32Array(heatCount * 3);
-    for (let i = 0; i < heatCount; i++) {
-      hPos[i * 3] = (Math.random() - 0.5) * 16;
-      hPos[i * 3 + 1] = Math.random() * 6;
-      hPos[i * 3 + 2] = (Math.random() - 0.5) * 32;
-    }
-    hGeo.setAttribute('position', new THREE.BufferAttribute(hPos, 3));
-    const heatDots = new THREE.Points(
-      hGeo,
-      new THREE.PointsMaterial({ color: '#ed9f22', size: 0.28, transparent: true, opacity: 0.85 })
-    );
-    heatDots.visible = false;
-    scene.add(heatDots);
-
-    let treesHidden = false;
-    function toggleTrees() {
-      treesHidden = !treesHidden;
-      treesGroup.visible = !treesHidden;
-      signShade.visible = !treesHidden;
-      signHot.visible = treesHidden;
-      heatDots.visible = treesHidden;
-
-      const btn = document.getElementById('btn-toggle-trees');
-      const desc = document.getElementById('shade-desc');
-      const tVal = document.getElementById('stat-tree');
-      const tempVal = document.getElementById('stat-temp');
-      const tempLbl = document.getElementById('stat-temp-lbl');
-
-      if (treesHidden) {
-        btn.classList.add('hot');
-        btn.textContent = 'Regresar los Árboles (Ver Sombra)';
-        desc.textContent = 'Sin árboles, el sol pega directo sobre el asfalto y el paradero. El calor rebota y sube la sensación térmica a 44 °C.';
-        tVal.textContent = '0.00 m';
-        tempVal.textContent = '44 °C';
-        tempLbl.textContent = 'Asfalto sin sombra';
-        roadMat.color.set('#3d2508');
-      } else {
-        btn.classList.remove('hot');
-        btn.textContent = 'Ver Calle Sin Árboles (Asfalto Caliente)';
-        desc.textContent = 'El satélite detecta dónde los árboles de 7.84 m cubren la banqueta y el paradero del camión, bajando el calor para quien camina al mercado.';
-        tVal.textContent = '7.84 m';
-        tempVal.textContent = '32 °C';
-        tempLbl.textContent = 'Bajo sombra de árbol';
-        roadMat.color.set('#1b1b1b');
-      }
-    }
+    fetch('./nasa_gedi_dosel_merida_lidar.ply')
+      .then(r => r.ok ? r.text() : Promise.reject())
+      .then(txt => {
+        const lines = txt.trim().split(/\r?\n/);
+        const endIdx = lines.findIndex(l => l.trim() === 'end_header');
+        allPoints = (endIdx >= 0 ? lines.slice(endIdx + 1) : lines)
+          .map(l => l.trim().split(/\s+/).map(Number))
+          .filter(a => a.length >= 3);
+        buildCloud('all');
+        drawHistogram(allPoints);
+      })
+      .catch(() => {
+        allPoints = generateFallback();
+        buildCloud('all');
+        drawHistogram(allPoints);
+      });
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -402,18 +352,6 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      const t = Date.now() * 0.0015;
-      laserPlane.position.z = Math.sin(t) * 16;
-
-      if (treesHidden) {
-        const arr = hGeo.attributes.position.array;
-        for (let i = 0; i < heatCount; i++) {
-          arr[i * 3 + 1] += 0.04;
-          if (arr[i * 3 + 1] > 6.5) arr[i * 3 + 1] = 0.2;
-        }
-        hGeo.attributes.position.needsUpdate = true;
-      }
-
       controls.update();
       renderer.render(scene, camera);
     }
