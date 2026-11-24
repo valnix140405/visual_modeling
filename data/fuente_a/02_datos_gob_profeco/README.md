@@ -1,38 +1,17 @@
-# 02. datos.gob.mx - Quién es Quién en los Precios (PROFECO)
+# 02-A · PROFECO Quién es Quién en los Precios (Mérida, 2026)
 
-## Descripción de la Fuente
-El portal **datos.gob.mx** es la plataforma central de la Política de Datos Abiertos del Gobierno de México. Una de sus bases de datos más relevantes sobre consumo popular es el programa **Quién es Quién en los Precios (QQP)** de la Procuraduría Federal del Consumidor (PROFECO).
+**Responsable:** Valeria Hernández  
+**Última revisión de procedencia:** 2026-11-24
 
-* **Institución:** Procuraduría Federal del Consumidor (PROFECO) / datos.gob.mx
-* **Licencia:** Libre Uso MX (Datos abiertos gubernamentales).
-* **Frecuencia:** Monitoreo semanal.
-* **Cobertura:** Ciudades principales de México, incluyendo **Mérida, Yucatán**.
+Precios de productos registrados por inspectores de PROFECO en establecimientos de Mérida.
 
-## Productos Clave Monitoreados (Canasta Básica)
-1. Tortilla de maíz a granel (1 kg).
-2. Frijol negro en grano (1 kg en bolsa).
-3. Arroz pulido grano largo (1 kg).
-4. Aceite comestible mixto / vegetal (botella de 800 - 900 ml).
-5. Huevo blanco fresco (paquete de 18 piezas o 1 kg).
-6. Leche pasteurizada entera (1 litro).
-7. Pollo entero fresco (1 kg).
-8. Chuleta de puerco fresca (1 kg).
-9. Azúcar estándar (1 kg).
+| Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
+|---|---|---|---|---|---|---|
+| [`profeco_merida_2026_real.csv`](profeco_merida_2026_real.csv) | 28,288 filas | https://datos.profeco.gob.mx/datos_abiertos/qqp.php | Incorporado 2026-10-01 (registros de mayo 2026) | Libre Uso MX de datos.gob.mx (verificar en la ficha del dataset) | Completo | Todos los registros tienen `fecha_registro` de mayo de 2026. |
+| [`consultar_datos_gob.py`](consultar_datos_gob.py) | — | https://datos.gob.mx | — | — | Script | Explora el catálogo CKAN de datos.gob.mx. |
 
-## Variables del Dataset
-* `fecha_levantamiento`: Fecha en que el verificador de PROFECO registró el precio en la tienda.
-* `cadena_comercial`: Nombre de la cadena (ej. Chedraui, Walmart, Soriana, Bodega Aurrera, Mercado Municipal).
-* `sucursal`: Nombre o dirección de la sucursal en Mérida.
-* `municipio`: Mérida.
-* `estado`: Yucatán.
-* `categoria`: Alimentos / Canasta Básica / Abarrotes.
-* `producto`: Nombre genérico del bien de consumo.
-* `marca_presentacion`: Marca y gramaje específico.
-* `precio_monitoreado`: Precio en pesos mexicanos ($ MXN) reportado al consumidor.
+## Pendientes y cambios
 
-## Archivos en esta carpeta:
-* **Fuente A:** `profeco_merida_2026_real.csv` (28,288 precios reales de 2026 monitoreados por inspectores de PROFECO en Mérida).
-* **Fuente B (EXTRA 1):** `sniim_mayoreo_central_abasto_merida.csv` (Precios mayoristas y medio mayoreo del SNIIM - Secretaría de Economía / datos.gob.mx para la Central de Abasto de Mérida).
-* `profeco_qqp_merida_sample.csv`: Muestra sintética inicial de referencia.
-* `consultar_datos_gob.py`: Script en Python para explorar la API CKAN de datos.gob.mx.
+- Se eliminó `profeco_qqp_merida_sample.csv` (muestra sintética de 20 filas).
 
+**Estados:** Completo = el recurso descrito está en el repositorio. Revisar = hay un problema por confirmar. Prototipo = material de diseño elaborado por el equipo. Pendiente = no hay dato real todavía.

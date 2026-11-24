@@ -1,0 +1,229 @@
+{
+  "denue": {
+    "establecimientos": 7520,
+    "top_actividades": {
+      "Comercio al por menor en tiendas de abarrotes, ultramarinos y misceláneas": 3798,
+      "Comercio al por menor de frutas y verduras frescas": 870,
+      "Comercio al por menor de carnes rojas": 669,
+      "Comercio al por menor en minisupers": 631,
+      "Comercio al por menor de carne de aves": 453
+    },
+    "pct_0_a_5_personas": 92.5
+  },
+  "profeco": {
+    "registros": 28288,
+    "cadenas": 34,
+    "establecimientos": 63,
+    "fechas": [
+      "02/05/2026",
+      "29/05/2026"
+    ]
+  },
+  "central_vs_super": {
+    "pares_comparables": 139,
+    "pct_pares_super_mas_caro": 74.1,
+    "mediana_dif_pct": 19.0,
+    "mayores_diferencias": [
+      {
+        "producto": "Cebolla",
+        "presentacion": "1 Kg. Granel. Blanca Sin Rabo",
+        "central": 10.9,
+        "super": 29.9,
+        "dif_pct": 174.3
+      },
+      {
+        "producto": "Garbanzo",
+        "presentacion": "1 Kg. Granel",
+        "central": 30.0,
+        "super": 80.0,
+        "dif_pct": 166.7
+      },
+      {
+        "producto": "Rábano",
+        "presentacion": "Manojo. Cambray",
+        "central": 10.0,
+        "super": 24.9,
+        "dif_pct": 149.0
+      },
+      {
+        "producto": "Col",
+        "presentacion": "1 Kg. Granel. Blanca o Repollo",
+        "central": 10.0,
+        "super": 23.9,
+        "dif_pct": 139.0
+      },
+      {
+        "producto": "Chía",
+        "presentacion": "1 Kg. Granel. Semilla",
+        "central": 100.0,
+        "super": 220.0,
+        "dif_pct": 120.0
+      }
+    ]
+  },
+  "canasta_cadenas": {
+    "combinaciones": 62,
+    "items": 13,
+    "cadenas": [
+      "Bodega Aurrera",
+      "Chedraui",
+      "Dunosusa",
+      "Hipermercado Soriana",
+      "Super Aki Xtra",
+      "Wal-mart"
+    ]
+  },
+  "farmacias": {
+    "registros": 5864,
+    "cadenas": {
+      "Farmacias del Ahorro": 1024,
+      "Farmacia Guadalajara": 988,
+      "Farmacia Yza": 813,
+      "Farmacia Bazar": 730,
+      "Farmacia": 604,
+      "Sanborn S Hnos.": 553,
+      "Farmacia Comercio": 476,
+      "Farmacias de Similares": 250,
+      "Oxxo": 216,
+      "7 Eleven": 142,
+      "Farmacia Canto": 68
+    }
+  },
+  "tienditas_vs_super": [
+    {
+      "producto": "Leche entera LALA 1 L",
+      "mediana_tiendita_mxn": 26.0,
+      "registros_tiendita": 4,
+      "mediana_supermercado_mxn": 37.0,
+      "registros_supermercado": 24,
+      "diferencia_pct_tiendita_vs_super": -29.7
+    },
+    {
+      "producto": "Pan blanco Bimbo grande",
+      "mediana_tiendita_mxn": 60.0,
+      "registros_tiendita": 5,
+      "mediana_supermercado_mxn": 43.0,
+      "registros_supermercado": 41,
+      "diferencia_pct_tiendita_vs_super": 39.5
+    },
+    {
+      "producto": "Tortilla de maíz 1 kg",
+      "mediana_tiendita_mxn": 26.5,
+      "registros_tiendita": 2,
+      "mediana_supermercado_mxn": 13.0,
+      "registros_supermercado": 43,
+      "diferencia_pct_tiendita_vs_super": 103.8
+    },
+    {
+      "producto": "Frijol negro (precio por kg)",
+      "mediana_tiendita_mxn": 28.0,
+      "registros_tiendita": 5,
+      "mediana_supermercado_mxn": 25.56,
+      "registros_supermercado": 39,
+      "diferencia_pct_tiendita_vs_super": 9.6
+    }
+  ],
+  "coneval": {
+    "periodo_inicial": "2018-01",
+    "canasta_alimentaria_urbana_inicial": 1514.91,
+    "periodo_final": "2025-03",
+    "canasta_alimentaria_urbana_final": 2379.47,
+    "aumento_pct": 57.1,
+    "lpi_urbana_final": 4680.15
+  },
+  "censo_municipio": {
+    "poblacion": 995129,
+    "pea": 527424,
+    "ocupada": 520438,
+    "pct_sin_afiliacion_salud": 22.2,
+    "grado_promedio_escolaridad": 11.4,
+    "viviendas_habitadas": 284682,
+    "pct_viviendas_con_internet": 76.3
+  },
+  "ageb": {
+    "ageb_con_poblacion": 520,
+    "sin_afiliacion_mediana": 21.6,
+    "sin_afiliacion_p10": 16.6,
+    "sin_afiliacion_p90": 31.0,
+    "ageb_mas_de_40pct_sin_afiliacion": 12,
+    "internet_mediana": 76.8
+  },
+  "censos_economicos": {
+    "abarrotes_unidades": 3113,
+    "abarrotes_personal": 5657,
+    "abarrotes_ingresos_mdp": 1291.71,
+    "supermercados_unidades": 78,
+    "supermercados_personal": 6838,
+    "supermercados_ingresos_mdp": 15338.608
+  },
+  "mercados": {
+    "mercados": 15,
+    "establecimientos_total": 1661,
+    "top": [
+      [
+        "Mercado Lucas de Gálvez",
+        817
+      ],
+      [
+        "Mercado San Benito",
+        486
+      ],
+      [
+        "Mercado García Rejón",
+        92
+      ]
+    ]
+  },
+  "vayven": {
+    "elementos": 565,
+    "paradas": 500,
+    "rutas": 18
+  },
+  "diconsa": {
+    "registros": 4063
+  },
+  "elevacion_centro": {
+    "celdas": 1681,
+    "min_m": 7.77,
+    "max_m": 12.74,
+    "pendiente_mediana_grados": 0.41
+  },
+  "relieve_ciudades": [
+    {
+      "ciudad": "Ciudad de México",
+      "elev_media": 2251.0,
+      "desnivel": 243.0,
+      "pendiente_mediana": 0.2
+    },
+    {
+      "ciudad": "Guanajuato",
+      "elev_media": 2243.2,
+      "desnivel": 853.0,
+      "pendiente_mediana": 3.9
+    },
+    {
+      "ciudad": "Monterrey",
+      "elev_media": 651.4,
+      "desnivel": 1292.0,
+      "pendiente_mediana": 1.4
+    },
+    {
+      "ciudad": "Mérida",
+      "elev_media": 9.6,
+      "desnivel": 16.2,
+      "pendiente_mediana": 0.1
+    },
+    {
+      "ciudad": "San Cristóbal de las Casas",
+      "elev_media": 2317.6,
+      "desnivel": 1413.0,
+      "pendiente_mediana": 5.0
+    },
+    {
+      "ciudad": "Toluca",
+      "elev_media": 2683.7,
+      "desnivel": 457.4,
+      "pendiente_mediana": 0.8
+    }
+  ]
+}

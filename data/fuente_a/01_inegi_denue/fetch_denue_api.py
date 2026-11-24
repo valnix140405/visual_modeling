@@ -7,7 +7,8 @@ import json
 import pandas as pd
 
 # Sustituye con tu token generado en inegi.org.mx/servicios/api_indicadores.html
-INEGI_TOKEN = "AQUI_TU_TOKEN_INEGI"
+import os
+INEGI_TOKEN = os.environ.get("INEGI_TOKEN", "")  # define la variable de entorno INEGI_TOKEN
 
 def buscar_comercios_merida(termino="supermercado", lat=20.967370, lon=-89.592586, distancia_metros=3000):
     """

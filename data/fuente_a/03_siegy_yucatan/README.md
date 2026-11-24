@@ -1,21 +1,19 @@
-# 03. SIEGY - Sistema de Información Estadística y Geográfica de Yucatán
+# 03-A · Ingreso y canasta: CONEVAL + Censo 2020 (en sustitución de SIEGY)
 
-## Descripción de la Fuente
-El **SIEGY** es la plataforma oficial coordinada por la Secretaría Técnica de Planeación y Evaluación (**SEPLAN**) del Gobierno del Estado de Yucatán. Consolida datos sobre dinámica poblacional, mercado laboral, pobreza multidimensional, carencia alimentaria y desarrollo económico de los 106 municipios del estado.
+**Responsable:** Valeria Hernández  
+**Última revisión de procedencia:** 2026-11-24
 
-* **Institución:** Gobierno del Estado de Yucatán / SEPLAN / SIEGY
-* **Portales oficiales:** `siegy.yucatan.gob.mx` y `datos.yucatan.gob.mx`
-* **Ámbito geográfico:** Municipio de Mérida (Clave 050) y Zona Metropolitana (Kanasín, Umán, Conkal, Ucú).
+Indicadores de poder adquisitivo. El archivo anterior atribuido a SIEGY no citaba tabla ni documento de origen y no pudo verificarse, por lo que se sustituyó por fuentes oficiales descargables.
 
-## Indicadores Socioeconómicos Clave
-1. **Población Económicamente Activa (PEA):** Volumen de población en edad de trabajar y ocupada.
-2. **Salario Promedio de Cotización (IMSS):** Salario base de cotización formal reportado en Mérida.
-3. **Pobreza Laboral e Ingreso Laboral:** Porcentaje de la población con ingreso laboral inferior al valor de la canasta alimentaria.
-4. **Carencia por Acceso a la Alimentación Nutritiva y de Calidad:** Indicador multidimensional de CONEVAL / SIEGY.
-5. **Índice de Marginación Urbana:** Grado de marginación por AGEB o sector territorial en Mérida.
+| Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
+|---|---|---|---|---|---|---|
+| [`coneval_lineas_pobreza_2018_2025.csv`](coneval_lineas_pobreza_2018_2025.csv) | 87 filas | https://www.coneval.org.mx/Medicion/Documents/Lineas_de_Pobreza_por_Ingresos/Lineas_de_Pobreza_por_Ingresos.zip | 2026-11-24 | Verificar términos de uso en coneval.org.mx | Completo | Valor mensual por persona, nivel nacional urbano y rural. El archivo publicado llega a marzo de 2025. |
+| [`censo2020_totales_municipio_merida.csv`](censo2020_totales_municipio_merida.csv) | 1 filas | https://www.inegi.org.mx/contenidos/programas/ccpv/2020/datosabiertos/ageb_manzana/ageb_mza_urbana_31_cpv2020_csv.zip | 2026-11-24 | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html) | Completo | Fila del total municipal de Mérida (población, PEA, afiliación a salud y vivienda). |
+| [`explorar_siegy.py`](explorar_siegy.py) | — | — | — | — | Script | Imprime un resumen de ambos archivos. |
 
-## Archivos en esta carpeta:
-* **Fuente A:** `indicadores_socioeconomicos_merida_siegy.csv` (Indicadores sociolaborales, PEA, Salario promedio IMSS y costo de la canasta alimentaria urbana de CONEVAL).
-* **Fuente B (EXTRA 1):** `marginacion_urbana_colonias_merida.csv` (Índice de Marginación Urbana CONAPO / SIEGY por colonia en Mérida, contrastando el Norte vs Sur).
-* `explorar_siegy.py`: Script con enlaces directos a boletines de empleo y tableros oficiales.
+## Pendientes y cambios
 
+- Pendiente: obtener indicadores propios de SIEGY (https://siegy.yucatan.gob.mx) con tabla y fecha citables.
+- Se eliminó `indicadores_socioeconomicos_merida_siegy.csv` (7 filas sin origen verificable).
+
+**Estados:** Completo = el recurso descrito está en el repositorio. Revisar = hay un problema por confirmar. Prototipo = material de diseño elaborado por el equipo. Pendiente = no hay dato real todavía.

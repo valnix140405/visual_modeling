@@ -12,12 +12,12 @@ Todo el contenido de la Fuente B vive de forma aislada dentro de la carpeta `dat
 ```text
 data/fuente_b/
 ├── 01_inegi_saic/                 # Censos Económicos (Ingresos, personal y salarios en alimentos)
-├── 02_datos_gob_sniim/            # Precios mayoristas Central de Abasto (Secretaría de Economía)
-├── 03_conapo_marginacion/         # Índice de Marginación Urbana por colonia (CONAPO / SIEGY)
-├── 04_tianguis_geoportal/         # Tianguis en vía pública autorizados (GeoJSON de comercio rodante)
-├── 06_scraping_farmacias/         # Scraper de farmacias y tiendas de conveniencia (OXXO, Guadalajara)
+├── 02_datos_gob_sniim/            # Precios PROFECO en la Central de Abasto (falta mayoreo SNIIM)
+├── 03_conapo_marginacion/         # Indicadores del Censo 2020 por AGEB (falta índice CONAPO)
+├── 04_tianguis_geoportal/         # PENDIENTE: tianguis (Geoportal no accesible)
+├── 06_scraping_farmacias/         # Precios PROFECO en farmacias y conveniencia
 ├── 07_bitacora_tienditas/         # Levantamiento propio en 5 tienditas de la esquina de Mérida
-├── 08_lidar_cem_mde/              # Malla de elevación CEM 3.0 de INEGI (Modelo Digital de Elevación)
+├── 08_lidar_cem_mde/              # Malla de elevación real del Centro (AWS Terrain Tiles)
 └── 09_ar_modelos_3d/              # Catálogo y especificaciones de assets 3D glTF/GLB para AR
 ```
 
@@ -34,14 +34,15 @@ data/fuente_b/
    ```bash
    python scripts/verificar_datasets.py
    ```
-   El script confirmará `22 de 22 datasets listos y verificados en disco`.
+   El script lista qué fuentes están listas y cuáles siguen pendientes.
+4. **Documenta la procedencia:** al agregar un archivo, completa su fila en el `README.md` de la carpeta (URL, fecha de extracción, licencia, estado).
 
 ---
 
 ## 3. Comandos rápidos de Git para subir avances
 
 ```bash
-git pull origin main
+git pull origin main  # trabaja en una rama propia si el cambio es grande
 git add data/fuente_b/
 git commit -m "feat(fuente_b): actualizacion de datasets de la Fuente B"
 git push origin main

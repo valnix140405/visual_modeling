@@ -1,0 +1,33 @@
+cve_ent,cve_mun,municipio,año_referencia_censo,codigo_scian,descripcion_actividad,unidades_economicas,personal_ocupado_total,remuneraciones_totales_millones_mxn,produccion_bruta_total_millones_mxn,ingresos_suministro_bienes_servicios_millones_mxn
+31,050,Mérida,2018,431110,Comercio al por mayor de abarrotes,41,1687.000,93.867,390.459,2204.525
+31,050,Mérida,2018,431121,Comercio al por mayor de carnes rojas,12,179.000,14.185,82.926,161.260
+31,050,Mérida,2018,431122,Comercio al por mayor de carne de aves,5,129.000,10.464,4.706,28.066
+31,050,Mérida,2018,431123,Comercio al por mayor de pescados y mariscos,9,92.000,5.095,63.715,209.378
+31,050,Mérida,2018,431130,Comercio al por mayor de frutas y verduras frescas,23,244.000,13.277,60.924,279.382
+31,050,Mérida,2018,431140,Comercio al por mayor de huevo,6,65.000,8.116,17.423,75.332
+31,050,Mérida,2018,431150,"Comercio al por mayor de semillas y granos alimenticios, especias y chiles secos",12,155.000,13.293,158.440,662.830
+31,050,Mérida,2018,431160,Comercio al por mayor de leche y otros productos lÃ¡cteos,12,474.000,36.379,75.284,188.029
+31,050,Mérida,2018,431170,Comercio al por mayor de embutidos,8,506.000,33.150,250.479,632.735
+31,050,Mérida,2018,431180,Comercio al por mayor de dulces y materias primas para reposterÃ­a,13,127.000,9.942,32.995,160.979
+31,050,Mérida,2018,431191,Comercio al por mayor de pan y pasteles,6,629.000,189.592,661.326,1139.408
+31,050,Mérida,2018,431192,Comercio al por mayor de botanas y frituras,8,198.000,13.018,112.363,224.595
+31,050,Mérida,2018,431193,Comercio al por mayor de conservas alimenticias,2,,,,
+31,050,Mérida,2018,431194,Comercio al por mayor de miel,5,,,,
+31,050,Mérida,2018,431199,Comercio al por mayor de otros alimentos,14,88.000,1.045,135.833,313.287
+31,050,Mérida,2018,461110,"Comercio al por menor en tiendas de abarrotes, ultramarinos y miscelÃ¡neas",3113,5657.000,33.709,455.154,1291.710
+31,050,Mérida,2018,461121,Comercio al por menor de carnes rojas,671,1701.000,21.675,503.717,1288.751
+31,050,Mérida,2018,461122,Comercio al por menor de carne de aves,500,802.000,13.875,146.240,451.124
+31,050,Mérida,2018,461123,Comercio al por menor de pescados y mariscos,47,104.000,1.271,7.552,20.753
+31,050,Mérida,2018,461130,Comercio al por menor de frutas y verduras frescas,764,1683.000,30.410,243.427,632.560
+31,050,Mérida,2018,461140,"Comercio al por menor de semillas y granos alimenticios, especias y chiles secos",107,261.000,6.802,33.602,111.879
+31,050,Mérida,2018,461150,"Comercio al por menor de leche, otros productos lÃ¡cteos y embutidos",73,217.000,9.723,51.595,164.393
+31,050,Mérida,2018,461160,Comercio al por menor de dulces y materias primas para reposterÃ­a,138,422.000,14.783,51.685,138.655
+31,050,Mérida,2018,461170,Comercio al por menor de paletas de hielo y helados,103,248.000,6.944,26.060,50.945
+31,050,Mérida,2018,461190,Comercio al por menor de otros alimentos,288,1020.000,29.559,250.302,810.063
+31,050,Mérida,2018,461211,Comercio al por menor de vinos y licores,81,197.000,8.430,53.582,232.799
+31,050,Mérida,2018,461212,Comercio al por menor de cerveza,1476,2077.000,15.980,826.621,1498.471
+31,050,Mérida,2018,461213,Comercio al por menor de bebidas no alcohÃ³licas y hielo,182,334.000,3.916,26.815,80.628
+31,050,Mérida,2018,461220,"Comercio al por menor de cigarros, puros y tabaco",12,21.000,0.476,4.678,8.266
+31,050,Mérida,2018,462111,Comercio al por menor en supermercados,78,6838.000,93.895,4379.744,15338.608
+31,050,Mérida,2018,462112,Comercio al por menor en minisupers,700,4234.000,207.013,2021.177,6290.352
+31,050,Mérida,2018,462210,Comercio al por menor en tiendas departamentales,44,4870.000,194.167,1827.399,5551.635

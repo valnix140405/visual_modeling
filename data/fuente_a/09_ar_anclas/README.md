@@ -1,20 +1,15 @@
-# 09. Datos de Realidad Aumentada (AR Geospatial Anchors)
+# 09-A · Anclas de realidad aumentada
 
-## Descripción de la Tecnología y Datos
-La **Realidad Aumentada Geoespacial (AR Geospatial)** combina el Sistema de Posicionamiento Visual (**VPS** - Visual Positioning System), sensores inerciales (**IMU**) y geolocalización satelital para anclar contenido tridimensional interactivo a coordenadas exactas del mundo físico.
+**Responsable:** Valeria Hernández  
+**Última revisión de procedencia:** 2026-11-24
 
-* **Frameworks compatibles:** Google ARCore Geospatial API / Niantic Lightship VPS / WebXR Device API / Unity AR Foundation.
-* **Sistema de Coordenadas:** WGS 84 (Latitud, Longitud, Altitud elipsoidal en metros) y orientación en cuaterniones $(X, Y, Z, W)$ o ángulos de Euler $(yaw, pitch, roll)$.
+Configuración de diseño elaborada por el equipo para un prototipo de AR. **No son datos de una fuente externa.**
 
-## Caso de Uso del Dataset:
-Superposición de tarjetas interactivas de Realidad Aumentada frente a las fachadas de tiendas y mercados en Mérida:
-1. El usuario apunta la cámara del teléfono hacia la fachada del Mercado Lucas de Gálvez o de un supermercado.
-2. El sistema detecta el ancla geoespacial (`Geospatial Anchor`).
-3. Aparece flotando en el espacio 3D un semáforo de precios con el costo de la canasta básica en ese local comparado con el promedio municipal.
+| Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
+|---|---|---|---|---|---|---|
+| [`spatial_anchors_merida.geojson`](spatial_anchors_merida.geojson) | 4 elementos | https://developers.google.com/ar/develop/geospatial | Creado 2026-10-01 | Elaborado por el equipo | Prototipo | Coordenadas, alturas y orientación definidas por el equipo; verificar en sitio antes de usarlas. |
+| [`ar_geospatial_config.json`](ar_geospatial_config.json) | — | — | Creado 2026-10-01 | Elaborado por el equipo | Prototipo | Parámetros del visor. |
+| [`models/card_mercado_precios.glb`](models/card_mercado_precios.glb) | — | — | Creado 2026-11-23 | Elaborado por el equipo | Prototipo | Modelo de marcador (≈1 KB). |
+| [`visor_ar_web.html`](visor_ar_web.html) | — | — | — | — | Visor |  |
 
-## Archivos en esta carpeta:
-* **Fuente A:** `spatial_anchors_merida.geojson` (Dataset GeoJSON con 4 anclas espaciales VPS georreferenciadas con semáforos de precios de canasta básica en Mérida).
-* **Fuente B (EXTRA 1):** `catalogo_modelos_3d_canasta.json` (Especificación y catálogo de modelos 3D optimizados en formato glTF/GLB para proyectar canastas, letreros y HUD holográfico en AR).
-* `ar_geospatial_config.json`: Archivo de configuración listo para ser consumido por un motor AR (Unity / WebXR / Three.js).
-* `visualizar_ar_anchors.py`: Script para validar las anclas espaciales y su contenido interactivo.
-
+**Estados:** Completo = el recurso descrito está en el repositorio. Revisar = hay un problema por confirmar. Prototipo = material de diseño elaborado por el equipo. Pendiente = no hay dato real todavía.
