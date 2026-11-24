@@ -4,7 +4,7 @@
 
 **Institución:** Universidad Politécnica de Yucatán (UPY)  
 **Equipo:** Valeria Nicol Hernández León (Fuente A) · Jorge Ramiro Chay Koyoc (Fuente B) · Isaac René Andrade Sánchez (Fuente C)  
-**Estado:** 19 de 22 fuentes con datos reales o prototipo; 3 pendientes (04-B tianguis, 06-C delivery, 08-A LiDAR). Detalle en [`FUENTES_DE_DATOS.md`](FUENTES_DE_DATOS.md).
+**Alcance:** el análisis usa solo las 16 fuentes con datos reales descargados de su origen (PROFECO, INEGI, CONEVAL, DICONSA, SENASICA, OpenStreetMap, elevación AWS Terrain Tiles y la bitácora propia de tienditas). Detalle en [`FUENTES_DE_DATOS.md`](FUENTES_DE_DATOS.md).
 
 El detalle y la procedencia de cada cifra están en [`ANALISIS_PROFUNDO_22_FUENTES.md`](ANALISIS_PROFUNDO_22_FUENTES.md) y en [`reports/metricas_analisis.json`](reports/metricas_analisis.json).
 
@@ -32,10 +32,3 @@ El detalle y la procedencia de cada cifra están en [`ANALISIS_PROFUNDO_22_FUENT
 | [`04_tienditas_vs_supermercados.png`](reports/figuras/04_tienditas_vs_supermercados.png) | Mediana de 4 productos en tienditas vs. supermercados, con número de observaciones |
 | [`05_indicadores_ageb_censo2020_merida.png`](reports/figuras/05_indicadores_ageb_censo2020_merida.png) | Distribución por AGEB de la población sin afiliación a salud y de las viviendas con internet |
 | [`06_relieve_merida_vs_ciudades_montana.png`](reports/figuras/06_relieve_merida_vs_ciudades_montana.png) | Elevación de Mérida frente a cinco ciudades de montaña |
-
-## Pendientes
-
-- **04-B Tianguis:** la capa del Geoportal de Mérida no pudo descargarse.
-- **06-C Apps de delivery:** el dataset anterior era simulado y se eliminó; falta un levantamiento real.
-- **08-A LiDAR:** no hay nube LiDAR pública del Mercado Lucas de Gálvez.
-- **SIEGY, SNIIM y CONAPO:** se sustituyeron por CONEVAL y Censo 2020, por precios PROFECO de la Central de Abasto y por indicadores del Censo por AGEB. Las fuentes originales siguen pendientes.

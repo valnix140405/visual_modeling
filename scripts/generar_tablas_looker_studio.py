@@ -6,6 +6,9 @@ Genera tablas planas (CSV) para Looker Studio en reports/looker_studio/, solo co
     looker_02_territorio_geo.csv         Mercados públicos (DENUE) y establecimientos PROFECO con coordenadas
     looker_03_lineas_pobreza_coneval.csv Serie mensual CONEVAL 2018-01 a 2025-03
     looker_04_ageb_censo2020_merida.csv  Indicadores por AGEB urbana de Mérida (Censo 2020)
+    looker_05_comparables_por_canal.csv  Lo genera scripts/generar_datos_web.py (pares PROFECO por canal)
+    looker_06_relieve_ciudades.csv       Elevación real de Mérida y 5 ciudades de montaña (08-C)
+    looker_07_catalogo_fuentes.csv       Las 16 fuentes con dato real usadas en el dashboard
 
 Uso:
     python scripts/generar_tablas_looker_studio.py
@@ -82,9 +85,48 @@ def tabla_ageb():
     guardar(ag[ag.POBTOT > 0], "looker_04_ageb_censo2020_merida.csv")
 
 
+def tabla_relieve():
+    t = pd.read_csv(os.path.join(DATA, "fuente_c/08_opentopography/topografia_merida_vs_ciudades_montana.csv"))
+    guardar(t, "looker_06_relieve_ciudades.csv")
+
+
+FUENTES = [  # (id, tema, institución, archivo en data/, cobertura)
+    ("01-A", "Comercios de alimentos", "INEGI DENUE", "fuente_a/01_inegi_denue/denue_merida_alimentos_real.csv", "Mérida, edición 2026"),
+    ("01-B", "Censos Económicos (comercio de alimentos)", "INEGI", "fuente_b/01_inegi_saic/censos_economicos_2019_merida_comercio_alimentos.csv", "Mérida, año de referencia 2018"),
+    ("01-C", "Microdatos de ocupación y empleo", "INEGI ENOE", "fuente_c/01_enoe_microdatos/conjunto_de_datos_hog_enoe_2025_1t/conjunto_de_datos/conjunto_de_datos_hog_enoe_2025_1t.csv", "Nacional, 2025 1T (tabla de hogares)"),
+    ("02-A", "Precios al consumidor", "PROFECO QQP", "fuente_a/02_datos_gob_profeco/profeco_merida_2026_real.csv", "Mérida, mayo 2026"),
+    ("02-B", "Precios en la Central de Abasto", "PROFECO QQP", "fuente_b/02_datos_gob_sniim/profeco_central_abasto_merida_2026.csv", "Mérida, mayo 2026"),
+    ("02-C", "Artículos y proveedores", "DICONSA", "fuente_c/02_diconsa_segalmex/DICONSA_8_Listado_de_articulos_por_proveedor.csv", "Nacional, 1er semestre 2018"),
+    ("03-A", "Líneas de pobreza por ingresos", "CONEVAL", "fuente_a/03_siegy_yucatan/coneval_lineas_pobreza_2018_2025.csv", "Nacional, 2018-01 a 2025-03"),
+    ("03-B", "Indicadores por AGEB urbana", "INEGI Censo 2020", "fuente_b/03_conapo_marginacion/censo2020_indicadores_ageb_merida.csv", "Mérida, 2020"),
+    ("03-C", "Inspección fitozoosanitaria", "SENASICA", "fuente_c/03_imss_boletin/01_actividades-inspeccion-movilizacion_2dotrim2025.csv", "Nacional, 2025 2T"),
+    ("04-A", "Mercados públicos", "INEGI DENUE", "fuente_a/04_geoportal_merida/mercados_publicos_merida_denue.geojson", "Mérida, edición 2026"),
+    ("04-C", "Rutas y paradas de transporte", "OpenStreetMap", "fuente_c/04_transporte_vayven/export.geojson", "Mérida, 2026-10-01"),
+    ("06-A", "Precios de canasta por cadena", "PROFECO QQP", "fuente_a/06_scraping_autoservicios/precios_canasta_supermercados_reales.csv", "Mérida, mayo 2026"),
+    ("06-B", "Precios en farmacias y conveniencia", "PROFECO QQP", "fuente_b/06_scraping_farmacias/profeco_farmacias_conveniencia_merida_2026.csv", "Mérida, mayo 2026"),
+    ("07-B", "Bitácora de precios en tienditas", "Levantamiento propio", "fuente_b/07_bitacora_tienditas/bitacora_precios_tienditas.csv", "5 tienditas, sep-oct 2026"),
+    ("08-B", "Elevación del Centro", "AWS Terrain Tiles", "fuente_b/08_lidar_cem_mde/elevacion_centro_merida_grid.csv", "Centro de Mérida"),
+    ("08-C", "Relieve Mérida vs. ciudades de montaña", "AWS Terrain Tiles", "fuente_c/08_opentopography/topografia_merida_vs_ciudades_montana.csv", "6 ciudades"),
+]
+
+
+def tabla_fuentes():
+    filas = []
+    for fid, tema, inst, archivo, cob in FUENTES:
+        ruta = os.path.join(DATA, archivo)
+        if archivo.endswith(".geojson"):
+            n = len(json.load(open(ruta, encoding="utf-8"))["features"])
+        else:
+            with open(ruta, encoding="utf-8-sig", errors="ignore") as f:
+                n = sum(1 for _ in f) - 1
+        filas.append({"id": fid, "bloque": "Fuente " + fid[-1], "tema": tema, "institucion": inst,
+                      "archivo": archivo.split("/")[-1], "registros": n, "cobertura": cob})
+    guardar(pd.DataFrame(filas), "looker_07_catalogo_fuentes.csv")
+
+
 if __name__ == "__main__":
     for viejo in ["looker_01_comparativa_precios_multicanal.csv", "looker_02_territorio_mercados_tienditas_geo.csv",
                   "looker_03_salarios_esfuerzo_laboral_merida.csv"]:
         if os.path.exists(os.path.join(OUT, viejo)):
             os.remove(os.path.join(OUT, viejo))
-    tabla_precios(); tabla_territorio(); tabla_coneval(); tabla_ageb()
+    tabla_precios(); tabla_territorio(); tabla_coneval(); tabla_ageb(); tabla_relieve(); tabla_fuentes()

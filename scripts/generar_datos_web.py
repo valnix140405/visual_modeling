@@ -1,5 +1,6 @@
 """
-Genera data/web/explorador_precios.json para el explorador con filtros de index.html.
+Genera data/web/explorador_precios.json (explorador con filtros de index.html) y
+reports/looker_studio/looker_05_comparables_por_canal.csv (la misma tabla para Looker Studio).
 
 Usa solo PROFECO QQP Mérida (mayo 2026) y los mismos criterios que los capítulos 2 y 3:
 - Central de Abasto vs. supermercado: mediana por producto y presentación idénticos (139 pares).
@@ -16,6 +17,7 @@ import pandas as pd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROFECO = os.path.join(ROOT, "data/fuente_a/02_datos_gob_profeco/profeco_merida_2026_real.csv")
 SALIDA = os.path.join(ROOT, "data/web/explorador_precios.json")
+SALIDA_LOOKER = os.path.join(ROOT, "reports/looker_studio/looker_05_comparables_por_canal.csv")
 K = ["producto", "presentacion"]
 
 
@@ -58,6 +60,22 @@ def main():
     with open(SALIDA, "w", encoding="utf-8") as fh:
         json.dump({"meta": meta, "filas": filas}, fh, ensure_ascii=False, separators=(",", ":"))
     print(f"[ok] {os.path.relpath(SALIDA, ROOT)}: {meta['pares']}")
+
+    t = pd.DataFrame(filas)
+    t["comparacion"] = t.comparacion.map({"abasto": "Central de Abasto vs. supermercado",
+                                          "conveniencia": "Conveniencia vs. supermercado"})
+    t["canal_comparado"] = t.comparacion.str.split(" vs").str[0]
+    t["resultado"] = t.dif_pct.apply(lambda v: "Súper más caro" if v > 0 else ("Súper más barato" if v < 0 else "Igual"))
+    t.loc[t.canal_comparado == "Conveniencia", "resultado"] = t.dif_pct.apply(
+        lambda v: "Conveniencia más cara" if v > 0 else ("Conveniencia más barata" if v < 0 else "Igual"))
+    t = t.rename(columns={"precio_otro": "precio_canal_comparado_mxn", "precio_super": "precio_supermercado_mxn",
+                          "n_otro": "registros_canal_comparado", "n_super": "registros_supermercado",
+                          "dif_pct": "diferencia_pct"})
+    t["fuente"] = "PROFECO QQP Mérida, mayo 2026"
+    t[["comparacion", "canal_comparado", "producto", "presentacion", "categoria", "precio_canal_comparado_mxn",
+       "precio_supermercado_mxn", "diferencia_pct", "resultado", "estadistico", "registros_canal_comparado",
+       "registros_supermercado", "fuente"]].to_csv(SALIDA_LOOKER, index=False, encoding="utf-8")
+    print(f"[ok] {os.path.relpath(SALIDA_LOOKER, ROOT)}: {len(t)} filas")
 
 
 if __name__ == "__main__":

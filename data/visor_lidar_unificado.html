@@ -177,7 +177,6 @@
   <div class="hud-top-left">
     <span class="badge">Explorador de Relieve 3D (elevación real)</span>
     <div class="mode-tabs">
-      <button class="mode-btn" data-mode="a" onclick="switchMode('a')">08-A · Domo LiDAR</button>
       <button class="mode-btn" data-mode="b" onclick="switchMode('b')">08-B · Centro</button>
       <button class="mode-btn" data-mode="c" onclick="switchMode('c')">08-C · Mérida 17 km</button>
     </div>
@@ -205,11 +204,6 @@
 
   <script>
     const MODES = {
-      a: {
-        title: 'LiDAR del domo del Mercado Lucas de Gálvez',
-        desc: 'No contamos con un levantamiento LiDAR real del mercado. La nube de 20 puntos que había aquí era simulada y se eliminó.',
-        pending: true
-      },
       b: {
         title: 'Elevación del Centro alrededor del Mercado Lucas de Gálvez',
         desc: 'Malla real de 41 x 41 puntos (1.6 km por lado) centrada en el mercado (punto dorado). Fuente: AWS Terrain Tiles (Tilezen), elevación en metros sobre el nivel del mar.',

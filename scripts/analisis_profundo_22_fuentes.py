@@ -120,8 +120,8 @@ def main():
     m["censo_municipio"] = {"poblacion": int(mun.POBTOT), "pea": int(mun.PEA), "ocupada": int(mun.POCUPADA),
                             "pct_sin_afiliacion_salud": round(100 * mun.PSINDER / mun.POBTOT, 1),
                             "grado_promedio_escolaridad": float(mun.GRAPROES),
-                            "viviendas_habitadas": int(mun.VIVPAR_HAB),
-                            "pct_viviendas_con_internet": round(100 * mun.VPH_INTER / mun.VIVPAR_HAB, 1)}
+                            "viviendas_habitadas": int(mun.TVIVPARHAB),
+                            "pct_viviendas_con_internet": round(100 * mun.VPH_INTER / mun.TVIVPARHAB, 1)}
 
     # 03-B AGEB
     ag = pd.read_csv(ruta("fuente_b/03_conapo_marginacion/censo2020_indicadores_ageb_merida.csv"))

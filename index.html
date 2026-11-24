@@ -923,7 +923,7 @@
       <div class="brand-mark">UPY</div>
       <div class="brand-titles">
         <h1>Del Mundo a la Esquina: ¿Cuánto Cuesta Comer?</h1>
-        <p>Investigación Multiescalar de Precios, Geografía Urbana, Relieve 3D y Realidad Aumentada</p>
+        <p>Investigación Multiescalar de Precios, Geografía Urbana y Relieve 3D</p>
       </div>
     </div>
 
@@ -948,11 +948,11 @@
         &#9654; Recorrido guiado
       </button>
 
-      <button class="view-switch-btn" style="border: 1px solid var(--accent-purple); background: #ffffff; color: var(--accent-purple);" onclick="setMode('deck'); goToSlide(8)">
+      <button class="view-switch-btn" style="border: 1px solid var(--accent-purple); background: #ffffff; color: var(--accent-purple);" onclick="setMode('deck'); goToSlide(7)">
         Metodología
       </button>
 
-      <span class="badge-count">16 FUENTES CON DATO REAL · 3 PROTOTIPOS AR · 3 PENDIENTES</span>
+      <span class="badge-count">16 FUENTES CON DATO REAL</span>
 
       <!-- Botón Fullscreen -->
       <button class="view-switch-btn btn-fullscreen" style="border: 1px solid var(--border-subtle); background: #ffffff;" onclick="toggleFullScreen()" title="Pantalla Completa">
@@ -1133,7 +1133,7 @@
           <div class="callout-card">
             <h4>[LO QUE ESTOS DATOS NO DICEN]</h4>
             <p>
-              Ambos precios son <strong>al público</strong>: PROFECO no reporta precio de mayoreo ni lo que recibe el productor. El dato de mayoreo (SNIIM) quedó <strong>pendiente</strong> porque el sitio no estuvo disponible para descarga. Por eso aquí no hablamos de "margen del intermediario", solo de la diferencia entre dos lugares de compra.
+              Ambos precios son <strong>al público</strong>: PROFECO no reporta precio de mayoreo ni lo que recibe el productor. Por eso aquí no hablamos de "margen del intermediario", solo de la diferencia entre dos lugares de compra.
             </p>
           </div>
         </div>
@@ -1232,13 +1232,6 @@
               <span>Mediana de los 93 productos comparables</span>
               <span class="fee" style="color: var(--accent-purple); font-size: 18px;">+1.3%</span>
             </div>
-          </div>
-
-          <div class="callout-card gold-border">
-            <h4>[PENDIENTE: APPS DE DELIVERY (06-C)]</h4>
-            <p>
-              <strong>Pendiente: sin dato real disponible.</strong> La comparativa de carritos en Rappi y UberEats que había en esta sección era simulada y se eliminó. Para recuperarla se necesita un levantamiento real de tickets o capturas de las apps con fecha y producto.
-            </p>
           </div>
         </div>
 
@@ -1649,96 +1642,23 @@
       </div>
     </section>
 
-    <!-- ===================================================================== -->
-    <!-- SLIDE 6: TECNOLOGÍA CIUDADANA: ¿PARA QUÉ REALIDAD AUMENTADA (AR)? -->
-    <!-- ===================================================================== -->
-    <section class="slide-view" id="slide-6" data-index="6" data-title="Tecnología Ciudadana (AR)">
-      <div class="slide-header-bar">
-        <span class="slide-badge gold">CAPÍTULO 06 · REALIDAD AUMENTADA Y JUSTICIA CÍVICA</span>
-        <span class="slide-nav-hint">WebXR, Google VPS y Modelos glTF 2.0</span>
-      </div>
-
-      <div class="slide-grid-split">
-        <div class="editorial-col">
-          <h2 class="editorial-title">Waze de Ahorro en la Esquina: ¿Para qué la Cámara AR?</h2>
-          <p class="editorial-lead">
-            <strong>¿Por qué se abre la cámara en los visores?</strong> Porque nadie sabe si la tiendita de enfrente vende el huevo al doble que el mercado. Nuestra app usa <strong>Realidad Aumentada (WebXR)</strong> para poner etiquetas flotantes de precio justo sobre las fachadas y guiarte directo al puesto más barato.
-          </p>
-
-          <div class="callout-card">
-            <h4>[AR CONTRA LA ASIMETRÍA DE INFORMACIÓN]</h4>
-            <p>
-              En la calle, el ciudadano no sabe si la tiendita o el minisúper frente a él tiene el jitomate o el huevo al doble de precio. El visor AR superpone en tiempo real el precio del Mercado Lucas de Gálvez para democratizar la transparencia económica sin necesidad de instalar apps cerradas.
-            </p>
-          </div>
-
-          <div class="callout-card gold-border">
-            <h4>[WAZE PEATONAL EN EL LABERINTO COMERCIAL]</h4>
-            <p>
-              En el centro comercial del Mercado Lucas de Gálvez el DENUE de INEGI registra 817 establecimientos (443 de alimentos y bebidas), así que es fácil perderse. Nuestro guía peatonal muestra flechas 3D en primera persona desde la parada del Va y Ven directo a los puestos más baratos.
-            </p>
-          </div>
-        </div>
-
-        <div class="media-col">
-          <div style="font-size: 13.5px; font-weight: 700; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 0.5px;">
-            PRUEBA LA EXPERIENCIA COMPLETA EN UN SOLO CELULAR INTERACTIVO:
-          </div>
-
-          <div class="launcher-grid">
-            <!-- AR Unificado Tour 3 Pasos -->
-            <div class="launch-card gold-top" style="grid-column: 1 / -1;">
-              <div>
-                <div class="launch-card-header">
-                  <span class="tag-source gold">09 · TOUR AR EN TU CELULAR (3 PASOS)</span>
-                  <span style="font-size: 11px; color: var(--muted); font-weight: 700;">RADAR + ESCÁNER + RUTA WAZE</span>
-                </div>
-                <h4>Así se ve la App en Tu Teléfono: Del Camino al Puesto Barato</h4>
-                <p>Recorrido guiado en 3 pasos dentro de un celular interactivo: <strong>1. Comparas tiendas en la calle</strong>, <strong>2. Escaneas tu despensa</strong> y <strong>3. Sigues las flechas doradas</strong> hacia el mercado. <strong>Prototipo de diseño:</strong> las anclas, modelos y rutas son configuración elaborada por el equipo, no datos de una fuente oficial.</p>
-              </div>
-              <div class="launch-btn-group">
-                <a href="data/visor_ar_unificado.html" target="_blank" class="btn-action gold">
-                  Abrir Tour AR en 3 Pasos
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- CARTOGRAFÍA SIG -->
-          <div class="launch-card" style="border-top-color: #64748b;">
-            <div class="launch-card-header">
-              <span class="tag-source">04-A • LEAFLET SIG</span>
-              <span style="font-size: 11px; color: var(--muted); font-weight: 700;">RADIOS DE 800 M</span>
-            </div>
-            <h4>Visor Cartográfico SIG de Mercados Públicos</h4>
-            <p>15 centros comerciales tipo "mercado público" registrados en el DENUE de INEGI, con su número de establecimientos y radios de 800 m (unos 10 minutos a pie).</p>
-            <div class="launch-btn-group">
-              <a href="data/fuente_a/04_geoportal_merida/visor_mercados_municipales.html" target="_blank" class="btn-action" style="background: #334155;">
-                Abrir Mapa SIG 04-A
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================================================================== -->
+        <!-- ===================================================================== -->
     <!-- SLIDE 7: MATRIZ DE EVIDENCIA CIENTÍFICA (22 FUENTES) -->
     <!-- ===================================================================== -->
-    <section class="slide-view" id="slide-7" data-index="7" data-title="Matriz de Fuentes">
+    <section class="slide-view" id="slide-6" data-index="6" data-title="Matriz de Fuentes">
       <div class="slide-header-bar">
-        <span class="slide-badge">CAPÍTULO 07 · CATÁLOGO MAESTRO DE DATOS</span>
-        <span class="slide-nav-hint">16 con dato real · 3 prototipos AR · 3 pendientes</span>
+        <span class="slide-badge">CAPÍTULO 06 · CATÁLOGO MAESTRO DE DATOS</span>
+        <span class="slide-nav-hint">16 fuentes con dato real</span>
       </div>
 
       <div class="filter-bar">
         <div class="filter-pills">
-          <button class="filter-btn active" onclick="filterTable('all')">Todas (22)</button>
-          <button class="filter-btn" onclick="filterTable('fuente_a')">Fuente A (7)</button>
-          <button class="filter-btn" onclick="filterTable('fuente_b')">Fuente B (8)</button>
-          <button class="filter-btn" onclick="filterTable('fuente_c')">Fuente C (7)</button>
-          <button class="filter-btn" onclick="filterTable('3d')">3D, Relieve & AR (6)</button>
-          <button class="filter-btn" onclick="filterTable('scrapers')">Precios por canal (3)</button>
+          <button class="filter-btn active" onclick="filterTable('all')">Todas (16)</button>
+          <button class="filter-btn" onclick="filterTable('fuente_a')">Fuente A (5)</button>
+          <button class="filter-btn" onclick="filterTable('fuente_b')">Fuente B (6)</button>
+          <button class="filter-btn" onclick="filterTable('fuente_c')">Fuente C (5)</button>
+          <button class="filter-btn" onclick="filterTable('3d')">Relieve 3D (2)</button>
+          <button class="filter-btn" onclick="filterTable('scrapers')">Precios por canal (2)</button>
         </div>
 
         <input type="text" id="tableSearch" placeholder="Buscar por tema, formato o archivo..." class="search-input" onkeyup="searchTable(this.value)">
@@ -1804,24 +1724,6 @@
               <td>62 combinaciones producto-cadena (misma presentación)</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
-            <tr data-block="fuente_a" data-cat="3d">
-              <td><strong>08-A</strong></td>
-              <td><span class="tag-source">Fuente A</span></td>
-              <td>LiDAR 3D Domo Mercado</td>
-              <td class="file-name">—</td>
-              <td>—</td>
-              <td>Pendiente: sin dato real disponible</td>
-              <td>Pendiente</td>
-            </tr>
-            <tr data-block="fuente_a" data-cat="3d">
-              <td><strong>09-A</strong></td>
-              <td><span class="tag-source">Fuente A</span></td>
-              <td>AR WebXR VPS</td>
-              <td class="file-name">spatial_anchors_merida.geojson</td>
-              <td>GeoJSON / VPS</td>
-              <td>4 anclas georreferenciadas en fachadas</td>
-              <td>Prototipo de diseño</td>
-            </tr>
 
             <!-- FUENTE B -->
             <tr data-block="fuente_b" data-cat="saic">
@@ -1839,7 +1741,7 @@
               <td>Central de Abasto (PROFECO)</td>
               <td class="file-name">profeco_central_abasto_merida_2026.csv</td>
               <td>CSV Tabular</td>
-              <td>776 precios al público (SNIIM mayoreo pendiente)</td>
+              <td>776 precios al público</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_b" data-cat="conapo">
@@ -1850,15 +1752,6 @@
               <td>CSV Censal</td>
               <td>526 AGEB urbanas (sustituye al índice CONAPO)</td>
               <td><span class="status-dot"></span>Verificado</td>
-            </tr>
-            <tr data-block="fuente_b" data-cat="sig">
-              <td><strong>04-B</strong></td>
-              <td><span class="tag-source gold">Fuente B</span></td>
-              <td>Geoportal Tianguis</td>
-              <td class="file-name">—</td>
-              <td>—</td>
-              <td>Pendiente: sin dato real disponible</td>
-              <td>Pendiente</td>
             </tr>
             <tr data-block="fuente_b" data-cat="scrapers">
               <td><strong>06-B</strong></td>
@@ -1886,15 +1779,6 @@
               <td>Malla 3D (.ply)</td>
               <td>1,681 puntos de elevación real alrededor del mercado</td>
               <td><span class="status-dot"></span>Verificado</td>
-            </tr>
-            <tr data-block="fuente_b" data-cat="3d">
-              <td><strong>09-B</strong></td>
-              <td><span class="tag-source gold">Fuente B</span></td>
-              <td>Modelos 3D glTF</td>
-              <td class="file-name">canasta_basica_lowpoly.glb</td>
-              <td>Asset 3D (.glb)</td>
-              <td>4 modelos holográficos para WebXR</td>
-              <td>Prototipo de diseño</td>
             </tr>
 
             <!-- FUENTE C -->
@@ -1934,15 +1818,6 @@
               <td>565 elementos OSM: 500 paradas y 18 rutas</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
-            <tr data-block="fuente_c" data-cat="scrapers">
-              <td><strong>06-C</strong></td>
-              <td><span class="tag-source">Fuente C</span></td>
-              <td>Apps de Delivery</td>
-              <td class="file-name">—</td>
-              <td>—</td>
-              <td>Pendiente: sin dato real disponible</td>
-              <td>Pendiente</td>
-            </tr>
             <tr data-block="fuente_c" data-cat="3d">
               <td><strong>08-C</strong></td>
               <td><span class="tag-source">Fuente C</span></td>
@@ -1952,24 +1827,15 @@
               <td>2,400 puntos en 6 ciudades (Terrain Tiles)</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
-            <tr data-block="fuente_c" data-cat="3d">
-              <td><strong>09-C</strong></td>
-              <td><span class="tag-source">Fuente C</span></td>
-              <td>Waypoints AR Lucas</td>
-              <td class="file-name">ruta_ar_lucas_galvez.json</td>
-              <td>JSON Ruta AR</td>
-              <td>Guía peatonal paso a paso de ahorro</td>
-              <td>Prototipo de diseño</td>
-            </tr>
           </tbody>
         </table>
       </div>
     </section>
 
     <!-- ===================================================================== -->
-    <section class="slide-view" id="slide-8" data-index="8" data-title="Metodología">
+    <section class="slide-view" id="slide-7" data-index="7" data-title="Metodología">
       <div class="slide-header-bar">
-        <span class="slide-badge">CAPÍTULO 08 · METODOLOGÍA Y LIMITACIONES</span>
+        <span class="slide-badge">CAPÍTULO 07 · METODOLOGÍA Y LIMITACIONES</span>
         <span class="slide-nav-hint">Cómo se obtuvo y se calculó cada cifra</span>
       </div>
 
@@ -2028,10 +1894,9 @@
         </div>
 
         <div class="callout-card">
-          <h4>6. Pendientes y reproducibilidad</h4>
+          <h4>6. Alcance y reproducibilidad</h4>
           <ul>
-            <li>Sin dato real todavía: 04-B tianguis, 06-C apps de delivery y 08-A LiDAR del mercado.</li>
-            <li>Los visores de realidad aumentada son prototipos de diseño, no datos.</li>
+            <li>Solo se usan fuentes con dato real descargado de su origen; lo que no tuvo dato real no se incluye.</li>
             <li>Procedencia de cada archivo (URL, fecha, licencia) en <a href="FUENTES_DE_DATOS.md">FUENTES_DE_DATOS.md</a> y en el README de cada carpeta.</li>
             <li>Reproducir: <code>pip install -r requirements.txt</code> y <code>python scripts/generar_datos_reales.py</code>.</li>
           </ul>
@@ -2055,13 +1920,12 @@
       <button class="dock-dot" onclick="goToSlide(3)" title="03 · El Precio de la Prisa"></button>
       <button class="dock-dot" onclick="goToSlide(4)" title="04 · Esfuerzo Laboral"></button>
       <button class="dock-dot" onclick="goToSlide(5)" title="05 · Relieve 3D"></button>
-      <button class="dock-dot" onclick="goToSlide(6)" title="06 · Realidad Aumentada"></button>
-      <button class="dock-dot" onclick="goToSlide(7)" title="07 · Catálogo de Fuentes"></button>
-      <button class="dock-dot" onclick="goToSlide(8)" title="08 · Metodología"></button>
+      <button class="dock-dot" onclick="goToSlide(6)" title="06 · Catálogo de Fuentes"></button>
+      <button class="dock-dot" onclick="goToSlide(7)" title="07 · Metodología"></button>
     </div>
 
     <div class="dock-indicator" id="dockIndicator">
-      01 / 08 · LA PREGUNTA
+      01 / 07 · LA PREGUNTA
     </div>
 
     <button class="dock-btn" onclick="nextSlide()" title="Diapositiva Siguiente (&rarr;)">
@@ -2196,11 +2060,9 @@
         text: 'Alimentar a un hogar típico de Mérida con la canasta urbana de CONEVAL cuesta 7,780 pesos al mes: casi 28 días de salario mínimo de 2025. Mueve el control para probar con tu sueldo.' },
       { slide: 5, sel: '#svg-escena-5', title: 'Una ciudad plana',
         text: 'En 17 kilómetros, Mérida apenas tiene 16 metros de desnivel. En la misma área, San Cristóbal de las Casas tiene más de 1,400. Los datos son de elevación real, no de LiDAR.' },
-      { slide: 6, sel: '#slide-6 .editorial-title', title: 'Realidad aumentada (prototipo)',
-        text: 'Estos visores son un prototipo de diseño: muestran cómo se verían etiquetas de precio sobre las fachadas. No presentan datos de una fuente oficial.' },
-      { slide: 7, sel: '#slide-7 .filter-bar', title: 'Catálogo de las 22 fuentes',
-        text: 'Dieciséis fuentes tienen datos reales, tres son prototipos de realidad aumentada y tres siguen pendientes. Usa los filtros para revisar cada bloque.' },
-      { slide: 8, sel: '#slide-8 .metodo-grid', title: 'Metodología y limitaciones',
+      { slide: 6, sel: '#slide-6 .filter-bar', title: 'Catálogo de fuentes',
+        text: 'El análisis usa 16 fuentes con datos reales de PROFECO, INEGI, CONEVAL, DICONSA, SENASICA, OpenStreetMap, elevación y una bitácora propia. Usa los filtros para revisar cada bloque.' },
+      { slide: 7, sel: '#slide-7 .metodo-grid', title: 'Metodología y limitaciones',
         text: 'Aquí se explica de dónde sale cada cifra, cómo se calculó y qué no dicen los datos. Fin del recorrido.' }
     ];
     const tour = { i: 0, playing: false, timer: null, start: 0, dur: 0, raf: null, active: false };
@@ -2276,16 +2138,15 @@
       else if (e.key === ' ') { e.preventDefault(); e.stopImmediatePropagation(); tourTogglePlay(); }
     }, true);
 
-    const totalSlides = 8;
+    const totalSlides = 7;
     const slideTitles = [
-      "01 / 08 · LA PREGUNTA",
-      "02 / 08 · ABASTO VS SÚPER",
-      "03 / 08 · EL PRECIO DE LA PRISA",
-      "04 / 08 · ESFUERZO LABORAL",
-      "05 / 08 · RELIEVE 3D",
-      "06 / 08 · REALIDAD AUMENTADA",
-      "07 / 08 · CATÁLOGO DE FUENTES",
-      "08 / 08 · METODOLOGÍA"
+      "01 / 07 · LA PREGUNTA",
+      "02 / 07 · ABASTO VS SÚPER",
+      "03 / 07 · EL PRECIO DE LA PRISA",
+      "04 / 07 · ESFUERZO LABORAL",
+      "05 / 07 · RELIEVE 3D",
+      "06 / 07 · CATÁLOGO DE FUENTES",
+      "07 / 07 · METODOLOGÍA"
     ];
 
     // NAVEGACIÓN DE SLIDES

@@ -137,8 +137,8 @@
     "ocupada": 520438,
     "pct_sin_afiliacion_salud": 22.2,
     "grado_promedio_escolaridad": 11.4,
-    "viviendas_habitadas": 284682,
-    "pct_viviendas_con_internet": 76.3
+    "viviendas_habitadas": 303783,
+    "pct_viviendas_con_internet": 71.5
   },
   "ageb": {
     "ageb_con_poblacion": 520,
@@ -146,7 +146,7 @@
     "sin_afiliacion_p10": 16.6,
     "sin_afiliacion_p90": 31.0,
     "ageb_mas_de_40pct_sin_afiliacion": 12,
-    "internet_mediana": 76.8
+    "internet_mediana": 73.3
   },
   "censos_economicos": {
     "abarrotes_unidades": 3113,
