@@ -1,37 +1,42 @@
 """
-Script para leer y analizar la capa GeoJSON de mercados municipales de Mérida.
+Lee y resume la capa GeoJSON de mercados públicos de Mérida derivada del DENUE de INEGI
+(generada por scripts/generar_datos_reales.py).
 """
 import json
-import pandas as pd
 import os
+
+import pandas as pd
+
 
 def listar_mercados():
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    geojson_path = os.path.join(current_dir, "mercados_municipales_merida.geojson")
+    geojson_path = os.path.join(current_dir, "mercados_publicos_merida_denue.geojson")
     with open(geojson_path, "r", encoding="utf-8") as f:
         data = json.load(f)
-    
+
     filas = []
     for feat in data["features"]:
         props = feat["properties"]
-        geom = feat["geometry"]
+        lon, lat = feat["geometry"]["coordinates"]
         filas.append({
-            "id": props["id_mercado"],
+            "id": props["id"],
             "nombre": props["nombre"],
-            "colonia": props["colonia"],
-            "locales": props["locales_activos"],
-            "afluencia_diaria": props["afluencia_diaria_estimada"],
-            "nivel_precios": props["nivel_precios"],
-            "longitud": geom["coordinates"][0],
-            "latitud": geom["coordinates"][1]
+            "colonia": props["colonia_principal"],
+            "codigo_postal": props["codigo_postal"],
+            "establecimientos_denue": props["establecimientos_denue"],
+            "alimentos_bebidas": props["establecimientos_alimentos_bebidas"],
+            "longitud": lon,
+            "latitud": lat,
         })
-    
+
     df = pd.DataFrame(filas)
-    print("=== Mercados Municipales de Mérida (Geoportal Oficial) ===")
+    print("=== Mercados públicos de Mérida (INEGI DENUE) ===")
     print(df.to_string(index=False))
-    print(f"\n[INFO] Para explorar el mapa interactivo con isocronas de caminabilidad:")
+    print(f"\nTotal de establecimientos: {df.establecimientos_denue.sum():,}")
+    print(f"\n[INFO] Mapa interactivo con radios de 800 m:")
     print(f"       -> {os.path.join(current_dir, 'visor_mercados_municipales.html')}")
     return df
+
 
 if __name__ == "__main__":
     listar_mercados()

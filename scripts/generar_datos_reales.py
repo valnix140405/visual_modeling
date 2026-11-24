@@ -153,7 +153,7 @@ def saic_merida(cache, ruta):
     d = d[d.CODIGO.str.match(r"^(461\d{3}|462\d{3}|4311\d{2})$")]
     with zipfile.ZipFile(zp) as z:
         cat_nombre = next(n for n in z.namelist() if "tc_codigo_actividad" in n)
-        cat = pd.read_csv(z.open(cat_nombre), dtype=str, encoding="latin-1", index_col=False)
+        cat = pd.read_csv(z.open(cat_nombre), dtype=str, encoding="utf-8-sig", index_col=False)
     cat.columns = [c.strip().upper() for c in cat.columns]
     col_cod = next(c for c in cat.columns if "CODIGO" in c)
     col_desc = next(c for c in cat.columns if c != col_cod)

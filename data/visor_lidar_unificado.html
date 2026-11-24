@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Explorador LiDAR 3 en 1 — Mérida y el Mercado Lucas de Gálvez</title>
+  <title>Explorador de Relieve 3D — Mérida</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
@@ -158,446 +158,235 @@
       .hud-top-left { max-width: calc(100vw - 32px); top: 62px; }
       .profile-card { width: calc(100vw - 32px); right: 16px; bottom: 12px; }
     }
+      .pending-box {
+      background: #fff1f2; border: 1px solid #dc2626; color: #7f1d1d;
+      border-radius: 8px; padding: 10px 12px; font-size: 12.5px; font-weight: 700; line-height: 1.45;
+    }
+    .note { font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+    #loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; color: #ffffff; font-weight: 800; pointer-events: none; }
   </style>
 </head>
 <body>
   <div id="canvas-container"></div>
+  <div id="loading"></div>
 
   <div class="hud-top-right">
     <a href="../index.html" class="btn-back">Volver a la Presentación</a>
   </div>
 
   <div class="hud-top-left">
-    <span class="badge">Explorador LiDAR Real (3 en 1)</span>
+    <span class="badge">Explorador de Relieve 3D (elevación real)</span>
     <div class="mode-tabs">
-      <button class="mode-btn active" onclick="switchMode(0, this)">1. Techo del Mercado</button>
-      <button class="mode-btn" onclick="switchMode(1, this)">2. Lluvias Norte vs Sur</button>
-      <button class="mode-btn" onclick="switchMode(2, this)">3. Sombra en la Calle</button>
+      <button class="mode-btn" data-mode="a" onclick="switchMode('a')">08-A · Domo LiDAR</button>
+      <button class="mode-btn" data-mode="b" onclick="switchMode('b')">08-B · Centro</button>
+      <button class="mode-btn" data-mode="c" onclick="switchMode('c')">08-C · Mérida 17 km</button>
     </div>
 
-    <h1 id="mode-title">El Domo Gigante que Respira Solo</h1>
+    <h1 id="mode-title"></h1>
     <p class="subtitle" id="mode-desc"></p>
 
     <div class="stats-row" id="stats-row"></div>
-    <div class="sub-controls" id="sub-controls"></div>
+    <div class="sub-controls" id="sub-controls">
+      <div class="ctrl-row">
+        <span>Exageración vertical: <span id="exag-val"></span></span>
+        <input type="range" id="exag" min="1" max="300" step="1" oninput="setExag(this.value)">
+      </div>
+      <div class="note" id="exag-note"></div>
+    </div>
   </div>
 
-  <div class="profile-card">
+  <div class="profile-card" id="profile-card">
     <div class="profile-title">
-      <span id="chart-title">Perfil Real de Alturas (.PLY)</span>
-      <span id="chart-sub">20 puntos medidos</span>
+      <span id="chart-title">Perfil oeste → este (altura real, sin exagerar)</span>
+      <span id="chart-sub"></span>
     </div>
     <canvas id="profile-canvas" width="700" height="250"></canvas>
   </div>
 
   <script>
-    const PLY_DOME = `0.000 0.000 9.250 96 13 139
-0.930 0.350 9.280 96 13 139
-2.280 0.700 9.310 96 13 139
-5.080 4.650 18.450 237 159 34
-5.980 5.350 18.520 237 159 34
-7.180 6.050 19.100 237 159 34
-8.380 6.750 19.250 237 159 34
-9.980 8.450 21.800 237 159 34
-11.280 9.150 21.850 237 159 34
-12.680 9.950 21.750 237 159 34
-14.980 14.750 18.600 237 159 34
-20.080 19.650 9.400 96 13 139
-21.380 20.550 9.380 96 13 139
-25.180 24.750 14.200 237 159 34
-25.980 25.650 15.800 237 159 34
-27.280 26.550 16.100 237 159 34
-29.880 30.050 9.300 96 13 139
-35.080 34.650 17.900 237 159 34
-36.380 35.550 18.100 237 159 34
-39.980 39.750 9.350 96 13 139`;
+    const MODES = {
+      a: {
+        title: 'LiDAR del domo del Mercado Lucas de Gálvez',
+        desc: 'No contamos con un levantamiento LiDAR real del mercado. La nube de 20 puntos que había aquí era simulada y se eliminó.',
+        pending: true
+      },
+      b: {
+        title: 'Elevación del Centro alrededor del Mercado Lucas de Gálvez',
+        desc: 'Malla real de 41 x 41 puntos (1.6 km por lado) centrada en el mercado (punto dorado). Fuente: AWS Terrain Tiles (Tilezen), elevación en metros sobre el nivel del mar.',
+        file: './fuente_b/08_lidar_cem_mde/elevacion_centro_merida.ply',
+        exag: 40
+      },
+      c: {
+        title: 'Relieve de Mérida: 17 km x 17 km',
+        desc: 'Malla real de 50 x 50 puntos sobre la ciudad. Fuente: AWS Terrain Tiles (Tilezen). Mérida es tan plana que sin exageración la superficie se ve como una hoja.',
+        file: './fuente_c/08_opentopography/relieve_merida_terrain_tiles.ply',
+        exag: 150
+      }
+    };
 
-    const MERIDA_ZONES = [
-      { name: 'Altabrisa',  elev: 11.2, x: 5,  z: -12 },
-      { name: 'Chuburná',   elev: 10.1, x: -5, z: -8 },
-      { name: 'Centro',     elev: 9.3,  x: 1,  z: -2 },
-      { name: 'Sambulá',    elev: 7.8,  x: -6, z: 4 },
-      { name: 'Kanasín',    elev: 7.4,  x: 7,  z: 6 },
-      { name: 'San José',   elev: 7.1,  x: -2, z: 10 },
-      { name: 'Dzununcán',  elev: 6.4,  x: 3,  z: 13 }
-    ];
-
-    function createGlowDot() {
-      const c = document.createElement('canvas');
-      c.width = 64; c.height = 64;
-      const ctx = c.getContext('2d');
-      const g = ctx.createRadialGradient(32, 32, 4, 32, 32, 30);
-      g.addColorStop(0, 'rgba(255,255,255,1)');
-      g.addColorStop(0.55, 'rgba(255,255,255,0.85)');
-      g.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, 64, 64);
-      return new THREE.CanvasTexture(c);
-    }
-
-    function createTag(name, elev) {
-      const c = document.createElement('canvas');
-      c.width = 320; c.height = 96;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.roundRect(6, 6, 308, 84, 14);
-      ctx.fill();
-      ctx.lineWidth = 6;
-      ctx.strokeStyle = elev >= 9.3 ? '#ed9f22' : '#600d8b';
-      ctx.stroke();
-      ctx.fillStyle = '#0d0d0d';
-      ctx.font = 'bold 26px Segoe UI, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(name, 160, 42);
-      ctx.fillStyle = '#600d8b';
-      ctx.font = 'bold 22px Segoe UI, sans-serif';
-      ctx.fillText(elev.toFixed(1) + ' m', 160, 74);
-      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true }));
-      sp.scale.set(4.5, 1.35, 1);
-      return sp;
-    }
-
+    // ---------- escena
+    const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#0d0d0d');
-
-    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 300);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    scene.background = new THREE.Color(0x0d0d0d);
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    document.getElementById('canvas-container').appendChild(renderer.domElement);
-
+    container.appendChild(renderer.domElement);
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    scene.add(new THREE.AmbientLight('#ffffff', 0.65));
-    const dirLight = new THREE.DirectionalLight('#ed9f22', 0.9);
-    dirLight.position.set(18, 28, 16);
-    scene.add(dirLight);
+    let current = null;          // { mode, pts:[x,y,z,r,g,b], points, marker, zmin, zmax, size }
+    const cache = {};
 
-    scene.add(new THREE.GridHelper(52, 26, '#600d8b', '#222222'));
-
-    const stageGroup = new THREE.Group();
-    scene.add(stageGroup);
-    const dotTex = createGlowDot();
-
-    let nasaPoints = null;
-    let currentWater = 7.5;
-    let nasaFilter = 'all';
-
-    function clearStage() {
-      while (stageGroup.children.length > 0) {
-        stageGroup.remove(stageGroup.children[0]);
+    function parsePly(text) {
+      const lines = text.split(/\r?\n/);
+      let i = 0, n = 0;
+      for (; i < lines.length; i++) {
+        const l = lines[i].trim();
+        if (l.startsWith('element vertex')) n = parseInt(l.split(/\s+/)[2], 10);
+        if (l === 'end_header') { i++; break; }
       }
-    }
-
-    function parsePLYRows(txt) {
-      const lines = txt.trim().split(/\r?\n/);
-      const endIdx = lines.findIndex(l => l.trim() === 'end_header');
-      return (endIdx >= 0 ? lines.slice(endIdx + 1) : lines)
-        .map(l => l.trim().split(/\s+/).map(Number))
-        .filter(a => a.length >= 3);
-    }
-
-    function generateNasaFallback() {
       const pts = [];
-      for (let i = 0; i < 500; i++) {
-        const rx = ((Math.sin(i * 12.9898) * 43758.5453) % 1 + 1) % 1;
-        const ry = ((Math.sin(i * 78.233) * 43758.5453) % 1 + 1) % 1;
-        const rz = ((Math.sin(i * 45.164) * 43758.5453) % 1 + 1) % 1;
-        pts.push([rx * 20000, ry * 20000, 8.97 + rz * 15.0]);
+      for (let k = 0; k < n && i + k < lines.length; k++) {
+        const v = lines[i + k].trim().split(/\s+/).map(Number);
+        if (v.length >= 6) pts.push(v);
       }
       return pts;
     }
 
-    function buildDomeMode(ptSize = 2.1) {
-      clearStage();
-      // Offset target slightly left so 3D dome sits cleanly to the right of the HUD
-      camera.position.set(24, 17, 32);
-      controls.target.set(-4, 5.5, 0);
-
-      // Architectural parabolic wireframe guide so the 20 real PLY hits are immediately recognizable as a dome
-      const archGeo = new THREE.CylinderGeometry(14, 14, 34, 24, 6, true, 0, Math.PI);
-      const archWire = new THREE.Mesh(
-        archGeo,
-        new THREE.MeshBasicMaterial({ color: '#8e24aa', wireframe: true, transparent: true, opacity: 0.38 })
-      );
-      archWire.rotation.z = Math.PI / 2;
-      archWire.rotation.y = Math.PI / 4;
-      archWire.scale.set(1, 1, 12.53 / 14);
-      stageGroup.add(archWire);
-
-      const pts = parsePLYRows(PLY_DOME);
-      const pos = [], col = [];
-      pts.forEach(([x, y, z, r, g, b]) => {
-        const px = x - 20, pz = y - 20, py = z - 9.25;
-        pos.push(px, py, pz);
-        col.push(r / 255, g / 255, b / 255);
-        const lineGeo = new THREE.BufferGeometry().setFromPoints([
-          new THREE.Vector3(px, 0, pz),
-          new THREE.Vector3(px, py, pz)
-        ]);
-        stageGroup.add(new THREE.Line(lineGeo, new THREE.LineBasicMaterial({
-          color: z > 12 ? '#ed9f22' : '#600d8b', transparent: true, opacity: 0.55
-        })));
-      });
-
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-      geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-      stageGroup.add(new THREE.Points(geo, new THREE.PointsMaterial({ size: ptSize, map: dotTex, vertexColors: true, transparent: true, alphaTest: 0.05 })));
-
-      const c = document.getElementById('profile-canvas');
-      const ctx = c.getContext('2d');
-      const W = c.width, H = c.height;
-      ctx.clearRect(0, 0, W, H);
-      [9, 13, 17, 21].forEach((m) => {
-        const y = H - 28 - ((m - 8) / 15) * (H - 48);
-        ctx.strokeStyle = '#ece8f0'; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(54, y); ctx.lineTo(W - 16, y); ctx.stroke();
-        ctx.fillStyle = '#555555'; ctx.font = 'bold 17px Segoe UI, sans-serif';
-        ctx.fillText(m + 'm', 8, y + 6);
-      });
-      ctx.beginPath();
-      pts.forEach(([, , z], i) => {
-        const px = 62 + (i / (pts.length - 1)) * (W - 88);
-        const py = H - 28 - ((z - 8) / 15) * (H - 48);
-        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-      });
-      ctx.strokeStyle = '#600d8b'; ctx.lineWidth = 4; ctx.stroke();
-      pts.forEach(([, , z], i) => {
-        const px = 62 + (i / (pts.length - 1)) * (W - 88);
-        const py = H - 28 - ((z - 8) / 15) * (H - 48);
-        ctx.fillStyle = z > 12 ? '#ed9f22' : '#600d8b';
-        ctx.beginPath(); ctx.arc(px, py, 7, 0, Math.PI * 2); ctx.fill();
-      });
+    async function loadMode(m) {
+      if (cache[m]) return cache[m];
+      const r = await fetch(MODES[m].file);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      cache[m] = parsePly(await r.text());
+      return cache[m];
     }
 
-    function buildFloodMode() {
-      clearStage();
-      // Frame slightly to the right so labels never collide with top-left HUD or bottom-right chart
-      camera.position.set(22, 20, 28);
-      controls.target.set(-3.5, 3.2, 0);
-      const elevToY = (e) => (e - 5.5) * 1.45;
+    function clearScene() {
+      if (!current) return;
+      if (current.points) { scene.remove(current.points); current.points.geometry.dispose(); }
+      if (current.marker) scene.remove(current.marker);
+      current = null;
+    }
 
-      // Interpolated Mérida 3D terrain mesh
-      const tGeo = new THREE.PlaneGeometry(32, 32, 48, 48);
-      tGeo.rotateX(-Math.PI / 2);
-      const tPos = tGeo.attributes.position;
-      const tCol = [];
-      const cLow = new THREE.Color('#600d8b'), cMid = new THREE.Color('#ed9f22'), cHigh = new THREE.Color('#ffffff');
-
-      for (let i = 0; i < tPos.count; i++) {
-        const x = tPos.getX(i), z = tPos.getZ(i);
-        const elev = 8.8 - (z / 16) * 2.4 + Math.sin(x * 0.25) * 0.25;
-        tPos.setY(i, elevToY(elev));
-        const t = Math.max(0, Math.min(1, (elev - 6.2) / 5.0));
-        const c = new THREE.Color();
-        if (t < 0.5) c.lerpColors(cLow, cMid, t * 2);
-        else c.lerpColors(cMid, cHigh, (t - 0.5) * 2);
-        tCol.push(c.r, c.g, c.b);
+    function buildCloud(m, pts) {
+      let xmin = Infinity, xmax = -Infinity, ymin = Infinity, ymax = -Infinity, zmin = Infinity, zmax = -Infinity;
+      for (const p of pts) {
+        xmin = Math.min(xmin, p[0]); xmax = Math.max(xmax, p[0]);
+        ymin = Math.min(ymin, p[1]); ymax = Math.max(ymax, p[1]);
+        zmin = Math.min(zmin, p[2]); zmax = Math.max(zmax, p[2]);
       }
-      tGeo.setAttribute('color', new THREE.Float32BufferAttribute(tCol, 3));
-      tGeo.computeVertexNormals();
-      stageGroup.add(new THREE.Mesh(tGeo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.78 })));
-
-      const water = new THREE.Mesh(
-        new THREE.PlaneGeometry(32.2, 32.2),
-        new THREE.MeshBasicMaterial({ color: '#600d8b', transparent: true, opacity: 0.48, side: THREE.DoubleSide })
-      );
-      water.rotation.x = -Math.PI / 2;
-      water.position.y = elevToY(currentWater);
-      stageGroup.add(water);
-
-      const pos = [], col = [];
-      MERIDA_ZONES.forEach((z) => {
-        const py = elevToY(z.elev);
-        pos.push(z.x, py, z.z);
-        const c = z.elev >= 9.3 ? new THREE.Color('#ffffff') : new THREE.Color('#ed9f22');
-        col.push(c.r, c.g, c.b);
-        stageGroup.add(new THREE.Line(
-          new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(z.x, 0, z.z), new THREE.Vector3(z.x, py + 1.4, z.z)]),
-          new THREE.LineBasicMaterial({ color: '#ed9f22', transparent: true, opacity: 0.8 })
-        ));
-        const tag = createTag(z.name, z.elev);
-        tag.position.set(z.x, py + 2.2, z.z);
-        stageGroup.add(tag);
+      const cx = (xmin + xmax) / 2, cy = (ymin + ymax) / 2, size = Math.max(xmax - xmin, ymax - ymin);
+      const pos = new Float32Array(pts.length * 3), col = new Float32Array(pts.length * 3);
+      pts.forEach((p, k) => {
+        pos[3 * k] = p[0] - cx; pos[3 * k + 1] = 0; pos[3 * k + 2] = -(p[1] - cy);
+        col[3 * k] = p[3] / 255; col[3 * k + 1] = p[4] / 255; col[3 * k + 2] = p[5] / 255;
       });
-
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-      geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-      stageGroup.add(new THREE.Points(geo, new THREE.PointsMaterial({ size: 1.8, map: dotTex, vertexColors: true, transparent: true, alphaTest: 0.05 })));
-
-      const c = document.getElementById('profile-canvas');
-      const ctx = c.getContext('2d');
-      const W = c.width, H = c.height;
-      ctx.clearRect(0, 0, W, H);
-      const wy = H - 34 - ((currentWater - 5.5) / 6.5) * (H - 56);
-      ctx.fillStyle = 'rgba(96, 13, 139, 0.16)';
-      ctx.fillRect(54, wy, W - 70, H - 34 - wy);
-      ctx.strokeStyle = '#600d8b'; ctx.setLineDash([6, 6]); ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(54, wy); ctx.lineTo(W - 16, wy); ctx.stroke();
-      ctx.setLineDash([]);
-
-      [6, 8, 10, 11].forEach((m) => {
-        const y = H - 34 - ((m - 5.5) / 6.5) * (H - 56);
-        ctx.fillStyle = '#555555'; ctx.font = 'bold 16px Segoe UI, sans-serif';
-        ctx.fillText(m + 'm', 8, y + 6);
-      });
-      ctx.beginPath();
-      MERIDA_ZONES.forEach((z, i) => {
-        const px = 72 + (i / (MERIDA_ZONES.length - 1)) * (W - 108);
-        const py = H - 34 - ((z.elev - 5.5) / 6.5) * (H - 56);
-        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-      });
-      ctx.strokeStyle = '#ed9f22'; ctx.lineWidth = 5; ctx.stroke();
-      MERIDA_ZONES.forEach((z, i) => {
-        const px = 72 + (i / (MERIDA_ZONES.length - 1)) * (W - 108);
-        const py = H - 34 - ((z.elev - 5.5) / 6.5) * (H - 56);
-        ctx.fillStyle = z.elev <= currentWater ? '#600d8b' : '#ed9f22';
-        ctx.beginPath(); ctx.arc(px, py, 8, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#0d0d0d'; ctx.font = 'bold 14px Segoe UI, sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText(z.name, px, H - 10);
-      });
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      const mat = new THREE.PointsMaterial({ size: size / 120, vertexColors: true });
+      const points = new THREE.Points(g, mat);
+      scene.add(points);
+      let marker = null;
+      if (m === 'b') {
+        marker = new THREE.Mesh(new THREE.SphereGeometry(size / 70, 16, 16), new THREE.MeshBasicMaterial({ color: 0xed9f22 }));
+        scene.add(marker);
+      }
+      current = { mode: m, pts, points, marker, zmin, zmax, size, cx, cy };
+      camera.position.set(size * 0.55, size * 0.6, size * 0.95);
+      controls.target.set(0, 0, 0);
+      controls.update();
     }
 
-    function buildShadeMode() {
-      clearStage();
-      camera.position.set(22, 18, 28);
-      controls.target.set(-2, 4, 0);
-      const rawPts = nasaPoints || generateNasaFallback();
-      // Filter out 0.0 / sentinel outliers so the real Mérida urban cluster spreads cleanly
-      const pts = rawPts.filter(([x, y, z]) => x > 1000 && y > 1000 && z >= 4 && z <= 35);
-
-      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity;
-      pts.forEach(([x, y, z]) => {
-        if (x < minX) minX = x; if (x > maxX) maxX = x;
-        if (y < minY) minY = y; if (y > maxY) maxY = y;
-        if (z < minZ) minZ = z;
-      });
-      const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
-      const spanX = Math.max(1, maxX - minX);
-      const spanY = Math.max(1, maxY - minY);
-
-      // Ground reference plane
-      const ground = new THREE.Mesh(
-        new THREE.PlaneGeometry(34, 34),
-        new THREE.MeshBasicMaterial({ color: '#600d8b', transparent: true, opacity: 0.16, side: THREE.DoubleSide })
-      );
-      ground.rotation.x = -Math.PI / 2;
-      stageGroup.add(ground);
-
-      const pos = [], col = [];
-      pts.forEach(([x, y, z]) => {
-        const isCanopy = z >= 14.0;
-        if (nasaFilter === 'canopy' && !isCanopy) return;
-        if (nasaFilter === 'ground' && isCanopy) return;
-        const px = ((x - cx) / spanX) * 28;
-        const pz = ((y - cy) / spanY) * 28;
-        const py = (z - minZ) * 0.7;
-        pos.push(px, py, pz);
-        if (z >= 19.0) col.push(1, 1, 1);
-        else if (isCanopy) col.push(237 / 255, 159 / 255, 34 / 255);
-        else col.push(96 / 255, 13 / 255, 139 / 255);
-      });
-
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-      geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-      stageGroup.add(new THREE.Points(geo, new THREE.PointsMaterial({ size: 1.35, map: dotTex, vertexColors: true, transparent: true, alphaTest: 0.05 })));
-
-      const c = document.getElementById('profile-canvas');
-      const ctx = c.getContext('2d');
-      const W = c.width, H = c.height;
-      ctx.clearRect(0, 0, W, H);
-      const bins = [0, 0, 0, 0, 0, 0];
-      const labels = ['<11m', '11-14m', '14-17m', '17-20m', '20-23m', '>23m'];
-      pts.forEach(([, , z]) => { bins[Math.min(5, Math.max(0, Math.floor((z - 8) / 3)))]++; });
-      const maxBin = Math.max(1, ...bins);
-      bins.forEach((cnt, i) => {
-        const barW = 76, gap = 26, x = 44 + i * (barW + gap);
-        const h = (cnt / maxBin) * (H - 72), y = H - 36 - h;
-        ctx.fillStyle = i < 2 ? '#600d8b' : '#ed9f22';
-        ctx.beginPath(); ctx.roundRect(x, y, barW, h, 8); ctx.fill();
-        ctx.fillStyle = '#0d0d0d'; ctx.font = 'bold 16px Segoe UI, sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText(cnt, x + barW / 2, y - 6);
-        ctx.fillStyle = '#555555'; ctx.fillText(labels[i], x + barW / 2, H - 10);
-      });
-    }
-
-    function switchMode(idx, btn) {
-      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-
-      const title = document.getElementById('mode-title');
-      const desc = document.getElementById('mode-desc');
-      const stats = document.getElementById('stats-row');
-      const sub = document.getElementById('sub-controls');
-      const cTitle = document.getElementById('chart-title');
-      const cSub = document.getElementById('chart-sub');
-
-      if (idx === 0) {
-        title.textContent = 'El Domo Gigante que Respira Solo';
-        desc.textContent = 'Los 20 puntos láser reales (.PLY) trazan la bóveda del Mercado Lucas de Gálvez: 21.85 m arriba contra 9.25 m en el piso (12.53 m libres para ventilar sin gastar luz).';
-        stats.innerHTML = `
-          <div class="stat-box"><div class="stat-val">9.25 m</div><div class="stat-lbl">Piso del pasillo</div></div>
-          <div class="stat-box"><div class="stat-val">21.85 m</div><div class="stat-lbl">Pico del domo</div></div>
-          <div class="stat-box"><div class="stat-val">$0 Luz</div><div class="stat-lbl">Clima natural</div></div>`;
-        sub.innerHTML = `<div class="ctrl-row"><span>Tamaño de punto láser</span><input type="range" min="0.8" max="3.5" step="0.1" value="2.1" oninput="buildDomeMode(parseFloat(this.value))"/></div>`;
-        cTitle.textContent = 'Perfil Real de Alturas (.PLY)';
-        cSub.textContent = '20 puntos medidos';
-        buildDomeMode(2.1);
-      } else if (idx === 1) {
-        title.textContent = 'Mérida Plana: Dónde se Estanca la Lluvia';
-        desc.textContent = 'El Norte (Altabrisa, 11.2 m) está 4.8 metros más alto que el Sur (Dzununcán, 6.4 m). Mueve la cota de agua para ver qué zonas se encharcan primero.';
-        stats.innerHTML = `
-          <div class="stat-box"><div class="stat-val">11.2 m</div><div class="stat-lbl">Norte (Altabrisa)</div></div>
-          <div class="stat-box"><div class="stat-val">6.4 m</div><div class="stat-lbl">Sur (Dzununcán)</div></div>
-          <div class="stat-box"><div class="stat-val">4.8 m</div><div class="stat-lbl">Desnivel real</div></div>`;
-        sub.innerHTML = `<div class="ctrl-row"><span>Nivel de lluvia: <strong id="rain-lbl">${currentWater.toFixed(1)} m</strong></span><input type="range" min="6.0" max="10.2" step="0.1" value="${currentWater}" oninput="currentWater=parseFloat(this.value); document.getElementById('rain-lbl').textContent=currentWater.toFixed(1)+' m'; buildFloodMode();"/></div>`;
-        cTitle.textContent = 'Perfil Norte a Sur (INEGI CEM)';
-        cSub.textContent = 'Desnivel: 4.8 m';
-        buildFloodMode();
-      } else {
-        title.textContent = 'Ojo desde el Espacio: Dónde Falta Sombra';
-        desc.textContent = '500 pulsos láser reales del satélite NASA GEDI distribuidos sobre la ciudad: separan las copas de árboles (+7.84 m) del suelo expuesto al sol (8.97 m).';
-        stats.innerHTML = `
-          <div class="stat-box"><div class="stat-val">500</div><div class="stat-lbl">Pulsos NASA</div></div>
-          <div class="stat-box"><div class="stat-val">8.97 m</div><div class="stat-lbl">Suelo base</div></div>
-          <div class="stat-box"><div class="stat-val">7.84 m</div><div class="stat-lbl">Altura copa</div></div>`;
-        sub.innerHTML = `
-          <div><strong>Filtrar pulsos láser:</strong></div>
-          <div class="pill-group">
-            <button class="pill ${nasaFilter==='all'?'active':''}" onclick="nasaFilter='all'; switchMode(2)">Todos</button>
-            <button class="pill ${nasaFilter==='canopy'?'active':''}" onclick="nasaFilter='canopy'; switchMode(2)">Copa / Sombra</button>
-            <button class="pill ${nasaFilter==='ground'?'active':''}" onclick="nasaFilter='ground'; switchMode(2)">Suelo Caliente</button>
-          </div>`;
-        cTitle.textContent = 'Distribución Real (NASA GEDI)';
-        cSub.textContent = '500 pulsos';
-        buildShadeMode();
+    function setExag(v) {
+      v = Number(v);
+      document.getElementById('exag-val').textContent = '×' + v;
+      document.getElementById('exag-note').textContent = v === 1
+        ? 'Escala real: la altura se muestra igual que en el terreno.'
+        : 'La altura se muestra ' + v + ' veces mayor que la real para que el relieve sea visible. Las cifras de esta tarjeta y el perfil usan la altura real.';
+      if (!current || !current.points) return;
+      const pos = current.points.geometry.attributes.position;
+      current.pts.forEach((p, k) => pos.setY(k, (p[2] - current.zmin) * v));
+      pos.needsUpdate = true;
+      if (current.marker) {
+        // punto central de la malla = coordenada del mercado
+        const mid = current.pts[Math.floor(current.pts.length / 2)];
+        current.marker.position.set(mid[0] - current.cx, (mid[2] - current.zmin) * v + current.size / 60, -(mid[1] - current.cy));
       }
     }
 
-    fetch('./fuente_c/08_opentopography/nasa_gedi_dosel_merida_lidar.ply')
-      .then(r => r.ok ? r.text() : Promise.reject())
-      .then(txt => { nasaPoints = parsePLYRows(txt); })
-      .catch(() => { nasaPoints = generateNasaFallback(); });
+    function drawProfile(pts) {
+      const cv = document.getElementById('profile-canvas'), ctx = cv.getContext('2d');
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      const ys = [...new Set(pts.map(p => p[1].toFixed(1)))].map(Number).sort((a, b) => a - b);
+      const yMid = ys[Math.floor(ys.length / 2)];
+      const row = pts.filter(p => Math.abs(p[1] - yMid) < 1e-6 || p[1].toFixed(1) === yMid.toFixed(1)).sort((a, b) => a[0] - b[0]);
+      if (row.length < 2) return;
+      const zs = row.map(p => p[2]); const zmin = Math.min(...zs), zmax = Math.max(...zs);
+      const L = 56, R = 16, T = 16, B = 40, W = cv.width - L - R, H = cv.height - T - B;
+      const X = x => L + (x - row[0][0]) / (row[row.length - 1][0] - row[0][0]) * W;
+      const Y = z => T + H - (z - zmin) / ((zmax - zmin) || 1) * H;
+      ctx.strokeStyle = '#e2e8f0'; ctx.fillStyle = '#555555'; ctx.font = '20px Segoe UI, sans-serif';
+      [zmin, (zmin + zmax) / 2, zmax].forEach(z => {
+        ctx.beginPath(); ctx.moveTo(L, Y(z)); ctx.lineTo(L + W, Y(z)); ctx.stroke();
+        ctx.fillText(z.toFixed(1) + ' m', 0, Y(z) + 6);
+      });
+      ctx.fillText('0 km', L, cv.height - 10);
+      const km = (row[row.length - 1][0] - row[0][0]) / 1000;
+      ctx.fillText(km.toFixed(1) + ' km', L + W - 60, cv.height - 10);
+      ctx.strokeStyle = '#600d8b'; ctx.lineWidth = 4; ctx.beginPath();
+      row.forEach((p, k) => k ? ctx.lineTo(X(p[0]), Y(p[2])) : ctx.moveTo(X(p[0]), Y(p[2])));
+      ctx.stroke();
+      document.getElementById('chart-sub').textContent = row.length + ' puntos reales';
+    }
 
-    switchMode(0, document.querySelector('.mode-btn'));
+    function stat(v, l) { return '<div class="stat-box"><div class="stat-val">' + v + '</div><div class="stat-lbl">' + l + '</div></div>'; }
+
+    async function switchMode(m) {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
+      const cfg = MODES[m];
+      document.getElementById('mode-title').textContent = cfg.title;
+      document.getElementById('mode-desc').textContent = cfg.desc;
+      clearScene();
+      const stats = document.getElementById('stats-row'), ctrls = document.getElementById('sub-controls'), prof = document.getElementById('profile-card');
+      if (cfg.pending) {
+        stats.innerHTML = '';
+        stats.style.display = 'none';
+        ctrls.style.display = 'none';
+        prof.style.display = 'none';
+        document.getElementById('mode-desc').insertAdjacentHTML('afterend', '');
+        stats.insertAdjacentHTML('beforebegin', '');
+        document.getElementById('loading').textContent = '';
+        document.getElementById('mode-desc').innerHTML = cfg.desc + '<br><br><span class="pending-box" style="display:block">Pendiente: sin dato real disponible.</span>';
+        return;
+      }
+      stats.style.display = ''; ctrls.style.display = ''; prof.style.display = '';
+      document.getElementById('loading').textContent = 'Cargando malla de elevación…';
+      try {
+        const pts = await loadMode(m);
+        buildCloud(m, pts);
+        document.getElementById('loading').textContent = '';
+        stats.innerHTML = stat(pts.length.toLocaleString('es-MX'), 'puntos reales') +
+          stat(current.zmin.toFixed(1) + ' m', 'elevación mínima') +
+          stat(current.zmax.toFixed(1) + ' m', 'elevación máxima');
+        const ex = document.getElementById('exag'); ex.value = cfg.exag; setExag(cfg.exag);
+        drawProfile(pts);
+      } catch (e) {
+        document.getElementById('loading').textContent = 'No se pudo cargar el archivo .ply (' + e.message + '). Abre el visor desde un servidor web, no con doble clic.';
+      }
+    }
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
+    (function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); })();
 
-    function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
-    }
-    animate();
+    const params = new URLSearchParams(location.search);
+    switchMode(MODES[params.get('modo')] ? params.get('modo') : 'b');
   </script>
 </body>
 </html>
