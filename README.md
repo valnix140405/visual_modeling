@@ -57,6 +57,7 @@ Abre los archivos desde el sitio publicado o con un servidor local (`python -m h
 | Visor | Datos |
 |---|---|
 | [`index.html`](index.html) | Presentación del proyecto |
+| [`catalogo/index.html`](catalogo/index.html) | Catálogo de visualizaciones de los 9 equipos, con filtros; PDF imprimible en `catalogo/catalogo_visualizaciones.pdf` (`python scripts/generar_catalogo.py --pdf`) |
 | [`data/fuente_a/04_geoportal_merida/visor_mercados_municipales.html`](data/fuente_a/04_geoportal_merida/visor_mercados_municipales.html) | Mercados públicos de Mérida (DENUE) |
 | [`data/visor_lidar_unificado.html`](data/visor_lidar_unificado.html) | Elevación del Centro y relieve de Mérida (AWS Terrain Tiles). No es LiDAR |
 | [`data/visor_ar_unificado.html`](data/visor_ar_unificado.html) | Prototipo de diseño AR, sin datos de fuente |
