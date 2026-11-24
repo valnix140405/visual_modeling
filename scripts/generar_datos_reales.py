@@ -191,7 +191,7 @@ def censo_ageb_merida(cache, ruta_ageb, ruta_mun):
     out["pct_desocupacion"] = (100 * out.PDESOCUP / out.PEA).round(2)
     out.to_csv(ruta_ageb, index=False, encoding="utf-8")
     print(f"[ok] {os.path.relpath(ruta_ageb, ROOT)}: {len(out)} AGEB urbanas")
-    m = mun[["ENTIDAD", "MUN", "NOM_MUN"] + COLS_AGEB].copy()
+    m = mun[["ENTIDAD", "MUN", "NOM_MUN"] + COLS_AGEB + ["OCUPVIVPAR", "PROM_OCUP"]].copy()  # PROM_OCUP: ocupantes por vivienda
     m.to_csv(ruta_mun, index=False, encoding="utf-8")
     print(f"[ok] {os.path.relpath(ruta_mun, ROOT)}")
 

@@ -7,7 +7,7 @@ Resumen por producto y cadena de los precios reales de PROFECO QQP en supermerca
 
 | Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
 |---|---|---|---|---|---|---|
-| [`precios_canasta_supermercados_reales.csv`](precios_canasta_supermercados_reales.csv) | 69 filas | https://datos.profeco.gob.mx/datos_abiertos/qqp.php | 2026-11-24 (registros de mayo 2026) | Libre Uso MX de datos.gob.mx (verificar en la ficha del dataset) | Completo | Promedio, mínimo y máximo por cadena, usando para cada producto la misma presentación en todas las cadenas (la más frecuente en el conjunto). Se genera con `python scripts/generar_datos_reales.py`. |
+| [`precios_canasta_supermercados_reales.csv`](precios_canasta_supermercados_reales.csv) | 69 filas | https://datos.profeco.gob.mx/index.php (archivo `docs/qqp/QQP_2026.rar`) | 2026-11-24 (registros de mayo 2026) | No indicada en los metadatos de PROFECO (verificar) | Completo | Promedio, mínimo y máximo por cadena, usando para cada producto la misma presentación en todas las cadenas (la más frecuente en el conjunto). Se genera con `python scripts/generar_datos_reales.py`. |
 
 ## Pendientes y cambios
 

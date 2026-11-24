@@ -7,7 +7,7 @@ Precios al consumidor registrados por PROFECO en la Central de Abasto de Mérida
 
 | Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
 |---|---|---|---|---|---|---|
-| [`profeco_central_abasto_merida_2026.csv`](profeco_central_abasto_merida_2026.csv) | 776 filas | https://datos.profeco.gob.mx/datos_abiertos/qqp.php | 2026-11-24 (registros de mayo 2026) | Libre Uso MX de datos.gob.mx (verificar en la ficha del dataset) | Completo | Subconjunto de 02-A con `cadena_comercial = Central de Abasto`. |
+| [`profeco_central_abasto_merida_2026.csv`](profeco_central_abasto_merida_2026.csv) | 776 filas | https://datos.profeco.gob.mx/index.php (archivo `docs/qqp/QQP_2026.rar`) | 2026-11-24 (registros de mayo 2026) | No indicada en los metadatos de PROFECO (verificar) | Completo | Subconjunto de 02-A con `cadena_comercial = Central de Abasto`. |
 
 ## Pendientes y cambios
 

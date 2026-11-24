@@ -7,8 +7,8 @@ Microdatos de la Encuesta Nacional de Ocupación y Empleo, primer trimestre de 2
 
 | Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
 |---|---|---|---|---|---|---|
-| [`conjunto_de_datos_hog_enoe_2025_1t/`](conjunto_de_datos_hog_enoe_2025_1t) | — | https://www.inegi.org.mx/programas/enoe/15ymas/ | Incorporado 2026-10-01 | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html) | Completo | Tabla de hogares con catálogos, diccionario y metadatos. |
-| [`conjunto_de_datos_viv_enoe_2025_1t/`](conjunto_de_datos_viv_enoe_2025_1t) | — | https://www.inegi.org.mx/programas/enoe/15ymas/ | Incorporado 2026-10-01 | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html) | Completo | Tabla de vivienda con catálogos, diccionario y metadatos. |
+| [`conjunto_de_datos_hog_enoe_2025_1t/`](conjunto_de_datos_hog_enoe_2025_1t) | — | https://www.inegi.org.mx/programas/enoe/15ymas/ | Incorporado 2026-10-01 | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html) | Completo | Tabla de hogares con catálogos, diccionario y metadatos. Idéntica (SHA-256) a la descarga oficial de INEGI. |
+| [`conjunto_de_datos_viv_enoe_2025_1t/`](conjunto_de_datos_viv_enoe_2025_1t) | — | https://www.inegi.org.mx/programas/enoe/15ymas/ | Incorporado 2026-10-01 | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html) | Completo | Tabla de vivienda con catálogos, diccionario y metadatos. Idéntica (SHA-256) a la descarga oficial de INEGI. |
 | [`0_indice_tablas_enoe_2025_1t.csv`](0_indice_tablas_enoe_2025_1t.csv) | 7 filas | https://www.inegi.org.mx/programas/enoe/15ymas/ | Incorporado 2026-10-01 | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html) | Completo | Índice de tablas del paquete INEGI. |
 
 ## Pendientes y cambios
