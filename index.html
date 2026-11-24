@@ -121,6 +121,26 @@
       stroke: currentColor;
     }
 
+
+    /* ===== MÓVIL: el encabezado se apila y no desborda ===== */
+    @media (max-width: 760px) {
+      header { flex-wrap: wrap; gap: 10px; padding: 10px 16px; }
+      .brand-titles h1 { font-size: 15px; }
+      .brand-titles p { display: none; }
+      .header-actions { width: 100%; flex-wrap: wrap; gap: 8px; }
+      .view-switch { flex: 1 1 100%; }
+      .view-switch-btn { padding: 6px 10px; font-size: 12px; flex: 1 1 auto; justify-content: center; }
+      .header-actions .badge-count, .header-actions .btn-fullscreen { display: none; }
+      .metodo-grid { grid-template-columns: 1fr; }
+    }
+    html, body { max-width: 100%; overflow-x: hidden; }
+
+    /* ===== METODOLOGÍA ===== */
+    .metodo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .metodo-grid .callout-card ul, .metodo-grid .callout-card ol { padding-left: 18px; line-height: 1.6; font-size: 14px; }
+    .metodo-grid .callout-card li { margin-bottom: 6px; }
+    .metodo-grid code { font-size: 12.5px; background: #f1f5f9; padding: 1px 5px; border-radius: 4px; }
+
     .badge-count {
       background: var(--accent-gold-soft);
       border: 1px solid var(--accent-gold);
@@ -885,10 +905,14 @@
         Borrador Looker Studio
       </a>
 
-      <span class="badge-count">19 FUENTES CON DATO REAL · 3 PENDIENTES</span>
+      <button class="view-switch-btn" style="border: 1px solid var(--accent-purple); background: #ffffff; color: var(--accent-purple);" onclick="setMode('deck'); goToSlide(8)">
+        Metodología
+      </button>
+
+      <span class="badge-count">16 FUENTES CON DATO REAL · 3 PROTOTIPOS AR · 3 PENDIENTES</span>
 
       <!-- Botón Fullscreen -->
-      <button class="view-switch-btn" style="border: 1px solid var(--border-subtle); background: #ffffff;" onclick="toggleFullScreen()" title="Pantalla Completa">
+      <button class="view-switch-btn btn-fullscreen" style="border: 1px solid var(--border-subtle); background: #ffffff;" onclick="toggleFullScreen()" title="Pantalla Completa">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
       </button>
     </div>
@@ -1146,20 +1170,20 @@
           <div class="delivery-breakdown-card">
             <h4 style="font-size: 14.5px; font-weight: 700; color: var(--accent-purple); margin-bottom: 12px;">Donde más se nota (promedio conveniencia vs. súper)</h4>
             <div class="breakdown-row">
+              <span>Suero oral sabor uva, botella 625 ml</span>
+              <span class="fee" style="color: var(--accent-gold-dark);">$37.67 vs $24.08 (+56.4%)</span>
+            </div>
+            <div class="breakdown-row">
               <span>Agua sin gas, botella 1 L</span>
               <span class="fee" style="color: var(--accent-gold-dark);">$19.56 vs $12.76 (+53.3%)</span>
             </div>
             <div class="breakdown-row">
               <span>Yoghurt bebible fresa, 220 g</span>
-              <span class="fee" style="color: var(--accent-gold-dark);">$18.30 vs $12.29 (+48.9%)</span>
+              <span class="fee" style="color: var(--accent-gold-dark);">$18.30 vs $12.29 (+48.8%)</span>
             </div>
             <div class="breakdown-row">
               <span>Agua sin gas, botella 600 ml</span>
               <span class="fee" style="color: var(--accent-gold-dark);">$14.50 vs $10.60 (+36.8%)</span>
-            </div>
-            <div class="breakdown-row">
-              <span>Sopa instantánea sabor pollo, vaso 64 g</span>
-              <span class="fee" style="color: var(--accent-gold-dark);">$21.33 vs $15.79 (+35.1%)</span>
             </div>
             <div class="breakdown-row">
               <span>Mediana de los 93 productos comparables</span>
@@ -1220,7 +1244,7 @@
         <div class="editorial-col">
           <h2 class="editorial-title">El Mes que se Come tu Sueldo: 28 Días pa' la Panza</h2>
           <p class="editorial-lead">
-            Con salario mínimo general 2025 ($278.80/día), alimentar a un hogar típico de Mérida (3.27 personas, Censo 2020) con la canasta alimentaria urbana de CONEVAL ($2,379.47 por persona, marzo 2025) cuesta <strong>$7,780.87 al mes: 28 días de trabajo</strong>. Mueve el control y traduce tu sueldo a <strong>kilos de tortilla ($29.50/kg en tortillería, PROFECO)</strong>:
+            Con salario mínimo general 2025 ($278.80/día, CONASAMI), alimentar a un hogar típico de Mérida (3.27 ocupantes por vivienda, Censo 2020) con la canasta alimentaria urbana de CONEVAL ($2,379.47 por persona, marzo 2025) cuesta <strong>$7,780.87 al mes: 28 días de trabajo</strong>. Mueve el control y traduce tu sueldo a <strong>kilos de tortilla ($29.50/kg en tortillería, PROFECO)</strong>:
           </p>
 
           <!-- SIMULADOR DINÁMICO DE SALARIO -->
@@ -1317,7 +1341,7 @@
             </div>
             <div class="figure-source-footer">
               <span>Fuente: CONEVAL Líneas de Pobreza (03-A), Censo 2020 INEGI (03-A)</span>
-              <span>Salario mínimo general 2025: $278.80 x 30 = $8,364/mes</span>
+              <span>Salario mínimo general 2025 de $278.80/día (CONASAMI) x 30 = $8,364/mes</span>
             </div>
           </div>
 
@@ -1617,7 +1641,7 @@
     <section class="slide-view" id="slide-7" data-index="7" data-title="Matriz de Fuentes">
       <div class="slide-header-bar">
         <span class="slide-badge">CAPÍTULO 07 · CATÁLOGO MAESTRO DE DATOS</span>
-        <span class="slide-nav-hint">19 con dato real · 3 pendientes</span>
+        <span class="slide-nav-hint">16 con dato real · 3 prototipos AR · 3 pendientes</span>
       </div>
 
       <div class="filter-bar">
@@ -1690,7 +1714,7 @@
               <td>Precios en supermercados</td>
               <td class="file-name">precios_canasta_supermercados_reales.csv</td>
               <td>CSV (derivado PROFECO)</td>
-              <td>69 combinaciones producto-cadena</td>
+              <td>62 combinaciones producto-cadena (misma presentación)</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_a" data-cat="3d">
@@ -1792,7 +1816,7 @@
               <td><span class="tag-source">Fuente C</span></td>
               <td>INEGI / ENOE</td>
               <td class="file-name">conjunto_de_datos_hog_enoe_2025_1t.csv</td>
-              <td>CSV (15.5 MB)</td>
+              <td>CSV (15.9 MB)</td>
               <td>151,570 hogares y microdatos sociolaborales</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
@@ -1802,7 +1826,7 @@
               <td>SEGALMEX DICONSA</td>
               <td class="file-name">DICONSA_8_Listado_de_articulos_por_proveedor.csv</td>
               <td>CSV Oficial</td>
-              <td>4,064 artículos y canasta comunitaria</td>
+              <td>4,063 artículos y canasta comunitaria</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_c" data-cat="sanitaria">
@@ -1855,6 +1879,79 @@
       </div>
     </section>
 
+    <!-- ===================================================================== -->
+    <section class="slide-view" id="slide-8" data-index="8" data-title="Metodología">
+      <div class="slide-header-bar">
+        <span class="slide-badge">CAPÍTULO 08 · METODOLOGÍA Y LIMITACIONES</span>
+        <span class="slide-nav-hint">Cómo se obtuvo y se calculó cada cifra</span>
+      </div>
+
+      <h2 class="editorial-title" style="margin-bottom: 18px;">Metodología</h2>
+
+      <div class="metodo-grid">
+        <div class="callout-card">
+          <h4>1. Pregunta y enfoque</h4>
+          <ul>
+            <li>¿Para cuánto alcanza el ingreso frente al costo de comer, y cómo cambia el precio según dónde se compra en Mérida?</li>
+            <li>Embudo multiescalar: referencia nacional (CONEVAL), municipio (Censo 2020, Censos Económicos), ciudad (DENUE, PROFECO) y esquina (bitácora propia de tienditas).</li>
+          </ul>
+        </div>
+
+        <div class="callout-card">
+          <h4>2. Fuentes y fecha de corte</h4>
+          <ul>
+            <li><strong>PROFECO QQP:</strong> registros de inspectores en Mérida, mayo de 2026.</li>
+            <li><strong>CONEVAL:</strong> líneas de pobreza por ingresos, enero de 2018 a marzo de 2025 (último dato del archivo publicado).</li>
+            <li><strong>INEGI:</strong> DENUE (descarga masiva Yucatán), Censo de Población 2020 por AGEB y Censos Económicos 2019 (año de referencia 2018).</li>
+            <li><strong>Elevación:</strong> AWS Terrain Tiles (formato Terrarium). No es LiDAR.</li>
+            <li><strong>Levantamiento propio:</strong> 5 tienditas, del 26 de septiembre al 1 de octubre de 2026.</li>
+          </ul>
+        </div>
+
+        <div class="callout-card">
+          <h4>3. Procesamiento</h4>
+          <ol>
+            <li>Los originales se descargan sin modificar con <code>scripts/generar_datos_reales.py</code>.</li>
+            <li>Se filtra el municipio de Mérida (clave 31050) y las clases SCIAN de comercio de alimentos.</li>
+            <li>Los nombres de mercados capturados con variantes en el DENUE se unifican; la coordenada de cada mercado es la mediana de sus establecimientos.</li>
+            <li>Los valores reservados por INEGI (<code>*</code>) quedan vacíos; no se imputan.</li>
+            <li>Las cifras del sitio se recalcularon desde estos archivos y se auditaron una por una.</li>
+          </ol>
+        </div>
+
+        <div class="callout-card">
+          <h4>4. Cómo se calculan los indicadores</h4>
+          <ul>
+            <li><strong>Central de Abasto vs. súper:</strong> mediana del precio de cada producto con la <em>misma presentación</em> en ambos canales; diferencia % = súper / central − 1.</li>
+            <li><strong>Conveniencia vs. súper:</strong> promedio por producto y presentación, solo con 3 o más registros por canal.</li>
+            <li><strong>Canasta por hogar:</strong> línea de pobreza extrema urbana de CONEVAL × promedio de ocupantes por vivienda de Mérida (Censo 2020).</li>
+            <li><strong>Pendiente del terreno:</strong> diferencia de elevación entre puntos vecinos de la malla.</li>
+          </ul>
+        </div>
+
+        <div class="callout-card gold-border">
+          <h4>5. Limitaciones</h4>
+          <ul>
+            <li>PROFECO cubre un solo mes y las sucursales que visitan sus inspectores; no es un índice de precios.</li>
+            <li>La bitácora propia tiene de 2 a 5 precios por producto: sirve como ilustración, no como estimación estadística.</li>
+            <li>Las líneas de CONEVAL son nacionales (urbano/rural), no específicas de Mérida.</li>
+            <li>La elevación tiene resolución de ~30 m: no capta edificios.</li>
+            <li>El cálculo usa el salario mínimo general 2025 ($278.80 diarios, CONASAMI) para empatar con el último dato de CONEVAL (marzo 2025). En 2026 el mínimo general es $315.04 diarios (CONASAMI).</li>
+          </ul>
+        </div>
+
+        <div class="callout-card">
+          <h4>6. Pendientes y reproducibilidad</h4>
+          <ul>
+            <li>Sin dato real todavía: 04-B tianguis, 06-C apps de delivery y 08-A LiDAR del mercado.</li>
+            <li>Los visores de realidad aumentada son prototipos de diseño, no datos.</li>
+            <li>Procedencia de cada archivo (URL, fecha, licencia) en <a href="FUENTES_DE_DATOS.md">FUENTES_DE_DATOS.md</a> y en el README de cada carpeta.</li>
+            <li>Reproducir: <code>pip install -r requirements.txt</code> y <code>python scripts/generar_datos_reales.py</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ===================================================================== -->
@@ -1873,10 +1970,11 @@
       <button class="dock-dot" onclick="goToSlide(5)" title="05 · Relieve 3D"></button>
       <button class="dock-dot" onclick="goToSlide(6)" title="06 · Realidad Aumentada"></button>
       <button class="dock-dot" onclick="goToSlide(7)" title="07 · Catálogo de Fuentes"></button>
+      <button class="dock-dot" onclick="goToSlide(8)" title="08 · Metodología"></button>
     </div>
 
     <div class="dock-indicator" id="dockIndicator">
-      01 / 07 · INTRODUCCIÓN
+      01 / 08 · LA PREGUNTA
     </div>
 
     <button class="dock-btn" onclick="nextSlide()" title="Diapositiva Siguiente (&rarr;)">
@@ -1904,15 +2002,16 @@
   <!-- ===================================================================== -->
   <script>
     let currentSlide = 1;
-    const totalSlides = 7;
+    const totalSlides = 8;
     const slideTitles = [
-      "01 / 07 · LA PREGUNTA",
-      "02 / 07 · ABASTO VS SÚPER",
-      "03 / 07 · EL PRECIO DE LA PRISA",
-      "04 / 07 · ESFUERZO LABORAL",
-      "05 / 07 · RELIEVE 3D",
-      "06 / 07 · REALIDAD AUMENTADA",
-      "07 / 07 · CATÁLOGO DE FUENTES"
+      "01 / 08 · LA PREGUNTA",
+      "02 / 08 · ABASTO VS SÚPER",
+      "03 / 08 · EL PRECIO DE LA PRISA",
+      "04 / 08 · ESFUERZO LABORAL",
+      "05 / 08 · RELIEVE 3D",
+      "06 / 08 · REALIDAD AUMENTADA",
+      "07 / 08 · CATÁLOGO DE FUENTES",
+      "08 / 08 · METODOLOGÍA"
     ];
 
     // NAVEGACIÓN DE SLIDES

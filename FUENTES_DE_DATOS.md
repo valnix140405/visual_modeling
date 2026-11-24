@@ -21,7 +21,7 @@ python scripts/verificar_datasets.py     # comprueba qué hay en disco
 | [01-C](data/fuente_c/01_enoe_microdatos/) | Isaac | INEGI ENOE 2025 1T | `conjunto_de_datos_hog/viv_enoe_2025_1t/` | Completo | Faltan las tablas COE1, COE2 y SDEM |
 | [02-A](data/fuente_a/02_datos_gob_profeco/) | Valeria | PROFECO QQP | `profeco_merida_2026_real.csv` | Completo | Registros de mayo 2026 |
 | [02-B](data/fuente_b/02_datos_gob_sniim/) | Ramiro | PROFECO QQP, Central de Abasto | `profeco_central_abasto_merida_2026.csv` | Pendiente parcial | Precios al consumidor; falta el mayoreo del SNIIM |
-| [02-C](data/fuente_c/02_diconsa_segalmex/) | Isaac | DICONSA (datos.gob.mx) | `DICONSA_8_Listado_de_articulos_por_proveedor.csv` | Completo | |
+| [02-C](data/fuente_c/02_diconsa_segalmex/) | Isaac | DICONSA (datos.gob.mx) | `DICONSA_8_Listado_de_articulos_por_proveedor.csv` | Completo | Datos del primer semestre de 2018 |
 | [03-A](data/fuente_a/03_siegy_yucatan/) | Valeria | CONEVAL + INEGI Censo 2020 | `coneval_lineas_pobreza_2018_2025.csv`, `censo2020_totales_municipio_merida.csv` | Pendiente parcial | Sustituye a SIEGY; falta un dato propio de SIEGY |
 | [03-B](data/fuente_b/03_conapo_marginacion/) | Ramiro | INEGI Censo 2020 por AGEB | `censo2020_indicadores_ageb_merida.csv` | Pendiente parcial | Insumos del índice; falta el índice CONAPO |
 | [03-C](data/fuente_c/03_imss_boletin/) | Isaac | SENASICA (datos.gob.mx) | `01_actividades-inspeccion-movilizacion_2dotrim2025.csv` | Completo | Cobertura nacional |

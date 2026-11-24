@@ -7,7 +7,7 @@ Precios reales de PROFECO QQP en farmacias (Guadalajara, del Ahorro, Yza, Simila
 
 | Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
 |---|---|---|---|---|---|---|
-| [`profeco_farmacias_conveniencia_merida_2026.csv`](profeco_farmacias_conveniencia_merida_2026.csv) | 5,864 filas | https://datos.profeco.gob.mx/datos_abiertos/qqp.php | 2026-11-24 (registros de mayo 2026) | Libre Uso MX de datos.gob.mx (verificar en la ficha del dataset) | Completo | Subconjunto de 02-A por giro «Farmacias» y cadenas OXXO y 7-Eleven. |
+| [`profeco_farmacias_conveniencia_merida_2026.csv`](profeco_farmacias_conveniencia_merida_2026.csv) | 5,864 filas | https://datos.profeco.gob.mx/index.php (archivo `docs/qqp/QQP_2026.rar`) | 2026-11-24 (registros de mayo 2026) | No indicada en los metadatos de PROFECO (verificar) | Completo | Subconjunto de 02-A por giro «Farmacias» y cadenas OXXO y 7-Eleven. |
 
 ## Pendientes y cambios
 

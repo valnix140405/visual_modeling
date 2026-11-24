@@ -7,7 +7,7 @@ Establecimientos de comercio al por menor de alimentos (SCIAN 4611 y 4621) en el
 
 | Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
 |---|---|---|---|---|---|---|
-| [`denue_merida_alimentos_real.csv`](denue_merida_alimentos_real.csv) | 7,520 filas | https://www.inegi.org.mx/app/descarga/?ti=6 | Incorporado 2026-10-01 | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html) | Completo | Filtrado del DENUE Yucatán. El original completo (`denue_yucatan_oficial/`) se excluye de git por tamaño. |
+| [`denue_merida_alimentos_real.csv`](denue_merida_alimentos_real.csv) | 7,520 filas | https://www.inegi.org.mx/app/descarga/?ti=6 | Incorporado 2026-10-01 | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html) | Completo | Contraste 2026-11-24: los 7,520 registros coinciden al 100 % (nombre, actividad, coordenadas) con el DENUE oficial. Filtrado del DENUE Yucatán. El original completo (`denue_yucatan_oficial/`) se excluye de git por tamaño. |
 | [`fetch_denue_api.py`](fetch_denue_api.py) | — | https://www.inegi.org.mx/servicios/api_denue.html | — | — | Script | Consulta la API del DENUE. Requiere la variable de entorno `INEGI_TOKEN`. |
 
 ## Pendientes y cambios
