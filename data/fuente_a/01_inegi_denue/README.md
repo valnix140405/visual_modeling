@@ -1,35 +1,17 @@
-# 01. INEGI - DENUE (Directorio Estadístico Nacional de Unidades Económicas)
+# 01-A · INEGI DENUE: comercios de alimentos en Mérida
 
-## Descripción de la Fuente
-El **DENUE** es la base de datos geográfica oficial del INEGI que identifica y georreferencia todos los establecimientos comerciales, industriales y de servicios en territorio mexicano.
+**Responsable:** Valeria Hernández  
+**Última revisión de procedencia:** 2026-11-24
 
-* **Institución:** Instituto Nacional de Estadística y Geografía (INEGI)
-* **Cobertura temática:** Unidades económicas de comercio al por menor de alimentos y abarrotes (Canasta básica).
-* **Entidad Federativa:** 31 - Yucatán
-* **Municipio clave:** 050 - Mérida
+Establecimientos de comercio al por menor de alimentos (SCIAN 4611 y 4621) en el municipio de Mérida, filtrados del DENUE de Yucatán.
 
-## Códigos SCIAN relevantes para la Canasta Básica
-* `461110`: Comercio al por menor en tiendas de abarrotes, ultramarinos y misceláneas.
-* `462111`: Comercio al por menor en supermercados y minisúpers.
-* `461121`: Comercio al por menor de carnes rojas (carnicerías).
-* `461122`: Comercio al por menor de carne de aves (pollerías).
-* `461160`: Comercio al por menor de tortillas de maíz y nixtamal.
-* `461140`: Comercio al por menor de frutas y verduras frescas.
+| Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
+|---|---|---|---|---|---|---|
+| [`denue_merida_alimentos_real.csv`](denue_merida_alimentos_real.csv) | 7,520 filas | https://www.inegi.org.mx/app/descarga/?ti=6 | Incorporado 2026-10-01 | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html) | Completo | Filtrado del DENUE Yucatán. El original completo (`denue_yucatan_oficial/`) se excluye de git por tamaño. |
+| [`fetch_denue_api.py`](fetch_denue_api.py) | — | https://www.inegi.org.mx/servicios/api_denue.html | — | — | Script | Consulta la API del DENUE. Requiere la variable de entorno `INEGI_TOKEN`. |
 
-## Variables Principales en el Dataset
-1. `id`: Identificador único de unidad económica en DENUE.
-2. `clee`: Clave Estadística Empresarial.
-3. `nom_estab`: Nombre comercial del establecimiento.
-4. `raz_social`: Razón social legal.
-5. `codigo_act`: Código del Sistema de Clasificación Industrial de América del Norte (SCIAN).
-6. `nombre_act`: Descripción de la actividad económica.
-7. `per_ocu`: Estrato de personal ocupado (ej. 0 a 5 personas, 6 a 10 personas, etc.).
-8. `tipo_vial`, `nom_vial`, `numero_ext`, `asentamiento`: Dirección física en Mérida.
-9. `cod_postal`: Código postal.
-10. `latitud`, `longitud`: Coordenadas geográficas WGS84 para mapas y SIG.
+## Pendientes y cambios
 
-## Archivos incluidos en esta carpeta:
-* **Fuente A:** `denue_merida_alimentos_real.csv` (7,520 comercios reales de canasta básica en Mérida filtrados de los 146,384 del estado) y `denue_yucatan_oficial/` (paquete masivo estatal).
-* **Fuente B (EXTRA 1):** `censos_economicos_saic_merida.csv` (Datos de los Censos Económicos de INEGI / SAIC con ingresos totales, remuneraciones y personal ocupado en el comercio de alimentos en Mérida).
-* `fetch_denue_api.py`: Script para consultar la API oficial del DENUE con token.
+- Se eliminó `denue_merida_canasta_basica.csv`: era una muestra de 15 filas con nombres y razones sociales inventadas.
 
+**Estados:** Completo = el recurso descrito está en el repositorio. Revisar = hay un problema por confirmar. Prototipo = material de diseño elaborado por el equipo. Pendiente = no hay dato real todavía.

@@ -1,29 +1,16 @@
-# 06. Web Scraping de Precios de Canasta Básica en Mérida
+# 06-A · Precios de canasta en autoservicios (PROFECO)
 
-## Descripción de la Técnica
-El **Web Scraping** es la técnica de extracción automatizada de datos no estructurados o semiestructurados de sitios web públicos. En este proyecto se utiliza para capturar los precios en línea vigentes de artículos de primera necesidad en tiendas de autoservicio y abarroteras presentes en Mérida (ej. Súper Akí, Chedraui, Dunosusa).
+**Responsable:** Valeria Hernández  
+**Última revisión de procedencia:** 2026-11-24
 
-* **Propósito:** Seguimiento de inflación de alta frecuencia (monitoreo diario/semanal).
-* **Herramientas:** Python (`requests`, `BeautifulSoup4`, `pandas`).
-* **Aspectos Éticos y Técnicos:**
-  * Respeto a las directivas de `robots.txt`.
-  * Pausas de cortesía (`time.sleep`) entre peticiones para no saturar servidores.
-  * Extracción con `User-Agent` descriptivo y con fines estrictamente académicos.
+Resumen por producto y cadena de los precios reales de PROFECO QQP en supermercados de Mérida (Walmart, Soriana, Chedraui, Bodega Aurrera, Súper Akí Xtra y Dunosusa).
 
-## Variables Generadas por el Scraper
-1. `fecha_scraping`: Timestamp de la captura (Año-Mes-Día Hora).
-2. `fuente_tienda`: Cadena comercial (ej. Súper Akí Mérida / Dunosusa / Chedraui).
-3. `categoria`: Categoría del producto (Granos, Lácteos, Carnes, Aceites, Abarrotes).
-4. `producto_nombre`: Nombre descriptivo completo del artículo.
-5. `presentacion`: Contenido neto o gramaje.
-6. `precio_regular_mxn`: Precio estándar de lista.
-7. `precio_oferta_mxn`: Precio promocional o con descuento.
-8. `en_stock`: Booleano o indicador de disponibilidad.
-9. `url_producto`: Enlace de origen del producto.
+| Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
+|---|---|---|---|---|---|---|
+| [`precios_canasta_supermercados_reales.csv`](precios_canasta_supermercados_reales.csv) | 69 filas | https://datos.profeco.gob.mx/datos_abiertos/qqp.php | 2026-11-24 (registros de mayo 2026) | Libre Uso MX de datos.gob.mx (verificar en la ficha del dataset) | Completo | Promedio, mínimo y máximo de la presentación más frecuente de cada producto en cada cadena. Se genera con `python scripts/generar_datos_reales.py`. |
 
-## Archivos en esta carpeta:
-* **Fuente A (Scraping):** `precios_canasta_scraping.csv` (Monitoreo automatizado de 18 alimentos esenciales en autoservicios locales de Mérida: Súper Akí, Chedraui, Dunosusa).
-* **Fuente A (Datos Reales Auditados por Cadena):** `precios_canasta_supermercados_reales.csv` (Extracción de 65 precios promedios, mínimos y máximos en Bodega Aurrera, Walmart, Chedraui, Soriana y Súper Akí a partir de la auditoría de inspectores PROFECO Mérida 2026).
-* `scraper_canasta_merida.py`: Script híbrido que combina web scraping resiliente con el extractor de datos reales auditados de PROFECO.
-* `scraper_farmacias_conveniencia_merida.py`: Script para farmacias y conveniencia.
+## Pendientes y cambios
 
+- Pendiente: un scraping real de tiendas en línea. El scraper anterior generaba precios con números aleatorios y se eliminó junto con `precios_canasta_scraping.csv`.
+
+**Estados:** Completo = el recurso descrito está en el repositorio. Revisar = hay un problema por confirmar. Prototipo = material de diseño elaborado por el equipo. Pendiente = no hay dato real todavía.

@@ -21,3 +21,6 @@ data/fuente_a/01_inegi_denue/denue_yucatan_oficial/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Descargas originales de scripts/generar_datos_reales.py
+.cache_descargas/

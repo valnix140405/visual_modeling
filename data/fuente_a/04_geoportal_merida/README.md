@@ -1,28 +1,19 @@
-# 04. Geoportal Mérida (Ayuntamiento de Mérida)
+# 04-A · Mercados públicos de Mérida (DENUE)
 
-## Descripción de la Fuente
-El **Geoportal del Ayuntamiento de Mérida** (`geoportal.merida.gob.mx`) es el Sistema de Información Geográfica (SIG) oficial del municipio de Mérida. Contiene las capas cartográficas de zonificación urbana, equipamiento público, vialidades y centros de abasto municipal.
+**Responsable:** Valeria Hernández  
+**Última revisión de procedencia:** 2026-11-24
 
-* **Institución:** H. Ayuntamiento de Mérida / Dirección de Desarrollo Urbano / Subdirección de Tecnologías de la Información.
-* **Portal:** `geoportal.merida.gob.mx`
-* **Sistema de Coordenadas de Referencia:** WGS 84 (EPSG:4326) / UTM Zona 16 Norte (EPSG:32616).
+Ubicación de los mercados públicos de Mérida, construida con los establecimientos que el DENUE registra dentro de un centro comercial de tipo «Mercado público». La coordenada de cada mercado es la mediana de la de sus establecimientos.
 
-## Capas Clave para el Abasto y Comercio
-1. **Mercados Públicos Municipales:** Puntos nodales de abasto de canasta básica tradicional a menor costo.
-2. **Tianguis y Comercio en Vía Pública:** Polígonos autorizados para comercio popular semanal.
-3. **Equipamiento Comercial y de Servicios:** Centros comerciales, supermercados y bodegas de abasto.
-4. **Límites de Cuadrantes y Colonias:** Delimitación territorial de las más de 400 colonias y fraccionamientos de Mérida.
+| Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
+|---|---|---|---|---|---|---|
+| [`mercados_publicos_merida_denue.geojson`](mercados_publicos_merida_denue.geojson) | 15 elementos | https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip | 2026-11-24 | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html) | Completo | Se unificaron variantes de escritura del nombre (p. ej. «Lucas de Galve», «Lucaz de Galvez»). Las variantes originales se conservan en `variantes_nombre_denue`. |
+| [`visor_mercados_municipales.html`](visor_mercados_municipales.html) | — | — | — | — | Visor | Mapa Leaflet de la capa. |
+| [`consultar_geoportal_api.py`](consultar_geoportal_api.py) | — | https://geoportal.merida.gob.mx | — | — | Script | Referencia a los servicios del Geoportal. |
 
-## Archivos en esta carpeta:
-* **Fuente A:** `mercados_municipales_merida.geojson` (Capa vectorial oficial de los 8 mercados públicos municipales permanentes).
-* `visor_mercados_municipales.html`: Visor SIG interactivo en Leaflet con isocronas de caminabilidad de 10 min a pie (800m), conmutador de capas libres (OpenStreetMap, CartoDB, Esri) y sin necesidad de API Key.
-* `consultar_geoportal_api.py`: Script para consultar la API y endpoints de datos abiertos (WFS / GeoJSON) del Ayuntamiento de Mérida.
-* `visualizar_mercados.py`: Script para procesar y listar las características de la capa geoespacial.
+## Pendientes y cambios
 
----
+- Pendiente: la capa oficial del Geoportal de Mérida. El dominio respondió 403 al intentar la descarga automática el 2026-11-24.
+- Se eliminó `mercados_municipales_merida.geojson`: los nombres eran reales, pero los atributos (locales activos, afluencia diaria, nivel de precios) no tenían fuente.
 
-## 🌐 ¿Cómo funciona la API del Geoportal de Mérida?
-* El Ayuntamiento de Mérida expone su infraestructura de datos espaciales (IDE) mediante servicios **WFS (Web Feature Service)** y endpoints REST que devuelven directamente archivos en formato estándar **GeoJSON**.
-* **¿Requiere API Key o Token de pago?** **No.** Son datos abiertos municipales de acceso público y gratuito.
-* En este repositorio almacenamos la copia oficial en `mercados_municipales_merida.geojson` para garantizar funcionamiento 100% offline, sin restricciones de CORS y con máxima velocidad al abrir el visor.
-
+**Estados:** Completo = el recurso descrito está en el repositorio. Revisar = hay un problema por confirmar. Prototipo = material de diseño elaborado por el equipo. Pendiente = no hay dato real todavía.

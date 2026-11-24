@@ -1,76 +1,60 @@
-# Catálogo Maestro y Resumen de las 22 Fuentes de Datos
-## Proyecto: "Del Mundo a la Esquina: ¿Cuánto Cuesta Comer?"
-### Radiografía multiescalar del salario y la canasta básica: del panorama internacional al territorio de Mérida
+# Catálogo de las 22 fuentes de datos
 
-**Integrantes del Equipo de Investigación:**
-* **Valeria Nicol Hernández León** — *Responsable de Fuente A (7 fuentes)*
-* **Jorge Ramiro Chay Koyoc** — *Responsable de Fuente B (8 fuentes, incluye levantamiento propio en tienditas)*
-* **Isaac René Andrade Sánchez** — *Responsable de Fuente C (7 fuentes)*
+**Proyecto:** Del Mundo a la Esquina: ¿Cuánto Cuesta Comer?  
+**Última revisión de procedencia:** 2026-11-24
 
-> **Estado del Repositorio:** **22 de 22 fuentes activas listas, verificadas e integradas al 100%** en el repositorio.
+**Estado:** 12 completas con datos reales · 3 con dato real parcial · 3 pendientes sin dato · 1 por revisar · 3 prototipos de diseño (AR).
 
----
-
-## 1. Tabla Resumen Ejecutiva de las 22 Fuentes
-
-| # | Categoría Temática | Grupo | Institución / Origen | Enlace Oficial de Referencia | Archivo Local en el Repositorio | Resumen de Contenido y Cobertura | Estatus |
-|---|---|---|---|---|---|---|:---:|
-| **01-A** | **01. Directorios / Censos** | Fuente A | **INEGI (DENUE)** | [inegi.org.mx/app/descarga](https://www.inegi.org.mx/app/descarga/?ti=6) | [`data/fuente_a/01_inegi_denue/denue_merida_alimentos_real.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_a/01_inegi_denue/denue_merida_alimentos_real.csv) | **7,520 comercios** de alimentos y canasta básica en Mérida (SCIAN 4611/4621). | Listo |
-| **01-B** | **01. Directorios / Censos** | Fuente B | **INEGI (Censos / SAIC)** | [inegi.org.mx/programas/ce](https://www.inegi.org.mx/programas/ce/) | [`data/fuente_b/01_inegi_saic/censos_economicos_saic_merida.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_b/01_inegi_saic/censos_economicos_saic_merida.csv) | Ingresos totales, sueldos y personal ocupado en comercio de alimentos. | Listo |
-| **01-C** | **01. Directorios / Censos** | Fuente C | **INEGI (ENOE Microdatos)** | [inegi.org.mx/programas/enoe](https://www.inegi.org.mx/programas/enoe/15ymas/) | [`data/fuente_c/01_enoe_microdatos/0_indice_tablas_enoe_2025_1t.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_c/01_enoe_microdatos/0_indice_tablas_enoe_2025_1t.csv) | Microdatos 1T-2025 de hogares y viviendas (>300,000 registros + 45 catálogos). | Listo |
-| **02-A** | **02. Precios / Datos Abiertos** | Fuente A | **PROFECO (QQP 2026)** | [datos.profeco.gob.mx](https://datos.profeco.gob.mx/datos_abiertos/qqp.php) | [`data/fuente_a/02_datos_gob_profeco/profeco_merida_2026_real.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_a/02_datos_gob_profeco/profeco_merida_2026_real.csv) | **28,288 precios reales** monitoreados en tiendas y mercados de Mérida. | Listo |
-| **02-B** | **02. Precios / Datos Abiertos** | Fuente B | **SNIIM (Secretaría Economía)** | [economia-sniim.gob.mx](http://www.economia-sniim.gob.mx/) | [`data/fuente_b/02_datos_gob_sniim/sniim_mayoreo_central_abasto_merida.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_b/02_datos_gob_sniim/sniim_mayoreo_central_abasto_merida.csv) | Precios diarios de mayoreo y medio mayoreo en la Central de Abasto de Mérida. | Listo |
-| **02-C** | **02. Precios / Datos Abiertos** | Fuente C | **SEGALMEX / DICONSA** | [datos.gob.mx/busca/dataset/tiendas-diconsa](https://datos.gob.mx/busca/dataset/tiendas-diconsa) | [`data/fuente_c/02_diconsa_segalmex/DICONSA_8_Listado_de_articulos_por_proveedor.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_c/02_diconsa_segalmex/DICONSA_8_Listado_de_articulos_por_proveedor.csv) | **4,064 artículos** subsidiados de canasta básica y proveedores Diconsa. | Listo |
-| **03-A** | **03. Indicadores Estatales** | Fuente A | **SIEGY Yucatán / CONEVAL** | [siegy.yucatan.gob.mx](https://siegy.yucatan.gob.mx) | [`data/fuente_a/03_siegy_yucatan/indicadores_socioeconomicos_merida_siegy.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_a/03_siegy_yucatan/indicadores_socioeconomicos_merida_siegy.csv) | PEA, informalidad, salario IMSS y costo de canasta alimentaria urbana (\$2,610). | Listo |
-| **03-B** | **03. Indicadores Estatales** | Fuente B | **CONAPO / SIEGY** | [gob.mx/conapo](https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372) | [`data/fuente_b/03_conapo_marginacion/marginacion_urbana_colonias_merida.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_b/03_conapo_marginacion/marginacion_urbana_colonias_merida.csv) | Grados de marginación urbana por colonias y AGEBs en Mérida (Norte vs. Sur). | Listo |
-| **03-C** | **03. Indicadores Estatales** | Fuente C | **SENASICA / SEDER** | [datos.gob.mx](https://datos.gob.mx) | [`data/fuente_c/03_imss_boletin/01_actividades-inspeccion-movilizacion_2dotrim2025.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_c/03_imss_boletin/01_actividades-inspeccion-movilizacion_2dotrim2025.csv) | Puntos de inspección fitozoosanitaria y movilización de productos pecuarios. | Listo |
-| **04-A** | **04. SIG Municipal / Geoportal** | Fuente A | **Geoportal Mérida (Mercados)** | [geoportal.merida.gob.mx](https://geoportal.merida.gob.mx) | [`data/fuente_a/04_geoportal_merida/mercados_municipales_merida.geojson`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_a/04_geoportal_merida/mercados_municipales_merida.geojson) | Polígonos y puntos de los 8 mercados públicos nodales de Mérida. | Listo |
-| **04-B** | **04. SIG Municipal / Geoportal** | Fuente B | **Geoportal Mérida (Tianguis)** | [geoportal.merida.gob.mx/visor](https://geoportal.merida.gob.mx/visor/) | [`data/fuente_b/04_tianguis_geoportal/tianguis_comercio_via_publica_merida.geojson`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_b/04_tianguis_geoportal/tianguis_comercio_via_publica_merida.geojson) | Tianguis sobre ruedas autorizados en colonias, días y aforos. | Listo |
-| **04-C** | **04. SIG Municipal / Geoportal** | Fuente C | **IMDUT / Va y Ven** | [movilidad.yucatan.gob.mx](https://movilidad.yucatan.gob.mx) | [`data/fuente_c/04_transporte_vayven/export.geojson`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_c/04_transporte_vayven/export.geojson) | **565 rutas y paraderos** del sistema Va y Ven conectando con el Centro. | Listo |
-| **06-A** | **06. Web Scraping Precios** | Fuente A | **Scraper Supermercados** | [superaki.mx](https://superaki.mx) / [dunosusa.com.mx](https://dunosusa.com.mx) | [`data/fuente_a/06_scraping_autoservicios/precios_canasta_scraping.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_a/06_scraping_autoservicios/precios_canasta_scraping.csv) | 18 artículos de consumo básico en autoservicios locales (Akí, Chedraui, Dunosusa). | Listo |
-| **06-B** | **06. Web Scraping Precios** | Fuente B | **Scraper Farmacias / Tiendas** | [farmaciasguadalajara.com](https://www.farmaciasguadalajara.com) / [oxxo.com](https://www.oxxo.com) | [`data/fuente_b/06_scraping_farmacias/precios_farmacias_conveniencia_merida.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_b/06_scraping_farmacias/precios_farmacias_conveniencia_merida.csv) | Precios de higiene y canasta complementaria en Farmacias Guadalajara y OXXO. | Listo |
-| **06-C** | **06. Web Scraping Precios** | Fuente C | **Scraper Delivery Apps** | [rappi.com.mx](https://www.rappi.com.mx) / [ubereats.com](https://www.ubereats.com) | [`data/fuente_c/06_scraping_delivery/comparativa_precios_canasta_basica.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_c/06_scraping_delivery/comparativa_precios_canasta_basica.csv) | **2,501 tickets** comparando tienda física vs app directa vs delivery con tarifas. | Listo |
-| **07-B** | **07. Self-Produced Data** | Fuente B | **Bitácora Tienditas Esquina** | Auditoría directa en góndola | [`data/fuente_b/07_bitacora_tienditas/bitacora_precios_tienditas.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_b/07_bitacora_tienditas/bitacora_precios_tienditas.csv) | Levantamiento propio en 5 tienditas de Mérida (*Centro, Santiago, Polígono 108, Mercedes Barrera, Chuburná*). | Listo |
-| **08-A** | **08. Datos LiDAR / 3D** | Fuente A | **LiDAR ASPRS Lucas Gálvez** | [asprs.org](https://www.asprs.org) / INEGI | [`data/fuente_a/08_lidar_mercado/lidar_mercado_merida_sample.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_a/08_lidar_mercado/lidar_mercado_merida_sample.csv) | Nube 3D con clasificación ASPRS (suelo, arbolado y domo del mercado central). | Listo |
-| **08-B** | **08. Datos LiDAR / 3D** | Fuente B | **CEM 3.0 INEGI (MDE)** | [inegi.org.mx/temas/relieve](https://www.inegi.org.mx/temas/relieve/continental/) | [`data/fuente_b/08_lidar_cem_mde/inegi_cem_mde_merida_grid.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_b/08_lidar_cem_mde/inegi_cem_mde_merida_grid.csv) | Malla de elevación continua de Mérida para análisis de pendientes y drenaje. | Listo |
-| **08-C** | **08. Datos LiDAR / 3D** | Fuente C | **OpenTopography / Radar** | [portal.opentopography.org](https://portal.opentopography.org/) | [`data/fuente_c/08_opentopography/topografia_srtm_nasadem_merida_vs_montanas.csv`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_c/08_opentopography/topografia_srtm_nasadem_merida_vs_montanas.csv) | **2,401 cotas** satelitales SRTM/NASADEM comparando Mérida vs zonas montañosas. | Listo |
-| **09-A** | **09. Realidad Aumentada / AR** | Fuente A | **Google ARCore / VPS** | [developers.google.com/ar](https://developers.google.com/ar/develop/geospatial) | [`data/fuente_a/09_ar_anclas/spatial_anchors_merida.geojson`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_a/09_ar_anclas/spatial_anchors_merida.geojson) | Anclas espaciales georreferenciadas con semáforos de precios 3D en fachadas. | Listo |
-| **09-B** | **09. Realidad Aumentada / AR** | Fuente B | **Poly Pizza / Modelos glTF** | [poly.pizza](https://poly.pizza) | [`data/fuente_b/09_ar_modelos_3d/catalogo_modelos_3d_canasta.json`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_b/09_ar_modelos_3d/catalogo_modelos_3d_canasta.json) | Especificación y catálogo de modelos 3D glTF/GLB optimizados para WebXR. | Listo |
-| **09-C** | **09. Realidad Aumentada / AR** | Fuente C | **Geospatial Creator / AR** | [developers.google.com/ar](https://developers.google.com/ar) | [`data/fuente_c/09_ar_waypoints/ruta_ar_lucas_galvez.json`](file:///c:/Users/nixle/Downloads/visual_folder/UPY/victorrr/data/fuente_c/09_ar_waypoints/ruta_ar_lucas_galvez.json) | Ruta de 6 waypoints AR para guiar desde Calle 56 hacia el pasillo más barato. | Listo |
-
----
-
-## 2. Resumen por Módulo Temático (Triangulación de las Fuentes)
-
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        ESTRUCTURA DE TRIANGULACIÓN                     │
-├────────────────────────────────────────────────────────────────────────┤
-│  MÓDULO 1: LA REALIDAD ECONÓMICA                                       │
-│    • Categoría 01 (Censos/Negocios): DENUE (A) + SAIC (B) + ENOE (C)    │
-│    • Categoría 02 (Precios Oficiales): PROFECO (A) + SNIIM (B) + DICONSA(C)│
-│    • Categoría 03 (Indicadores): SIEGY (A) + CONAPO (B) + SANIDAD (C)   │
-│                                                                        │
-│  MÓDULO 2: ABASTO POPULAR Y MOVILIDAD                                  │
-│    • Categoría 04 (Cartografía SIG): Mercados (A) + Tianguis (B) + Va y Ven (C)│
-│                                                                        │
-│  MÓDULO 3: LEVANTAMIENTO DIGITAL Y DE CAMPO                            │
-│    • Categoría 06 (Scraping Web): Súper (A) + Farmacias (B) + Delivery (C) │
-│    • Categoría 07 (Self-Produced): Bitácora Tienditas de Esquina (07-B) │
-│                                                                        │
-│  MÓDULO 4: TECNOLOGÍAS ESPACIALES E INMERSIVAS                         │
-│    • Categoría 08 (Nube 3D / Relieve): LiDAR Domo (A) + CEM INEGI (B) + SRTM (C)│
-│    • Categoría 09 (Realidad Aumentada): Anclas VPS (A) + Assets 3D (B) + Waypoints (C)│
-└────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 3. Comando de Verificación Automatizada
-
-Para ejecutar en terminal el diagnóstico y confirmar la existencia y tamaño de cada uno de los 22 archivos:
+Cada carpeta tiene un `README.md` con la URL de origen, fecha de extracción, licencia, estado y observaciones de cada archivo. Los datasets nuevos se regeneran con:
 
 ```bash
-python scripts/verificar_datasets.py
+python scripts/generar_datos_reales.py   # descarga los originales a .cache_descargas/ (ignorada por git)
+python scripts/verificar_datasets.py     # comprueba qué hay en disco
 ```
-*(Resultado esperado: 22 de 22 datasets listos en disco).*
+
+## Tabla maestra
+
+| # | Responsable | Fuente real usada | Archivo | Estado | Nota |
+|---|---|---|---|---|---|
+| [01-A](data/fuente_a/01_inegi_denue/) | Valeria | INEGI DENUE | `denue_merida_alimentos_real.csv` | Completo | 7,520 comercios de alimentos en Mérida |
+| [01-B](data/fuente_b/01_inegi_saic/) | Ramiro | INEGI Censos Económicos 2019 | `censos_economicos_2019_merida_comercio_alimentos.csv` | Completo | Reemplaza cifras sin origen |
+| [01-C](data/fuente_c/01_enoe_microdatos/) | Isaac | INEGI ENOE 2025 1T | `conjunto_de_datos_hog/viv_enoe_2025_1t/` | Completo | Faltan las tablas COE1, COE2 y SDEM |
+| [02-A](data/fuente_a/02_datos_gob_profeco/) | Valeria | PROFECO QQP | `profeco_merida_2026_real.csv` | Completo | Registros de mayo 2026 |
+| [02-B](data/fuente_b/02_datos_gob_sniim/) | Ramiro | PROFECO QQP, Central de Abasto | `profeco_central_abasto_merida_2026.csv` | Pendiente parcial | Precios al consumidor; falta el mayoreo del SNIIM |
+| [02-C](data/fuente_c/02_diconsa_segalmex/) | Isaac | DICONSA (datos.gob.mx) | `DICONSA_8_Listado_de_articulos_por_proveedor.csv` | Completo | |
+| [03-A](data/fuente_a/03_siegy_yucatan/) | Valeria | CONEVAL + INEGI Censo 2020 | `coneval_lineas_pobreza_2018_2025.csv`, `censo2020_totales_municipio_merida.csv` | Pendiente parcial | Sustituye a SIEGY; falta un dato propio de SIEGY |
+| [03-B](data/fuente_b/03_conapo_marginacion/) | Ramiro | INEGI Censo 2020 por AGEB | `censo2020_indicadores_ageb_merida.csv` | Pendiente parcial | Insumos del índice; falta el índice CONAPO |
+| [03-C](data/fuente_c/03_imss_boletin/) | Isaac | SENASICA (datos.gob.mx) | `01_actividades-inspeccion-movilizacion_2dotrim2025.csv` | Completo | Cobertura nacional |
+| [04-A](data/fuente_a/04_geoportal_merida/) | Valeria | INEGI DENUE (mercados públicos) | `mercados_publicos_merida_denue.geojson` | Completo | Falta la capa oficial del Geoportal |
+| [04-B](data/fuente_b/04_tianguis_geoportal/) | Ramiro | — | — | **Pendiente** | Geoportal respondió 403 |
+| [04-C](data/fuente_c/04_transporte_vayven/) | Isaac | OpenStreetMap (Overpass) | `export.geojson` | Completo | Licencia ODbL |
+| [06-A](data/fuente_a/06_scraping_autoservicios/) | Valeria | PROFECO QQP (supermercados) | `precios_canasta_supermercados_reales.csv` | Completo | No es scraping; falta un scraping real |
+| [06-B](data/fuente_b/06_scraping_farmacias/) | Ramiro | PROFECO QQP (farmacias y conveniencia) | `profeco_farmacias_conveniencia_merida_2026.csv` | Completo | No es scraping; falta un scraping real |
+| [06-C](data/fuente_c/06_scraping_delivery/) | Isaac | — | — | **Pendiente** | Los datos anteriores eran aleatorios |
+| [07-B](data/fuente_b/07_bitacora_tienditas/) | Ramiro | Levantamiento propio | `bitacora_precios_tienditas.csv` | Revisar | Confirmar las direcciones de AUD-01 |
+| [08-A](data/fuente_a/08_lidar_mercado/) | Valeria | — | — | **Pendiente** | No hay LiDAR público del mercado |
+| [08-B](data/fuente_b/08_lidar_cem_mde/) | Ramiro | AWS Terrain Tiles | `elevacion_centro_merida_grid.csv` + `.ply` | Completo | Elevación, no LiDAR; falta el CEM de INEGI |
+| [08-C](data/fuente_c/08_opentopography/) | Isaac | AWS Terrain Tiles | `topografia_merida_vs_ciudades_montana.csv` + `.ply` | Completo | Mérida frente a 5 ciudades de montaña |
+| [09-A](data/fuente_a/09_ar_anclas/) | Valeria | Diseño del equipo | `spatial_anchors_merida.geojson` | Prototipo | No es dato de fuente |
+| [09-B](data/fuente_b/09_ar_modelos_3d/) | Ramiro | Diseño del equipo | `catalogo_modelos_3d_canasta.json` | Prototipo | No es dato de fuente |
+| [09-C](data/fuente_c/09_ar_waypoints/) | Isaac | Diseño del equipo | `ruta_ar_lucas_galvez.json` | Prototipo | No es dato de fuente |
+
+## Cambios del 2026-11-24
+
+Se eliminaron los datasets simulados (generados con números aleatorios o escritos a mano sin fuente). Donde existía un equivalente oficial descargable, se reemplazó; donde no, la fuente quedó **Pendiente**. El detalle de cada caso está en el README de su carpeta.
+
+| Eliminado | Motivo | Reemplazo |
+|---|---|---|
+| `precios_canasta_scraping.csv` y su scraper (06-A) | Precios generados con `random` | Resumen real de PROFECO por cadena |
+| `precios_farmacias_conveniencia_merida.csv` y su scraper (06-B) | Precios generados con `random` | PROFECO real de farmacias, OXXO y 7-Eleven |
+| `comparativa_precios_canasta_basica.csv` y su scraper (06-C) | 2,501 tickets aleatorios | — (pendiente) |
+| `censos_economicos_saic_merida.csv` (01-B) | Cifras sin origen; no hubo Censo Económico 2024 | INEGI Censos Económicos 2019 |
+| `sniim_mayoreo_central_abasto_merida.csv` (02-B) | Sin origen verificable | PROFECO en la Central de Abasto (parcial) |
+| `indicadores_socioeconomicos_merida_siegy.csv` (03-A) | Sin tabla de origen | CONEVAL + Censo 2020 |
+| `marginacion_urbana_colonias_merida.csv` (03-B) | CONAPO no publica el índice por colonia | Censo 2020 por AGEB |
+| `mercados_municipales_merida.geojson` (04-A) | Atributos inventados (locales, afluencia) | Mercados públicos desde DENUE |
+| `tianguis_comercio_via_publica_merida.geojson` (04-B) | Polígonos sin fuente | — (pendiente) |
+| `lidar_mercado_merida_sample.csv` y `.ply` (08-A) | 20 puntos escritos a mano | — (pendiente) |
+| `inegi_cem_mde_merida_grid.csv` y `.ply` (08-B) | 15 celdas escritas a mano | Elevación real (AWS Terrain Tiles) |
+| `topografia_srtm_nasadem_merida_vs_montanas.csv` y `nasa_gedi_dosel_merida_lidar.ply` (08-C) | Puntos generados | Elevación real (AWS Terrain Tiles) |
+| `denue_merida_canasta_basica.csv`, `profeco_qqp_merida_sample.csv` | Muestras sintéticas duplicadas de datos reales | Ya existían los archivos reales |

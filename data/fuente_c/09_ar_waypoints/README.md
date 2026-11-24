@@ -1,6 +1,13 @@
-# Fuente C: 09_ar_waypoints
+# 09-C · Ruta de navegación AR
 
-**Descripción de la tarea:**
-Archivo de waypoints para ruta guiada de navegación peatonal en Realidad Aumentada
+**Responsable:** Isaac Andrade  
+**Última revisión de procedencia:** 2026-11-24
 
-*Espacio asignado para que el integrante del equipo suba el dataset correspondiente.*
+Ruta de prototipo elaborada por el equipo. **No son datos de una fuente externa.**
+
+| Archivo | Tamaño | URL de origen | Fecha de extracción | Licencia | Estado | Observaciones |
+|---|---|---|---|---|---|---|
+| [`ruta_ar_lucas_galvez.json`](ruta_ar_lucas_galvez.json) | — | https://developers.google.com/ar | Creado 2026-10-01 | Elaborado por el equipo | Prototipo | Waypoints definidos por el equipo; verificar en sitio. |
+| [`visor_ar_navegacion_peatonal.html`](visor_ar_navegacion_peatonal.html) | — | — | — | — | Visor |  |
+
+**Estados:** Completo = el recurso descrito está en el repositorio. Revisar = hay un problema por confirmar. Prototipo = material de diseño elaborado por el equipo. Pendiente = no hay dato real todavía.

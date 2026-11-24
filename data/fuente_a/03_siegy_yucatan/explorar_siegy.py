@@ -1,21 +1,25 @@
 """
-Script informativo y de consulta sobre los indicadores del SIEGY - Yucatan
+Resumen de los indicadores reales de esta carpeta:
+- CONEVAL: líneas de pobreza por ingresos (valor mensual por persona, nacional urbano/rural).
+- INEGI Censo 2020: totales del municipio de Mérida.
+Ejecutar desde esta carpeta: python explorar_siegy.py
 """
 import pandas as pd
 
-def mostrar_resumen_siegy():
-    df = pd.read_csv("indicadores_socioeconomicos_merida_siegy.csv")
-    print("=== Indicadores Socioeconomicos y Alimentarios (Mérida y Yucatán) ===")
-    print(df[["nombre_municipio", "año_periodo", "salario_promedio_diario_imss_mxn", "pobreza_laboral_pct", "costo_canasta_alimentaria_urbana_mxn"]])
-    
-    merida = df[df["nombre_municipio"] == "Merida"].iloc[-1]
-    canasta_diaria = merida['costo_canasta_alimentaria_urbana_mxn'] / 30.0
-    dias_trabajo_canasta = merida['costo_canasta_alimentaria_urbana_mxn'] / merida['salario_promedio_diario_imss_mxn']
-    
-    print("\n--- Analisis de Poder Adquisitivo en Merida ---")
-    print(f"Costo mensual canasta alimentaria urbana: ${merida['costo_canasta_alimentaria_urbana_mxn']:.2f} MXN")
-    print(f"Salario diario promedio IMSS: ${merida['salario_promedio_diario_imss_mxn']:.2f} MXN/dia")
-    print(f"Dias de salario promedio necesarios para cubrir 1 canasta individual: {dias_trabajo_canasta:.1f} dias")
+
+def mostrar_resumen():
+    lp = pd.read_csv("coneval_lineas_pobreza_2018_2025.csv")
+    ultimo = lp.iloc[-1]
+    print(f"=== CONEVAL, líneas de pobreza por ingresos ({ultimo['periodo']}) ===")
+    print(f"Canasta alimentaria urbana (LPEI): ${ultimo['lpei_canasta_alimentaria_urbana_mxn']:,.2f} MXN por persona al mes")
+    print(f"Canasta alimentaria + no alimentaria urbana (LPI): ${ultimo['lpi_alimentaria_mas_no_alimentaria_urbana_mxn']:,.2f} MXN")
+
+    m = pd.read_csv("censo2020_totales_municipio_merida.csv").iloc[0]
+    print("\n=== INEGI Censo 2020, municipio de Mérida ===")
+    print(f"Población total: {int(m['POBTOT']):,}")
+    print(f"Población económicamente activa: {int(m['PEA']):,}")
+    print(f"Sin afiliación a servicios de salud: {100 * m['PSINDER'] / m['POBTOT']:.1f}%")
+
 
 if __name__ == "__main__":
-    mostrar_resumen_siegy()
+    mostrar_resumen()

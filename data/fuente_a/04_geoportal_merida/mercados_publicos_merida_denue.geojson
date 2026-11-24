@@ -1,0 +1,372 @@
+{
+ "type": "FeatureCollection",
+ "name": "mercados_publicos_merida_denue",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+  }
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-01",
+    "nombre": "Mercado Lucas de Gálvez",
+    "variantes_nombre_denue": "LUCAS DE GALDES; LUCAS DE GALVE; LUCAS DE GALVEZ; LUCAZ DE GALVEZ; MERCADO LUCAS DE GALVEZ",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Centro",
+    "codigo_postal": "97000",
+    "establecimientos_denue": 817,
+    "establecimientos_alimentos_bebidas": 443,
+    "giro_mas_frecuente": "Comercio al por menor de frutas y verduras frescas",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.621487,
+     20.964014
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-02",
+    "nombre": "Mercado San Benito",
+    "variantes_nombre_denue": "MERCADO SAN BENITO; SAN BENITO",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Centro",
+    "codigo_postal": "97000",
+    "establecimientos_denue": 486,
+    "establecimientos_alimentos_bebidas": 179,
+    "giro_mas_frecuente": "Salones y clínicas de belleza y peluquerías",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.620833,
+     20.963003
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-03",
+    "nombre": "Mercado García Rejón",
+    "variantes_nombre_denue": "GARCIA REJON",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Centro",
+    "codigo_postal": "97000",
+    "establecimientos_denue": 92,
+    "establecimientos_alimentos_bebidas": 25,
+    "giro_mas_frecuente": "Comercio al por menor en tiendas de artesanías",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.623463,
+     20.964994
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-04",
+    "nombre": "Mercado Santiago",
+    "variantes_nombre_denue": "MERCADO SANTIAGO",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Centro",
+    "codigo_postal": "97000",
+    "establecimientos_denue": 52,
+    "establecimientos_alimentos_bebidas": 41,
+    "giro_mas_frecuente": "Comercio al por menor de frutas y verduras frescas",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.630078,
+     20.97063
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-05",
+    "nombre": "Plaza Mercado",
+    "variantes_nombre_denue": "PLAZA MERCADO",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Centro",
+    "codigo_postal": "97000",
+    "establecimientos_denue": 50,
+    "establecimientos_alimentos_bebidas": 13,
+    "giro_mas_frecuente": "Salones y clínicas de belleza y peluquerías",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.622568,
+     20.963665
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-06",
+    "nombre": "Mercado Víctor Cervera Pacheco",
+    "variantes_nombre_denue": "VICTOR CERVERA PACHECO",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Centro",
+    "codigo_postal": "97000",
+    "establecimientos_denue": 34,
+    "establecimientos_alimentos_bebidas": 21,
+    "giro_mas_frecuente": "Comercio al por menor de frutas y verduras frescas",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.616358,
+     20.96175
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-07",
+    "nombre": "Mercado Nueva Mulsay",
+    "variantes_nombre_denue": "MERCADO NUEVA MULSAY",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Mulsay",
+    "codigo_postal": "97249",
+    "establecimientos_denue": 28,
+    "establecimientos_alimentos_bebidas": 9,
+    "giro_mas_frecuente": "Comercio al por menor de artículos usados",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.650896,
+     20.962295
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-08",
+    "nombre": "Mercado de San Sebastián",
+    "variantes_nombre_denue": "MERCADO DE SAN SEBASTIAN",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Centro",
+    "codigo_postal": "97000",
+    "establecimientos_denue": 22,
+    "establecimientos_alimentos_bebidas": 20,
+    "giro_mas_frecuente": "Restaurantes con servicio de preparación de antojitos",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.631607,
+     20.95838
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-09",
+    "nombre": "Mercado Chen Bech",
+    "variantes_nombre_denue": "CHEN BECH",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Centro",
+    "codigo_postal": "97000",
+    "establecimientos_denue": 20,
+    "establecimientos_alimentos_bebidas": 14,
+    "giro_mas_frecuente": "Comercio al por menor de carne de aves",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.610393,
+     20.968084
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-10",
+    "nombre": "Mercado Cordemex",
+    "variantes_nombre_denue": "MERCADO CORDEMEX",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "U H Revolucion",
+    "codigo_postal": "97110",
+    "establecimientos_denue": 18,
+    "establecimientos_alimentos_bebidas": 13,
+    "giro_mas_frecuente": "Comercio al por menor de carnes rojas",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.627593,
+     21.036857
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-11",
+    "nombre": "Mercado de la Alemán",
+    "variantes_nombre_denue": "MERCADO DE LA ALEMAN",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Miguel Aleman",
+    "codigo_postal": "97148",
+    "establecimientos_denue": 16,
+    "establecimientos_alimentos_bebidas": 16,
+    "giro_mas_frecuente": "Comercio al por menor de frutas y verduras frescas",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.600224,
+     20.990401
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-12",
+    "nombre": "Mercado Ex Chetumalito",
+    "variantes_nombre_denue": "EX CHETUMALITO",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Centro",
+    "codigo_postal": "97000",
+    "establecimientos_denue": 10,
+    "establecimientos_alimentos_bebidas": 5,
+    "giro_mas_frecuente": "Restaurantes con servicio de preparación de antojitos",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.617032,
+     20.964681
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-13",
+    "nombre": "Mercado de Chuburná",
+    "variantes_nombre_denue": "MERCADO DE CHUBURNA",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Chuburná De Hidalgo",
+    "codigo_postal": "97205",
+    "establecimientos_denue": 9,
+    "establecimientos_alimentos_bebidas": 9,
+    "giro_mas_frecuente": "Restaurantes con servicio de preparación de antojitos",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.632092,
+     21.013031
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-14",
+    "nombre": "Mercado de Chenkú",
+    "variantes_nombre_denue": "MERCADITO CHENKU",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Residencial Del Norte",
+    "codigo_postal": "97219",
+    "establecimientos_denue": 6,
+    "establecimientos_alimentos_bebidas": 5,
+    "giro_mas_frecuente": "Elaboración de tortillas de maíz y molienda de nixtamal",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.652777,
+     21.004428
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "MERC-15",
+    "nombre": "Cuevas",
+    "variantes_nombre_denue": "CUEVAS",
+    "tipo_centro_denue": "Mercado Publico",
+    "colonia_principal": "Centro",
+    "codigo_postal": "97000",
+    "establecimientos_denue": 1,
+    "establecimientos_alimentos_bebidas": 0,
+    "giro_mas_frecuente": "Comercio al por mayor de pan y pasteles",
+    "metodo_coordenada": "Mediana de las coordenadas de los establecimientos DENUE del centro",
+    "fuente": "INEGI DENUE Yucatán, descarga masiva https://www.inegi.org.mx/contenidos/masiva/denue/denue_31_csv.zip",
+    "fecha_extraccion": "2026-11-24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.620529,
+     20.964567
+    ]
+   }
+  }
+ ]
+}
