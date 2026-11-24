@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visor SIG: Red de Mercados Municipales de Mérida</title>
+  <title>Visor SIG: Mercados Públicos de Mérida (DENUE)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -302,20 +302,20 @@
       <h1>
         <span>🏛️ Mercados de Mérida</span>
       </h1>
-      <p>Red oficial de abasto alimentario minorista y mayorista. Geoportal del Ayuntamiento de Mérida.</p>
+      <p>Centros comerciales tipo "mercado público" registrados en el DENUE de INEGI (edición 2026/05). Coordenada = mediana de los establecimientos de cada mercado.</p>
       <div style="margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #10b981; padding: 3px 10px; border-radius: 20px;">
         <span style="width:6px; height:6px; background:#10b981; border-radius:50%; display:inline-block;"></span>
-        Datos Abiertos GeoJSON (Modo Autónomo - Sin requerir API Key)
+        Datos abiertos INEGI DENUE (sin API Key)
       </div>
 
       <div class="summary-grid">
         <div class="summary-card">
-          <div class="label">Total Locales Activos</div>
-          <div class="val" id="total-locales">2,619</div>
+          <div class="label">Establecimientos DENUE</div>
+          <div class="val" id="total-locales">1,661</div>
         </div>
         <div class="summary-card">
-          <div class="label">Afluencia Diaria Est.</div>
-          <div class="val" id="total-afluencia">76,300</div>
+          <div class="label">De alimentos y bebidas</div>
+          <div class="val" id="total-afluencia">813</div>
         </div>
       </div>
     </div>
@@ -323,14 +323,14 @@
     <div class="filter-bar">
       <label>
         <input type="checkbox" id="check-isochrones" checked>
-        <span>Isocronas de 10 min a pie (800m)</span>
+        <span>Radio de 800 m (unos 10 min a pie)</span>
       </label>
       <button class="badge-primary" id="btn-fit-all" style="background:transparent; border:none; cursor:pointer;">
         Zoom Todo
       </button>
     </div>
 
-    <!-- Lista interactiva de los 8 mercados -->
+    <!-- Lista interactiva de mercados (DENUE) -->
     <div class="markets-list" id="markets-container">
       <!-- Generado dinámicamente -->
     </div>
@@ -344,146 +344,296 @@
 
   <script>
     // 1. Datos GeoJSON Oficiales de los 8 Mercados Municipales
+    // Copia embebida de mercados_publicos_merida_denue.geojson (generada por scripts/generar_datos_reales.py)
     const mercadosData = {
-      "type": "FeatureCollection",
-      "features": [
-        {
-          "type": "Feature",
-          "properties": {
-            "id": 1,
-            "nombre": "Mercado Lucas de Gálvez",
-            "tipo": "Mercado Central Mayorista y Minorista",
-            "categoria": "Hub Central",
-            "colonia": "Centro",
-            "direccion": "Calle 65 x 54 y 56",
-            "locales": 1250,
-            "giro": "Carnes, frutas, verduras, abarrotes, pescados y comidas",
-            "precios": "Bajo (Precios de mayoreo/menudeo)",
-            "afluencia": 35000,
-            "horario": "05:00 - 18:00 hrs"
-          },
-          "geometry": { "type": "Point", "coordinates": [-89.621210, 20.964115] }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": 2,
-            "nombre": "Mercado San Benito",
-            "tipo": "Mercado Central Concentrador",
-            "categoria": "Hub Central",
-            "colonia": "Centro",
-            "direccion": "Calle 54 x 67 y 69",
-            "locales": 890,
-            "giro": "Granos y semillas, carnes, verduras y hierbas medicinales",
-            "precios": "Muy Bajo",
-            "afluencia": 25000,
-            "horario": "05:00 - 18:00 hrs"
-          },
-          "geometry": { "type": "Point", "coordinates": [-89.622580, 20.961910] }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": 3,
-            "nombre": "Mercado Santos Degollado (Santiago)",
-            "tipo": "Mercado de Barrio Tradicional",
-            "categoria": "Barrio",
-            "colonia": "Barrio de Santiago",
-            "direccion": "Calle 59 x 70 y 72",
-            "locales": 115,
-            "giro": "Comida preparada, frutas de temporada, carne fresca",
-            "precios": "Medio",
-            "afluencia": 4500,
-            "horario": "06:00 - 15:00 hrs"
-          },
-          "geometry": { "type": "Point", "coordinates": [-89.628950, 20.970140] }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": 4,
-            "nombre": "Mercado de Santa Ana",
-            "tipo": "Mercado Gastronómico y Vecinal",
-            "categoria": "Barrio",
-            "colonia": "Barrio de Santa Ana",
-            "direccion": "Calle 60 x 47",
-            "locales": 68,
-            "giro": "Alimentos preparados, juguerías, frutas y verduras",
-            "precios": "Medio-Alto",
-            "afluencia": 3200,
-            "horario": "06:00 - 16:00 hrs"
-          },
-          "geometry": { "type": "Point", "coordinates": [-89.620850, 20.975410] }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": 5,
-            "nombre": "Mercado de San Sebastián",
-            "tipo": "Mercado de Barrio Tradicional",
-            "categoria": "Barrio",
-            "colonia": "Barrio de San Sebastián",
-            "direccion": "Calle 70 x 75",
-            "locales": 85,
-            "giro": "Abarrotes, tortillería, carnes rojas y verduras",
-            "precios": "Bajo",
-            "afluencia": 3800,
-            "horario": "06:00 - 14:00 hrs"
-          },
-          "geometry": { "type": "Point", "coordinates": [-89.630410, 20.957820] }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": 6,
-            "nombre": "Mercado de Chembech",
-            "tipo": "Mercado Periférico Oriente",
-            "categoria": "Barrio",
-            "colonia": "Esperanza / Chembech",
-            "direccion": "Calle 42 x 57",
-            "locales": 92,
-            "giro": "Carnicería de cerdo, pollo fresco, abarrotes y condimentos",
-            "precios": "Bajo",
-            "afluencia": 3100,
-            "horario": "06:00 - 14:00 hrs"
-          },
-          "geometry": { "type": "Point", "coordinates": [-89.608420, 20.969850] }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": 7,
-            "nombre": "Mercado de Chuburná de Hidalgo",
-            "tipo": "Mercado de Barrio Norte",
-            "categoria": "Barrio",
-            "colonia": "Chuburná de Hidalgo",
-            "direccion": "Calle 20 x 21",
-            "locales": 74,
-            "giro": "Verduras, tortillas, carne de res y cerdo, antojitos",
-            "precios": "Medio",
-            "afluencia": 2800,
-            "horario": "06:00 - 14:00 hrs"
-          },
-          "geometry": { "type": "Point", "coordinates": [-89.642100, 21.011240] }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": 8,
-            "nombre": "Mercado de Chenkú",
-            "tipo": "Mercado de Barrio Poniente",
-            "categoria": "Barrio",
-            "colonia": "Residencial Chenkú",
-            "direccion": "Calle 38 x 21 y 23",
-            "locales": 45,
-            "giro": "Abarrotes, frutas frescas, recaudería y carnicería",
-            "precios": "Medio-Bajo",
-            "afluencia": 1900,
-            "horario": "06:00 - 14:00 hrs"
-          },
-          "geometry": { "type": "Point", "coordinates": [-89.658720, 21.002840] }
-        }
-      ]
+     "type": "FeatureCollection",
+     "features": [
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-01",
+        "nombre": "Mercado Lucas de Gálvez",
+        "colonia_principal": "Centro",
+        "codigo_postal": "97000",
+        "establecimientos_denue": 817,
+        "establecimientos_alimentos_bebidas": 443,
+        "giro_mas_frecuente": "Comercio al por menor de frutas y verduras frescas"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.621487,
+         20.964014
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-02",
+        "nombre": "Mercado San Benito",
+        "colonia_principal": "Centro",
+        "codigo_postal": "97000",
+        "establecimientos_denue": 486,
+        "establecimientos_alimentos_bebidas": 179,
+        "giro_mas_frecuente": "Salones y clínicas de belleza y peluquerías"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.620833,
+         20.963003
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-03",
+        "nombre": "Mercado García Rejón",
+        "colonia_principal": "Centro",
+        "codigo_postal": "97000",
+        "establecimientos_denue": 92,
+        "establecimientos_alimentos_bebidas": 25,
+        "giro_mas_frecuente": "Comercio al por menor en tiendas de artesanías"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.623463,
+         20.964994
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-04",
+        "nombre": "Mercado Santiago",
+        "colonia_principal": "Centro",
+        "codigo_postal": "97000",
+        "establecimientos_denue": 52,
+        "establecimientos_alimentos_bebidas": 41,
+        "giro_mas_frecuente": "Comercio al por menor de frutas y verduras frescas"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.630078,
+         20.97063
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-05",
+        "nombre": "Plaza Mercado",
+        "colonia_principal": "Centro",
+        "codigo_postal": "97000",
+        "establecimientos_denue": 50,
+        "establecimientos_alimentos_bebidas": 13,
+        "giro_mas_frecuente": "Salones y clínicas de belleza y peluquerías"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.622568,
+         20.963665
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-06",
+        "nombre": "Mercado Víctor Cervera Pacheco",
+        "colonia_principal": "Centro",
+        "codigo_postal": "97000",
+        "establecimientos_denue": 34,
+        "establecimientos_alimentos_bebidas": 21,
+        "giro_mas_frecuente": "Comercio al por menor de frutas y verduras frescas"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.616358,
+         20.96175
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-07",
+        "nombre": "Mercado Nueva Mulsay",
+        "colonia_principal": "Mulsay",
+        "codigo_postal": "97249",
+        "establecimientos_denue": 28,
+        "establecimientos_alimentos_bebidas": 9,
+        "giro_mas_frecuente": "Comercio al por menor de artículos usados"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.650896,
+         20.962295
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-08",
+        "nombre": "Mercado de San Sebastián",
+        "colonia_principal": "Centro",
+        "codigo_postal": "97000",
+        "establecimientos_denue": 22,
+        "establecimientos_alimentos_bebidas": 20,
+        "giro_mas_frecuente": "Restaurantes con servicio de preparación de antojitos"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.631607,
+         20.95838
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-09",
+        "nombre": "Mercado Chen Bech",
+        "colonia_principal": "Centro",
+        "codigo_postal": "97000",
+        "establecimientos_denue": 20,
+        "establecimientos_alimentos_bebidas": 14,
+        "giro_mas_frecuente": "Comercio al por menor de carne de aves"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.610393,
+         20.968084
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-10",
+        "nombre": "Mercado Cordemex",
+        "colonia_principal": "U H Revolucion",
+        "codigo_postal": "97110",
+        "establecimientos_denue": 18,
+        "establecimientos_alimentos_bebidas": 13,
+        "giro_mas_frecuente": "Comercio al por menor de carnes rojas"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.627593,
+         21.036857
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-11",
+        "nombre": "Mercado de la Alemán",
+        "colonia_principal": "Miguel Aleman",
+        "codigo_postal": "97148",
+        "establecimientos_denue": 16,
+        "establecimientos_alimentos_bebidas": 16,
+        "giro_mas_frecuente": "Comercio al por menor de frutas y verduras frescas"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.600224,
+         20.990401
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-12",
+        "nombre": "Mercado Ex Chetumalito",
+        "colonia_principal": "Centro",
+        "codigo_postal": "97000",
+        "establecimientos_denue": 10,
+        "establecimientos_alimentos_bebidas": 5,
+        "giro_mas_frecuente": "Restaurantes con servicio de preparación de antojitos"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.617032,
+         20.964681
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-13",
+        "nombre": "Mercado de Chuburná",
+        "colonia_principal": "Chuburná De Hidalgo",
+        "codigo_postal": "97205",
+        "establecimientos_denue": 9,
+        "establecimientos_alimentos_bebidas": 9,
+        "giro_mas_frecuente": "Restaurantes con servicio de preparación de antojitos"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.632092,
+         21.013031
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-14",
+        "nombre": "Mercado de Chenkú",
+        "colonia_principal": "Residencial Del Norte",
+        "codigo_postal": "97219",
+        "establecimientos_denue": 6,
+        "establecimientos_alimentos_bebidas": 5,
+        "giro_mas_frecuente": "Elaboración de tortillas de maíz y molienda de nixtamal"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.652777,
+         21.004428
+        ]
+       }
+      },
+      {
+       "type": "Feature",
+       "properties": {
+        "id": "MERC-15",
+        "nombre": "Cuevas",
+        "colonia_principal": "Centro",
+        "codigo_postal": "97000",
+        "establecimientos_denue": 1,
+        "establecimientos_alimentos_bebidas": 0,
+        "giro_mas_frecuente": "Comercio al por mayor de pan y pasteles"
+       },
+       "geometry": {
+        "type": "Point",
+        "coordinates": [
+         -89.620529,
+         20.964567
+        ]
+       }
+      }
+     ]
     };
 
     // 2. Inicializar Mapa Leaflet con Múltiples Capas Cartográficas Libres (Sin API Key)
@@ -497,25 +647,25 @@
 
     // Capa 1: Callejero a Todo Color (Esri World Street Map - 100% Libre, Sin API Key, Sin marcas de agua, Permite file://)
     const esriStreet = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-      attribution: '&copy; Esri, HERE, Garmin, USGS | Datos: Geoportal Ayuntamiento de Mérida',
+      attribution: '&copy; Esri, HERE, Garmin, USGS | Datos: INEGI DENUE',
       maxZoom: 18
     });
 
     // Capa 2: Topográfico a Color (Esri World Topo Map - Relieve y áreas verdes detalladas)
     const esriTopo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-      attribution: '&copy; Esri, HERE, FAO, USGS | Datos: Geoportal Ayuntamiento de Mérida',
+      attribution: '&copy; Esri, HERE, FAO, USGS | Datos: INEGI DENUE',
       maxZoom: 18
     });
 
     // Capa 3: Satelital Aéreo de Alta Resolución (Esri World Imagery)
     const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      attribution: '&copy; Esri World Imagery | Geoportal Mérida',
+      attribution: '&copy; Esri World Imagery | INEGI DENUE',
       maxZoom: 18
     });
 
     // Capa 4: Modo Oscuro Opcional (Esri Dark Canvas)
     const esriDark = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-      attribution: '&copy; Esri, HERE | Datos: Geoportal Ayuntamiento de Mérida',
+      attribution: '&copy; Esri, HERE | Datos: INEGI DENUE',
       maxZoom: 16
     });
 
@@ -541,7 +691,7 @@
     mercadosData.features.forEach(feat => {
       const p = feat.properties;
       const coords = [feat.geometry.coordinates[1], feat.geometry.coordinates[0]];
-      const isHub = p.categoria === 'Hub Central';
+      const isHub = p.establecimientos_denue >= 400;
 
       // A. Isocrona de Caminabilidad (800m = ~10 minutos caminando)
       const circle = L.circle(coords, {
@@ -570,26 +720,18 @@
       const popupContent = `
         <div class="popup-box">
           <h3>${p.nombre}</h3>
-          <div class="type-sub">${p.tipo}</div>
+          <div class="type-sub">${p.colonia_principal} · C.P. ${p.codigo_postal}</div>
           <div class="info-row">
-            <span class="info-label">Locales Activos:</span>
-            <span class="info-val">${p.locales.toLocaleString()}</span>
+            <span class="info-label">Establecimientos DENUE:</span>
+            <span class="info-val">${p.establecimientos_denue.toLocaleString('es-MX')}</span>
           </div>
           <div class="info-row">
-            <span class="info-label">Afluencia Diaria:</span>
-            <span class="info-val">~${p.afluencia.toLocaleString()} pers.</span>
+            <span class="info-label">Alimentos y bebidas:</span>
+            <span class="info-val">${p.establecimientos_alimentos_bebidas.toLocaleString('es-MX')}</span>
           </div>
           <div class="info-row">
-            <span class="info-label">Giro Principal:</span>
-            <span class="info-val" style="font-size:0.75rem;">${p.giro}</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Nivel de Precios:</span>
-            <span class="info-val" style="color:#10b981;">${p.precios}</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Horario:</span>
-            <span class="info-val">${p.horario}</span>
+            <span class="info-label">Giro más frecuente:</span>
+            <span class="info-val" style="font-size:0.75rem;">${p.giro_mas_frecuente}</span>
           </div>
         </div>
       `;
@@ -604,7 +746,7 @@
 
     mercadosData.features.forEach(feat => {
       const p = feat.properties;
-      const isHub = p.categoria === 'Hub Central';
+      const isHub = p.establecimientos_denue >= 400;
 
       const card = document.createElement('div');
       card.className = 'market-card';
@@ -612,14 +754,13 @@
         <div class="market-card-top">
           <div class="market-card-name">${p.nombre}</div>
           <div class="market-badge ${isHub ? 'badge-primary' : 'badge-barrio'}">
-            ${isHub ? 'Hub Central' : 'Mercado de Barrio'}
+            ${isHub ? 'Más de 400 establecimientos' : 'Mercado de barrio'}
           </div>
         </div>
-        <div class="market-card-desc">📍 ${p.direccion} (${p.colonia})</div>
+        <div class="market-card-desc">📍 ${p.colonia_principal} · C.P. ${p.codigo_postal}</div>
         <div class="market-card-meta">
-          <span>🏪 ${p.locales} locales</span>
-          <span>👥 ~${(p.afluencia / 1000).toFixed(1)}k/día</span>
-          <span style="color:var(--green);">${p.precios.split(' ')[0]}</span>
+          <span>🏪 ${p.establecimientos_denue} establecimientos</span>
+          <span>🍽️ ${p.establecimientos_alimentos_bebidas} de alimentos</span>
         </div>
       `;
 

@@ -423,7 +423,7 @@
           Del Mundo a la Esquina: ¿Cuánto Cuesta Comer?
           <span class="looker-badge">BORRADOR LOOKER STUDIO</span>
         </h1>
-        <p>Vista Ejecutiva para Líderes · 22 Fuentes Activas Integradas · Paleta Oficial UPY</p>
+        <p>Vista Ejecutiva · 19 fuentes con dato real y 3 pendientes · Paleta Oficial UPY</p>
       </div>
     </div>
 
@@ -454,7 +454,7 @@
           <span class="page-num">02</span> Auditoría 5 Tienditas & SIG
         </button>
         <button class="page-nav-btn" onclick="switchLookerPage(3, this)">
-          <span class="page-num">03</span> Salarios & Delivery
+          <span class="page-num">03</span> Salarios & Canasta
         </button>
 
         <div class="connector-box">
@@ -462,14 +462,17 @@
           <p style="font-size: 11px; color: var(--muted); margin-bottom: 8px;">
             Descarga e importa directamente en Looker Studio:
           </p>
-          <a href="reports/looker_studio/looker_01_comparativa_precios_multicanal.csv" download class="connector-link" title="Descargar Tabla 1">
+          <a href="reports/looker_studio/looker_01_precios_multicanal.csv" download class="connector-link" title="Descargar Tabla 1">
             01_precios_multicanal.csv
           </a>
-          <a href="reports/looker_studio/looker_02_territorio_mercados_tienditas_geo.csv" download class="connector-link" title="Descargar Tabla 2">
+          <a href="reports/looker_studio/looker_02_territorio_geo.csv" download class="connector-link" title="Descargar Tabla 2">
             02_territorio_geo.csv
           </a>
-          <a href="reports/looker_studio/looker_03_salarios_esfuerzo_laboral_merida.csv" download class="connector-link" title="Descargar Tabla 3">
-            03_salarios_merida.csv
+          <a href="reports/looker_studio/looker_03_lineas_pobreza_coneval.csv" download class="connector-link" title="Descargar Tabla 3">
+            03_lineas_pobreza_coneval.csv
+          </a>
+          <a href="reports/looker_studio/looker_04_ageb_censo2020_merida.csv" download class="connector-link" title="Descargar Tabla 4">
+            04_ageb_censo2020_merida.csv
           </a>
         </div>
       </div>
@@ -490,11 +493,11 @@
         <div class="sheet-banner">
           <div>
             <h2>TABLERO EJECUTIVO MULTIESCALAR: CANASTA BÁSICA Y TERRITORIO EN MÉRIDA</h2>
-            <p>Universidad Politécnica de Yucatán (UPY) · Síntesis de 22 Fuentes Verificadas (Sin PNT · Con Bitácora Propia 07-B)</p>
+            <p>Universidad Politécnica de Yucatán (UPY) · Fuentes oficiales (INEGI, PROFECO, CONEVAL) y bitácora propia 07-B</p>
           </div>
           <div class="sheet-meta">
             ACTUALIZACIÓN: NOV 2026<br>
-            ESTADO: 22/22 DATASETS LISTOS
+            ESTADO: 19 CON DATO REAL · 3 PENDIENTES
           </div>
         </div>
 
@@ -515,7 +518,7 @@
             <label>Producto Tiendita:</label>
             <select id="filterProducto" class="looker-select" onchange="applyLookerFilters()">
               <option value="TODOS">Todos los Productos (5)</option>
-              <option value="Tortilla de maíz">Tortilla de maíz</option>
+              <option value="Tortilla de maiz">Tortilla de maíz</option>
               <option value="Huevo blanco">Huevo blanco</option>
               <option value="Leche entera">Leche entera</option>
               <option value="Frijol negro">Frijol negro</option>
@@ -536,43 +539,43 @@
             <div class="scorecard">
               <div class="sc-label">Comercios Alimentos (01-A)</div>
               <div class="sc-value">7,520</div>
-              <div class="sc-delta">DENUE Mérida Georreferenciados</div>
+              <div class="sc-delta">DENUE Mérida georreferenciados</div>
             </div>
             <div class="scorecard gold">
-              <div class="sc-label">Precios Auditados (02-A)</div>
+              <div class="sc-label">Precios PROFECO (02-A)</div>
               <div class="sc-value">28,288</div>
-              <div class="sc-delta warn">PROFECO Quién es Quién</div>
+              <div class="sc-delta warn">Registros de mayo 2026</div>
             </div>
             <div class="scorecard">
-              <div class="sc-label">Margen Máx. Súper vs Abasto</div>
-              <div class="sc-value">+250.0%</div>
-              <div class="sc-delta">Papa Blanca ($16 a $56/kg)</div>
+              <div class="sc-label">Súper vs. Central de Abasto</div>
+              <div class="sc-value">+19.0%</div>
+              <div class="sc-delta">Mediana de 139 productos; súper más caro en 74.1%</div>
             </div>
             <div class="scorecard gold">
-              <div class="sc-label">Sobreprecio Apps Delivery</div>
-              <div class="sc-value">+34.89%</div>
-              <div class="sc-delta warn">+$378.30 MXN por carrito (06-C)</div>
+              <div class="sc-label">Mercados públicos (04-A)</div>
+              <div class="sc-value">15</div>
+              <div class="sc-delta warn">1,661 establecimientos DENUE</div>
             </div>
             <div class="scorecard">
               <div class="sc-label">Canasta Urbana CONEVAL</div>
-              <div class="sc-value">$2,610.50</div>
-              <div class="sc-delta">Mensual individual (03-A)</div>
+              <div class="sc-value">$2,379.47</div>
+              <div class="sc-delta">Mensual por persona, marzo 2025 (03-A)</div>
             </div>
           </div>
 
           <div class="charts-row">
             <div class="widget-box">
               <div class="widget-header">
-                <h3>Cometas de Rango Flotante: Salto Mayoreo (02-B) a Góndola (02-A)</h3>
-                <span class="widget-tag">Floating Range Bars [Mayoreo -> Súper]</span>
+                <h3>Rango de precio: Central de Abasto → Supermercado (02-A / 02-B)</h3>
+                <span class="widget-tag">Mediana PROFECO, misma presentación</span>
               </div>
               <canvas id="chartIntermediacion" height="210"></canvas>
             </div>
 
             <div class="widget-box">
               <div class="widget-header">
-                <h3>Rosa Polar de Nightingale: Concentración Comercial (SAIC 01-B)</h3>
-                <span class="widget-tag">Polar Area Coxcomb</span>
+                <h3>Ingresos por tipo de comercio al por menor en Mérida (01-B)</h3>
+                <span class="widget-tag">Censos Económicos 2019 · millones de pesos</span>
               </div>
               <canvas id="chartConcentracion" height="210"></canvas>
             </div>
@@ -580,55 +583,24 @@
 
           <div class="widget-box">
             <div class="widget-header">
-              <h3>Tabla Resumen de Canales Comerciales de Abasto en Mérida</h3>
-              <span class="widget-tag">Fuente: Cruce 02-A, 02-B, 02-C, 06-A, 06-C y 07-B</span>
+              <h3>Tiendita de esquina vs. supermercado (07-B vs. 02-A)</h3>
+              <span class="widget-tag">Mediana de precio · reports/metricas_analisis.json</span>
             </div>
             <table class="looker-table">
               <thead>
                 <tr>
-                  <th>Canal de Abasto</th>
-                  <th>Fuente ID</th>
-                  <th>Costo Promedio Canasta Equivalente</th>
-                  <th>Diferencia vs. Mayoreo</th>
-                  <th>Accesibilidad Territorial</th>
+                  <th>Producto</th>
+                  <th>Tiendita (bitácora 07-B)</th>
+                  <th>Supermercado (PROFECO)</th>
+                  <th>Diferencia tiendita vs. súper</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><strong>1. Central de Abasto / Mercado Lucas de Gálvez</strong></td>
-                  <td>02-B / 04-A</td>
-                  <td><span class="heat-cell heat-low">$785.00 MXN</span></td>
-                  <td>Base (0.0%)</td>
-                  <td>Alta por convergencia radial Va y Ven (565 rutas)</td>
-                </tr>
-                <tr>
-                  <td><strong>2. Tiendas Comunitarias DICONSA / SEGALMEX</strong></td>
-                  <td>02-C</td>
-                  <td><span class="heat-cell heat-low">$840.00 MXN</span></td>
-                  <td>+7.0%</td>
-                  <td>Comisarías y periferia semiurbana (4,064 ítems)</td>
-                </tr>
-                <tr>
-                  <td><strong>3. Supermercados Presenciales (Akí / Chedraui / Dunosusa)</strong></td>
-                  <td>02-A / 06-A</td>
-                  <td><span class="heat-cell heat-med">$1,143.82 MXN</span></td>
-                  <td>+45.7%</td>
-                  <td>84 sucursales (concentran 40.98% de ventas)</td>
-                </tr>
-                <tr>
-                  <td><strong>4. Tienditas de Esquina (Auditoría Propia en 5 Colonias)</strong></td>
-                  <td>07-B</td>
-                  <td><span class="heat-cell heat-med">$1,210.00 MXN</span></td>
-                  <td>+54.1%</td>
-                  <td>Proximidad inmediata a pie (5,120 tiendas en Mérida)</td>
-                </tr>
-                <tr>
-                  <td><strong>5. Apps de Delivery Terceros (Rappi / UberEats)</strong></td>
-                  <td>06-C</td>
-                  <td><span class="heat-cell heat-high">$1,522.11 MXN</span></td>
-                  <td>+93.9% (+34.9% vs Súper)</td>
-                  <td>Digital con recargo de envío, servicio y propina</td>
-                </tr>
+                <tr><td><strong>Leche entera LALA 1 L</strong></td><td>$26.00 (n=4)</td><td>$37.00 (n=24)</td><td><span class="heat-cell heat-low">-29.7%</span></td></tr>
+                <tr><td><strong>Frijol negro (por kg)</strong></td><td>$28.00 (n=5)</td><td>$25.56 (n=39)</td><td><span class="heat-cell heat-med">+9.6%</span></td></tr>
+                <tr><td><strong>Pan blanco Bimbo grande</strong></td><td>$60.00 (n=5)</td><td>$43.00 (n=41)</td><td><span class="heat-cell heat-med">+39.5%</span></td></tr>
+                <tr><td><strong>Tortilla de maíz 1 kg</strong></td><td>$26.50 (n=2)</td><td>$13.00 (n=43)</td><td><span class="heat-cell heat-high">+103.8%</span></td></tr>
+                <tr><td><strong>Apps de delivery (06-C)</strong></td><td colspan="3">Pendiente: sin dato real disponible</td></tr>
               </tbody>
             </table>
           </div>
@@ -649,8 +621,8 @@
 
             <div class="widget-box">
               <div class="widget-header">
-                <h3>Mapa Geoespacial Looker: Mercados (04-A), Tianguis (04-B) y Tienditas (07-B)</h3>
-                <span class="widget-tag">19 Nodos Activos</span>
+                <h3>Mapa: Mercados públicos (04-A, DENUE) y establecimientos PROFECO (02-A)</h3>
+                <span class="widget-tag">65 nodos · looker_02_territorio_geo.csv</span>
               </div>
               <div id="lookerMap"></div>
             </div>
@@ -686,78 +658,41 @@
           <div class="charts-row">
             <div class="widget-box">
               <div class="widget-header">
-                <h3>Constelación de Burbujas: Salario Diario vs. % Devorado por Comida vs. Informalidad</h3>
-                <span class="widget-tag">Bubble Matrix 3D (X, Y, Radio)</span>
+                <h3>Canasta alimentaria urbana CONEVAL por persona, 2018-2025 (03-A)</h3>
+                <span class="widget-tag">+57.1% de ene-2018 a mar-2025</span>
               </div>
               <canvas id="chartSalarios" height="220"></canvas>
             </div>
 
             <div class="widget-box">
               <div class="widget-header">
-                <h3>Radar del Impuesto Algorítmico: Tienda Física vs. Delivery (06-C)</h3>
-                <span class="widget-tag">Comparativa Multieje (2,501 Tickets)</span>
+                <h3>Apps de delivery vs. tienda física (06-C)</h3>
+                <span class="widget-tag">Pendiente</span>
               </div>
-              <canvas id="chartDelivery" height="220"></canvas>
+              <div style="background:#fff1f2;border:1px solid #dc2626;color:#7f1d1d;border-radius:8px;padding:14px;font-size:13px;font-weight:700;line-height:1.5;">
+                Pendiente: sin dato real disponible. La comparativa de 2,501 carritos que había aquí era simulada y se eliminó. Se necesita un levantamiento real de tickets en apps.
+              </div>
             </div>
           </div>
 
           <div class="widget-box">
             <div class="widget-header">
-              <h3>Indicadores Socioeconómicos Metropolitanos y Bioclimáticos (SIEGY 03-A + LiDAR 08-A/B/C)</h3>
-              <span class="widget-tag">Tabla Combinada Looker Studio</span>
+              <h3>Mérida: indicadores del Censo 2020 y costo de la canasta</h3>
+              <span class="widget-tag">INEGI Censo 2020 · CONEVAL mar-2025 · Salario mínimo 2025</span>
             </div>
             <table class="looker-table">
               <thead>
-                <tr>
-                  <th>Municipio / Indicador</th>
-                  <th>Salario Diario IMSS</th>
-                  <th>Ingreso Mensual</th>
-                  <th>Tasa Informalidad</th>
-                  <th>Pobreza Laboral</th>
-                  <th>Días Trabajo p/ Canasta ($2,610)</th>
-                </tr>
+                <tr><th>Indicador</th><th>Valor</th><th>Fuente</th></tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><strong>Mérida (2026-Q1)</strong></td>
-                  <td>$558.10 MXN</td>
-                  <td>$16,743.00 MXN</td>
-                  <td>40.5%</td>
-                  <td><span class="heat-cell heat-low">25.4%</span></td>
-                  <td>4.7 días</td>
-                </tr>
-                <tr>
-                  <td><strong>Progreso (2026-Q1)</strong></td>
-                  <td>$441.00 MXN</td>
-                  <td>$13,230.00 MXN</td>
-                  <td>48.5%</td>
-                  <td><span class="heat-cell heat-med">31.0%</span></td>
-                  <td>5.9 días</td>
-                </tr>
-                <tr>
-                  <td><strong>Umán (2026-Q1)</strong></td>
-                  <td>$425.40 MXN</td>
-                  <td>$12,762.00 MXN</td>
-                  <td>51.0%</td>
-                  <td><span class="heat-cell heat-med">34.5%</span></td>
-                  <td>6.1 días</td>
-                </tr>
-                <tr>
-                  <td><strong>Kanasín (2026-Q1)</strong></td>
-                  <td>$398.20 MXN</td>
-                  <td>$11,946.00 MXN</td>
-                  <td>56.3%</td>
-                  <td><span class="heat-cell heat-high">38.2%</span></td>
-                  <td>6.6 días</td>
-                </tr>
-                <tr>
-                  <td><strong>Trabajador Sector Informal Yucatán</strong></td>
-                  <td>~$250.00 MXN</td>
-                  <td>$7,500.00 MXN</td>
-                  <td>100% (Sector)</td>
-                  <td><span class="heat-cell heat-high">Crítico (>50%)</span></td>
-                  <td>10.4 días</td>
-                </tr>
+                <tr><td><strong>Población total</strong></td><td>995,129</td><td>Censo 2020 (03-A)</td></tr>
+                <tr><td><strong>Población económicamente activa</strong></td><td>527,424</td><td>Censo 2020 (03-A)</td></tr>
+                <tr><td><strong>Sin afiliación a servicios de salud</strong></td><td><span class="heat-cell heat-med">22.2%</span></td><td>Censo 2020 (03-A)</td></tr>
+                <tr><td><strong>AGEB con más de 40% sin afiliación</strong></td><td><span class="heat-cell heat-high">12 de 520</span></td><td>Censo 2020 por AGEB (03-B)</td></tr>
+                <tr><td><strong>Viviendas con internet</strong></td><td>76.3%</td><td>Censo 2020 (03-A)</td></tr>
+                <tr><td><strong>Canasta alimentaria urbana por persona</strong></td><td>$2,379.47 / mes</td><td>CONEVAL, marzo 2025</td></tr>
+                <tr><td><strong>Canasta del hogar (x 3.27 ocupantes)</strong></td><td>$7,780.87 / mes</td><td>Cálculo con Censo 2020</td></tr>
+                <tr><td><strong>Días de salario mínimo para la canasta del hogar</strong></td><td><span class="heat-cell heat-high">27.9 días</span></td><td>$278.80/día (salario mínimo general 2025)</td></tr>
               </tbody>
             </table>
           </div>
@@ -769,34 +704,7 @@
 
   <script>
     // DATOS REALES DE LA BITÁCORA 07-B (LEVANTAMIENTO EN CAMPO)
-    const bitacoraTienditas = [
-      { folio: "AUD-01", zona: "Centro", colonia: "Centro Histórico", tienda: "Abarrotes El Milagro", prod: "Tortilla de maíz", marca: "Tortillería local 1 kg caliente", precio: 26.0, pago: "Efectivo" },
-      { folio: "AUD-01", zona: "Centro", colonia: "Centro Histórico", tienda: "Abarrotes El Milagro", prod: "Huevo blanco", marca: "Venta a granel 1 kg", precio: 50.0, pago: "Efectivo" },
-      { folio: "AUD-01", zona: "Centro", colonia: "Centro Histórico", tienda: "Abarrotes El Milagro", prod: "Leche entera", marca: "Lala 1 L", precio: 26.0, pago: "Efectivo" },
-      { folio: "AUD-01", zona: "Centro", colonia: "Centro Histórico", tienda: "Abarrotes El Milagro", prod: "Frijol negro", marca: "La Sierra 1 kg", precio: 25.0, pago: "Efectivo" },
-      { folio: "AUD-01", zona: "Centro", colonia: "Centro Histórico", tienda: "Abarrotes El Milagro", prod: "Pan blanco", marca: "Bimbo paquete grande", precio: 55.0, pago: "Efectivo" },
-
-      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Leche entera", marca: "Lala 1 L", precio: 25.0, pago: "Efectivo y transferencia" },
-      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Huevo blanco", marca: "San Juan 1 panal", precio: 80.0, pago: "Efectivo y transferencia" },
-      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Frijol negro", marca: "Grano de Oro 1 kg", precio: 30.0, pago: "Efectivo y transferencia" },
-      { folio: "AUD-02", zona: "Centro", colonia: "Parque de Santiago", tienda: "Tienda La Isabelita", prod: "Pan blanco", marca: "Bimbo paquete grande", precio: 58.0, pago: "Efectivo y transferencia" },
-
-      { folio: "AUD-03", zona: "Poniente", colonia: "Polígono 108", tienda: "Abarrotes María Elena", prod: "Huevo blanco", marca: "Despacho a granel 1 kg", precio: 48.0, pago: "Solo efectivo" },
-      { folio: "AUD-03", zona: "Poniente", colonia: "Polígono 108", tienda: "Abarrotes María Elena", prod: "Leche entera", marca: "Lala 1 L", precio: 28.0, pago: "Solo efectivo" },
-      { folio: "AUD-03", zona: "Poniente", colonia: "Polígono 108", tienda: "Abarrotes María Elena", prod: "Frijol negro", marca: "Grano de Oro 1 kg", precio: 31.0, pago: "Solo efectivo" },
-      { folio: "AUD-03", zona: "Poniente", colonia: "Polígono 108", tienda: "Abarrotes María Elena", prod: "Pan blanco", marca: "Bimbo paquete grande", precio: 60.0, pago: "Solo efectivo" },
-
-      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Frutería y Abarrotes Evelia", prod: "Huevo blanco", marca: "San Juan 1 panal", precio: 88.0, pago: "Efectivo y tarjeta" },
-      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Frutería y Abarrotes Evelia", prod: "Leche entera", marca: "Nutri 1 L", precio: 25.0, pago: "Efectivo y tarjeta" },
-      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Frutería y Abarrotes Evelia", prod: "Frijol negro", marca: "La Sierra 1 kg", precio: 28.0, pago: "Efectivo y tarjeta" },
-      { folio: "AUD-04", zona: "Sur", colonia: "Mercedes Barrera", tienda: "Frutería y Abarrotes Evelia", prod: "Pan blanco", marca: "Bimbo paquete grande", precio: 60.0, pago: "Efectivo y tarjeta" },
-
-      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburná", tienda: "Abarrotes Carmita", prod: "Tortilla de maíz", marca: "Tortillería local 1 kg caliente", precio: 27.0, pago: "Efectivo, tarjeta y transferencia" },
-      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburná", tienda: "Abarrotes Carmita", prod: "Huevo blanco", marca: "San Juan 1 panal", precio: 85.0, pago: "Efectivo, tarjeta y transferencia" },
-      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburná", tienda: "Abarrotes Carmita", prod: "Leche entera", marca: "Lala 1 L", precio: 26.0, pago: "Efectivo, tarjeta y transferencia" },
-      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburná", tienda: "Abarrotes Carmita", prod: "Pan blanco", marca: "Bimbo paquete grande", precio: 60.0, pago: "Efectivo, tarjeta y transferencia" },
-      { folio: "AUD-05", zona: "Norte", colonia: "Vista Alegre de Chuburná", tienda: "Abarrotes Carmita", prod: "Frijol negro", marca: "La Sierra 1 kg", precio: 26.0, pago: "Efectivo, tarjeta y transferencia" }
-    ];
+    const bitacoraTienditas = [{"folio": "AUD-01", "zona": "Centro", "colonia": "Centro Historico", "tienda": "Abarrotes El Milagro", "prod": "Tortilla de maiz", "marca": "Tortilleria local 1 kg caliente", "precio": 26.0, "pago": "Solo Efectivo"}, {"folio": "AUD-01", "zona": "Centro", "colonia": "Centro Historico", "tienda": "Abarrotes El Milagro", "prod": "Huevo blanco", "marca": "Venta a granel 1 kg", "precio": 50.0, "pago": "Solo Efectivo"}, {"folio": "AUD-01", "zona": "Centro", "colonia": "Centro Historico", "tienda": "Abarrotes El Milagro", "prod": "Leche entera", "marca": "LALA 1L", "precio": 26.0, "pago": "Solo Efectivo"}, {"folio": "AUD-01", "zona": "Centro", "colonia": "Centro Historico", "tienda": "Abarrotes El Milagro", "prod": "Frijol negro", "marca": "La Sierra 1 kg", "precio": 25.0, "pago": "Solo Efectivo"}, {"folio": "AUD-01", "zona": "Centro", "colonia": "Centro Historico", "tienda": "Abarrotes El Milagro", "prod": "Pan blanco", "marca": "BIMBO Paquete grande", "precio": 55.0, "pago": "Solo Efectivo"}, {"folio": "AUD-02", "zona": "Centro", "colonia": "Parque de Santiago", "tienda": "Tienda de Abarrotes \"La Isabelita\"", "prod": "Leche entera", "marca": "LALA 1L", "precio": 25.0, "pago": "Solo Efectivo"}, {"folio": "AUD-02", "zona": "Centro", "colonia": "Parque de Santiago", "tienda": "Tienda de Abarrotes \"La Isabelita\"", "prod": "Huevo blanco", "marca": "SAN JUAN 1 panal", "precio": 80.0, "pago": "Solo Efectivo"}, {"folio": "AUD-02", "zona": "Centro", "colonia": "Parque de Santiago", "tienda": "Tienda de Abarrotes \"La Isabelita\"", "prod": "Frijol negro", "marca": "Grano de oro 1kg", "precio": 30.0, "pago": "Solo Efectivo"}, {"folio": "AUD-02", "zona": "Centro", "colonia": "Parque de Santiago", "tienda": "Tienda de Abarrotes \"La Isabelita\"", "prod": "Pan blanco", "marca": "BIMBO Paquete grande", "precio": 58.0, "pago": "Solo Efectivo"}, {"folio": "AUD-03", "zona": "Poniente", "colonia": "Poligono 108", "tienda": "Abarrotes \"Maria Elena\"", "prod": "Huevo blanco", "marca": "Despacho a granel 1 kg", "precio": 48.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-03", "zona": "Poniente", "colonia": "Poligono 108", "tienda": "Abarrotes \"Maria Elena\"", "prod": "Leche entera", "marca": "LALA 1L", "precio": 28.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-03", "zona": "Poniente", "colonia": "Poligono 108", "tienda": "Abarrotes \"Maria Elena\"", "prod": "Frijol negro", "marca": "Grano de oro 1kg", "precio": 31.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-03", "zona": "Poniente", "colonia": "Poligono 108", "tienda": "Abarrotes \"Maria Elena\"", "prod": "Pan blanco", "marca": "BIMBO Paquete grande", "precio": 60.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-04", "zona": "Sur", "colonia": "Mercedes Barrera", "tienda": "Fruteria y Abarrotes \"Evelia\"", "prod": "Huevo blanco", "marca": "SAN JUAN 1 panal", "precio": 88.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-04", "zona": "Sur", "colonia": "Mercedes Barrera", "tienda": "Fruteria y Abarrotes \"Evelia\"", "prod": "Leche entera", "marca": " NUTRI 1 L", "precio": 25.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-04", "zona": "Sur", "colonia": "Mercedes Barrera", "tienda": "Fruteria y Abarrotes \"Evelia\"", "prod": "Frijol negro", "marca": "La Sierra 1 kg", "precio": 28.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-04", "zona": "Sur", "colonia": "Mercedes Barrera", "tienda": "Fruteria y Abarrotes \"Evelia\"", "prod": "Pan blanco", "marca": "BIMBO Paquete grande", "precio": 60.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-05", "zona": "Norte", "colonia": "Vista Alegre de Chuburna", "tienda": "Abarrotes \"Carmita\"", "prod": "Tortilla de maiz", "marca": "Tortilleria local 1 kg caliente", "precio": 27.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-05", "zona": "Norte", "colonia": "Vista Alegre de Chuburna", "tienda": "Abarrotes \"Carmita\"", "prod": "Huevo blanco", "marca": "SAN JUAN 1 panal", "precio": 85.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-05", "zona": "Norte", "colonia": "Vista Alegre de Chuburna", "tienda": "Abarrotes \"Carmita\"", "prod": "Leche entera", "marca": "LALA 1L", "precio": 26.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-05", "zona": "Norte", "colonia": "Vista Alegre de Chuburna", "tienda": "Abarrotes \"Carmita\"", "prod": "Pan blanco", "marca": "BIMBO Paquete grande", "precio": 60.0, "pago": "Efectivo y Tarjeta"}, {"folio": "AUD-05", "zona": "Norte", "colonia": "Vista Alegre de Chuburna", "tienda": "Abarrotes \"Carmita\"", "prod": "Frijol negro", "marca": "La Sierra 1 kg", "precio": 26.0, "pago": "Efectivo y Tarjeta"}];  // generado desde data/fuente_b/07_bitacora_tienditas/bitacora_precios_tienditas.csv
 
     let chartTienditasInstance = null;
     let mapInstance = null;
@@ -836,7 +744,7 @@
     }
 
     function updateChartTienditas(datos) {
-      const prods = ["Tortilla de maíz", "Leche entera", "Frijol negro", "Pan blanco", "Huevo blanco"];
+      const prods = ["Tortilla de maiz", "Leche entera", "Frijol negro", "Pan blanco", "Huevo blanco"];
       const tiendasUnicas = [...new Set(datos.map(d => d.tienda))];
       const coloresRadar = [
         { border: '#600d8b', bg: 'rgba(96, 13, 139, 0.14)' },
@@ -906,18 +814,7 @@
         attribution: 'Esri & UPY Data Engineering'
       }).addTo(mapInstance);
 
-      const puntos = [
-        { lat: 20.9658, lon: -89.6202, nombre: "AUD-01: Abarrotes El Milagro (Centro)", tipo: "Tiendita 07-B", color: "#ed9f22" },
-        { lat: 20.9701, lon: -89.6315, nombre: "AUD-02: Tienda La Isabelita (Santiago)", tipo: "Tiendita 07-B", color: "#ed9f22" },
-        { lat: 20.9854, lon: -89.5742, nombre: "AUD-03: Abarrotes María Elena (Polígono 108)", tipo: "Tiendita 07-B", color: "#ed9f22" },
-        { lat: 20.9312, lon: -89.6228, nombre: "AUD-04: Frutería y Abarrotes Evelia (Mercedes Barrera)", tipo: "Tiendita 07-B", color: "#ed9f22" },
-        { lat: 21.0085, lon: -89.6340, nombre: "AUD-05: Abarrotes Carmita (Chuburná)", tipo: "Tiendita 07-B", color: "#ed9f22" },
-        { lat: 20.9635, lon: -89.6216, nombre: "Mercado Lucas de Gálvez (1,250 locales)", tipo: "Mercado 04-A", color: "#600d8b" },
-        { lat: 20.9628, lon: -89.6201, nombre: "Mercado San Benito (890 locales)", tipo: "Mercado 04-A", color: "#600d8b" },
-        { lat: 20.9705, lon: -89.6305, nombre: "Mercado Santos Degollado (Santiago)", tipo: "Mercado 04-A", color: "#600d8b" },
-        { lat: 20.9762, lon: -89.6215, nombre: "Mercado de Santa Ana", tipo: "Mercado 04-A", color: "#600d8b" },
-        { lat: 20.9690, lon: -89.6105, nombre: "Mercado de Chembech", tipo: "Mercado 04-A", color: "#600d8b" }
-      ];
+      const puntos = [{"lat": 20.964014, "lon": -89.621487, "nombre": "Mercado Lucas de Gálvez (817 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.963003, "lon": -89.620833, "nombre": "Mercado San Benito (486 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.964994, "lon": -89.623463, "nombre": "Mercado García Rejón (92 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.97063, "lon": -89.630078, "nombre": "Mercado Santiago (52 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.963665, "lon": -89.622568, "nombre": "Plaza Mercado (50 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.96175, "lon": -89.616358, "nombre": "Mercado Víctor Cervera Pacheco (34 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.962295, "lon": -89.650896, "nombre": "Mercado Nueva Mulsay (28 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.95838, "lon": -89.631607, "nombre": "Mercado de San Sebastián (22 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.968084, "lon": -89.610393, "nombre": "Mercado Chen Bech (20 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 21.036857, "lon": -89.627593, "nombre": "Mercado Cordemex (18 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.990401, "lon": -89.600224, "nombre": "Mercado de la Alemán (16 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.964681, "lon": -89.617032, "nombre": "Mercado Ex Chetumalito (10 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 21.013031, "lon": -89.632092, "nombre": "Mercado de Chuburná (9 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 21.004428, "lon": -89.652777, "nombre": "Mercado de Chenkú (6 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.964567, "lon": -89.620529, "nombre": "Cuevas (1 establecimientos DENUE)", "tipo": "Mercado público (DENUE)", "color": "#600d8b"}, {"lat": 20.967761, "lon": -89.624027, "nombre": "7 Eleven Sucursal Zocalo (142 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tienda de Conveniencia", "color": "#ed9f22"}, {"lat": 20.985917, "lon": -89.665537, "nombre": "Abarrotes Sahuayo Sucursal Central de Abastos (167 registros PROFECO)", "tipo": "Establecimiento PROFECO: Central de Abasto", "color": "#ed9f22"}, {"lat": 20.986058, "lon": -89.664528, "nombre": "Abarrotes Surticoma Sucursal Abastos (136 registros PROFECO)", "tipo": "Establecimiento PROFECO: Central de Abasto", "color": "#ed9f22"}, {"lat": 20.984581, "lon": -89.655669, "nombre": "Atlantida Sucursal Única (9 registros PROFECO)", "tipo": "Establecimiento PROFECO: Pescaderías", "color": "#ed9f22"}, {"lat": 20.953825, "lon": -89.643309, "nombre": "Bodega Aurrera Sucursal Itzaes (2673 registros PROFECO)", "tipo": "Establecimiento PROFECO: Supermercado / Tienda de Autoservicio", "color": "#ed9f22"}, {"lat": 20.986073, "lon": -89.664367, "nombre": "Central de Abasto de Merida (136 registros PROFECO)", "tipo": "Establecimiento PROFECO: Central de Abasto", "color": "#ed9f22"}, {"lat": 21.030049, "lon": -89.629555, "nombre": "Chedraui Sucursal Selecto Merida (2747 registros PROFECO)", "tipo": "Establecimiento PROFECO: Supermercado / Tienda de Autoservicio", "color": "#ed9f22"}, {"lat": 20.963323, "lon": -89.622066, "nombre": "Comercio Sucursal Centro (476 registros PROFECO)", "tipo": "Establecimiento PROFECO: Farmacias", "color": "#ed9f22"}, {"lat": 20.965126, "lon": -89.620907, "nombre": "Del Bazar Sucursal Centro (730 registros PROFECO)", "tipo": "Establecimiento PROFECO: Farmacias", "color": "#ed9f22"}, {"lat": 20.964766, "lon": -89.620986, "nombre": "Dunosusa Sucursal Gran Dunosusa (288 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tienda de Conveniencia", "color": "#ed9f22"}, {"lat": 20.965643, "lon": -89.624618, "nombre": "Farma Value Sucursal Centro (604 registros PROFECO)", "tipo": "Establecimiento PROFECO: Farmacias", "color": "#ed9f22"}, {"lat": 20.964243, "lon": -89.61875, "nombre": "Farmacia Guadalajara Sucursal Centro 2251 (988 registros PROFECO)", "tipo": "Establecimiento PROFECO: Farmacias", "color": "#ed9f22"}, {"lat": 20.966469, "lon": -89.62374, "nombre": "Farmacia Yza Sucursal Centro (813 registros PROFECO)", "tipo": "Establecimiento PROFECO: Farmacias", "color": "#ed9f22"}, {"lat": 20.965554, "lon": -89.623438, "nombre": "Farmacias Canto Sucursal Matriz (68 registros PROFECO)", "tipo": "Establecimiento PROFECO: Farmacias", "color": "#ed9f22"}, {"lat": 20.977797, "lon": -89.603148, "nombre": "Farmacias Similares Sucursal Industrial (250 registros PROFECO)", "tipo": "Establecimiento PROFECO: Farmacias", "color": "#ed9f22"}, {"lat": 20.965407, "lon": -89.622087, "nombre": "Farmacias del Ahorro Sucursal Pasaje (1024 registros PROFECO)", "tipo": "Establecimiento PROFECO: Farmacias", "color": "#ed9f22"}, {"lat": 20.986073, "lon": -89.664367, "nombre": "Granos y Semillas la Mexicana Sucursal Abastos (130 registros PROFECO)", "tipo": "Establecimiento PROFECO: Central de Abasto", "color": "#ed9f22"}, {"lat": 20.986073, "lon": -89.664367, "nombre": "Granos y Semillas la Morena (80 registros PROFECO)", "tipo": "Establecimiento PROFECO: Central de Abasto", "color": "#ed9f22"}, {"lat": 20.986073, "lon": -89.664367, "nombre": "Maxi Carnes Sucursal Abastos (29 registros PROFECO)", "tipo": "Establecimiento PROFECO: Central de Abasto", "color": "#ed9f22"}, {"lat": 20.964175, "lon": -89.621197, "nombre": "Mercado Lucas de Galvez (89 registros PROFECO)", "tipo": "Establecimiento PROFECO: Mercados", "color": "#ed9f22"}, {"lat": 20.967576, "lon": -89.622745, "nombre": "Oxxo Sucursal Zocalo (216 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tienda de Conveniencia", "color": "#ed9f22"}, {"lat": 20.986073, "lon": -89.664367, "nombre": "Pacic Central de Abasto Mérida (98 registros PROFECO)", "tipo": "Establecimiento PROFECO: Central de Abasto", "color": "#ed9f22"}, {"lat": 20.962489, "lon": -89.625225, "nombre": "Panadería Castillo Sucursal San Juan (9 registros PROFECO)", "tipo": "Establecimiento PROFECO: Panaderías", "color": "#ed9f22"}, {"lat": 20.9649, "lon": -89.6236, "nombre": "Panadería la Vieja (13 registros PROFECO)", "tipo": "Establecimiento PROFECO: Panaderías", "color": "#ed9f22"}, {"lat": 21.030674, "lon": -89.625521, "nombre": "Sanborn S Sucursal Gran Plaza (553 registros PROFECO)", "tipo": "Establecimiento PROFECO: Farmacias", "color": "#ed9f22"}, {"lat": 20.990601, "lon": -89.662171, "nombre": "Soriana Hiper Sucursal Plaza Canek 110 (4182 registros PROFECO)", "tipo": "Establecimiento PROFECO: Supermercado / Tienda de Autoservicio", "color": "#ed9f22"}, {"lat": 21.00757, "lon": -89.612881, "nombre": "Super Aki Extra (2472 registros PROFECO)", "tipo": "Establecimiento PROFECO: Supermercado / Tienda de Autoservicio", "color": "#ed9f22"}, {"lat": 20.977715, "lon": -89.639601, "nombre": "Tortillería \"el Angel\" (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.963414, "lon": -89.622198, "nombre": "Tortillería Comercio (3 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.96113, "lon": -89.62221, "nombre": "Tortillería Hiliana's (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.96222, "lon": -89.62015, "nombre": "Tortillería Nuevo Fenix (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.962753, "lon": -89.627565, "nombre": "Tortillería Rolos Sucursal Única (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.994866, "lon": -89.66562, "nombre": "Tortillería San Fernando (3 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 21.008247, "lon": -89.620997, "nombre": "Tortillería del Norte (3 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.973502, "lon": -89.637194, "nombre": "Tortillería el Gallito, C. 59-a (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.955208, "lon": -89.631743, "nombre": "Tortillería el Gallo (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.984035, "lon": -89.654749, "nombre": "Tortillería el Jardin (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.962902, "lon": -89.620156, "nombre": "Tortillería el Supremito (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.969239, "lon": -89.658541, "nombre": "Tortillería la Amistad (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.962902, "lon": -89.620156, "nombre": "Tortillería la Flecha (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 21.037554, "lon": -89.627972, "nombre": "Tortillería la Herradura (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.962857, "lon": -89.62179, "nombre": "Tortillería la Higiénica (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.95468, "lon": -89.63524, "nombre": "Tortillería la Isabelita (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 21.01499, "lon": -89.61098, "nombre": "Tortillería la Lupita (3 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.970582, "lon": -89.629399, "nombre": "Tortillería la Modelo (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.975758, "lon": -89.620745, "nombre": "Tortillería la Pilarica (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.971423, "lon": -89.65433, "nombre": "Tortillería la Salvacion del Mundo (4 registros PROFECO)", "tipo": "Establecimiento PROFECO: Tortillerías", "color": "#ed9f22"}, {"lat": 20.986878, "lon": -89.617292, "nombre": "Wal Mart (2965 registros PROFECO)", "tipo": "Establecimiento PROFECO: Supermercado / Tienda de Autoservicio", "color": "#ed9f22"}, {"lat": 21.01366, "lon": -89.614052, "nombre": "Walmart Express Sucursal Montejo (2162 registros PROFECO)", "tipo": "Establecimiento PROFECO: Supermercado / Tienda de Autoservicio", "color": "#ed9f22"}, {"lat": 21.009283, "lon": -89.623356, "nombre": "Walmart Sucursal Merida Campestre (2041 registros PROFECO)", "tipo": "Establecimiento PROFECO: Supermercado / Tienda de Autoservicio", "color": "#ed9f22"}];  // generado desde reports/looker_studio/looker_02_territorio_geo.csv
 
       puntos.forEach(pt => {
         L.circleMarker([pt.lat, pt.lon], {
@@ -931,127 +828,54 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // Gráfico 1: Barras Flotantes (Comet Range [Mayoreo -> Menudeo])
+      // Gráfico 1: rango Central de Abasto -> supermercado (mediana PROFECO, mayo 2026)
       new Chart(document.getElementById('chartIntermediacion').getContext('2d'), {
         type: 'bar',
         data: {
-          labels: ['Papa Blanca (+250%)', 'Jitomate (+179%)', 'Limón (+139%)', 'Aguacate (+108%)', 'Plátano (+108%)', 'Cebolla (+57%)', 'Huevo (+35%)'],
-          datasets: [
-            {
-              label: 'Brecha de Intermediación [Mayoreo SNIIM -> Góndola PROFECO] ($/kg)',
-              data: [[16.0, 56.0], [16.15, 45.0], [11.11, 26.5], [38.0, 79.0], [12.0, 24.9], [14.0, 22.0], [36.0, 48.5]],
-              backgroundColor: 'rgba(237, 159, 34, 0.85)',
-              borderColor: '#600d8b',
-              borderWidth: 2,
-              borderRadius: 8,
-              borderSkipped: false
-            }
-          ]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          scales: {
-            x: { beginAtZero: true, title: { display: true, text: 'Rango del Precio por Kilo ($ MXN): Inicio = Abasto | Fin = Supermercado' } }
-          }
-        }
-      });
-
-      // Gráfico 2: Rosa Polar de Nightingale (Polar Area Coxcomb)
-      new Chart(document.getElementById('chartConcentracion').getContext('2d'), {
-        type: 'polarArea',
-        data: {
-          labels: ['Supermercados (84 tiendas)', 'Otros Alimentos', 'Abarrotes/Tienditas (5,120)', 'Carnicerías (1,220)', 'Tortillerías y Fruterías (1,620)'],
+          labels: ['Cebolla 1 kg (+174%)', 'Col blanca 1 kg (+139%)', 'Arroz 900 g (+108%)', 'Limón persa 1 kg (+60%)', 'Frijol negro 900 g (+35%)', 'Papa 1 kg (+12%)', 'Jitomate 1 kg (-13%)', 'Tortilla 1 kg (-54%)'],
           datasets: [{
-            data: [8920.5, 5100.0, 2415.8, 1245.3, 1165.1],
-            backgroundColor: [
-              'rgba(96, 13, 139, 0.85)',
-              'rgba(237, 159, 34, 0.85)',
-              'rgba(147, 51, 234, 0.78)',
-              'rgba(180, 83, 9, 0.80)',
-              'rgba(13, 13, 13, 0.65)'
-            ],
-            borderColor: '#ffffff',
-            borderWidth: 2
+            label: 'Precio Central de Abasto → Supermercado ($ MXN)',
+            data: [[10.9, 29.9], [10.0, 23.9], [15.4, 32.0], [21.9, 35.0], [17.0, 23.0], [43.0, 47.95], [45.0, 52.0], [13.0, 28.0]],
+            backgroundColor: ['#ed9f22','#ed9f22','#ed9f22','#ed9f22','#ed9f22','#ed9f22','#059669','#059669'],
+            borderColor: '#600d8b', borderWidth: 2, borderRadius: 8, borderSkipped: false
           }]
         },
-        options: { responsive: true }
-      });
-
-      // Gráfico 3: Matriz de Burbujas (X = Salario Diario, Y = % Sueldo Absorbido por Comida Familiar, R = Informalidad %)
-      new Chart(document.getElementById('chartSalarios').getContext('2d'), {
-        type: 'bubble',
-        data: {
-          datasets: [
-            {
-              label: 'Sector Informal ($250/día · 100% Inf.)',
-              data: [{ x: 250, y: 109.3, r: 22 }],
-              backgroundColor: 'rgba(237, 159, 34, 0.85)',
-              borderColor: '#0d0d0d',
-              borderWidth: 2
-            },
-            {
-              label: 'Salario Mínimo ($278.8/día · 98% Sueldo)',
-              data: [{ x: 278.8, y: 98.0, r: 18 }],
-              backgroundColor: 'rgba(180, 83, 9, 0.85)',
-              borderColor: '#0d0d0d',
-              borderWidth: 2
-            },
-            {
-              label: 'Kanasín IMSS ($398.2/día · 56.3% Inf.)',
-              data: [{ x: 398.2, y: 68.6, r: 16 }],
-              backgroundColor: 'rgba(147, 51, 234, 0.80)',
-              borderColor: '#600d8b',
-              borderWidth: 2
-            },
-            {
-              label: 'Umán IMSS ($425.4/día · 51.0% Inf.)',
-              data: [{ x: 425.4, y: 64.2, r: 14 }],
-              backgroundColor: 'rgba(96, 13, 139, 0.75)',
-              borderColor: '#0d0d0d',
-              borderWidth: 1.5
-            },
-            {
-              label: 'Mérida IMSS ($558.1/día · 40.5% Inf.)',
-              data: [{ x: 558.1, y: 49.0, r: 12 }],
-              backgroundColor: 'rgba(96, 13, 139, 0.95)',
-              borderColor: '#ed9f22',
-              borderWidth: 2.5
-            }
-          ]
-        },
         options: {
-          responsive: true,
-          scales: {
-            x: { title: { display: true, text: 'Salario Diario Promedio ($ MXN / día)' }, min: 200, max: 620 },
-            y: { title: { display: true, text: '% del Ingreso Mensual Devorado por Comida Familiar' }, min: 35, max: 120 }
-          }
+          indexAxis: 'y', responsive: true,
+          scales: { x: { beginAtZero: true, title: { display: true, text: 'Precio ($ MXN). Naranja: súper más caro · Verde: súper más barato' } } }
         }
       });
 
-      // Gráfico 4: Radar Multieje de Fuga Digital en Delivery
-      new Chart(document.getElementById('chartDelivery').getContext('2d'), {
-        type: 'radar',
+      // Gráfico 2: ingresos por tipo de comercio al por menor (Censos Económicos 2019, Mérida)
+      new Chart(document.getElementById('chartConcentracion').getContext('2d'), {
+        type: 'bar',
         data: {
-          labels: ['Costo Base Alimentos', 'Sobreprecio Catálogo', 'Costo de Envío', 'Tarifa de Servicio', 'Propina Algoritmo'],
-          datasets: [
-            {
-              label: 'Compra Presencial / Mercado ($ MXN)',
-              data: [1143.8, 0, 24.0, 0, 0],
-              borderColor: '#600d8b',
-              backgroundColor: 'rgba(96, 13, 139, 0.18)',
-              borderWidth: 2.5
-            },
-            {
-              label: 'App Delivery Terceros ($1,522.11 Total)',
-              data: [1143.8, 204.86, 64.72, 53.23, 55.49],
-              borderColor: '#ed9f22',
-              backgroundColor: 'rgba(237, 159, 34, 0.25)',
-              borderWidth: 2.5
-            }
-          ]
+          labels: ['Supermercados (78 unidades)', 'Minisupers (700)', 'Cerveza (1,476)', 'Abarrotes (3,113)', 'Carnes rojas (671)', 'Frutas y verduras (764)'],
+          datasets: [{
+            label: 'Ingresos por suministro de bienes y servicios (millones de pesos)',
+            data: [15338.6, 6290.4, 1498.5, 1291.7, 1288.8, 632.6],
+            backgroundColor: ['#600d8b', '#9333ea', '#ed9f22', '#b45309', '#0d0d0d', '#64748b']
+          }]
         },
-        options: { responsive: true }
+        options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
+      });
+
+      // Gráfico 3: serie CONEVAL canasta alimentaria urbana por persona
+      new Chart(document.getElementById('chartSalarios').getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: ["2018-01", "2018-02", "2018-03", "2018-04", "2018-05", "2018-06", "2018-07", "2018-08", "2018-09", "2018-10", "2018-11", "2018-12", "2019-01", "2019-02", "2019-03", "2019-04", "2019-05", "2019-06", "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12", "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06", "2020-07", "2020-08", "2020-09", "2020-10", "2020-11", "2020-12", "2021-01", "2021-02", "2021-03", "2021-04", "2021-05", "2021-06", "2021-07", "2021-08", "2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02", "2022-03", "2022-04", "2022-05", "2022-06", "2022-07", "2022-08", "2022-09", "2022-10", "2022-11", "2022-12", "2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03"],
+          datasets: [{
+            label: 'Canasta alimentaria urbana ($ MXN por persona al mes)',
+            data: [1514.91, 1500.89, 1514.18, 1514.53, 1504.32, 1506.1, 1521.44, 1544.07, 1547.62, 1543.15, 1562.69, 1586.96, 1600.7, 1587.74, 1595.99, 1605.23, 1598.44, 1589.23, 1608.23, 1602.22, 1602.47, 1604.28, 1617.7, 1637.36, 1653.99, 1663.3, 1676.85, 1677.69, 1689.3, 1679.08, 1688.57, 1702.28, 1713.31, 1724.37, 1721.0, 1713.89, 1725.66, 1728.88, 1741.89, 1759.59, 1778.98, 1793.4, 1810.09, 1828.54, 1847.27, 1850.69, 1879.04, 1901.66, 1930.38, 1950.26, 1974.57, 1978.54, 1982.45, 2011.99, 2042.89, 2086.21, 2114.03, 2112.1, 2110.39, 2124.7, 2143.72, 2154.8, 2164.51, 2173.93, 2177.45, 2179.44, 2192.71, 2220.46, 2243.12, 2224.83, 2225.57, 2269.57, 2328.59, 2293.38, 2287.66, 2298.82, 2304.37, 2302.24, 2352.34, 2354.65, 2344.06, 2349.71, 2359.1, 2363.67, 2366.33, 2364.01, 2379.47],
+            borderColor: '#600d8b', backgroundColor: 'rgba(96, 13, 139, 0.12)', fill: true, pointRadius: 0, borderWidth: 2.5
+          }, {
+            label: 'Canasta alimentaria rural ($ MXN por persona al mes)',
+            data: [1151.09, 1135.16, 1148.31, 1147.23, 1136.49, 1135.34, 1145.5, 1164.75, 1168.41, 1165.41, 1185.71, 1208.47, 1218.0, 1201.97, 1208.6, 1216.56, 1210.27, 1201.19, 1218.42, 1209.7, 1209.15, 1211.57, 1224.81, 1240.98, 1255.26, 1264.8, 1278.35, 1279.37, 1289.46, 1279.09, 1287.59, 1299.3, 1308.91, 1319.6, 1315.69, 1306.48, 1313.46, 1313.69, 1326.23, 1344.23, 1360.83, 1370.74, 1383.84, 1399.36, 1417.04, 1418.86, 1447.57, 1463.43, 1481.1, 1496.32, 1517.96, 1522.44, 1523.9, 1544.88, 1566.95, 1600.18, 1625.57, 1624.24, 1620.78, 1630.95, 1644.23, 1652.42, 1659.09, 1666.91, 1666.33, 1663.17, 1672.74, 1699.49, 1721.14, 1701.52, 1703.61, 1743.61, 1798.56, 1756.08, 1750.51, 1761.74, 1767.03, 1759.79, 1804.36, 1800.55, 1786.88, 1791.69, 1799.17, 1799.71, 1795.77, 1787.36, 1797.48],
+            borderColor: '#ed9f22', pointRadius: 0, borderWidth: 2
+          }]
+        },
+        options: { responsive: true, scales: { x: { ticks: { maxTicksLimit: 8 } } } }
       });
 
       applyLookerFilters();
