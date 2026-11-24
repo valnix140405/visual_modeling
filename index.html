@@ -135,6 +135,45 @@
     }
     html, body { max-width: 100%; overflow-x: hidden; }
 
+
+    /* ===== EXPLORADOR DE PRECIOS CON FILTROS ===== */
+    .explorer-card { margin-top: 28px; background: #ffffff; border: 1px solid var(--border-subtle); border-radius: 14px; padding: 20px; }
+    .explorer-card h3 { font-size: 20px; font-weight: 800; color: var(--accent-purple); margin-bottom: 4px; }
+    .explorer-card .sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+    .explorer-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+    .explorer-controls label { display: flex; flex-direction: column; gap: 4px; font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .3px; }
+    .explorer-controls select, .explorer-controls input { font-family: inherit; font-size: 13.5px; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 8px; background: #fff; color: var(--text); min-width: 0; }
+    .explorer-seg { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .explorer-seg button { font-family: inherit; font-size: 13px; font-weight: 700; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--border-subtle); background: #f8fafc; color: var(--muted); cursor: pointer; }
+    .explorer-seg button.active { background: var(--accent-purple); color: #fff; border-color: var(--accent-purple); }
+    .explorer-summary { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13.5px; margin-bottom: 10px; color: var(--text); }
+    .explorer-summary strong { color: var(--accent-purple); }
+    .explorer-table-wrap { overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: 10px; }
+    .explorer-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .explorer-table th { text-align: left; background: #f8fafc; padding: 8px 10px; font-size: 11.5px; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    .explorer-table td { padding: 8px 10px; border-top: 1px solid #eef2f7; vertical-align: middle; }
+    .explorer-table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .dif-bar { position: relative; height: 8px; background: #f1f5f9; border-radius: 4px; min-width: 70px; }
+    .dif-bar span { position: absolute; top: 0; height: 8px; border-radius: 4px; }
+    .explorer-more { margin-top: 10px; font-family: inherit; font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--accent-purple); background: #fff; color: var(--accent-purple); cursor: pointer; }
+    .explorer-foot { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+    @media (max-width: 760px) { .explorer-controls { grid-template-columns: 1fr 1fr; } .explorer-table .hide-sm { display: none; } }
+
+    /* ===== RECORRIDO GUIADO ===== */
+    .tour-card { position: fixed; right: 24px; bottom: 96px; width: min(420px, calc(100vw - 32px)); background: #ffffff; border: 2px solid var(--accent-purple); border-radius: 14px; box-shadow: 0 18px 48px rgba(0,0,0,.18); padding: 16px 18px; z-index: 3000; display: none; }
+    .tour-card.open { display: block; }
+    .tour-step { font-size: 11.5px; font-weight: 800; letter-spacing: .5px; color: var(--accent-gold, #b8860b); text-transform: uppercase; }
+    .tour-card h4 { font-size: 17px; font-weight: 800; color: var(--accent-purple); margin: 4px 0 6px; }
+    .tour-card p { font-size: 14px; line-height: 1.55; color: var(--text); }
+    .tour-progress { height: 4px; background: #eef2f7; border-radius: 2px; margin: 12px 0 10px; overflow: hidden; }
+    .tour-progress span { display: block; height: 100%; width: 0; background: var(--accent-purple); }
+    .tour-controls { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .tour-controls button { font-family: inherit; font-size: 12.5px; font-weight: 700; padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border-subtle); background: #fff; cursor: pointer; color: var(--text); }
+    .tour-controls button.primary { background: var(--accent-purple); color: #fff; border-color: var(--accent-purple); }
+    .tour-controls label { font-size: 12.5px; display: inline-flex; align-items: center; gap: 4px; margin-left: auto; color: var(--muted); cursor: pointer; }
+    .tour-highlight { outline: 3px solid var(--accent-gold, #d4a017) !important; outline-offset: 4px; border-radius: 10px; transition: outline-color .3s; }
+    @media (max-width: 760px) { .tour-card { right: 16px; left: 16px; width: auto; bottom: 84px; } }
+
     /* ===== METODOLOGÍA ===== */
     .metodo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
     .metodo-grid .callout-card ul, .metodo-grid .callout-card ol { padding-left: 18px; line-height: 1.6; font-size: 14px; }
@@ -884,7 +923,7 @@
       <div class="brand-mark">UPY</div>
       <div class="brand-titles">
         <h1>Del Mundo a la Esquina: ¿Cuánto Cuesta Comer?</h1>
-        <p>Investigación Multiescalar de Precios, Geografía Urbana, Relieve 3D y Realidad Aumentada</p>
+        <p>Investigación Multiescalar de Precios, Geografía Urbana y Relieve 3D</p>
       </div>
     </div>
 
@@ -905,11 +944,15 @@
         Borrador Looker Studio
       </a>
 
-      <button class="view-switch-btn" style="border: 1px solid var(--accent-purple); background: #ffffff; color: var(--accent-purple);" onclick="setMode('deck'); goToSlide(8)">
+      <button id="btnTour" class="view-switch-btn" style="border: 1px solid var(--accent-purple); background: var(--accent-purple); color: #ffffff;" onclick="startTour()" title="Recorrido guiado por los hallazgos">
+        &#9654; Recorrido guiado
+      </button>
+
+      <button class="view-switch-btn" style="border: 1px solid var(--accent-purple); background: #ffffff; color: var(--accent-purple);" onclick="setMode('deck'); goToSlide(7)">
         Metodología
       </button>
 
-      <span class="badge-count">16 FUENTES CON DATO REAL · 3 PROTOTIPOS AR · 3 PENDIENTES</span>
+      <span class="badge-count">16 FUENTES CON DATO REAL</span>
 
       <!-- Botón Fullscreen -->
       <button class="view-switch-btn btn-fullscreen" style="border: 1px solid var(--border-subtle); background: #ffffff;" onclick="toggleFullScreen()" title="Pantalla Completa">
@@ -1090,7 +1133,7 @@
           <div class="callout-card">
             <h4>[LO QUE ESTOS DATOS NO DICEN]</h4>
             <p>
-              Ambos precios son <strong>al público</strong>: PROFECO no reporta precio de mayoreo ni lo que recibe el productor. El dato de mayoreo (SNIIM) quedó <strong>pendiente</strong> porque el sitio no estuvo disponible para descarga. Por eso aquí no hablamos de "margen del intermediario", solo de la diferencia entre dos lugares de compra.
+              Ambos precios son <strong>al público</strong>: PROFECO no reporta precio de mayoreo ni lo que recibe el productor. Por eso aquí no hablamos de "margen del intermediario", solo de la diferencia entre dos lugares de compra.
             </p>
           </div>
         </div>
@@ -1190,13 +1233,6 @@
               <span class="fee" style="color: var(--accent-purple); font-size: 18px;">+1.3%</span>
             </div>
           </div>
-
-          <div class="callout-card gold-border">
-            <h4>[PENDIENTE: APPS DE DELIVERY (06-C)]</h4>
-            <p>
-              <strong>Pendiente: sin dato real disponible.</strong> La comparativa de carritos en Rappi y UberEats que había en esta sección era simulada y se eliminó. Para recuperarla se necesita un levantamiento real de tickets o capturas de las apps con fecha y producto.
-            </p>
-          </div>
         </div>
 
         <div class="media-col">
@@ -1228,6 +1264,50 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="explorer-card" id="explorador">
+        <h3>Explora todos los productos comparables</h3>
+        <p class="sub">Filtra los 139 pares Central de Abasto–súper y los 93 pares conveniencia–súper que registró PROFECO en Mérida (mayo 2026). Los datos se cargan de <code>data/web/explorador_precios.json</code>, generado con <code>scripts/generar_datos_web.py</code>.</p>
+
+        <div class="explorer-seg" role="tablist" aria-label="Comparación">
+          <button class="active" data-comp="abasto" onclick="explorerSetComp('abasto', this)">Central de Abasto vs. súper</button>
+          <button data-comp="conveniencia" onclick="explorerSetComp('conveniencia', this)">Conveniencia vs. súper</button>
+        </div>
+
+        <div class="explorer-controls">
+          <label>Categoría
+            <select id="exCat" onchange="explorerRender()"><option value="">Todas</option></select>
+          </label>
+          <label>Resultado
+            <select id="exDir" onchange="explorerRender()">
+              <option value="">Todos</option>
+              <option value="pos" id="exDirPos">Súper más caro</option>
+              <option value="neg" id="exDirNeg">Súper más barato</option>
+            </select>
+          </label>
+          <label>Ordenar por
+            <select id="exSort" onchange="explorerRender()">
+              <option value="desc">Mayor diferencia</option>
+              <option value="asc">Menor diferencia</option>
+              <option value="az">Producto (A–Z)</option>
+              <option value="n">Más registros</option>
+            </select>
+          </label>
+          <label>Buscar
+            <input id="exSearch" type="search" placeholder="Ej. leche, arroz…" oninput="explorerRender()">
+          </label>
+        </div>
+
+        <div class="explorer-summary" id="exSummary" aria-live="polite">Cargando datos…</div>
+        <div class="explorer-table-wrap">
+          <table class="explorer-table">
+            <thead><tr><th>Producto</th><th class="hide-sm">Categoría</th><th class="num" id="exColOtro">Central</th><th class="num">Súper</th><th class="num">Diferencia</th><th class="hide-sm"></th><th class="num hide-sm">Registros</th></tr></thead>
+            <tbody id="exBody"></tbody>
+          </table>
+        </div>
+        <button class="explorer-more" id="exMore" onclick="explorerShowMore()" hidden>Ver más</button>
+        <p class="explorer-foot" id="exFoot"></p>
       </div>
     </section>
 
@@ -1562,96 +1642,23 @@
       </div>
     </section>
 
-    <!-- ===================================================================== -->
-    <!-- SLIDE 6: TECNOLOGÍA CIUDADANA: ¿PARA QUÉ REALIDAD AUMENTADA (AR)? -->
-    <!-- ===================================================================== -->
-    <section class="slide-view" id="slide-6" data-index="6" data-title="Tecnología Ciudadana (AR)">
-      <div class="slide-header-bar">
-        <span class="slide-badge gold">CAPÍTULO 06 · REALIDAD AUMENTADA Y JUSTICIA CÍVICA</span>
-        <span class="slide-nav-hint">WebXR, Google VPS y Modelos glTF 2.0</span>
-      </div>
-
-      <div class="slide-grid-split">
-        <div class="editorial-col">
-          <h2 class="editorial-title">Waze de Ahorro en la Esquina: ¿Para qué la Cámara AR?</h2>
-          <p class="editorial-lead">
-            <strong>¿Por qué se abre la cámara en los visores?</strong> Porque nadie sabe si la tiendita de enfrente vende el huevo al doble que el mercado. Nuestra app usa <strong>Realidad Aumentada (WebXR)</strong> para poner etiquetas flotantes de precio justo sobre las fachadas y guiarte directo al puesto más barato.
-          </p>
-
-          <div class="callout-card">
-            <h4>[AR CONTRA LA ASIMETRÍA DE INFORMACIÓN]</h4>
-            <p>
-              En la calle, el ciudadano no sabe si la tiendita o el minisúper frente a él tiene el jitomate o el huevo al doble de precio. El visor AR superpone en tiempo real el precio del Mercado Lucas de Gálvez para democratizar la transparencia económica sin necesidad de instalar apps cerradas.
-            </p>
-          </div>
-
-          <div class="callout-card gold-border">
-            <h4>[WAZE PEATONAL EN EL LABERINTO COMERCIAL]</h4>
-            <p>
-              En el centro comercial del Mercado Lucas de Gálvez el DENUE de INEGI registra 817 establecimientos (443 de alimentos y bebidas), así que es fácil perderse. Nuestro guía peatonal muestra flechas 3D en primera persona desde la parada del Va y Ven directo a los puestos más baratos.
-            </p>
-          </div>
-        </div>
-
-        <div class="media-col">
-          <div style="font-size: 13.5px; font-weight: 700; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 0.5px;">
-            PRUEBA LA EXPERIENCIA COMPLETA EN UN SOLO CELULAR INTERACTIVO:
-          </div>
-
-          <div class="launcher-grid">
-            <!-- AR Unificado Tour 3 Pasos -->
-            <div class="launch-card gold-top" style="grid-column: 1 / -1;">
-              <div>
-                <div class="launch-card-header">
-                  <span class="tag-source gold">09 · TOUR AR EN TU CELULAR (3 PASOS)</span>
-                  <span style="font-size: 11px; color: var(--muted); font-weight: 700;">RADAR + ESCÁNER + RUTA WAZE</span>
-                </div>
-                <h4>Así se ve la App en Tu Teléfono: Del Camino al Puesto Barato</h4>
-                <p>Recorrido guiado en 3 pasos dentro de un celular interactivo: <strong>1. Comparas tiendas en la calle</strong>, <strong>2. Escaneas tu despensa</strong> y <strong>3. Sigues las flechas doradas</strong> hacia el mercado. <strong>Prototipo de diseño:</strong> las anclas, modelos y rutas son configuración elaborada por el equipo, no datos de una fuente oficial.</p>
-              </div>
-              <div class="launch-btn-group">
-                <a href="data/visor_ar_unificado.html" target="_blank" class="btn-action gold">
-                  Abrir Tour AR en 3 Pasos
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- CARTOGRAFÍA SIG -->
-          <div class="launch-card" style="border-top-color: #64748b;">
-            <div class="launch-card-header">
-              <span class="tag-source">04-A • LEAFLET SIG</span>
-              <span style="font-size: 11px; color: var(--muted); font-weight: 700;">RADIOS DE 800 M</span>
-            </div>
-            <h4>Visor Cartográfico SIG de Mercados Públicos</h4>
-            <p>15 centros comerciales tipo "mercado público" registrados en el DENUE de INEGI, con su número de establecimientos y radios de 800 m (unos 10 minutos a pie).</p>
-            <div class="launch-btn-group">
-              <a href="data/fuente_a/04_geoportal_merida/visor_mercados_municipales.html" target="_blank" class="btn-action" style="background: #334155;">
-                Abrir Mapa SIG 04-A
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================================================================== -->
+        <!-- ===================================================================== -->
     <!-- SLIDE 7: MATRIZ DE EVIDENCIA CIENTÍFICA (22 FUENTES) -->
     <!-- ===================================================================== -->
-    <section class="slide-view" id="slide-7" data-index="7" data-title="Matriz de Fuentes">
+    <section class="slide-view" id="slide-6" data-index="6" data-title="Matriz de Fuentes">
       <div class="slide-header-bar">
-        <span class="slide-badge">CAPÍTULO 07 · CATÁLOGO MAESTRO DE DATOS</span>
-        <span class="slide-nav-hint">16 con dato real · 3 prototipos AR · 3 pendientes</span>
+        <span class="slide-badge">CAPÍTULO 06 · CATÁLOGO MAESTRO DE DATOS</span>
+        <span class="slide-nav-hint">16 fuentes con dato real</span>
       </div>
 
       <div class="filter-bar">
         <div class="filter-pills">
-          <button class="filter-btn active" onclick="filterTable('all')">Todas (22)</button>
-          <button class="filter-btn" onclick="filterTable('fuente_a')">Fuente A (7)</button>
-          <button class="filter-btn" onclick="filterTable('fuente_b')">Fuente B (8)</button>
-          <button class="filter-btn" onclick="filterTable('fuente_c')">Fuente C (7)</button>
-          <button class="filter-btn" onclick="filterTable('3d')">3D, Relieve & AR (6)</button>
-          <button class="filter-btn" onclick="filterTable('scrapers')">Precios por canal (3)</button>
+          <button class="filter-btn active" onclick="filterTable('all')">Todas (16)</button>
+          <button class="filter-btn" onclick="filterTable('fuente_a')">Fuente A (5)</button>
+          <button class="filter-btn" onclick="filterTable('fuente_b')">Fuente B (6)</button>
+          <button class="filter-btn" onclick="filterTable('fuente_c')">Fuente C (5)</button>
+          <button class="filter-btn" onclick="filterTable('3d')">Relieve 3D (2)</button>
+          <button class="filter-btn" onclick="filterTable('scrapers')">Precios por canal (2)</button>
         </div>
 
         <input type="text" id="tableSearch" placeholder="Buscar por tema, formato o archivo..." class="search-input" onkeyup="searchTable(this.value)">
@@ -1717,24 +1724,6 @@
               <td>62 combinaciones producto-cadena (misma presentación)</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
-            <tr data-block="fuente_a" data-cat="3d">
-              <td><strong>08-A</strong></td>
-              <td><span class="tag-source">Fuente A</span></td>
-              <td>LiDAR 3D Domo Mercado</td>
-              <td class="file-name">—</td>
-              <td>—</td>
-              <td>Pendiente: sin dato real disponible</td>
-              <td>Pendiente</td>
-            </tr>
-            <tr data-block="fuente_a" data-cat="3d">
-              <td><strong>09-A</strong></td>
-              <td><span class="tag-source">Fuente A</span></td>
-              <td>AR WebXR VPS</td>
-              <td class="file-name">spatial_anchors_merida.geojson</td>
-              <td>GeoJSON / VPS</td>
-              <td>4 anclas georreferenciadas en fachadas</td>
-              <td>Prototipo de diseño</td>
-            </tr>
 
             <!-- FUENTE B -->
             <tr data-block="fuente_b" data-cat="saic">
@@ -1752,7 +1741,7 @@
               <td>Central de Abasto (PROFECO)</td>
               <td class="file-name">profeco_central_abasto_merida_2026.csv</td>
               <td>CSV Tabular</td>
-              <td>776 precios al público (SNIIM mayoreo pendiente)</td>
+              <td>776 precios al público</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_b" data-cat="conapo">
@@ -1763,15 +1752,6 @@
               <td>CSV Censal</td>
               <td>526 AGEB urbanas (sustituye al índice CONAPO)</td>
               <td><span class="status-dot"></span>Verificado</td>
-            </tr>
-            <tr data-block="fuente_b" data-cat="sig">
-              <td><strong>04-B</strong></td>
-              <td><span class="tag-source gold">Fuente B</span></td>
-              <td>Geoportal Tianguis</td>
-              <td class="file-name">—</td>
-              <td>—</td>
-              <td>Pendiente: sin dato real disponible</td>
-              <td>Pendiente</td>
             </tr>
             <tr data-block="fuente_b" data-cat="scrapers">
               <td><strong>06-B</strong></td>
@@ -1799,15 +1779,6 @@
               <td>Malla 3D (.ply)</td>
               <td>1,681 puntos de elevación real alrededor del mercado</td>
               <td><span class="status-dot"></span>Verificado</td>
-            </tr>
-            <tr data-block="fuente_b" data-cat="3d">
-              <td><strong>09-B</strong></td>
-              <td><span class="tag-source gold">Fuente B</span></td>
-              <td>Modelos 3D glTF</td>
-              <td class="file-name">canasta_basica_lowpoly.glb</td>
-              <td>Asset 3D (.glb)</td>
-              <td>4 modelos holográficos para WebXR</td>
-              <td>Prototipo de diseño</td>
             </tr>
 
             <!-- FUENTE C -->
@@ -1847,15 +1818,6 @@
               <td>565 elementos OSM: 500 paradas y 18 rutas</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
-            <tr data-block="fuente_c" data-cat="scrapers">
-              <td><strong>06-C</strong></td>
-              <td><span class="tag-source">Fuente C</span></td>
-              <td>Apps de Delivery</td>
-              <td class="file-name">—</td>
-              <td>—</td>
-              <td>Pendiente: sin dato real disponible</td>
-              <td>Pendiente</td>
-            </tr>
             <tr data-block="fuente_c" data-cat="3d">
               <td><strong>08-C</strong></td>
               <td><span class="tag-source">Fuente C</span></td>
@@ -1865,24 +1827,15 @@
               <td>2,400 puntos en 6 ciudades (Terrain Tiles)</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
-            <tr data-block="fuente_c" data-cat="3d">
-              <td><strong>09-C</strong></td>
-              <td><span class="tag-source">Fuente C</span></td>
-              <td>Waypoints AR Lucas</td>
-              <td class="file-name">ruta_ar_lucas_galvez.json</td>
-              <td>JSON Ruta AR</td>
-              <td>Guía peatonal paso a paso de ahorro</td>
-              <td>Prototipo de diseño</td>
-            </tr>
           </tbody>
         </table>
       </div>
     </section>
 
     <!-- ===================================================================== -->
-    <section class="slide-view" id="slide-8" data-index="8" data-title="Metodología">
+    <section class="slide-view" id="slide-7" data-index="7" data-title="Metodología">
       <div class="slide-header-bar">
-        <span class="slide-badge">CAPÍTULO 08 · METODOLOGÍA Y LIMITACIONES</span>
+        <span class="slide-badge">CAPÍTULO 07 · METODOLOGÍA Y LIMITACIONES</span>
         <span class="slide-nav-hint">Cómo se obtuvo y se calculó cada cifra</span>
       </div>
 
@@ -1941,10 +1894,9 @@
         </div>
 
         <div class="callout-card">
-          <h4>6. Pendientes y reproducibilidad</h4>
+          <h4>6. Alcance y reproducibilidad</h4>
           <ul>
-            <li>Sin dato real todavía: 04-B tianguis, 06-C apps de delivery y 08-A LiDAR del mercado.</li>
-            <li>Los visores de realidad aumentada son prototipos de diseño, no datos.</li>
+            <li>Solo se usan fuentes con dato real descargado de su origen; lo que no tuvo dato real no se incluye.</li>
             <li>Procedencia de cada archivo (URL, fecha, licencia) en <a href="FUENTES_DE_DATOS.md">FUENTES_DE_DATOS.md</a> y en el README de cada carpeta.</li>
             <li>Reproducir: <code>pip install -r requirements.txt</code> y <code>python scripts/generar_datos_reales.py</code>.</li>
           </ul>
@@ -1968,13 +1920,12 @@
       <button class="dock-dot" onclick="goToSlide(3)" title="03 · El Precio de la Prisa"></button>
       <button class="dock-dot" onclick="goToSlide(4)" title="04 · Esfuerzo Laboral"></button>
       <button class="dock-dot" onclick="goToSlide(5)" title="05 · Relieve 3D"></button>
-      <button class="dock-dot" onclick="goToSlide(6)" title="06 · Realidad Aumentada"></button>
-      <button class="dock-dot" onclick="goToSlide(7)" title="07 · Catálogo de Fuentes"></button>
-      <button class="dock-dot" onclick="goToSlide(8)" title="08 · Metodología"></button>
+      <button class="dock-dot" onclick="goToSlide(6)" title="06 · Catálogo de Fuentes"></button>
+      <button class="dock-dot" onclick="goToSlide(7)" title="07 · Metodología"></button>
     </div>
 
     <div class="dock-indicator" id="dockIndicator">
-      01 / 08 · LA PREGUNTA
+      01 / 07 · LA PREGUNTA
     </div>
 
     <button class="dock-btn" onclick="nextSlide()" title="Diapositiva Siguiente (&rarr;)">
@@ -1998,20 +1949,204 @@
   </div>
 
   <!-- ===================================================================== -->
+  <!-- RECORRIDO GUIADO -->
+  <div class="tour-card" id="tourCard" role="dialog" aria-live="polite" aria-label="Recorrido guiado">
+    <div class="tour-step" id="tourStep"></div>
+    <h4 id="tourTitle"></h4>
+    <p id="tourText"></p>
+    <div class="tour-progress"><span id="tourBar"></span></div>
+    <div class="tour-controls">
+      <button onclick="tourPrev()" aria-label="Paso anterior">&larr; Anterior</button>
+      <button id="tourPlayBtn" onclick="tourTogglePlay()">Pausar</button>
+      <button class="primary" onclick="tourNext()" aria-label="Paso siguiente">Siguiente &rarr;</button>
+      <button onclick="endTour()" aria-label="Salir del recorrido">Salir</button>
+      <label><input type="checkbox" id="tourVoice" onchange="tourVoiceChanged()"> Narración</label>
+    </div>
+  </div>
+
   <!-- SCRIPTS DE INTERACCIÓN, NAVEGACIÓN Y CÁLCULOS -->
   <!-- ===================================================================== -->
   <script>
     let currentSlide = 1;
-    const totalSlides = 8;
+    // =====================================================================
+    // EXPLORADOR DE PRECIOS (datos reales PROFECO desde JSON)
+    // =====================================================================
+    const explorer = { filas: [], comp: 'abasto', limite: 15 };
+    const fmtMx = v => '$' + v.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    fetch('data/web/explorador_precios.json')
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(d => { explorer.filas = d.filas; explorerFillCats(); explorerRender(); })
+      .catch(() => {
+        document.getElementById('exSummary').textContent =
+          'No se pudieron cargar los datos. Abre el sitio publicado o usa un servidor local (python -m http.server).';
+      });
+
+    function explorerSetComp(c, btn) {
+      explorer.comp = c; explorer.limite = 15;
+      document.querySelectorAll('.explorer-seg button').forEach(b => b.classList.toggle('active', b === btn));
+      document.getElementById('exColOtro').textContent = c === 'abasto' ? 'Central' : 'Conveniencia';
+      document.getElementById('exDirPos').textContent = c === 'abasto' ? 'Súper más caro' : 'Conveniencia más cara';
+      document.getElementById('exDirNeg').textContent = c === 'abasto' ? 'Súper más barato' : 'Conveniencia más barata';
+      document.getElementById('exCat').value = '';
+      explorerFillCats(); explorerRender();
+    }
+
+    function explorerFillCats() {
+      const sel = document.getElementById('exCat');
+      const cats = [...new Set(explorer.filas.filter(f => f.comparacion === explorer.comp).map(f => f.categoria))].sort((a, b) => a.localeCompare(b, 'es'));
+      sel.innerHTML = '<option value="">Todas</option>' + cats.map(c => `<option>${c}</option>`).join('');
+    }
+
+    function explorerFiltered() {
+      const cat = document.getElementById('exCat').value;
+      const dir = document.getElementById('exDir').value;
+      const q = document.getElementById('exSearch').value.trim().toLowerCase();
+      const sort = document.getElementById('exSort').value;
+      let f = explorer.filas.filter(x => x.comparacion === explorer.comp
+        && (!cat || x.categoria === cat)
+        && (!dir || (dir === 'pos' ? x.dif_pct > 0 : x.dif_pct < 0))
+        && (!q || (x.producto + ' ' + x.presentacion).toLowerCase().includes(q)));
+      const cmp = { desc: (a, b) => b.dif_pct - a.dif_pct, asc: (a, b) => a.dif_pct - b.dif_pct,
+                    az: (a, b) => a.producto.localeCompare(b.producto, 'es'), n: (a, b) => (b.n_otro + b.n_super) - (a.n_otro + a.n_super) };
+      return f.sort(cmp[sort]);
+    }
+
+    function median(arr) { const a = [...arr].sort((x, y) => x - y); const m = Math.floor(a.length / 2); return a.length ? (a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2) : 0; }
+
+    function explorerRender() {
+      if (!explorer.filas.length) return;
+      const f = explorerFiltered();
+      const pos = f.filter(x => x.dif_pct > 0).length;
+      const quien = explorer.comp === 'abasto' ? 'el súper' : 'la conveniencia';
+      const med = median(f.map(x => x.dif_pct));
+      document.getElementById('exSummary').innerHTML = f.length
+        ? `<span><strong>${f.length}</strong> productos</span><span>Más caro en ${quien}: <strong>${pos}</strong> (${(100 * pos / f.length).toFixed(1)}%)</span><span>Diferencia mediana: <strong>${med > 0 ? '+' : ''}${med.toFixed(1)}%</strong></span>`
+        : 'Ningún producto cumple los filtros.';
+      const maxAbs = Math.max(1, ...f.map(x => Math.abs(x.dif_pct)));
+      document.getElementById('exBody').innerHTML = f.slice(0, explorer.limite).map(x => {
+        const w = Math.min(50, 50 * Math.abs(x.dif_pct) / maxAbs);
+        const color = x.dif_pct > 0 ? 'var(--accent-purple)' : '#16a34a';
+        const left = x.dif_pct > 0 ? 50 : 50 - w;
+        return `<tr><td><strong>${x.producto}</strong><br><span style="color:var(--muted);font-size:12px">${x.presentacion}</span></td>
+          <td class="hide-sm">${x.categoria}</td><td class="num">${fmtMx(x.precio_otro)}</td><td class="num">${fmtMx(x.precio_super)}</td>
+          <td class="num" style="font-weight:800;color:${color}">${x.dif_pct > 0 ? '+' : ''}${x.dif_pct.toFixed(1)}%</td>
+          <td class="hide-sm"><div class="dif-bar"><span style="left:${left}%;width:${w}%;background:${color}"></span></div></td>
+          <td class="num hide-sm">${x.n_otro} / ${x.n_super}</td></tr>`;
+      }).join('');
+      const more = document.getElementById('exMore');
+      more.hidden = f.length <= explorer.limite;
+      more.textContent = `Ver más (${f.length - explorer.limite} restantes)`;
+      document.getElementById('exFoot').textContent = explorer.comp === 'abasto'
+        ? 'Mediana por producto y presentación idénticos. Diferencia = súper / Central − 1. Ambos son precios al público, no de mayoreo.'
+        : 'Promedio por producto y presentación, con 3 o más registros por canal. Diferencia = conveniencia / súper − 1. Conveniencia = Dunosusa, OXXO y 7 Eleven.';
+    }
+
+    function explorerShowMore() { explorer.limite += 25; explorerRender(); }
+
+    // =====================================================================
+    // RECORRIDO GUIADO (cifras verificadas, ver capítulo 08 y reports/validacion)
+    // =====================================================================
+    const TOUR_STEPS = [
+      { slide: 1, sel: '#slide-1 .editorial-title', title: 'La pregunta',
+        text: 'En Mérida, lo que pagas por comer depende de dónde compras. Este recorrido cruza datos oficiales de PROFECO, INEGI y CONEVAL con una bitácora propia de cinco tienditas.' },
+      { slide: 2, sel: '#slide-2 .product-pills', title: 'Central de Abasto contra supermercado',
+        text: 'En 139 productos comparables, el súper fue más caro en 103 casos, el 74.1 por ciento, con una diferencia mediana de 19 por ciento. Toca un producto para ver su precio en cada pasillo.' },
+      { slide: 3, sel: '#svg-escena-2', title: 'El precio de la prisa',
+        text: 'Entre tiendas de conveniencia y supermercados hay 93 productos comparables. La conveniencia fue más cara en 49, pero la diferencia mediana es de apenas 1.3 por ciento: la prisa se paga en bebidas y botanas, no en todo.' },
+      { slide: 3, sel: '#explorador', title: 'Explora con filtros',
+        text: 'Aquí puedes filtrar todos los productos por tipo de comparación, categoría y resultado, o buscar uno en particular. Cada fila sale de los registros de PROFECO de mayo de 2026.' },
+      { slide: 4, sel: '#wageSlider', title: 'Cuánto sueldo se come la canasta',
+        text: 'Alimentar a un hogar típico de Mérida con la canasta urbana de CONEVAL cuesta 7,780 pesos al mes: casi 28 días de salario mínimo de 2025. Mueve el control para probar con tu sueldo.' },
+      { slide: 5, sel: '#svg-escena-5', title: 'Una ciudad plana',
+        text: 'En 17 kilómetros, Mérida apenas tiene 16 metros de desnivel. En la misma área, San Cristóbal de las Casas tiene más de 1,400. Los datos son de elevación real, no de LiDAR.' },
+      { slide: 6, sel: '#slide-6 .filter-bar', title: 'Catálogo de fuentes',
+        text: 'El análisis usa 16 fuentes con datos reales de PROFECO, INEGI, CONEVAL, DICONSA, SENASICA, OpenStreetMap, elevación y una bitácora propia. Usa los filtros para revisar cada bloque.' },
+      { slide: 7, sel: '#slide-7 .metodo-grid', title: 'Metodología y limitaciones',
+        text: 'Aquí se explica de dónde sale cada cifra, cómo se calculó y qué no dicen los datos. Fin del recorrido.' }
+    ];
+    const tour = { i: 0, playing: false, timer: null, start: 0, dur: 0, raf: null, active: false };
+
+    function startTour() {
+      setMode('deck');
+      tour.active = true; tour.i = 0;
+      document.getElementById('tourCard').classList.add('open');
+      tour.playing = true; tourShow();
+    }
+
+    function endTour() {
+      tour.active = false; tourStopTimer();
+      if (window.speechSynthesis) speechSynthesis.cancel();
+      document.querySelectorAll('.tour-highlight').forEach(e => e.classList.remove('tour-highlight'));
+      document.getElementById('tourCard').classList.remove('open');
+    }
+
+    function tourShow() {
+      const st = TOUR_STEPS[tour.i];
+      if (currentSlide !== st.slide) goToSlide(st.slide);
+      document.querySelectorAll('.tour-highlight').forEach(e => e.classList.remove('tour-highlight'));
+      const el = document.querySelector(st.sel);
+      if (el) { el.classList.add('tour-highlight'); setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 350); }
+      document.getElementById('tourStep').textContent = `Paso ${tour.i + 1} de ${TOUR_STEPS.length}`;
+      document.getElementById('tourTitle').textContent = st.title;
+      document.getElementById('tourText').textContent = st.text;
+      document.getElementById('tourPlayBtn').textContent = tour.playing ? 'Pausar' : 'Reanudar';
+      tourStopTimer();
+      if (window.speechSynthesis) speechSynthesis.cancel();
+      if (tour.playing) tourSchedule(st);
+    }
+
+    function tourSchedule(st) {
+      const voice = document.getElementById('tourVoice').checked && 'speechSynthesis' in window;
+      tour.dur = Math.max(7000, st.text.length * 65);
+      tour.start = performance.now();
+      if (voice) {
+        const u = new SpeechSynthesisUtterance(st.text);
+        u.lang = 'es-MX'; u.rate = 1;
+        const v = speechSynthesis.getVoices().find(x => x.lang && x.lang.startsWith('es'));
+        if (v) u.voice = v;
+        u.onend = () => { if (tour.active && tour.playing) tourAdvance(); };
+        speechSynthesis.speak(u);
+      } else {
+        tour.timer = setTimeout(tourAdvance, tour.dur);
+      }
+      const bar = document.getElementById('tourBar');
+      const tick = () => {
+        bar.style.width = Math.min(100, 100 * (performance.now() - tour.start) / tour.dur) + '%';
+        if (tour.playing && tour.active) tour.raf = requestAnimationFrame(tick);
+      };
+      tour.raf = requestAnimationFrame(tick);
+    }
+
+    function tourStopTimer() {
+      clearTimeout(tour.timer); cancelAnimationFrame(tour.raf);
+      document.getElementById('tourBar').style.width = '0';
+    }
+
+    function tourAdvance() { if (tour.i < TOUR_STEPS.length - 1) { tour.i++; tourShow(); } else { tour.playing = false; tourShow(); } }
+    function tourNext() { if (tour.i < TOUR_STEPS.length - 1) { tour.i++; tourShow(); } else { endTour(); } }
+    function tourPrev() { if (tour.i > 0) { tour.i--; tourShow(); } }
+    function tourTogglePlay() { tour.playing = !tour.playing; tourShow(); }
+    function tourVoiceChanged() { if (tour.active) tourShow(); }
+
+    // Durante el recorrido, las flechas mueven los pasos y Escape lo cierra
+    window.addEventListener('keydown', (e) => {
+      if (!tour.active || document.activeElement.tagName === 'INPUT') return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); e.stopImmediatePropagation(); tourNext(); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); e.stopImmediatePropagation(); tourPrev(); }
+      else if (e.key === 'Escape') { e.stopImmediatePropagation(); endTour(); }
+      else if (e.key === ' ') { e.preventDefault(); e.stopImmediatePropagation(); tourTogglePlay(); }
+    }, true);
+
+    const totalSlides = 7;
     const slideTitles = [
-      "01 / 08 · LA PREGUNTA",
-      "02 / 08 · ABASTO VS SÚPER",
-      "03 / 08 · EL PRECIO DE LA PRISA",
-      "04 / 08 · ESFUERZO LABORAL",
-      "05 / 08 · RELIEVE 3D",
-      "06 / 08 · REALIDAD AUMENTADA",
-      "07 / 08 · CATÁLOGO DE FUENTES",
-      "08 / 08 · METODOLOGÍA"
+      "01 / 07 · LA PREGUNTA",
+      "02 / 07 · ABASTO VS SÚPER",
+      "03 / 07 · EL PRECIO DE LA PRISA",
+      "04 / 07 · ESFUERZO LABORAL",
+      "05 / 07 · RELIEVE 3D",
+      "06 / 07 · CATÁLOGO DE FUENTES",
+      "07 / 07 · METODOLOGÍA"
     ];
 
     // NAVEGACIÓN DE SLIDES

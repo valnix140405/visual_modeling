@@ -172,7 +172,7 @@ def saic_merida(cache, ruta):
 
 # ----------------------------------------------------------------------------- Censo 2020
 COLS_AGEB = ["POBTOT", "PEA", "POCUPADA", "PDESOCUP", "PSINDER", "PDER_SS", "GRAPROES",
-             "VIVPAR_HAB", "VPH_PISOTI", "VPH_NODREN", "VPH_REFRI", "VPH_AUTOM", "VPH_INTER"]
+             "VIVPAR_HAB", "TVIVPARHAB", "VPH_PISOTI", "VPH_NODREN", "VPH_REFRI", "VPH_AUTOM", "VPH_INTER"]
 
 
 def censo_ageb_merida(cache, ruta_ageb, ruta_mun):
@@ -185,9 +185,11 @@ def censo_ageb_merida(cache, ruta_ageb, ruta_mun):
     for c in COLS_AGEB:
         out[c] = out[c].map(num)
     out["pct_sin_afiliacion_salud"] = (100 * out.PSINDER / out.POBTOT).round(2)
-    out["pct_viviendas_piso_tierra"] = (100 * out.VPH_PISOTI / out.VIVPAR_HAB).round(2)
-    out["pct_viviendas_sin_drenaje"] = (100 * out.VPH_NODREN / out.VIVPAR_HAB).round(2)
-    out["pct_viviendas_con_internet"] = (100 * out.VPH_INTER / out.VIVPAR_HAB).round(2)
+    # Las variables VPH_* de INEGI se calculan sobre el total de viviendas particulares habitadas
+    # (TVIVPARHAB); dividir entre VIVPAR_HAB da porcentajes mayores a 100 % en algunas AGEB.
+    out["pct_viviendas_piso_tierra"] = (100 * out.VPH_PISOTI / out.TVIVPARHAB).round(2)
+    out["pct_viviendas_sin_drenaje"] = (100 * out.VPH_NODREN / out.TVIVPARHAB).round(2)
+    out["pct_viviendas_con_internet"] = (100 * out.VPH_INTER / out.TVIVPARHAB).round(2)
     out["pct_desocupacion"] = (100 * out.PDESOCUP / out.PEA).round(2)
     out.to_csv(ruta_ageb, index=False, encoding="utf-8")
     print(f"[ok] {os.path.relpath(ruta_ageb, ROOT)}: {len(out)} AGEB urbanas")

@@ -11,7 +11,7 @@ python scripts/analisis_profundo_22_fuentes.py
 python scripts/generar_graficas_analisis.py
 ```
 
-**Estado de las fuentes:** 19 de 22 con datos reales en el repositorio. Pendientes: 04-B tianguis, 06-C apps de delivery y 08-A LiDAR (`python scripts/verificar_datasets.py`). Las fuentes 09-A, 09-B y 09-C son configuraciones de realidad aumentada diseñadas por el equipo, no datos de una fuente externa.
+**Estado de las fuentes:** 16 de 22 con datos reales en el repositorio; solo esas se usan en el análisis y en el dashboard. Pendientes: 04-B tianguis, 06-C apps de delivery y 08-A LiDAR (`python scripts/verificar_datasets.py`). Las fuentes 09-A, 09-B y 09-C son configuraciones de realidad aumentada diseñadas por el equipo, no datos de una fuente externa.
 
 ---
 
@@ -63,7 +63,7 @@ El DENUE (edición 2026) y los Censos Económicos 2019 miden universos y años d
 | Población ocupada | 520,438 | ídem |
 | Población sin afiliación a servicios de salud | 22.2 % | ídem |
 | Grado promedio de escolaridad | 11.4 años | ídem |
-| Viviendas con internet | 76.3 % | ídem |
+| Viviendas con internet | 71.5 % | ídem (sobre el total de viviendas particulares habitadas) |
 
 Los valores de CONEVAL son nacionales (urbano y rural), no específicos de Mérida. Los indicadores de SIEGY originalmente planeados siguen pendientes de descarga.
 
@@ -72,7 +72,7 @@ Los valores de CONEVAL son nacionales (urbano y rural), no específicos de Méri
 ## 3. Módulo 2: mercados públicos y territorio
 
 - **Mercados públicos:** 15 centros identificados en el DENUE como "Mercado público" en Mérida, con 1,661 establecimientos en total. Los más grandes son Lucas de Gálvez (817) y San Benito (486) (`data/fuente_a/04_geoportal_merida/mercados_publicos_merida_denue.geojson`). La coordenada de cada mercado es la mediana de sus establecimientos.
-- **Desigualdad por AGEB:** en las 520 AGEB urbanas habitadas, la mediana de población sin afiliación a salud es 21.6 % (percentil 10: 16.6 %; percentil 90: 31.0 %). 12 AGEB superan el 40 %. La mediana de viviendas con internet es 76.8 % (`data/fuente_b/03_conapo_marginacion/censo2020_indicadores_ageb_merida.csv`, figura [`05_indicadores_ageb_censo2020_merida.png`](reports/figuras/05_indicadores_ageb_censo2020_merida.png)). No es el índice de marginación de CONAPO, sino sus insumos del Censo.
+- **Desigualdad por AGEB:** en las 520 AGEB urbanas habitadas, la mediana de población sin afiliación a salud es 21.6 % (percentil 10: 16.6 %; percentil 90: 31.0 %). 12 AGEB superan el 40 %. La mediana de viviendas con internet es 73.3 % (`data/fuente_b/03_conapo_marginacion/censo2020_indicadores_ageb_merida.csv`, figura [`05_indicadores_ageb_censo2020_merida.png`](reports/figuras/05_indicadores_ageb_censo2020_merida.png)). No es el índice de marginación de CONAPO, sino sus insumos del Censo.
 - **Transporte Va y Ven:** 565 elementos geográficos, de los cuales 500 son paradas de autobús y 18 son rutas (`data/fuente_c/04_transporte_vayven/export.geojson`).
 - **Tianguis (04-B):** pendiente.
 

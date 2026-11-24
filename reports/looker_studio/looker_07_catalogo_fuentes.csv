@@ -1,0 +1,17 @@
+id,bloque,tema,institucion,archivo,registros,cobertura
+01-A,Fuente A,Comercios de alimentos,INEGI DENUE,denue_merida_alimentos_real.csv,7520,"Mérida, edición 2026"
+01-B,Fuente B,Censos Económicos (comercio de alimentos),INEGI,censos_economicos_2019_merida_comercio_alimentos.csv,32,"Mérida, año de referencia 2018"
+01-C,Fuente C,Microdatos de ocupación y empleo,INEGI ENOE,conjunto_de_datos_hog_enoe_2025_1t.csv,151570,"Nacional, 2025 1T (tabla de hogares)"
+02-A,Fuente A,Precios al consumidor,PROFECO QQP,profeco_merida_2026_real.csv,28288,"Mérida, mayo 2026"
+02-B,Fuente B,Precios en la Central de Abasto,PROFECO QQP,profeco_central_abasto_merida_2026.csv,776,"Mérida, mayo 2026"
+02-C,Fuente C,Artículos y proveedores,DICONSA,DICONSA_8_Listado_de_articulos_por_proveedor.csv,4063,"Nacional, 1er semestre 2018"
+03-A,Fuente A,Líneas de pobreza por ingresos,CONEVAL,coneval_lineas_pobreza_2018_2025.csv,87,"Nacional, 2018-01 a 2025-03"
+03-B,Fuente B,Indicadores por AGEB urbana,INEGI Censo 2020,censo2020_indicadores_ageb_merida.csv,526,"Mérida, 2020"
+03-C,Fuente C,Inspección fitozoosanitaria,SENASICA,01_actividades-inspeccion-movilizacion_2dotrim2025.csv,19,"Nacional, 2025 2T"
+04-A,Fuente A,Mercados públicos,INEGI DENUE,mercados_publicos_merida_denue.geojson,15,"Mérida, edición 2026"
+04-C,Fuente C,Rutas y paradas de transporte,OpenStreetMap,export.geojson,565,"Mérida, 2026-10-01"
+06-A,Fuente A,Precios de canasta por cadena,PROFECO QQP,precios_canasta_supermercados_reales.csv,62,"Mérida, mayo 2026"
+06-B,Fuente B,Precios en farmacias y conveniencia,PROFECO QQP,profeco_farmacias_conveniencia_merida_2026.csv,5864,"Mérida, mayo 2026"
+07-B,Fuente B,Bitácora de precios en tienditas,Levantamiento propio,bitacora_precios_tienditas.csv,25,"5 tienditas, sep-oct 2026"
+08-B,Fuente B,Elevación del Centro,AWS Terrain Tiles,elevacion_centro_merida_grid.csv,1681,Centro de Mérida
+08-C,Fuente C,Relieve Mérida vs. ciudades de montaña,AWS Terrain Tiles,topografia_merida_vs_ciudades_montana.csv,2400,6 ciudades
