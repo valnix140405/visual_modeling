@@ -247,14 +247,16 @@ def resumen_supermercados(ruta):
     filas = []
     for item, prod in CANASTA.items():
         sub = d[(d.producto == prod) & d.cadena_comercial.isin(cadenas)]
+        pres = moda(sub.presentacion)  # misma presentación en todas las cadenas para comparar igual con igual
         for cad, g in sub.groupby("cadena_comercial"):
-            pres = moda(g.presentacion)
             gp = g[g.presentacion == pres]
+            if gp.empty:
+                continue
             filas.append([item, cad, "Mérida", prod, pres, round(gp.precio.mean(), 2), gp.precio.min(),
                           gp.precio.max(), len(gp), "PROFECO QQP mayo 2026 (registros de inspectores)"])
     with open(ruta, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["item_canasta", "cadena_comercial", "ciudad", "producto_profeco", "presentacion_mas_frecuente",
+        w.writerow(["item_canasta", "cadena_comercial", "ciudad", "producto_profeco", "presentacion_comun",
                     "precio_promedio_mxn", "precio_minimo_mxn", "precio_maximo_mxn", "registros", "fuente"])
         w.writerows(filas)
     print(f"[ok] {os.path.relpath(ruta, ROOT)}: {len(filas)} combinaciones producto-cadena")
