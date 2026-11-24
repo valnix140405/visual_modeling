@@ -15,10 +15,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  # El paquete se sube en un job y se publica en otro: deploy-pages solo ve el
+  # artefacto cuando el job que lo subió ya terminó.
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Descargar el repositorio
@@ -32,6 +31,13 @@ jobs:
         with:
           path: "."
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Publicar en GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
