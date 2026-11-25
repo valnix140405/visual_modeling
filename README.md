@@ -9,6 +9,7 @@ Equipo 2 · Visual Modeling, UPY. Este repositorio reúne los datasets, scripts 
 |---|---|
 | [`FUENTES_DE_DATOS.md`](FUENTES_DE_DATOS.md) | Tabla maestra de las 22 fuentes: archivo, fuente real, estado y pendientes |
 | `data/**/README.md` | Procedencia de cada archivo: URL de origen, fecha de extracción, licencia, estado |
+| [Catálogo de visualizaciones de los 9 equipos](https://github.com/valnix140405/visual-modeling-catalogo) | Repositorio aparte del Data Visualization Team, con la versión web y el PDF imprimible |
 | [`GUIA_FUENTES_Y_EQUIPO.md`](GUIA_FUENTES_Y_EQUIPO.md) | Título, subtemas y reparto del equipo |
 | [`PROTOCOLO_INTEGRACION_PERSONA_B.md`](PROTOCOLO_INTEGRACION_PERSONA_B.md) | Reglas para subir cambios a la Fuente B |
 
@@ -57,7 +58,6 @@ Abre los archivos desde el sitio publicado o con un servidor local (`python -m h
 | Visor | Datos |
 |---|---|
 | [`index.html`](index.html) | Presentación del proyecto |
-| [`catalogo/index.html`](catalogo/index.html) | Catálogo de visualizaciones de los 9 equipos, con filtros; PDF imprimible en `catalogo/catalogo_visualizaciones.pdf` (`python scripts/generar_catalogo.py --pdf`) |
 | [`data/fuente_a/04_geoportal_merida/visor_mercados_municipales.html`](data/fuente_a/04_geoportal_merida/visor_mercados_municipales.html) | Mercados públicos de Mérida (DENUE) |
 | [`data/visor_lidar_unificado.html`](data/visor_lidar_unificado.html) | Elevación del Centro y relieve de Mérida (AWS Terrain Tiles). No es LiDAR |
 | [`data/visor_ar_unificado.html`](data/visor_ar_unificado.html) | Prototipo de diseño AR, sin datos de fuente |
