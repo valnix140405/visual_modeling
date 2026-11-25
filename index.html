@@ -160,6 +160,14 @@
     @media (max-width: 760px) { .explorer-controls { grid-template-columns: 1fr 1fr; } .explorer-table .hide-sm { display: none; } }
 
 
+
+    /* ===== ILUSTRACIONES NARRATIVAS ===== */
+    .narrativa-row { margin-top: 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+    .narrativa { margin: 0; background: #fff; border: 1px solid var(--border-subtle); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .narrativa img { display: block; width: 100%; height: auto; cursor: zoom-in; }
+    .narrativa figcaption { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 10px 14px; font-size: 12.5px; color: var(--muted); border-top: 1px solid #eef2f7; }
+    .narrativa figcaption a { color: var(--accent-purple); font-weight: 700; text-decoration: none; white-space: nowrap; }
+
     /* ===== JUEGO ¿SÚPER O ABASTO? ===== */
     .game-card { margin-top: 28px; background: linear-gradient(135deg, #faf5ff 0%, #fff7ea 100%); border: 2px dashed var(--accent-purple); border-radius: 16px; padding: 22px; }
     .game-card h3 { font-size: 22px; font-weight: 800; color: var(--accent-purple); margin-bottom: 4px; }
@@ -1242,6 +1250,12 @@
           </div>
         </div>
       </div>
+      <div class="narrativa-row">
+        <figure class="narrativa">
+          <img src="reports/figuras/narrativas/n4_cebolla_llorona.png" alt="Dos cebollas: en la Central de Abasto cuesta $10.90 el kilo y en el súper $29.90, 174 % más" loading="lazy" onclick="openZoom('reports/figuras/narrativas/n4_cebolla_llorona.png', 'Hasta la cebolla llora')">
+          <figcaption><span>Hasta la cebolla llora</span><a href="reports/figuras/narrativas/n4_cebolla_llorona.png" download>PNG</a></figcaption>
+        </figure>
+      </div>
     </section>
 
     <!-- ===================================================================== -->
@@ -1358,6 +1372,12 @@
         </div>
         <button class="explorer-more" id="exMore" onclick="explorerShowMore()" hidden>Ver más</button>
         <p class="explorer-foot" id="exFoot"></p>
+      </div>
+      <div class="narrativa-row">
+        <figure class="narrativa">
+          <img src="reports/figuras/narrativas/n5_impuesto_flojera.png" alt="Seis productos que cuestan más en la tienda de conveniencia que en el súper; el suero oral 56 % más" loading="lazy" onclick="openZoom('reports/figuras/narrativas/n5_impuesto_flojera.png', 'El impuesto a la flojera')">
+          <figcaption><span>El impuesto a la flojera</span><a href="reports/figuras/narrativas/n5_impuesto_flojera.png" download>PNG</a></figcaption>
+        </figure>
       </div>
     </section>
 
@@ -1569,6 +1589,20 @@
           </div>
         </div>
       </div>
+      <div class="narrativa-row">
+        <figure class="narrativa">
+          <img src="reports/figuras/narrativas/n2_calendario_canasta.png" alt="Calendario de 30 días: 27.9 días de salario mínimo se van en la canasta de un hogar y quedan 2.1" loading="lazy" onclick="openZoom('reports/figuras/narrativas/n2_calendario_canasta.png', 'Te quedan 2 días… para todo lo demás')">
+          <figcaption><span>Te quedan 2 días… para todo lo demás</span><a href="reports/figuras/narrativas/n2_calendario_canasta.png" download>PNG</a></figcaption>
+        </figure>
+        <figure class="narrativa">
+          <img src="reports/figuras/narrativas/n3_tortillometro.png" alt="Pila de tortillas: un día de salario mínimo compra 9.5 kg de tortilla" loading="lazy" onclick="openZoom('reports/figuras/narrativas/n3_tortillometro.png', 'Tu sueldo, en kilos de tortilla')">
+          <figcaption><span>Tu sueldo, en kilos de tortilla</span><a href="reports/figuras/narrativas/n3_tortillometro.png" download>PNG</a></figcaption>
+        </figure>
+        <figure class="narrativa">
+          <img src="reports/figuras/narrativas/n6_david_vs_goliat.png" alt="Tiendita contra súper en 4 productos: la tiendita gana solo en leche" loading="lazy" onclick="openZoom('reports/figuras/narrativas/n6_david_vs_goliat.png', 'David contra Goliat en la esquina')">
+          <figcaption><span>David contra Goliat en la esquina</span><a href="reports/figuras/narrativas/n6_david_vs_goliat.png" download>PNG</a></figcaption>
+        </figure>
+      </div>
     </section>
 
     <!-- ===================================================================== -->
@@ -1689,6 +1723,12 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="narrativa-row">
+        <figure class="narrativa">
+          <img src="reports/figuras/narrativas/n1_merida_plana_precios_no.png" alt="El relieve de Mérida apenas sube 16 m, mientras el sobreprecio del súper sube hasta 174 %" loading="lazy" onclick="openZoom('reports/figuras/narrativas/n1_merida_plana_precios_no.png', 'Mérida es plana. Sus precios, no.')">
+          <figcaption><span>Mérida es plana. Sus precios, no.</span><a href="reports/figuras/narrativas/n1_merida_plana_precios_no.png" download>PNG</a></figcaption>
+        </figure>
       </div>
     </section>
 
