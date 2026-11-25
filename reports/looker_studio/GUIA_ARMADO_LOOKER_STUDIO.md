@@ -64,6 +64,20 @@ Todas las páginas comparten el mismo esqueleto, para que la persona aprenda a l
 - **Títulos que afirman:** «El súper cobra más en 3 de cada 4 productos», no «Comparativa de precios».
 - **Navegación:** Archivo → Configuración del informe → Navegación: **pestañas a la izquierda**, con nombres «1. Portada», «2. El pasillo», etc.
 
+### Ilustraciones narrativas (el toque de humor)
+
+Looker Studio no tiene gráficas ilustradas, así que estas 6 se generan con datos reales y se insertan como **imagen** (Insertar → Imagen → Subir), una por escena. Están en [`reports/figuras/narrativas/`](../figuras/narrativas/) y se regeneran con `python scripts/generar_graficas_narrativas.py`.
+
+| Escena | Imagen | Chiste |
+|---|---|---|
+| 2 · El pasillo | `n4_cebolla_llorona.png` | Hasta la cebolla llora |
+| 3 · La prisa | `n5_impuesto_flojera.png` | El impuesto a la flojera |
+| 4 · La esquina | `n6_david_vs_goliat.png` | David contra Goliat en la esquina |
+| 5 · El sueldo | `n2_calendario_canasta.png` y `n3_tortillometro.png` | Te quedan 2 días… para todo lo demás · Tu sueldo, en kilos de tortilla |
+| 7 · La ciudad plana | `n1_merida_plana_precios_no.png` | Mérida es plana. Sus precios, no. |
+
+Úsalas como **imagen protagonista** de su escena y deja la gráfica de Looker con filtros como apoyo para quien quiera explorar. En la portada puedes usar `n1` como imagen de cabecera, porque resume toda la historia.
+
 ---
 
 ## 3. Fuentes de datos
@@ -134,6 +148,7 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 - **Bajada:** «Comparamos 139 productos con la misma presentación en la Central de Abasto y en supermercados. El súper fue más caro en 103.»
 - **Gráfica principal:** barras horizontales con dimensión `producto` y métrica `diferencia_pct`, orden descendente, 15 barras. Color por `resultado` (morado = súper más caro, oro = súper más barato).
 - **Anotación:** sobre la barra de cebolla, «Cebolla: $10.90 en el Abasto, $29.90 en el súper (+174 %)».
+- **Imagen:** `n4_cebolla_llorona.png` a la derecha de la gráfica.
 - **Tarjetas:** recuento de `producto` (139), `pct_mas_caro` (74.1 %), `mediana_diferencia` (+19.0 %).
 - **¿Qué significa?** «Comprar en el súper cuesta, en mediana, 19 % más por el mismo producto. No todo: en 36 productos el súper sale más barato, así que conviene comparar antes de elegir dónde comprar.»
 - **Controles:** lista desplegable `categoria`, lista desplegable `resultado`, cuadro de entrada `producto`.
@@ -147,6 +162,7 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 - **Bajada:** «En 93 productos comparables, OXXO, 7 Eleven y Dunosusa fueron más caros que el súper en 49. Pero la diferencia mediana es de apenas +1.3 %.»
 - **Gráfica principal:** barras con dimensión `categoria` y métrica `mediana_diferencia`, orden descendente. Muestra en qué tipo de producto se concentra el sobreprecio.
 - **Segunda gráfica (pequeña):** los 5 productos con mayor `diferencia_pct`.
+- **Imagen:** `n5_impuesto_flojera.png` como protagonista; la gráfica por categoría queda debajo.
 - **Anotación:** sobre la barra del suero oral, «Suero oral 625 ml: $37.67 en conveniencia vs. $24.08 en el súper (+56.4 %)».
 - **Tarjetas:** recuento (93), `pct_mas_caro` (52.7 %), `mediana_diferencia` (+1.3 %).
 - **¿Qué significa?** «Comprar por comodidad no siempre sale caro. El sobreprecio se concentra en pocos productos: 4 de los 5 con mayor diferencia son bebidas (suero oral +56.4 %, agua de 1 L +53.3 %, yoghurt bebible +48.9 %, agua de 600 ml +36.8 %), y por categoría destacan galletas (+28.9 %) y refrescos (+13.9 %).»
@@ -164,6 +180,7 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
   - Pan Bimbo: «+39.5 % en la tiendita».
   - Leche LALA: «−29.7 %: más barata en la tiendita».
 - **Tabla:** `producto`, `diferencia_pct_tiendita_vs_super`, `registros_tiendita`, `registros_supermercado`.
+- **Imagen:** `n6_david_vs_goliat.png` en lugar de las barras agrupadas, si prefieres la versión ilustrada.
 - **¿Qué significa?** «El pan de marca sale más caro en la esquina; la leche, no. Es una muestra pequeña (2 a 5 precios por producto en tienditas): ilustra la experiencia de compra, no es un promedio de la ciudad.»
 - **Fuente:** Bitácora propia 07-B (5 tienditas, 26 sep-1 oct 2026) y PROFECO QQP mayo 2026.
 - **Botón:** «Siguiente: el sueldo →».
@@ -175,6 +192,7 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 - **Bajada:** «La canasta alimentaria urbana de CONEVAL subió 57.1 % entre enero de 2018 y marzo de 2025: de $1,514.91 a $2,379.47 por persona al mes.»
 - **Gráfica principal:** serie temporal con dimensión `periodo` y métrica `lpei_canasta_alimentaria_urbana_mxn` en morado; agrega `lpi_alimentaria_mas_no_alimentaria_urbana_mxn` en gris.
 - **Anotación:** en el último punto, «$2,379.47 por persona (mar 2025)».
+- **Imágenes:** `n2_calendario_canasta.png` junto a la serie y `n3_tortillometro.png` junto al simulador.
 - **Simulador** (bloque con fondo `#fdf3e3` y título «Prueba con tu sueldo»):
   - Control **Cuadro de entrada** ligado al parámetro `sueldo_mensual`, con la etiqueta «Tu sueldo mensual (MXN)».
   - Las tarjetas del simulador llevan un **filtro propio** `periodo` = marzo 2025, para que solo sumen el último mes.
@@ -207,6 +225,7 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 - **Bajada:** «Medimos la elevación real en mallas de 17 km por lado en Mérida y en cinco ciudades de montaña.»
 - **Gráfica principal:** barras con dimensión `ciudad` y métrica `desnivel_m`, orden descendente. Mérida en morado y las demás en gris.
 - **Anotación:** «Mérida: 16.2 m. San Cristóbal de las Casas: 1,413 m».
+- **Imagen:** `n1_merida_plana_precios_no.png`, que conecta el relieve con la historia de precios.
 - **Opcional:** Insertar → **Insertar URL** con el visor 3D publicado (`https://valnix140405.github.io/visual_modeling/data/visor_lidar_unificado.html`). Comprueba que cargue dentro de Looker.
 - **¿Qué significa?** «En Mérida caminar o pedalear al mercado no cuesta esfuerzo extra, pero el agua de lluvia no escurre sola. La distancia, no la pendiente, es la barrera para llegar al abasto barato.»
 - **Fuente:** AWS Terrain Tiles (elevación, resolución aproximada de 30 m). No es LiDAR.
@@ -229,6 +248,7 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 
 ## 5. Revisión antes de entregar
 
+- [ ] Cada escena tiene su ilustración y la ilustración dice lo mismo que el título.
 - [ ] Recorre el informe en **Ver** sin tocar filtros: los 8 títulos, leídos seguidos, cuentan la historia.
 - [ ] Las tarjetas coinciden con los textos: 139, 103, 74.1 %, +19.0 %, 93, 49, +1.3 %, $7,780.87, 27.9 días, 15 mercados, 1,661 establecimientos, 16.2 m.
 - [ ] El simulador cambia al escribir otro sueldo; con 8,364 da 27.9 días.

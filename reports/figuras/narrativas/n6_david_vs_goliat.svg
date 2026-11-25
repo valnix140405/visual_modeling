@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1152pt" height="648pt" viewBox="0 0 1152 648" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-25T06:30:15.443406</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 648 
+L 1152 648 
+L 1152 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 83.52 327.888 
+L 226.08 327.888 
+L 226.08 234.576 
+L 83.52 234.576 
+z
+" clip-path="url(#pb3acb7518e)" style="fill: #fdf3e3; stroke: #ed9f22; stroke-width: 3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 70.56 234.576 
+L 154.8 187.92 
+L 239.04 234.576 
+z
+" clip-path="url(#pb3acb7518e)" style="fill: #ed9f22"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 135.36 327.888 
+L 174.24 327.888 
+L 174.24 275.4 
+L 135.36 275.4 
+z
+" clip-path="url(#pb3acb7518e)" style="fill: #ed9f22"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 900 380.376 
+L 1081.44 380.376 
+L 1081.44 182.088 
+L 900 182.088 
+z
+" clip-path="url(#pb3acb7518e)" style="fill: #efe3f6; stroke: #600d8b; stroke-width: 3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 900 205.416 
+L 1081.44 205.416 
+L 1081.44 176.256 
+L 900 176.256 
+z
+" clip-path="url(#pb3acb7518e)" style="fill: #600d8b"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 919.44 292.896 
+L 958.32 292.896 
+L 958.32 246.24 
+L 919.44 246.24 
+z
+" clip-path="url(#pb3acb7518e)" style="fill: #ffffff; stroke: #600d8b; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 971.28 292.896 
+L 1010.16 292.896 
+L 1010.16 246.24 
+L 971.28 246.24 
+z
+" clip-path="url(#pb3acb7518e)" style="fill: #ffffff; stroke: #600d8b; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 1023.12 292.896 
+L 1062 292.896 
+L 1062 246.24 
+L 1023.12 246.24 
+z
+" clip-path="url(#pb3acb7518e)" style="fill: #ffffff; stroke: #600d8b; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 964.8 380.376 
+L 1016.64 380.376 
+L 1016.64 316.224 
+L 964.8 316.224 
+z
+" clip-path="url(#pb3acb7518e)" style="fill: #600d8b"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 16px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #7a5208" x="154.8" y="351.216" transform="rotate(-0 154.8 351.216)">Tiendita</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="990.72" y="197.458943" transform="rotate(-0 990.72 197.458943)">SÚPER</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 16px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #600d8b" x="990.72" y="403.704" transform="rotate(-0 990.72 403.704)">Supermercado</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #1a1a1a" x="576" y="192.5856" transform="rotate(-0 576 192.5856)">Leche entera LALA 1 L</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 17px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #7a5208" x="394.56" y="225.828" transform="rotate(-0 394.56 225.828)">$26.00</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 17px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #600d8b" x="757.44" y="225.828" transform="rotate(-0 757.44 225.828)">$37.00</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 13px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #ed9f22" x="576" y="225.828" transform="rotate(-0 576 225.828)">-29.7 %  ·  gana la tiendita</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 10.5px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #8a8a8a" x="576" y="250.9056" transform="rotate(-0 576 250.9056)">(4 precios en tienditas, 24 en súper)</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #1a1a1a" x="576" y="282.9816" transform="rotate(-0 576 282.9816)">Pan blanco Bimbo grande</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 17px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #7a5208" x="394.56" y="316.224" transform="rotate(-0 394.56 316.224)">$60.00</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 17px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #600d8b" x="757.44" y="316.224" transform="rotate(-0 757.44 316.224)">$43.00</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 13px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #600d8b" x="576" y="316.224" transform="rotate(-0 576 316.224)">+39.5 %  ·  gana el súper</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 10.5px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #8a8a8a" x="576" y="341.3016" transform="rotate(-0 576 341.3016)">(5 precios en tienditas, 41 en súper)</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #1a1a1a" x="576" y="373.3776" transform="rotate(-0 576 373.3776)">Tortilla de maíz 1 kg</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 17px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #7a5208" x="394.56" y="406.62" transform="rotate(-0 394.56 406.62)">$26.50</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 17px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #600d8b" x="757.44" y="406.62" transform="rotate(-0 757.44 406.62)">$13.00</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 13px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #600d8b" x="576" y="406.62" transform="rotate(-0 576 406.62)">+103.8 %  ·  gana el súper</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 10.5px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #8a8a8a" x="576" y="431.6976" transform="rotate(-0 576 431.6976)">(2 precios en tienditas, 43 en súper)</text>
+   </g>
+   <g id="text_19">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #1a1a1a" x="576" y="463.7736" transform="rotate(-0 576 463.7736)">Frijol negro (precio por kg)</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 17px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #7a5208" x="394.56" y="497.016" transform="rotate(-0 394.56 497.016)">$28.00</text>
+   </g>
+   <g id="text_21">
+    <text style="font-weight: 700; font-size: 17px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #600d8b" x="757.44" y="497.016" transform="rotate(-0 757.44 497.016)">$25.56</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 13px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #600d8b" x="576" y="497.016" transform="rotate(-0 576 497.016)">+9.6 %  ·  gana el súper</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 10.5px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: middle; fill: #8a8a8a" x="576" y="522.0936" transform="rotate(-0 576 522.0936)">(5 precios en tienditas, 39 en súper)</text>
+   </g>
+  </g>
+  <g id="text_24">
+   <text style="font-weight: 700; font-size: 34px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: start; fill: #1a1a1a" x="57.6" y="84.7775" transform="rotate(-0 57.6 84.7775)">David contra Goliat en la esquina</text>
+  </g>
+  <g id="text_25">
+   <text style="font-size: 16px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: start; fill: #404040" x="57.6" y="122.42" transform="rotate(-0 57.6 122.42)">La tiendita le gana al súper en 1 de 4 productos: leche -29.7 %. En lo demás, el gigante cobra menos.</text>
+  </g>
+  <g id="text_26">
+   <text style="font-size: 10.5px; font-family: 'Inter', 'DejaVu Sans'; fill: #8a8a8a" transform="translate(57.6 605.082041)">Fuente: Bitácora propia 07-B (5 tienditas, 26 sep–1 oct 2026) y PROFECO QQP mayo 2026. Muestra pequeña: 2 a 5 precios por producto en tienditas. Corte</text>
+   <text style="font-size: 10.5px; font-family: 'Inter', 'DejaVu Sans'; fill: #8a8a8a" transform="translate(57.6 623.471396)">de datos: 24 nov 2026.</text>
+  </g>
+  <g id="text_27">
+   <text style="font-weight: 700; font-size: 11px; font-family: 'Inter', 'DejaVu Sans'; text-anchor: end; fill: #600d8b" x="1094.4" y="596.74668" transform="rotate(-0 1094.4 596.74668)">Del Mundo a la Esquina · UPY</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pb3acb7518e">
+   <rect x="57.6" y="129.6" width="1036.8" height="466.56"/>
+  </clipPath>
+ </defs>
+</svg>
