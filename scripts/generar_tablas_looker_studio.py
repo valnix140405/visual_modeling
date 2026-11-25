@@ -9,6 +9,7 @@ Genera tablas planas (CSV) para Looker Studio en reports/looker_studio/, solo co
     looker_05_comparables_por_canal.csv  Lo genera scripts/generar_datos_web.py (pares PROFECO por canal)
     looker_06_relieve_ciudades.csv       Elevación real de Mérida y 5 ciudades de montaña (08-C)
     looker_07_catalogo_fuentes.csv       Las 16 fuentes con dato real usadas en el dashboard
+    looker_08_tienditas_vs_super.csv     4 productos equivalentes: bitácora 07-B vs. supermercados PROFECO
 
 Uso:
     python scripts/generar_tablas_looker_studio.py
@@ -110,6 +111,13 @@ FUENTES = [  # (id, tema, institución, archivo en data/, cobertura)
 ]
 
 
+def tabla_tienditas():
+    m = json.load(open(os.path.join(ROOT, "reports", "metricas_analisis.json"), encoding="utf-8"))
+    t = pd.DataFrame(m["tienditas_vs_super"])
+    t["fuente"] = "Bitácora propia 07-B (sep-oct 2026) y PROFECO QQP mayo 2026"
+    guardar(t, "looker_08_tienditas_vs_super.csv")
+
+
 def tabla_fuentes():
     filas = []
     for fid, tema, inst, archivo, cob in FUENTES:
@@ -129,4 +137,4 @@ if __name__ == "__main__":
                   "looker_03_salarios_esfuerzo_laboral_merida.csv"]:
         if os.path.exists(os.path.join(OUT, viejo)):
             os.remove(os.path.join(OUT, viejo))
-    tabla_precios(); tabla_territorio(); tabla_coneval(); tabla_ageb(); tabla_relieve(); tabla_fuentes()
+    tabla_precios(); tabla_territorio(); tabla_coneval(); tabla_ageb(); tabla_relieve(); tabla_fuentes(); tabla_tienditas()
