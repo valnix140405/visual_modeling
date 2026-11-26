@@ -15,6 +15,11 @@
   <h1>El mes que se come tu sueldo</h1>
   <p class="entrada">¿Alcanza el salario para comer? Las escenas de este capítulo leen sus cifras de <code>../datos/</code>. El texto completo del capítulo está en <a href="../ficha.md">ficha.md</a>.</p>
 
+  <figure class="ilustracion">
+    <p class="escena-encabezado">Ilustración de apertura</p>
+    <div id="apertura"></div>
+  </figure>
+
   <section class="escena">
     <p class="escena-encabezado">Escena 1 · El calendario de la canasta</p>
     <div id="escena-1"></div>
@@ -38,15 +43,27 @@
     <div id="escena-4"></div>
     <p class="lectura">El número de precios de cada fila recuerda que es una muestra chica.</p>
   </section>
+
+  <section class="escena puente">
+    <p class="escena-encabezado">Puente al Acto 4 · Plana sobre el agua</p>
+    <div id="puente"></div>
+    <p class="lectura">Si comer se lleva casi todo el mes, ¿cómo se siente vivir aquí? El siguiente capítulo pregunta qué tan seguros nos sentimos en Mérida.</p>
+  </section>
 </main>
 <script type="module">
   import { escena1 } from "./escena-1.js";
   import { escena2 } from "./escena-2.js";
   import { escena3 } from "./escena-3.js";
   import { escena4 } from "./escena-4.js";
+  import { apertura } from "./apertura.js";
+  import { puente } from "./puente.js";
   import { mostrarError, listo } from "./estilo.js";
   const escenas = [escena1, escena2, escena3, escena4];
-  listo(escenas.map((f, i) => f(`#escena-${i + 1}`).catch((e) => mostrarError(`#escena-${i + 1}`, e))));
+  const extra = [["#apertura", apertura], ["#puente", puente]];
+  listo([
+    ...escenas.map((f, i) => f(`#escena-${i + 1}`).catch((e) => mostrarError(`#escena-${i + 1}`, e))),
+    ...extra.map(([sel, f]) => f(sel).catch((e) => mostrarError(sel, e))),
+  ]);
 </script>
 </body>
 </html>

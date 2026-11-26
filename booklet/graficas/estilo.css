@@ -47,3 +47,12 @@ a { color: var(--morado); }
   .escena { break-inside: avoid; }
   .solo-web { display: none; }
 }
+
+/* Impresión en tamaño carta: 0.6 in de margen. El SVG de 760 unidades queda en ~7.3 in,
+   así que 12 unidades ≈ 8.3 pt, el mínimo del plan (8 pt). */
+@page { size: letter; margin: 0.6in; }
+@media print {
+  body { font-size: 10.5pt; }
+  .ilustracion, .escena { break-inside: avoid; page-break-inside: avoid; }
+}
+.ilustracion { margin: 32px 0; }

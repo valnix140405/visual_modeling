@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ilustración de apertura: hasta la cebolla llora · Del Mundo a la Esquina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<main>
+  <p class="solo-web"><a href="index.html">← Capítulo completo</a></p>
+  <figure class="ilustracion">
+    <div id="apertura"></div>
+    <p class="lectura">Ilustración de apertura del capítulo.</p>
+  </figure>
+</main>
+<script type="module">
+  import { apertura } from "./apertura.js";
+  import { mostrarError, listo } from "./estilo.js";
+  listo([apertura("#apertura").catch((e) => mostrarError("#apertura", e))]);
+</script>
+</body>
+</html>

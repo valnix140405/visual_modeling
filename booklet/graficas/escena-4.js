@@ -28,6 +28,6 @@ export async function escena4(selector, ruta = "../datos/escena-4.csv") {
     detalle: (d) => `${d.registros_tiendita} precios en tienditas · ${d.registros_super} en súper`,
     nombreFoco: `Tiendita (${filas[0].numero_tienditas} tiendas)`, nombreComp: "Supermercado",
   });
-  svg.append("text").attr("x", 8).attr("y", alto - 8).attr("text-anchor", "start").attr("font-size", 11.5)
+  svg.append("text").attr("x", 8).attr("y", alto - 8).attr("text-anchor", "start").attr("font-size", 12)
     .attr("font-style", "italic").style("fill", color.oroOscuro).text("Muestra chica: tómese como ilustración");
 }

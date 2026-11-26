@@ -43,3 +43,9 @@ Todos los CSV se generan con `python scripts/generar_datos_booklet.py` a partir 
 - **Cálculo:** elevación mínima, máxima y promedio por ciudad; `desnivel_m = elevacion_maxima_m − elevacion_minima_m`. Mérida: 16.2 m.
 - **Advertencia:** es elevación de un modelo de terreno con resolución aproximada de 30 m, **no LiDAR**. Verificar la atribución que pide Tilezen antes de publicar.
 - **Corte:** noviembre 2026 (fecha de descarga de las teselas).
+
+## unidad-salario-minimo.csv · Unidad común del booklet (2 filas)
+
+- **Fuente:** CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales 2025 y 2026, zona del salario mínimo general (aplica en Yucatán). Verificado el 2026-11-24 contra las tablas oficiales en gob.mx/conasami.
+- **Columnas:** `salario_minimo_diario_mxn` (2025: 278.80; 2026: 315.04) y `salario_minimo_mensual_mxn` = diario × 30.
+- **Uso:** la ilustración de apertura y la escena 1 usan 2025; la guía para otros equipos está en `../UNIDAD_SALARIO_MINIMO.md`.
