@@ -33,7 +33,7 @@ export async function escena2(selector, ruta = "../datos/escena-2.csv") {
   svg.append("g").attr("transform", `translate(0,${alto - m.abajo})`)
     .call(d3.axisBottom(x).ticks(6).tickFormat((v) => fmt.pctEntero(v)).tickSizeOuter(0))
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").attr("font-size", 11).style("fill", color.grisTexto));
+    .call((g) => g.selectAll("text").attr("font-size", 12).style("fill", color.grisTexto));
 
   // Mediana de todos los productos.
   svg.append("line").attr("x1", x(mediana)).attr("x2", x(mediana)).attr("y1", m.arriba - 10).attr("y2", alto - m.abajo)

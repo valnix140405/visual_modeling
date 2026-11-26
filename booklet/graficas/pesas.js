@@ -16,7 +16,7 @@ export function pesas(svg, filas, { ancho, alto, precioFoco, precioComp, nombre,
   svg.append("g").attr("transform", `translate(0,${alto - m.abajo})`)
     .call(d3.axisBottom(x).ticks(5).tickFormat(fmt.pesos).tickSizeOuter(0))
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").attr("font-size", 11).style("fill", color.grisTexto));
+    .call((g) => g.selectAll("text").attr("font-size", 12).style("fill", color.grisTexto));
 
   // Leyenda escrita (dos colores con significado).
   const ley = svg.append("g").attr("transform", `translate(${m.izquierda},16)`);
@@ -36,7 +36,7 @@ export function pesas(svg, filas, { ancho, alto, precioFoco, precioComp, nombre,
     .attr("text-anchor", "end").attr("font-size", 13).attr("font-weight", 700).text((d) => d[nombre]);
   if (detalle) {
     g.append("text").attr("x", m.izquierda - 14).attr("y", 10).attr("dy", "0.35em").attr("text-anchor", "end")
-      .attr("font-size", 11.5).style("fill", color.grisTexto).text((d) => detalle(d));
+      .attr("font-size", 12).style("fill", color.grisTexto).text((d) => detalle(d));
   }
 
   // Precio y diferencia escritos junto al punto que quede más a la derecha.

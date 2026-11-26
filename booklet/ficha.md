@@ -27,6 +27,10 @@ Con el salario mínimo, alimentar a un hogar típico de Mérida se lleva casi to
 | **+19.0 %** | diferencia mediana del súper frente a la Central de Abasto en 139 productos con la misma presentación; el súper fue más caro en 103 de ellos | PROFECO, Quién es Quién en los Precios, Mérida · mayo 2026 | `datos/escena-2.csv`: mediana de `diferencia_pct` |
 | **+174.3 %** | más cara la cebolla blanca en el súper ($29.90/kg) que en la Central de Abasto ($10.90/kg) | PROFECO, Quién es Quién en los Precios, Mérida · mayo 2026 | `datos/escena-2.csv`: fila «Cebolla · 1 Kg. Granel. Blanca Sin Rabo» |
 
+## Ilustración de apertura
+
+**«Hasta la cebolla llora: $10.90 en el Abasto, $29.90 en el súper»** (`graficas/apertura.html`, en D3). Dos cebollas: la del súper llora una lágrima por cada 25 % de diferencia (+174.3 %), y debajo de cada una, cuántos kilos compra un día de salario mínimo (25.6 kg en la Central de Abasto, 9.3 kg en el súper). Datos: `datos/escena-2.csv` y `datos/unidad-salario-minimo.csv`.
+
 ## Escenas
 
 | # | Título-hallazgo (se arma con los datos) | Tipo | Datos | Página D3 |
@@ -59,7 +63,7 @@ Los títulos y subtítulos de las gráficas se escriben con las cifras que leen 
 
 **Al siguiente capítulo (Equipo 5, Acto 2):** «Si comer se lleva casi todo el mes, ¿cómo se siente vivir aquí? El siguiente capítulo pregunta qué tan seguros nos sentimos en Mérida.»
 
-**Material puente al Acto 4 (Plana sobre el agua):** «Mérida es plana: 16.2 m de desnivel en 17 km, contra 1,413 m en San Cristóbal de las Casas. Aquí caminar al mercado no cuesta esfuerzo, pero el agua de lluvia no tiene a dónde escurrir.»
+**Material puente al Acto 4 (Plana sobre el agua):** gráfica en D3 `graficas/puente.html`, título «Mérida es plana: 16.2 m de desnivel en 17 km, contra 1,413 m en San Cristóbal de las Casas». «Mérida es plana: 16.2 m de desnivel en 17 km, contra 1,413 m en San Cristóbal de las Casas. Aquí caminar al mercado no cuesta esfuerzo, pero el agua de lluvia no tiene a dónde escurrir.»
 - Datos: `datos/puente-relieve.csv` (malla de 20 × 20 puntos por ciudad).
 - Imagen fija del visor 3D: [`img/relieve_merida_3d.png`](img/relieve_merida_3d.png), con QR al visor: [`img/qr_visor_relieve_3d.png`](img/qr_visor_relieve_3d.png) → https://valnix140405.github.io/visual_modeling/data/visor_relieve_3d.html
 - Nota: el visor usa una malla más fina (50 × 50 puntos) y muestra de 1.0 a 21.0 m; la cifra del texto (16.2 m) sale de la malla de 20 × 20 del CSV. Ambas son elevación de AWS Terrain Tiles, no LiDAR.
@@ -73,6 +77,14 @@ Los títulos y subtítulos de las gráficas se escriben con las cifras que leen 
 | Prototipo AR sin datos | **Fuera del booklet.** No aparece en ninguna escena; ya se había retirado del sitio. |
 | La bitácora es de 5 tienditas | **Corregida:** se dice en el subtítulo y en una nota de la escena 4, y en «Lo que estos datos no dicen». |
 | Título de la página en inglés («UPY Data Engineering») | **Corregida:** «Del Mundo a la Esquina: ¿Cuánto Cuesta Comer? · Ingeniería de Datos UPY». |
+
+## Unidad común para el booklet: el salario mínimo
+
+El plan rescata de este capítulo el salario mínimo como unidad para los demás. Está en `datos/unidad-salario-minimo.csv` (2025: $278.80 y 2026: $315.04 diarios, CONASAMI) y la guía de uso para otros equipos en [`UNIDAD_SALARIO_MINIMO.md`](UNIDAD_SALARIO_MINIMO.md).
+
+## Prueba de impresión
+
+[`img/vista_impresa_carta.pdf`](img/vista_impresa_carta.pdf): el capítulo completo impreso desde `graficas/index.html` en tamaño carta con márgenes de 0.6 in. Son 6 páginas, ninguna escena se corta y el texto más chico de las gráficas mide unos 8.3 pt (mínimo del plan: 8 pt). Es solo una prueba: el PDF oficial lo genera el Data Visualization Team.
 
 ## Cómo verlo y regenerarlo
 

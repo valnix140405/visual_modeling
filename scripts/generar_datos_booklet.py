@@ -7,6 +7,7 @@ en booklet/datos/, uno por escena, a partir de los archivos reales del repositor
     escena-3.csv          Tienda de conveniencia contra súper (93 productos comparables)
     escena-4.csv          Tiendita contra súper (4 productos de la bitácora propia)
     puente-relieve.csv    Desnivel de Mérida frente a 5 ciudades de montaña (puente al Acto 4)
+    unidad-salario-minimo.csv  Salario mínimo general diario 2025 y 2026, unidad común para todo el booklet
 
 Uso: python scripts/generar_datos_booklet.py
 """
@@ -22,6 +23,9 @@ os.makedirs(OUT, exist_ok=True)
 # Salario mínimo general 2025, zona del salario mínimo general: $278.80 diarios.
 # Fuente: CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales 2025 (verificado el 2026-11-24).
 SALARIO_MINIMO_2025 = 278.80
+# 2026: $315.04 diarios en la zona del salario mínimo general (CONASAMI, Tabla de Salarios Mínimos 2026,
+# verificada el 2026-11-24). Solo se usa en la tabla de unidad común.
+SALARIO_MINIMO_2026 = 315.04
 DIAS_MES = 30
 
 
@@ -89,9 +93,23 @@ def puente():
     }).sort_values("desnivel_m"), "puente-relieve.csv")
 
 
+def unidad_salario():
+    filas = []
+    for anio, diario in ((2025, SALARIO_MINIMO_2025), (2026, SALARIO_MINIMO_2026)):
+        filas.append({
+            "anio": anio, "zona": "Salario mínimo general (resto del país, incluye Yucatán)",
+            "salario_minimo_diario_mxn": diario, "salario_minimo_mensual_mxn": round(diario * DIAS_MES, 2),
+            "dias_por_mes": DIAS_MES,
+            "fuente": f"CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales {anio}",
+            "corte": f"vigente del 1 de enero de {anio}",
+        })
+    guardar(pd.DataFrame(filas), "unidad-salario-minimo.csv")
+
+
 if __name__ == "__main__":
     escena_1()
     guardar(comparables("Central de Abasto", "central"), "escena-2.csv")
     guardar(comparables("Conveniencia", "conveniencia"), "escena-3.csv")
     escena_4()
     puente()
+    unidad_salario()
