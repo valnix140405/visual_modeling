@@ -208,6 +208,18 @@
     .tour-highlight { outline: 3px solid var(--accent-gold, #d4a017) !important; outline-offset: 4px; border-radius: 10px; transition: outline-color .3s; }
     @media (max-width: 760px) { .tour-card { right: 16px; left: 16px; width: auto; bottom: 84px; } }
 
+
+    /* ===== GRÁFICAS D3 DESDE CSV (js/sitio/main.js) ===== */
+    .d3-escena { background: #ffffff; padding: 18px 20px 12px; cursor: zoom-in; }
+    .d3-escena .grafica-titulo { font-size: 17px; font-weight: 800; line-height: 1.25; color: #0d0d0d; margin: 0 0 4px; }
+    .d3-escena .grafica-subtitulo { font-size: 12.5px; color: #555555; margin: 0 0 10px; line-height: 1.45; }
+    .d3-escena .grafica-fuente { font-size: 11px; color: #555555; margin: 8px 0 0; }
+    .d3-escena .grafica-error { color: #b45309; font-weight: 700; }
+    .d3-escena svg { display: block; width: 100%; height: auto; font-family: Outfit, sans-serif; }
+    .d3-escena svg text { fill: #0d0d0d; }
+    .d3-cargando { font-size: 13px; color: var(--muted); }
+    .cifra-faltante { background: #fdf3e3; color: #b45309; font-weight: 800; outline: 1px dashed #b45309; }
+
     /* ===== METODOLOGÍA ===== */
     .metodo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
     .metodo-grid .callout-card ul, .metodo-grid .callout-card ol { padding-left: 18px; line-height: 1.6; font-size: 14px; }
@@ -986,7 +998,7 @@
         Metodología
       </button>
 
-      <span class="badge-count">16 FUENTES CON DATO REAL</span>
+      <span class="badge-count"><span data-cifra="fuentes_dato_real">16</span> FUENTES CON DATO REAL</span>
 
       <!-- Botón Fullscreen -->
       <button class="view-switch-btn btn-fullscreen" style="border: 1px solid var(--border-subtle); background: #ffffff;" onclick="toggleFullScreen()" title="Pantalla Completa">
@@ -1011,13 +1023,13 @@
         <div class="editorial-col">
           <h2 class="editorial-title">¿Por qué comer cuesta más donde menos se gana?</h2>
           <p class="editorial-lead">
-            En <strong>Mérida, Yucatán</strong>, lo que pagas en la caja depende de dónde compras. Cruzamos fuentes oficiales (PROFECO, INEGI DENUE, Censos Económicos, Censo 2020, ENOE, CONEVAL), nuestra bitácora de 5 tienditas y relieve real del terreno, y lo traducimos a algo concreto: <strong>¿cuántos kilos de tortilla ($29.50/kg en tortillería, PROFECO) te cuesta la diferencia?</strong>
+            En <strong>Mérida, Yucatán</strong>, lo que pagas en la caja depende de dónde compras. Cruzamos fuentes oficiales (PROFECO, INEGI DENUE, Censos Económicos, Censo 2020, ENOE, CONEVAL), nuestra bitácora de <span data-cifra="tienditas_n">5</span> tienditas y relieve real del terreno, y lo traducimos a algo concreto: <strong>¿cuántos kilos de tortilla (<span data-cifra="tortilla_kg">$29.50</span>/kg en tortillería, PROFECO) te cuesta la diferencia?</strong>
           </p>
 
           <div class="callout-card gold-border">
             <h4>[LA HISTORIA EN 10 SEGUNDOS]</h4>
             <p>
-              En mayo de 2026 PROFECO registró el mismo producto en la <strong>Central de Abasto</strong> y en supermercados de Mérida. De <strong>139 productos comparables</strong>, en <strong>103 (74.1%)</strong> el súper cobró más (mediana de la diferencia: <strong>+19.0%</strong>). La cebolla blanca cuesta <strong>$10.90 en Abasto y $29.90 en el súper (+174%)</strong>. Pero no siempre: la tortilla de maíz es <strong>54% más barata en el súper</strong>.
+              En mayo de 2026 PROFECO registró el mismo producto en la <strong>Central de Abasto</strong> y en supermercados de Mérida. De <strong><span data-cifra="abasto_pares">139</span> productos comparables</strong>, en <strong><span data-cifra="abasto_mas_caro">103</span> (<span data-cifra="abasto_pct_mas_caro">74.1%</span>)</strong> el súper cobró más (mediana de la diferencia: <strong><span data-cifra="abasto_mediana">+19.0%</span></strong>). La cebolla blanca cuesta <strong><span data-cifra="cebolla_central">$10.90</span> en Abasto y <span data-cifra="cebolla_super">$29.90</span> en el súper (<span data-cifra="cebolla_dif_entero">+174%</span>)</strong>. Pero no siempre: la tortilla de maíz es <strong><span data-cifra="tortilla_super_mas_barata">54%</span> más barata en el súper</strong>.
             </p>
           </div>
 
@@ -1035,7 +1047,7 @@
             <div class="kpi-tile gold">
               <div class="kpi-tile-label">Súper vs. Abasto</div>
               <div class="kpi-tile-num" id="kpiDelivery">+19.0%</div>
-              <div class="kpi-tile-sub">Mediana de 139 productos comparables</div>
+              <div class="kpi-tile-sub">Mediana de <span data-cifra="abasto_pares">139</span> productos comparables</div>
             </div>
             <div class="kpi-tile">
               <div class="kpi-tile-label">Microdatos ENOE</div>
@@ -1054,60 +1066,15 @@
                 <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-1', 'La misma cebolla, dos precios')">Zoom</button>
               </div>
             </div>
-            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-1', 'La misma cebolla, dos precios')">
-              <svg id="svg-escena-1" viewBox="0 0 720 410" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
-                <rect width="720" height="410" fill="#ffffff"/>
-                <text x="360" y="28" text-anchor="middle" font-size="18" font-weight="800" fill="#0d0d0d">¿Por qué la cebolla cuesta $10.90 en el Abasto y $29.90 en el súper?</text>
-                <text x="360" y="48" text-anchor="middle" font-size="12.5" font-weight="500" fill="#555555">Lo que pagas por 1 kilo en el súper te alcanza para 2.7 kilos en la Central de Abasto</text>
-
-                <rect x="24" y="70" width="310" height="235" rx="16" fill="#f3e8ff" stroke="#600d8b" stroke-width="2.5"/>
-                <text x="179" y="98" text-anchor="middle" font-size="14" font-weight="800" fill="#600d8b">EN LA CENTRAL DE ABASTO</text>
-                <text x="179" y="118" text-anchor="middle" font-size="12" font-weight="600" fill="#555555">Con $29.90 pesos te llevas:</text>
-                <g transform="translate(92, 136)">
-                  <ellipse cx="32" cy="34" rx="26" ry="20" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2"/>
-                  <text x="32" y="68" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">1 kg</text>
-                </g>
-                <g transform="translate(176, 136)">
-                  <ellipse cx="32" cy="34" rx="26" ry="20" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2"/>
-                  <text x="32" y="68" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">2 kg</text>
-                </g>
-                <rect x="54" y="232" width="250" height="52" rx="10" fill="#600d8b"/>
-                <text x="179" y="255" text-anchor="middle" font-size="18" font-weight="900" fill="#ffffff">2.7 KILOS ($10.90/kg)</text>
-                <text x="179" y="274" text-anchor="middle" font-size="11" font-weight="600" fill="#ed9f22">Mediana de 7 registros PROFECO</text>
-
-                <circle cx="360" cy="186" r="22" fill="#0d0d0d" stroke="#ed9f22" stroke-width="3"/>
-                <text x="360" y="191" text-anchor="middle" font-size="13" font-weight="900" fill="#ffffff">VS</text>
-
-                <rect x="386" y="70" width="310" height="235" rx="16" fill="#fef3c7" stroke="#ed9f22" stroke-width="2.5"/>
-                <text x="541" y="98" text-anchor="middle" font-size="14" font-weight="800" fill="#b45309">EN EL SUPERMERCADO</text>
-                <text x="541" y="118" text-anchor="middle" font-size="12" font-weight="600" fill="#555555">Con los mismos $29.90 pesos te llevas:</text>
-                <g transform="translate(476, 130)">
-                  <path d="M12 18 L28 18 L40 62 L98 62 L110 30 L34 30" fill="none" stroke="#0d0d0d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="48" cy="74" r="7" fill="#600d8b" stroke="#0d0d0d" stroke-width="2"/>
-                  <circle cx="92" cy="74" r="7" fill="#600d8b" stroke="#0d0d0d" stroke-width="2"/>
-                  <ellipse cx="68" cy="44" rx="22" ry="15" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2"/>
-                </g>
-                <rect x="416" y="232" width="250" height="52" rx="10" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.5"/>
-                <text x="541" y="255" text-anchor="middle" font-size="18" font-weight="900" fill="#0d0d0d">1 SOLO KILO ($29.90/kg)</text>
-                <text x="541" y="274" text-anchor="middle" font-size="11" font-weight="700" fill="#600d8b">Mediana de 47 registros PROFECO</text>
-
-                <rect x="24" y="322" width="672" height="70" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
-                <text x="44" y="346" font-size="11.5" font-weight="800" fill="#600d8b">OTROS PRODUCTOS (SOBREPRECIO DEL SÚPER FRENTE AL ABASTO):</text>
-                <text x="44" y="372" font-size="12.5" font-weight="700" fill="#0d0d0d">Arroz 900 g: +107.8%</text>
-                <text x="230" y="372" font-size="12.5" font-weight="700" fill="#0d0d0d">Limón persa: +59.8%</text>
-                <text x="450" y="372" font-size="12.5" font-weight="700" fill="#059669">Tortilla 1 kg: -53.6% (súper más barato)</text>
-              </svg>
-            </div>
-            <div class="figure-source-footer">
-              <span>Fuente: PROFECO QQP, Mérida, mayo 2026 (02-A)</span>
-              <span>Mediana del precio al público, misma presentación</span>
+            <div class="d3-escena" id="d3-svg-escena-1" data-svg-id="svg-escena-1" onclick="openSvgZoom('svg-escena-1', 'La misma cebolla, dos precios')" role="figure" aria-label="La misma cebolla, dos precios">
+              <p class="d3-cargando">Cargando gráfica desde los CSV…</p>
             </div>
           </div>
 
           <div class="callout-card">
             <h4>[HALLAZGO INMEDIATO EN LA CADENA]</h4>
             <p>
-              Comparando la <strong>misma presentación</strong> de cada producto, la Central de Abasto fue más barata en <strong>103 de 139 casos (74.1%)</strong>. La diferencia es mayor en granos y verduras a granel, y se invierte en productos que el súper usa como gancho, como la tortilla y el pollo entero.
+              Comparando la <strong>misma presentación</strong> de cada producto, la Central de Abasto fue más barata en <strong><span data-cifra="abasto_mas_caro">103</span> de <span data-cifra="abasto_pares">139</span> casos (<span data-cifra="abasto_pct_mas_caro">74.1%</span>)</strong>. La diferencia es mayor en granos y verduras a granel, y se invierte en productos que el súper usa como gancho, como la tortilla y el pollo entero.
             </p>
           </div>
         </div>
@@ -1125,9 +1092,9 @@
 
       <div class="slide-grid-split">
         <div class="editorial-col">
-          <h2 class="editorial-title">Mismo Producto, Otro Pasillo: hasta +174% en el Súper</h2>
+          <h2 class="editorial-title">Mismo Producto, Otro Pasillo: hasta <span data-cifra="cebolla_dif_entero">+174%</span> en el Súper</h2>
           <p class="editorial-lead">
-            PROFECO registra precios al público tanto en la <strong>Central de Abasto de Mérida</strong> como en supermercados. Comparando la misma presentación, el súper cobra una mediana de <strong>+19.0%</strong>, pero en verduras y granos a granel la brecha llega a duplicar el precio. Con lo que pagas por <strong>1 kg de cebolla en el súper</strong>, en el Abasto te llevas <strong>2.7 kg</strong>.
+            PROFECO registra precios al público tanto en la <strong>Central de Abasto de Mérida</strong> como en supermercados. Comparando la misma presentación, el súper cobra una mediana de <strong><span data-cifra="abasto_mediana">+19.0%</span></strong>, pero en verduras y granos a granel la brecha llega a duplicar el precio. Con lo que pagas por <strong>1 kg de cebolla en el súper</strong>, en el Abasto te llevas <strong><span data-cifra="cebolla_kg_equivalentes">2.7</span> kg</strong>.
           </p>
 
           <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: 12px; padding: 18px;">
@@ -1181,47 +1148,8 @@
                 <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-1b', 'Mismo producto, otro pasillo')">Zoom HD</button>
               </div>
             </div>
-            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-1b', 'Mismo producto, otro pasillo')">
-              <svg id="svg-escena-1b" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
-                <rect width="720" height="420" fill="#ffffff"/>
-                <text x="360" y="28" text-anchor="middle" font-size="18" font-weight="800" fill="#0d0d0d">¿Cuánto compras en el Abasto con lo de 1 unidad del súper?</text>
-                <text x="360" y="48" text-anchor="middle" font-size="12.5" font-weight="500" fill="#555555">Mediana del precio al público, misma presentación (PROFECO, mayo 2026)</text>
-
-                <rect x="20" y="68" width="680" height="62" rx="12" fill="#fef3c7" stroke="#ed9f22" stroke-width="1.8"/>
-                <text x="38" y="96" font-size="14" font-weight="800" fill="#0d0d0d">Cebolla blanca (1 kg)</text>
-                <text x="38" y="114" font-size="11.5" font-weight="600" fill="#b45309">$10.90 en el Abasto -> $29.90 en súper</text>
-                <rect x="285" y="83" width="200" height="32" rx="8" fill="#600d8b"/>
-                <text x="385" y="104" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">2.7 kg en el Abasto</text>
-                <text x="515" y="104" font-size="14" font-weight="900" fill="#600d8b">+174.3% en súper</text>
-
-                <rect x="20" y="142" width="680" height="62" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
-                <text x="38" y="170" font-size="14" font-weight="800" fill="#0d0d0d">Arroz súper extra (900 g)</text>
-                <text x="38" y="188" font-size="11.5" font-weight="600" fill="#555555">$15.40 en el Abasto -> $32.00 en súper</text>
-                <rect x="285" y="157" width="190" height="32" rx="8" fill="#600d8b"/>
-                <text x="380" y="178" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">2.1 bolsas en el Abasto</text>
-                <text x="515" y="178" font-size="14" font-weight="900" fill="#600d8b">+107.8% en súper</text>
-
-                <rect x="20" y="216" width="680" height="62" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
-                <text x="38" y="244" font-size="14" font-weight="800" fill="#0d0d0d">Limón persa (1 kg)</text>
-                <text x="38" y="262" font-size="11.5" font-weight="600" fill="#555555">$21.90 en el Abasto -> $35.00 en súper</text>
-                <rect x="285" y="231" width="160" height="32" rx="8" fill="#ed9f22"/>
-                <text x="365" y="252" text-anchor="middle" font-size="13" font-weight="800" fill="#0d0d0d">1.6 kg en el Abasto</text>
-                <text x="515" y="252" font-size="14" font-weight="900" fill="#b45309">+59.8% en súper</text>
-
-                <rect x="20" y="290" width="680" height="62" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
-                <text x="38" y="318" font-size="14" font-weight="800" fill="#0d0d0d">Tortilla de maíz (1 kg)</text>
-                <text x="38" y="336" font-size="11.5" font-weight="600" fill="#555555">$28.00 en el Abasto -> $13.00 en súper</text>
-                <rect x="285" y="305" width="200" height="32" rx="8" fill="#059669"/>
-                <text x="385" y="326" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">Aquí gana el súper</text>
-                <text x="515" y="326" font-size="14" font-weight="900" fill="#059669">-53.6% en súper</text>
-
-                <rect x="20" y="366" width="680" height="40" rx="10" fill="#600d8b"/>
-                <text x="360" y="391" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">En 103 de 139 productos comparables, el súper cobró más que la Central de Abasto</text>
-              </svg>
-            </div>
-            <div class="figure-source-footer">
-              <span>Fuente: PROFECO QQP Mérida, mayo 2026 (02-A y 02-B)</span>
-              <span>Mediana por producto y presentación idénticos</span>
+            <div class="d3-escena" id="d3-svg-escena-1b" data-svg-id="svg-escena-1b" onclick="openSvgZoom('svg-escena-1b', 'Mismo producto, otro pasillo')" role="figure" aria-label="Mismo producto, otro pasillo">
+              <p class="d3-cargando">Cargando gráfica desde los CSV…</p>
             </div>
           </div>
         </div>
@@ -1269,32 +1197,32 @@
 
       <div class="slide-grid-split">
         <div class="editorial-col">
-          <h2 class="editorial-title">El Precio de la Prisa: +53% por el Agua en la Tienda de Conveniencia</h2>
+          <h2 class="editorial-title">El Precio de la Prisa: <span data-cifra="agua1l_dif_entero">+53%</span> por el Agua en la Tienda de Conveniencia</h2>
           <p class="editorial-lead">
-            ¿Comprar en OXXO o 7 Eleven sale más caro? Depende del producto. PROFECO registró <strong>93 productos comparables</strong> entre tiendas de conveniencia (Dunosusa, OXXO y 7 Eleven) y supermercados de Mérida. En <strong>49</strong> la tienda de conveniencia fue más cara, pero la mediana de la diferencia es apenas <strong>+1.3%</strong>. La prisa sale cara en bebidas y botanas, no en todo.
+            ¿Comprar en OXXO o 7 Eleven sale más caro? Depende del producto. PROFECO registró <strong><span data-cifra="conv_pares">93</span> productos comparables</strong> entre tiendas de conveniencia (Dunosusa, OXXO y 7 Eleven) y supermercados de Mérida. En <strong><span data-cifra="conv_mas_cara">49</span></strong> la tienda de conveniencia fue más cara, pero la mediana de la diferencia es apenas <strong><span data-cifra="conv_mediana">+1.3%</span></strong>. La prisa sale cara en bebidas y sopas instantáneas, no en todo.
           </p>
 
           <div class="delivery-breakdown-card">
             <h4 style="font-size: 14.5px; font-weight: 700; color: var(--accent-purple); margin-bottom: 12px;">Donde más se nota (promedio conveniencia vs. súper)</h4>
             <div class="breakdown-row">
               <span>Suero oral sabor uva, botella 625 ml</span>
-              <span class="fee" style="color: var(--accent-gold-dark);">$37.67 vs $24.08 (+56.4%)</span>
+              <span class="fee" style="color: var(--accent-gold-dark);"><span data-cifra="suero_conv">$37.67</span> vs <span data-cifra="suero_super">$24.08</span> (<span data-cifra="suero_dif">+56.4%</span>)</span>
             </div>
             <div class="breakdown-row">
               <span>Agua sin gas, botella 1 L</span>
-              <span class="fee" style="color: var(--accent-gold-dark);">$19.56 vs $12.76 (+53.3%)</span>
+              <span class="fee" style="color: var(--accent-gold-dark);"><span data-cifra="agua1l_conv">$19.56</span> vs <span data-cifra="agua1l_super">$12.76</span> (<span data-cifra="agua1l_dif">+53.3%</span>)</span>
             </div>
             <div class="breakdown-row">
               <span>Yoghurt bebible fresa, 220 g</span>
-              <span class="fee" style="color: var(--accent-gold-dark);">$18.30 vs $12.29 (+48.8%)</span>
+              <span class="fee" style="color: var(--accent-gold-dark);"><span data-cifra="yoghurt_conv">$18.30</span> vs <span data-cifra="yoghurt_super">$12.29</span> (<span data-cifra="yoghurt_dif">+48.8%</span>)</span>
             </div>
             <div class="breakdown-row">
               <span>Agua sin gas, botella 600 ml</span>
-              <span class="fee" style="color: var(--accent-gold-dark);">$14.50 vs $10.60 (+36.8%)</span>
+              <span class="fee" style="color: var(--accent-gold-dark);"><span data-cifra="agua600_conv">$14.50</span> vs <span data-cifra="agua600_super">$10.60</span> (<span data-cifra="agua600_dif">+36.8%</span>)</span>
             </div>
             <div class="breakdown-row">
-              <span>Mediana de los 93 productos comparables</span>
-              <span class="fee" style="color: var(--accent-purple); font-size: 18px;">+1.3%</span>
+              <span>Mediana de los <span data-cifra="conv_pares">93</span> productos comparables</span>
+              <span class="fee" style="color: var(--accent-purple); font-size: 18px;"><span data-cifra="conv_mediana">+1.3%</span></span>
             </div>
           </div>
         </div>
@@ -1308,23 +1236,8 @@
                 <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-2', 'El precio de la prisa')">Zoom HD</button>
               </div>
             </div>
-            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-2', 'El precio de la prisa')">
-              <svg id="svg-escena-2" viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
-                <rect width="720" height="400" fill="#ffffff"/>
-                <text x="360" y="28" text-anchor="middle" font-size="18" font-weight="800" fill="#0d0d0d">93 productos: ¿quién cobra más, la conveniencia o el súper?</text>
-                <text x="360" y="48" text-anchor="middle" font-size="12.5" font-weight="500" fill="#555555">Cada cuadro es 1 producto comparable (PROFECO, Mérida, mayo 2026)</text>
-                <g transform="translate(42, 68)"><rect x="0" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="40" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="80" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="120" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="160" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="200" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="240" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="280" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="320" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="360" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="400" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="440" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="480" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="520" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="560" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="600" y="0" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="0" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="40" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="80" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="120" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="160" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="200" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="240" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="280" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="320" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="360" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="400" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="440" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="480" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="520" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="560" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="600" y="40" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="0" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="40" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="80" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="120" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="160" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="200" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="240" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="280" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="320" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="360" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="400" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="440" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="480" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="520" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="560" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="600" y="80" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="0" y="120" width="34" height="34" rx="5" fill="#ed9f22"/><rect x="40" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="80" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="120" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="160" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="200" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="240" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="280" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="320" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="360" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="400" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="440" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="480" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="520" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="560" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="600" y="120" width="34" height="34" rx="5" fill="#600d8b"/><rect x="0" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="40" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="80" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="120" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="160" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="200" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="240" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="280" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="320" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="360" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="400" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="440" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="480" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="520" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="560" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="600" y="160" width="34" height="34" rx="5" fill="#600d8b"/><rect x="0" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="40" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="80" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="120" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="160" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="200" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="240" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="280" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="320" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="360" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="400" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="440" y="200" width="34" height="34" rx="5" fill="#600d8b"/><rect x="480" y="200" width="34" height="34" rx="5" fill="#600d8b"/></g>
-                <rect x="40" y="320" width="18" height="18" rx="3" fill="#ed9f22"/>
-                <text x="66" y="334" font-size="12.5" font-weight="700" fill="#0d0d0d">49 más caros en conveniencia</text>
-                <rect x="300" y="320" width="18" height="18" rx="3" fill="#600d8b"/>
-                <text x="326" y="334" font-size="12.5" font-weight="700" fill="#0d0d0d">44 iguales o más baratos en conveniencia</text>
-                <rect x="40" y="352" width="640" height="34" rx="8" fill="#f3e8ff"/>
-                <text x="360" y="374" text-anchor="middle" font-size="12.5" font-weight="800" fill="#600d8b">La brecha grande está en bebidas y botanas; la mediana es solo +1.3%</text>
-              </svg>
-            </div>
-            <div class="figure-source-footer">
-              <span>Fuente: PROFECO QQP (02-A, 06-B). Conveniencia = Dunosusa, OXXO, 7 Eleven</span>
-              <span>Solo productos con 3 o más registros en cada tipo de tienda</span>
+            <div class="d3-escena" id="d3-svg-escena-2" data-svg-id="svg-escena-2" onclick="openSvgZoom('svg-escena-2', 'El precio de la prisa')" role="figure" aria-label="El precio de la prisa">
+              <p class="d3-cargando">Cargando gráfica desde los CSV…</p>
             </div>
           </div>
         </div>
@@ -1332,7 +1245,7 @@
 
       <div class="explorer-card" id="explorador">
         <h3>Explora todos los productos comparables</h3>
-        <p class="sub">Filtra los 139 pares Central de Abasto–súper y los 93 pares conveniencia–súper que registró PROFECO en Mérida (mayo 2026). Los datos se cargan de <code>data/web/explorador_precios.json</code>, generado con <code>scripts/generar_datos_web.py</code>.</p>
+        <p class="sub">Filtra los <span data-cifra="abasto_pares">139</span> pares Central de Abasto–súper y los <span data-cifra="conv_pares">93</span> pares conveniencia–súper que registró PROFECO en Mérida (mayo 2026). Los datos se cargan de <code>data/web/explorador_precios.json</code>, generado con <code>scripts/generar_datos_web.py</code>.</p>
 
         <div class="explorer-seg" role="tablist" aria-label="Comparación">
           <button class="active" data-comp="abasto" onclick="explorerSetComp('abasto', this)">Central de Abasto vs. súper</button>
@@ -1392,9 +1305,9 @@
 
       <div class="slide-grid-split">
         <div class="editorial-col">
-          <h2 class="editorial-title">El Mes que se Come tu Sueldo: 28 Días pa' la Panza</h2>
+          <h2 class="editorial-title">El Mes que se Come tu Sueldo: <span data-cifra="dias_canasta_redondo">28</span> Días pa' la Panza</h2>
           <p class="editorial-lead">
-            Con salario mínimo general 2025 ($278.80/día, CONASAMI), alimentar a un hogar típico de Mérida (3.27 ocupantes por vivienda, Censo 2020) con la canasta alimentaria urbana de CONEVAL ($2,379.47 por persona, marzo 2025) cuesta <strong>$7,780.87 al mes: 28 días de trabajo</strong>. Mueve el control y traduce tu sueldo a <strong>kilos de tortilla ($29.50/kg en tortillería, PROFECO)</strong>:
+            Con salario mínimo general 2025 (<span data-cifra="salario_minimo_2025">$278.80</span>/día, CONASAMI), alimentar a un hogar típico de Mérida (<span data-cifra="ocupantes">3.27</span> ocupantes por vivienda, Censo 2020) con la canasta alimentaria urbana de CONEVAL (<span data-cifra="canasta_persona">$2,379.47</span> por persona, marzo 2025) cuesta <strong><span data-cifra="canasta_hogar">$7,780.87</span> al mes: <span data-cifra="dias_canasta_redondo">28</span> días de trabajo</strong>. Mueve el control y traduce tu sueldo a <strong>kilos de tortilla (<span data-cifra="tortilla_kg">$29.50</span>/kg en tortillería, PROFECO)</strong>:
           </p>
 
           <!-- SIMULADOR DINÁMICO DE SALARIO -->
@@ -1405,9 +1318,9 @@
             </div>
             <input type="range" id="wageSlider" min="3000" max="35000" step="250" value="8364" class="wage-slider" oninput="runWageCalc(this.value)">
             <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 6px; font-family: 'JetBrains Mono', monospace;">
-              <span>$3,000 (Informal)</span>
-              <span>$8,364 (Mínimo Legal)</span>
-              <span>$16,728 (2 salarios mínimos)</span>
+              <span>$3,000</span>
+              <span><span data-cifra="salario_mensual_2025">$8,364</span> (Mínimo Legal)</span>
+              <span><span data-cifra="salario_mensual_2025_x2">$16,728</span> (2 salarios mínimos)</span>
               <span>$35,000</span>
             </div>
 
@@ -1415,15 +1328,15 @@
               <div class="wage-metric-box">
                 <div style="font-size: 11.5px; color: var(--muted); font-weight: 600;">Días para Canasta Individual</div>
                 <div class="metric-num" id="calcDiasIndiv">8.5 días</div>
-                <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">$2,379.47 CONEVAL (urbana, mar 2025)</div>
+                <div style="font-size: 11px; color: var(--muted); margin-top: 2px;"><span data-cifra="canasta_persona">$2,379.47</span> CONEVAL (urbana, mar 2025)</div>
               </div>
               <div class="wage-metric-box">
                 <div style="font-size: 11.5px; color: var(--muted); font-weight: 600;">Horas para 1 kg Pollo</div>
                 <div class="metric-num" id="calcHorasPollo">1.1 hrs</div>
-                <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">$39.00 / kg, pollo entero en súper (PROFECO, mediana)</div>
+                <div style="font-size: 11px; color: var(--muted); margin-top: 2px;"><span data-cifra="pollo_kg">$39.00</span> / kg, pollo entero en súper (PROFECO, mediana)</div>
               </div>
               <div class="wage-metric-box" style="grid-column: span 2;">
-                <div style="font-size: 11.5px; color: var(--muted); font-weight: 600;">% del Sueldo Absorbido por la Canasta del Hogar ($7,780.87)</div>
+                <div style="font-size: 11.5px; color: var(--muted); font-weight: 600;">% del Sueldo Absorbido por la Canasta del Hogar (<span data-cifra="canasta_hogar">$7,780.87</span>)</div>
                 <div class="metric-num" id="calcPctFam" style="color: var(--accent-gold-dark);">93.0%</div>
                 <div id="riskBadge" style="font-size: 11px; font-weight: 700; margin-top: 4px; color: #dc2626;">ESTADO: VULNERABILIDAD CRÍTICA</div>
               </div>
@@ -1450,141 +1363,22 @@
                 <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-3', 'El Mes que se Come tu Sueldo')">Zoom HD</button>
               </div>
             </div>
-            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-3', 'El Mes que se Come tu Sueldo')">
-              <svg id="svg-escena-3" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
-                <rect width="720" height="340" fill="#ffffff"/>
-                <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="800" fill="#0d0d0d">Con salario mínimo, trabajas 28 días al mes solo para comer</text>
-                <text x="360" y="46" text-anchor="middle" font-size="12" font-weight="500" fill="#555555">Canasta alimentaria CONEVAL x 3.27 personas por hogar = $7,780.87 al mes</text>
-
-                <!-- Calendario limpio 6x5 = 30 días -->
-                <g transform="translate(26, 66)">
-                  <!-- Fila 1 (Días 1-5: Morado Comida tuya) -->
-                  <rect x="0" y="0" width="76" height="44" rx="8" fill="#600d8b"/><text x="38" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 01</text><text x="38" y="35" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
-                  <rect x="82" y="0" width="76" height="44" rx="8" fill="#600d8b"/><text x="120" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 02</text><text x="120" y="35" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
-                  <rect x="164" y="0" width="76" height="44" rx="8" fill="#600d8b"/><text x="202" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 03</text><text x="202" y="35" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
-                  <rect x="246" y="0" width="76" height="44" rx="8" fill="#600d8b"/><text x="284" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 04</text><text x="284" y="35" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
-                  <rect x="328" y="0" width="76" height="44" rx="8" fill="#600d8b"/><text x="366" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 05</text><text x="366" y="35" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
-                  <!-- Fila 2 (Días 6-10: Morado) -->
-                  <rect x="0" y="50" width="76" height="44" rx="8" fill="#600d8b"/><text x="38" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 06</text><text x="38" y="85" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
-                  <rect x="82" y="50" width="76" height="44" rx="8" fill="#600d8b"/><text x="120" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 07</text><text x="120" y="85" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
-                  <rect x="164" y="50" width="76" height="44" rx="8" fill="#600d8b"/><text x="202" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 08</text><text x="202" y="85" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
-                  <rect x="246" y="50" width="76" height="44" rx="8" fill="#600d8b"/><text x="284" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 09</text><text x="284" y="85" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
-                  <rect x="328" y="50" width="76" height="44" rx="8" fill="#600d8b"/><text x="366" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">Día 10</text><text x="366" y="85" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ed9f22">TU COMIDA</text>
-                  <!-- Fila 3-5 (Días 11-28: Dorado Comida Familia) -->
-                  <rect x="0" y="100" width="404" height="144" rx="12" fill="#fef3c7" stroke="#ed9f22" stroke-width="2"/>
-                  <text x="202" y="148" text-anchor="middle" font-size="22" font-weight="900" fill="#0d0d0d">DÍAS 11 AL 28 (17.9 DÍAS MÁS)</text>
-                  <text x="202" y="176" text-anchor="middle" font-size="14" font-weight="800" fill="#b45309">TRABAJANDO PARA LA DESPENSA FAMILIAR</text>
-                  <text x="202" y="200" text-anchor="middle" font-size="11.5" font-weight="600" fill="#555555">(Canasta alimentaria del hogar: $7,780.87 al mes)</text>
-                  <!-- Fila 6 derecha: Días 29 y 30 -->
-                  <rect x="424" y="0" width="244" height="244" rx="16" fill="#f8fafc" stroke="#0d0d0d" stroke-width="2"/>
-                  <text x="546" y="34" text-anchor="middle" font-size="13" font-weight="800" fill="#600d8b">LO QUE TE SOBRA AL MES:</text>
-                  <circle cx="512" cy="95" r="28" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2.5"/>
-                  <text x="512" y="101" text-anchor="middle" font-size="14" font-weight="900" fill="#0d0d0d">Día 29</text>
-                  <circle cx="580" cy="95" r="28" fill="#ed9f22" stroke="#0d0d0d" stroke-width="2.5"/>
-                  <text x="580" y="101" text-anchor="middle" font-size="14" font-weight="900" fill="#0d0d0d">Día 30</text>
-                  <text x="546" y="154" text-anchor="middle" font-size="18" font-weight="900" fill="#0d0d0d">SOLO $583 PESOS</text>
-                  <text x="546" y="176" text-anchor="middle" font-size="11.5" font-weight="700" fill="#555555">(= 19.8 kg de tortilla de tortillería)</text>
-                  <rect x="444" y="194" width="204" height="36" rx="8" fill="#600d8b"/>
-                  <text x="546" y="216" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff">Renta, luz y camión piden fiado</text>
-                </g>
-              </svg>
-            </div>
-            <div class="figure-source-footer">
-              <span>Fuente: CONEVAL Líneas de Pobreza (03-A), Censo 2020 INEGI (03-A)</span>
-              <span>Salario mínimo general 2025 de $278.80/día (CONASAMI) x 30 = $8,364/mes</span>
+            <div class="d3-escena" id="d3-svg-escena-3" data-svg-id="svg-escena-3" onclick="openSvgZoom('svg-escena-3', 'El Mes que se Come tu Sueldo')" role="figure" aria-label="El Mes que se Come tu Sueldo">
+              <p class="d3-cargando">Cargando gráfica desde los CSV…</p>
             </div>
           </div>
 
           <!-- ESCENA 4: LAS 5 FACHADAS DE TIENDITAS -->
           <div class="figure-frame">
             <div class="figure-frame-header">
-              <span>ESCENA 4: TUS 5 TIENDITAS REALES EN COLONIAS DE MÉRIDA</span>
+              <span>ESCENA 4: TIENDITA CONTRA SÚPER</span>
               <div class="figure-actions-group">
                 <button class="figure-zoom-btn" onclick="exportSvgToPng('svg-escena-4', '04_cinco_tienditas_merida.png')">PNG</button>
                 <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-4', 'La Esquina vs Tu Quincena')">Zoom HD</button>
               </div>
             </div>
-            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-4', 'La Esquina vs Tu Quincena')">
-              <svg id="svg-escena-4" viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
-                <rect width="720" height="330" fill="#ffffff"/>
-                <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="800" fill="#0d0d0d">Lo que descubrimos caminando 5 tienditas de esquina en Mérida</text>
-
-                <!-- 5 Fachaditas de Tienda -->
-                <!-- 1. Centro -->
-                <g transform="translate(20, 48)">
-                  <rect x="0" y="24" width="124" height="122" rx="10" fill="#f3e8ff" stroke="#600d8b" stroke-width="2"/>
-                  <polygon points="-4,26 128,26 118,4 6,4" fill="#600d8b"/>
-                  <text x="62" y="19" text-anchor="middle" font-size="10" font-weight="800" fill="#ffffff">CENTRO</text>
-                  <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">El Milagro</text>
-                  <text x="62" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Tortilla: $26</text>
-                  <text x="62" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Huevo kg: $50</text>
-                  <text x="62" y="106" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Bimbo: $55</text>
-                  <rect x="14" y="118" width="96" height="20" rx="5" fill="#600d8b"/><text x="62" y="132" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Solo Efectivo</text>
-                </g>
-
-                <!-- 2. Santiago -->
-                <g transform="translate(158, 48)">
-                  <rect x="0" y="24" width="124" height="122" rx="10" fill="#fef3c7" stroke="#ed9f22" stroke-width="2"/>
-                  <polygon points="-4,26 128,26 118,4 6,4" fill="#ed9f22"/>
-                  <text x="62" y="19" text-anchor="middle" font-size="10" font-weight="800" fill="#0d0d0d">SANTIAGO</text>
-                  <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">La Isabelita</text>
-                  <text x="62" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Leche: $25</text>
-                  <text x="62" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Panal Huevo: $80</text>
-                  <text x="62" y="106" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Bimbo: $58</text>
-                  <rect x="14" y="118" width="96" height="20" rx="5" fill="#600d8b"/><text x="62" y="132" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Solo Efectivo</text>
-                </g>
-
-                <!-- 3. Polígono 108 -->
-                <g transform="translate(296, 48)">
-                  <rect x="0" y="24" width="124" height="122" rx="10" fill="#f3e8ff" stroke="#600d8b" stroke-width="2"/>
-                  <polygon points="-4,26 128,26 118,4 6,4" fill="#600d8b"/>
-                  <text x="62" y="19" text-anchor="middle" font-size="10" font-weight="800" fill="#ffffff">POLÍGONO 108</text>
-                  <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">María Elena</text>
-                  <text x="62" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Leche: $28</text>
-                  <text x="62" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Huevo kg: $48</text>
-                  <text x="62" y="106" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Bimbo: $60</text>
-                  <rect x="14" y="118" width="96" height="20" rx="5" fill="#0d0d0d"/><text x="62" y="132" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Efectivo y Tarjeta</text>
-                </g>
-
-                <!-- 4. Mercedes Barrera -->
-                <g transform="translate(434, 48)">
-                  <rect x="0" y="24" width="124" height="122" rx="10" fill="#fef3c7" stroke="#ed9f22" stroke-width="2"/>
-                  <polygon points="-4,26 128,26 118,4 6,4" fill="#ed9f22"/>
-                  <text x="62" y="19" text-anchor="middle" font-size="9.5" font-weight="800" fill="#0d0d0d">M. BARRERA</text>
-                  <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">Evelia</text>
-                  <text x="62" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Leche: $25</text>
-                  <text x="62" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Panal Huevo: $88</text>
-                  <text x="62" y="106" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Bimbo: $60</text>
-                  <rect x="14" y="118" width="96" height="20" rx="5" fill="#0d0d0d"/><text x="62" y="132" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Efectivo y Tarjeta</text>
-                </g>
-
-                <!-- 5. Chuburná -->
-                <g transform="translate(572, 48)">
-                  <rect x="0" y="24" width="124" height="122" rx="10" fill="#f3e8ff" stroke="#600d8b" stroke-width="2"/>
-                  <polygon points="-4,26 128,26 118,4 6,4" fill="#600d8b"/>
-                  <text x="62" y="19" text-anchor="middle" font-size="10" font-weight="800" fill="#ffffff">CHUBURNÁ</text>
-                  <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#0d0d0d">Carmita</text>
-                  <text x="62" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Tortilla: $27</text>
-                  <text x="62" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Panal Huevo: $85</text>
-                  <text x="62" y="106" text-anchor="middle" font-size="10.5" font-weight="600" fill="#555555">Bimbo: $60</text>
-                  <rect x="14" y="118" width="96" height="20" rx="5" fill="#0d0d0d"/><text x="62" y="132" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Efectivo y Tarjeta</text>
-                </g>
-
-                <!-- Duelos Chistosos Abajo -->
-                <rect x="20" y="214" width="332" height="96" rx="12" fill="#600d8b"/>
-                <text x="186" y="242" text-anchor="middle" font-size="13" font-weight="800" fill="#ed9f22">EL DUELO DEL HUEVO</text>
-                <text x="186" y="266" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff">Panal en Mercedes Barrera ($88) =</text>
-                <text x="186" y="288" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff">¡3.4 KILOS DE TORTILLA!</text>
-
-                <rect x="368" y="214" width="328" height="96" rx="12" fill="#ed9f22" stroke="#0d0d0d" stroke-width="1.5"/>
-                <text x="532" y="242" text-anchor="middle" font-size="13" font-weight="900" fill="#600d8b">EL MISTERIO DEL PAN BIMBO</text>
-                <text x="532" y="266" text-anchor="middle" font-size="12" font-weight="700" fill="#0d0d0d">Un paquete grande ($60) cuesta lo mismo que</text>
-                <text x="532" y="288" text-anchor="middle" font-size="14" font-weight="900" fill="#0d0d0d">2.3 KILOS DE TORTILLA CALIENTE</text>
-              </svg>
-            </div>
-            <div class="figure-source-footer">
-              <span>Fuente: Bitácora propia levantada en campo en 5 colonias de Mérida</span>
-              <span>Auditoría directa de precios en tienda de barrio</span>
+            <div class="d3-escena" id="d3-svg-escena-4" data-svg-id="svg-escena-4" onclick="openSvgZoom('svg-escena-4', 'La Esquina vs Tu Quincena')" role="figure" aria-label="La Esquina vs Tu Quincena">
+              <p class="d3-cargando">Cargando gráfica desde los CSV…</p>
             </div>
           </div>
         </div>
@@ -1616,15 +1410,15 @@
 
       <div class="slide-grid-split">
         <div class="editorial-col">
-          <h2 class="editorial-title">Mérida, Plana como Comal: 16 Metros de Desnivel en 17 km</h2>
+          <h2 class="editorial-title">Mérida, Plana como Comal: <span data-cifra="merida_desnivel">16</span> Metros de Desnivel en <span data-cifra="malla_km">17</span> km</h2>
           <p class="editorial-lead">
-            Medimos la elevación real del terreno en una malla de <strong>17 km x 17 km</strong> sobre Mérida y en cinco ciudades de montaña. En Mérida el punto más bajo está a <strong>1.8 m</strong> y el más alto a <strong>18 m</strong> sobre el nivel del mar; la pendiente mediana es de apenas <strong>0.07°</strong>. En San Cristóbal de las Casas el desnivel en la misma área es de <strong>1,413 m</strong>.
+            Medimos la elevación real del terreno en una malla de <strong><span data-cifra="malla_km">17</span> km x <span data-cifra="malla_km">17</span> km</strong> sobre Mérida y en cinco ciudades de montaña. En Mérida el punto más bajo está a <strong><span data-cifra="merida_elev_min">1.8</span> m</strong> y el más alto a <strong><span data-cifra="merida_elev_max">18</span> m</strong> sobre el nivel del mar; la pendiente mediana es de apenas <strong><span data-cifra="merida_pendiente_mediana">0.07</span>°</strong>. En San Cristóbal de las Casas el desnivel en la misma área es de <strong><span data-cifra="sclc_desnivel">1,413</span> m</strong>.
           </p>
 
           <div class="callout-card gold-border">
             <h4>[¿POR QUÉ IMPORTA PARA LA DESPENSA?]</h4>
             <p>
-              Un terreno sin pendiente significa que caminar o pedalear al mercado no cuesta esfuerzo extra, pero también que el agua de lluvia no escurre sola. Alrededor del <strong>Mercado Lucas de Gálvez</strong> (11.3 m s.n.m.) la malla de 1.6 km varía entre <strong>7.8 y 12.7 m</strong>. Relacionar ese desnivel con encharcamientos requiere datos de inundación que <strong>aún no tenemos</strong>.
+              Un terreno sin pendiente significa que caminar o pedalear al mercado no cuesta esfuerzo extra, pero también que el agua de lluvia no escurre sola. Alrededor del <strong>Mercado Lucas de Gálvez</strong> (<span data-cifra="lucas_elev">11.3</span> m s.n.m.) la malla de <span data-cifra="centro_malla_km">1.6</span> km varía entre <strong><span data-cifra="centro_elev_min">7.8</span> y <span data-cifra="centro_elev_max">12.7</span> m</strong>. Relacionar ese desnivel con encharcamientos requiere datos de inundación que <strong>aún no tenemos</strong>.
             </p>
           </div>
 
@@ -1636,30 +1430,8 @@
                 <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-5', 'Desnivel dentro de cada ciudad')">Zoom HD</button>
               </div>
             </div>
-            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-5', 'Desnivel dentro de cada ciudad')">
-              <svg id="svg-escena-5" viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
-                <rect width="720" height="330" fill="#ffffff"/>
-                <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="800" fill="#0d0d0d">Diferencia entre el punto más alto y el más bajo (área de 17 x 17 km)</text>
-                <g font-size="12.5" font-weight="700" fill="#0d0d0d">
-                  <text x="200" y="68" text-anchor="end">San Cristóbal de las Casas</text>
-                  <rect x="212" y="54" width="460" height="20" rx="4" fill="#600d8b"/><text x="666" y="68" text-anchor="end" fill="#ffffff">1,413 m</text>
-                  <text x="200" y="108" text-anchor="end">Monterrey</text>
-                  <rect x="212" y="94" width="421" height="20" rx="4" fill="#600d8b"/><text x="627" y="108" text-anchor="end" fill="#ffffff">1,292 m</text>
-                  <text x="200" y="148" text-anchor="end">Guanajuato</text>
-                  <rect x="212" y="134" width="278" height="20" rx="4" fill="#600d8b"/><text x="484" y="148" text-anchor="end" fill="#ffffff">853 m</text>
-                  <text x="200" y="188" text-anchor="end">Toluca</text>
-                  <rect x="212" y="174" width="149" height="20" rx="4" fill="#600d8b"/><text x="355" y="188" text-anchor="end" fill="#ffffff">457 m</text>
-                  <text x="200" y="228" text-anchor="end">Ciudad de México</text>
-                  <rect x="212" y="214" width="79" height="20" rx="4" fill="#600d8b"/><text x="299" y="228">243 m</text>
-                  <text x="200" y="268" text-anchor="end" fill="#b45309">Mérida</text>
-                  <rect x="212" y="254" width="5" height="20" rx="2" fill="#ed9f22"/><text x="225" y="268" fill="#b45309">16 m</text>
-                </g>
-                <text x="360" y="312" text-anchor="middle" font-size="11.5" font-weight="600" fill="#555555">Mérida apenas se ve en la escala: su desnivel es 87 veces menor que el de San Cristóbal</text>
-              </svg>
-            </div>
-            <div class="figure-source-footer">
-              <span>Fuente: AWS Terrain Tiles (Tilezen), malla de 20 x 20 puntos por ciudad (08-C)</span>
-              <span>Elevación en metros sobre el nivel del mar</span>
+            <div class="d3-escena" id="d3-svg-escena-5" data-svg-id="svg-escena-5" onclick="openSvgZoom('svg-escena-5', 'Desnivel dentro de cada ciudad')" role="figure" aria-label="Desnivel dentro de cada ciudad">
+              <p class="d3-cargando">Cargando gráfica desde los CSV…</p>
             </div>
           </div>
         </div>
@@ -1677,7 +1449,7 @@
                   <span style="font-size: 11px; color: var(--muted); font-weight: 700;">ELEVACIÓN REAL .PLY · EXAGERACIÓN VERTICAL</span>
                 </div>
                 <h4>Mérida en 3D: el Centro y la Ciudad Completa</h4>
-                <p>Un visor con las mallas de elevación reales: <strong>08-B</strong>, 1,681 puntos alrededor del Mercado Lucas de Gálvez, y <strong>08-C</strong>, 2,500 puntos sobre 17 km de la ciudad. La altura se exagera en pantalla porque, a escala real, Mérida se ve completamente plana. <strong>08-A (LiDAR del domo del mercado): Pendiente, sin dato real disponible.</strong></p>
+                <p>Un visor con las mallas de elevación reales: <strong>08-B</strong>, <span data-cifra="centro_puntos">1,681</span> puntos alrededor del Mercado Lucas de Gálvez, y <strong>08-C</strong>, <span data-cifra="merida_ply_puntos">2,500</span> puntos sobre <span data-cifra="malla_km">17</span> km de la ciudad. La altura se exagera en pantalla porque, a escala real, Mérida se ve completamente plana.</p>
               </div>
               <div class="launch-btn-group">
                 <a href="data/visor_relieve_3d.html" target="_blank" class="btn-action">
@@ -1701,25 +1473,8 @@
                 <button class="figure-zoom-btn" onclick="openSvgZoom('svg-escena-6', 'La red del Va y Ven')">Zoom HD</button>
               </div>
             </div>
-            <div class="svg-infographic-box" onclick="openSvgZoom('svg-escena-6', 'La red del Va y Ven')">
-              <svg id="svg-escena-6" viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" style="font-family: Outfit, sans-serif;">
-                <rect width="720" height="260" fill="#ffffff"/>
-                <text x="360" y="26" text-anchor="middle" font-size="16.5" font-weight="800" fill="#0d0d0d">¿Qué contiene el archivo de transporte (04-C)?</text>
-                <rect x="30" y="50" width="200" height="150" rx="14" fill="#600d8b"/>
-                <text x="130" y="120" text-anchor="middle" font-size="40" font-weight="900" fill="#ed9f22">500</text>
-                <text x="130" y="150" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">paradas de autobús</text>
-                <rect x="260" y="50" width="200" height="150" rx="14" fill="#f3e8ff" stroke="#600d8b" stroke-width="2"/>
-                <text x="360" y="120" text-anchor="middle" font-size="40" font-weight="900" fill="#600d8b">18</text>
-                <text x="360" y="150" text-anchor="middle" font-size="13" font-weight="800" fill="#0d0d0d">rutas trazadas</text>
-                <rect x="490" y="50" width="200" height="150" rx="14" fill="#fef3c7" stroke="#ed9f22" stroke-width="2"/>
-                <text x="590" y="120" text-anchor="middle" font-size="40" font-weight="900" fill="#b45309">47</text>
-                <text x="590" y="150" text-anchor="middle" font-size="13" font-weight="800" fill="#0d0d0d">otros elementos</text>
-                <text x="360" y="236" text-anchor="middle" font-size="12" font-weight="600" fill="#555555">565 elementos en total. Corrige el dato anterior de "565 rutas": la mayoría son paradas.</text>
-              </svg>
-            </div>
-            <div class="figure-source-footer">
-              <span>Fuente: export.geojson de OpenStreetMap (04-C)</span>
-              <span>Conteo por tipo de elemento</span>
+            <div class="d3-escena" id="d3-svg-escena-6" data-svg-id="svg-escena-6" onclick="openSvgZoom('svg-escena-6', 'La red del Va y Ven')" role="figure" aria-label="La red del Va y Ven">
+              <p class="d3-cargando">Cargando gráfica desde los CSV…</p>
             </div>
           </div>
         </div>
@@ -1738,7 +1493,7 @@
     <section class="slide-view" id="slide-6" data-index="6" data-title="Matriz de Fuentes">
       <div class="slide-header-bar">
         <span class="slide-badge">CAPÍTULO 06 · CATÁLOGO MAESTRO DE DATOS</span>
-        <span class="slide-nav-hint">16 fuentes con dato real</span>
+        <span class="slide-nav-hint"><span data-cifra="fuentes_dato_real">16</span> fuentes con dato real</span>
       </div>
 
       <div class="filter-bar">
@@ -1775,7 +1530,7 @@
               <td>INEGI / DENUE</td>
               <td class="file-name">denue_merida_alimentos_real.csv</td>
               <td>CSV Tabular</td>
-              <td>7,520 comercios georreferenciados</td>
+              <td><span data-cifra="denue_comercios">7,520</span> comercios georreferenciados</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_a" data-cat="precios">
@@ -1784,7 +1539,7 @@
               <td>PROFECO QQP</td>
               <td class="file-name">profeco_merida_2026_real.csv</td>
               <td>CSV Tabular</td>
-              <td>28,288 precios reales auditados</td>
+              <td><span data-cifra="profeco_registros">28,288</span> precios reales auditados</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_a" data-cat="siegy">
@@ -1802,7 +1557,7 @@
               <td>Mercados públicos (DENUE)</td>
               <td class="file-name">mercados_publicos_merida_denue.geojson</td>
               <td>GeoJSON SIG</td>
-              <td>15 mercados públicos según DENUE</td>
+              <td><span data-cifra="mercados_n">15</span> mercados públicos según DENUE</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_a" data-cat="scrapers">
@@ -1811,7 +1566,7 @@
               <td>Precios en supermercados</td>
               <td class="file-name">precios_canasta_supermercados_reales.csv</td>
               <td>CSV (derivado PROFECO)</td>
-              <td>62 combinaciones producto-cadena (misma presentación)</td>
+              <td><span data-cifra="canasta_cadenas_filas">62</span> combinaciones producto-cadena (misma presentación)</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
 
@@ -1822,7 +1577,7 @@
               <td>INEGI / Censos Económicos 2019</td>
               <td class="file-name">censos_economicos_2019_merida_comercio_alimentos.csv</td>
               <td>CSV Censal</td>
-              <td>32 clases SCIAN de comercio de alimentos en Mérida</td>
+              <td><span data-cifra="saic_clases">32</span> clases SCIAN de comercio de alimentos en Mérida</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_b" data-cat="sniim">
@@ -1831,7 +1586,7 @@
               <td>Central de Abasto (PROFECO)</td>
               <td class="file-name">profeco_central_abasto_merida_2026.csv</td>
               <td>CSV Tabular</td>
-              <td>776 precios al público</td>
+              <td><span data-cifra="central_abasto_precios">776</span> precios al público</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_b" data-cat="conapo">
@@ -1840,7 +1595,7 @@
               <td>Censo 2020 por AGEB</td>
               <td class="file-name">censo2020_indicadores_ageb_merida.csv</td>
               <td>CSV Censal</td>
-              <td>526 AGEB urbanas (sustituye al índice CONAPO)</td>
+              <td><span data-cifra="ageb_n">526</span> AGEB urbanas (sustituye al índice CONAPO)</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_b" data-cat="scrapers">
@@ -1849,7 +1604,7 @@
               <td>Farmacias y conveniencia (PROFECO)</td>
               <td class="file-name">profeco_farmacias_conveniencia_merida_2026.csv</td>
               <td>CSV Tabular</td>
-              <td>5,864 precios en farmacias, OXXO y 7 Eleven</td>
+              <td><span data-cifra="farmacias_precios">5,864</span> precios en farmacias, OXXO y 7 Eleven</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_b" data-cat="encuesta">
@@ -1858,7 +1613,7 @@
               <td>Bitácora Tienditas (Self-Made)</td>
               <td class="file-name">bitacora_precios_tienditas.csv</td>
               <td>CSV Auditoría</td>
-              <td>Levantamiento propio en 5 tienditas (Centro, Santiago, Polígono 108, Mercedes Barrera, Chuburná)</td>
+              <td>Levantamiento propio en <span data-cifra="tienditas_n">5</span> tienditas (Centro, Santiago, Polígono 108, Mercedes Barrera, Chuburná)</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_b" data-cat="3d">
@@ -1867,7 +1622,7 @@
               <td>Elevación Centro (Terrain Tiles)</td>
               <td class="file-name">elevacion_centro_merida.ply</td>
               <td>Malla 3D (.ply)</td>
-              <td>1,681 puntos de elevación real alrededor del mercado</td>
+              <td><span data-cifra="centro_puntos">1,681</span> puntos de elevación real alrededor del mercado</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
 
@@ -1877,8 +1632,8 @@
               <td><span class="tag-source">Fuente C</span></td>
               <td>INEGI / ENOE</td>
               <td class="file-name">conjunto_de_datos_hog_enoe_2025_1t.csv</td>
-              <td>CSV (15.9 MB)</td>
-              <td>151,570 hogares y microdatos sociolaborales</td>
+              <td>CSV (<span data-cifra="enoe_hog_mb">15.9</span> MB)</td>
+              <td><span data-cifra="enoe_hogares">151,570</span> hogares y microdatos sociolaborales</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_c" data-cat="diconsa">
@@ -1887,7 +1642,7 @@
               <td>SEGALMEX DICONSA</td>
               <td class="file-name">DICONSA_8_Listado_de_articulos_por_proveedor.csv</td>
               <td>CSV Oficial</td>
-              <td>4,063 artículos y canasta comunitaria</td>
+              <td><span data-cifra="diconsa_articulos">4,063</span> artículos y canasta comunitaria</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_c" data-cat="sanitaria">
@@ -1905,7 +1660,7 @@
               <td>Movilidad Va y Ven</td>
               <td class="file-name">export.geojson</td>
               <td>GeoJSON Rutas</td>
-              <td>565 elementos OSM: 500 paradas y 18 rutas</td>
+              <td><span data-cifra="vayven_elementos">565</span> elementos OSM: <span data-cifra="vayven_paradas">500</span> paradas y <span data-cifra="vayven_rutas">18</span> rutas</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_c" data-cat="3d">
@@ -1914,7 +1669,7 @@
               <td>Relieve Mérida vs. montaña</td>
               <td class="file-name">topografia_merida_vs_ciudades_montana.csv</td>
               <td>CSV + Malla 3D (.ply)</td>
-              <td>2,400 puntos en 6 ciudades (Terrain Tiles)</td>
+              <td><span data-cifra="ciudades_puntos">2,400</span> puntos en 6 ciudades (Terrain Tiles)</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
           </tbody>
@@ -1947,7 +1702,7 @@
             <li><strong>CONEVAL:</strong> líneas de pobreza por ingresos, enero de 2018 a marzo de 2025 (último dato del archivo publicado).</li>
             <li><strong>INEGI:</strong> DENUE (descarga masiva Yucatán), Censo de Población 2020 por AGEB y Censos Económicos 2019 (año de referencia 2018).</li>
             <li><strong>Elevación:</strong> AWS Terrain Tiles (formato Terrarium). No es LiDAR.</li>
-            <li><strong>Levantamiento propio:</strong> 5 tienditas, del 26 de septiembre al 1 de octubre de 2026.</li>
+            <li><strong>Levantamiento propio:</strong> <span data-cifra="tienditas_n">5</span> tienditas, del 26 de septiembre al 1 de octubre de 2026.</li>
           </ul>
         </div>
 
@@ -1976,10 +1731,10 @@
           <h4>5. Limitaciones</h4>
           <ul>
             <li>PROFECO cubre un solo mes y las sucursales que visitan sus inspectores; no es un índice de precios.</li>
-            <li>La bitácora propia tiene de 2 a 5 precios por producto: sirve como ilustración, no como estimación estadística.</li>
+            <li>La bitácora propia tiene de <span data-cifra="tienditas_min_precios">2</span> a <span data-cifra="tienditas_max_precios">5</span> precios por producto: sirve como ilustración, no como estimación estadística.</li>
             <li>Las líneas de CONEVAL son nacionales (urbano/rural), no específicas de Mérida.</li>
             <li>La elevación tiene resolución de ~30 m: no capta edificios.</li>
-            <li>El cálculo usa el salario mínimo general 2025 ($278.80 diarios, CONASAMI) para empatar con el último dato de CONEVAL (marzo 2025). En 2026 el mínimo general es $315.04 diarios (CONASAMI).</li>
+            <li>El cálculo usa el salario mínimo general 2025 (<span data-cifra="salario_minimo_2025">$278.80</span> diarios, CONASAMI) para empatar con el último dato de CONEVAL (marzo 2025). En 2026 el mínimo general es <span data-cifra="salario_minimo_2026">$315.04</span> diarios (CONASAMI).</li>
           </ul>
         </div>
 
@@ -2143,6 +1898,8 @@
 
     function gameStart() {
       const pool = explorer.filas.filter(x => x.comparacion === 'abasto' && Math.abs(x.dif_pct) >= 5);
+      game.poolTotal = pool.length;
+      game.poolAbasto = pool.filter(x => x.precio_otro < x.precio_super).length;
       for (let k = pool.length - 1; k > 0; k--) { const r = Math.floor(Math.random() * (k + 1)); [pool[k], pool[r]] = [pool[r], pool[k]]; }
       game.rondas = pool.slice(0, game.total); game.i = 0; game.aciertos = 0;
       document.getElementById('gameNext').textContent = 'Siguiente producto \u2192';
@@ -2189,7 +1946,7 @@
           : a >= 7 ? '<strong>Nivel: radar de ofertas.</strong> Muy bien.'
           : a >= 5 ? '<strong>Nivel: comprador de quincena.</strong> Vas aprendiendo.'
           : '<strong>Nivel: turista en el súper.</strong> Hoy te tocó pagar de más.'
-        document.getElementById('gameVerdict').innerHTML += '<br><span style="font-size:12.5px;color:var(--muted)">Dato: en 97 de los 125 productos del juego, el Abasto fue más barato.</span>';
+        document.getElementById('gameVerdict').innerHTML += `<br><span style="font-size:12.5px;color:var(--muted)">Dato: en ${game.poolAbasto} de los ${game.poolTotal} productos del juego, el Abasto fue más barato.</span>`;
       }
     }
 
@@ -2207,24 +1964,27 @@
     // =====================================================================
     const TOUR_STEPS = [
       { slide: 1, sel: '#slide-1 .editorial-title', title: 'La pregunta',
-        text: 'En Mérida, lo que pagas por comer depende de dónde compras. Este recorrido cruza datos oficiales de PROFECO, INEGI y CONEVAL con una bitácora propia de cinco tienditas.' },
+        text: 'En Mérida, lo que pagas por comer depende de dónde compras. Este recorrido cruza datos oficiales de PROFECO, INEGI y CONEVAL con una bitácora propia de {tienditas_n} tienditas.' },
       { slide: 2, sel: '#slide-2 .product-pills', title: 'Central de Abasto contra supermercado',
-        text: 'En 139 productos comparables, el súper fue más caro en 103 casos, el 74.1 por ciento, con una diferencia mediana de 19 por ciento. Toca un producto para ver su precio en cada pasillo.' },
+        text: 'En {abasto_pares} productos comparables, el súper fue más caro en {abasto_mas_caro} casos ({abasto_pct_mas_caro}), con una diferencia mediana de {abasto_mediana}. Toca un producto para ver su precio en cada pasillo.' },
       { slide: 2, sel: '#juegoAbasto', title: 'Ponte a prueba',
         text: 'Antes de seguir, juega: te mostramos un producto y adivinas si estaba más barato en la Central de Abasto o en el súper. Son precios reales de PROFECO.' },
       { slide: 3, sel: '#svg-escena-2', title: 'El precio de la prisa',
-        text: 'Entre tiendas de conveniencia y supermercados hay 93 productos comparables. La conveniencia fue más cara en 49, pero la diferencia mediana es de apenas 1.3 por ciento: la prisa se paga en bebidas y botanas, no en todo.' },
+        text: 'Entre tiendas de conveniencia y supermercados hay {conv_pares} productos comparables. La conveniencia fue más cara en {conv_mas_cara}, pero la diferencia mediana es de apenas {conv_mediana}: la prisa se paga en bebidas y sopas instantáneas, no en todo.' },
       { slide: 3, sel: '#explorador', title: 'Explora con filtros',
         text: 'Aquí puedes filtrar todos los productos por tipo de comparación, categoría y resultado, o buscar uno en particular. Cada fila sale de los registros de PROFECO de mayo de 2026.' },
       { slide: 4, sel: '#wageSlider', title: 'Cuánto sueldo se come la canasta',
-        text: 'Alimentar a un hogar típico de Mérida con la canasta urbana de CONEVAL cuesta 7,780 pesos al mes: casi 28 días de salario mínimo de 2025. Mueve el control para probar con tu sueldo.' },
+        text: 'Alimentar a un hogar típico de Mérida con la canasta urbana de CONEVAL cuesta {canasta_hogar} al mes: {dias_canasta} días de salario mínimo de 2025. Mueve el control para probar con tu sueldo.' },
       { slide: 5, sel: '#svg-escena-5', title: 'Una ciudad plana',
-        text: 'En 17 kilómetros, Mérida apenas tiene 16 metros de desnivel. En la misma área, San Cristóbal de las Casas tiene más de 1,400. Los datos son de elevación real, no de LiDAR.' },
+        text: 'En {malla_km} kilómetros, Mérida apenas tiene {merida_desnivel} metros de desnivel. En la misma área, San Cristóbal de las Casas tiene {sclc_desnivel}. Los datos son de elevación real, no de LiDAR.' },
       { slide: 6, sel: '#slide-6 .filter-bar', title: 'Catálogo de fuentes',
-        text: 'El análisis usa 16 fuentes con datos reales de PROFECO, INEGI, CONEVAL, DICONSA, SENASICA, OpenStreetMap, elevación y una bitácora propia. Usa los filtros para revisar cada bloque.' },
+        text: 'El análisis usa {fuentes_dato_real} fuentes con datos reales de PROFECO, INEGI, CONEVAL, DICONSA, SENASICA, OpenStreetMap, elevación y una bitácora propia. Usa los filtros para revisar cada bloque.' },
       { slide: 7, sel: '#slide-7 .metodo-grid', title: 'Metodología y limitaciones',
         text: 'Aquí se explica de dónde sale cada cifra, cómo se calculó y qué no dicen los datos. Fin del recorrido.' }
     ];
+    function textoConCifras(t) {
+      return t.replace(/\{(\w+)\}/g, (_, k) => (window.cifraTexto ? window.cifraTexto(k) : k));
+    }
     const tour = { i: 0, playing: false, timer: null, start: 0, dur: 0, raf: null, active: false };
 
     function startTour() {
@@ -2249,7 +2009,7 @@
       if (el) { el.classList.add('tour-highlight'); setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 350); }
       document.getElementById('tourStep').textContent = `Paso ${tour.i + 1} de ${TOUR_STEPS.length}`;
       document.getElementById('tourTitle').textContent = st.title;
-      document.getElementById('tourText').textContent = st.text;
+      document.getElementById('tourText').textContent = textoConCifras(st.text);
       document.getElementById('tourPlayBtn').textContent = tour.playing ? 'Pausar' : 'Reanudar';
       tourStopTimer();
       if (window.speechSynthesis) speechSynthesis.cancel();
@@ -2409,8 +2169,9 @@
       const img = new Image();
       img.onload = function() {
         const canvas = document.createElement('canvas');
-        canvas.width = 1440;
-        canvas.height = 840;
+        const vb = (svgEl.getAttribute('viewBox') || '0 0 720 420').split(/[ ,]+/).map(Number);
+        canvas.width = 1600;
+        canvas.height = Math.round(1600 * vb[3] / vb[2]);
         const ctx = canvas.getContext('2d');
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -2432,22 +2193,14 @@
     }
 
     // SELECTOR DE PRODUCTOS (SLIDE 2)
-    const productData = {
-      'Cebolla': { mayoreo: '$10.90/kg', menudeo: '$29.90/kg', margen: '+174.3%', desc: 'Cebolla blanca sin rabo, 1 kg a granel. Mediana de 7 registros en la Central de Abasto y 47 en supermercados (PROFECO, mayo 2026).' },
-      'Arroz': { mayoreo: '$15.40', menudeo: '$32.00', margen: '+107.8%', desc: 'Arroz súper extra, bolsa de 900 g. Mediana de 3 registros en la Central de Abasto y 24 en supermercados (PROFECO, mayo 2026).' },
-      'Frijol': { mayoreo: '$17.00', menudeo: '$23.00', margen: '+35.3%', desc: 'Frijol negro, bolsa de 900 g. Mediana de 4 registros en la Central de Abasto y 39 en supermercados (PROFECO, mayo 2026).' },
-      'Limon': { mayoreo: '$21.90/kg', menudeo: '$35.00/kg', margen: '+59.8%', desc: 'Limón agrio sin semilla o persa, 1 kg a granel. Mediana de 6 registros en la Central de Abasto y 42 en supermercados (PROFECO, mayo 2026).' },
-      'Papa': { mayoreo: '$43.00/kg', menudeo: '$47.95/kg', margen: '+11.5%', desc: 'Papa alfa o blanca, 1 kg a granel. Mediana de 7 registros en la Central de Abasto y 44 en supermercados (PROFECO, mayo 2026).' },
-      'Jitomate': { mayoreo: '$52.00/kg', menudeo: '$45.00/kg', margen: '-13.5%', desc: 'Jitomate saladette, 1 kg a granel. Aquí el súper es más barato. Mediana de 7 registros en la Central de Abasto y 42 en supermercados (PROFECO, mayo 2026).' },
-      'Tortilla': { mayoreo: '$28.00/kg', menudeo: '$13.00/kg', margen: '-53.6%', desc: 'Tortilla de maíz, 1 kg a granel. Aquí el súper es más barato. Mediana de 4 registros en la Central de Abasto y 43 en supermercados (PROFECO, mayo 2026).' },
-      'Pollo': { mayoreo: '$51.00/kg', menudeo: '$39.00/kg', margen: '-23.5%', desc: 'Pollo entero, 1 kg a granel. Aquí el súper es más barato. Mediana de 7 registros en la Central de Abasto y 20 en supermercados (PROFECO, mayo 2026).' }
-    };
+    // Se llena en js/sitio/main.js con booklet/datos/escena-2.csv (PROFECO, mayo 2026).
+    window.productData = window.productData || {};
 
     function selectProduct(key) {
       document.querySelectorAll('.prod-btn').forEach(btn => btn.classList.remove('active'));
       event.currentTarget.classList.add('active');
 
-      const data = productData[key];
+      const data = window.productData[key];
       if (data) {
         document.getElementById('prodMayoreo').textContent = data.mayoreo;
         document.getElementById('prodMenudeo').textContent = data.menudeo;
@@ -2457,19 +2210,19 @@
     }
 
     // SIMULADOR DE SALARIO (SLIDE 4)
-    // CONEVAL canasta alimentaria urbana mar-2025 ($2,379.47) x 3.27 ocupantes por vivienda (Censo 2020, Mérida)
-    const CANASTA_HOGAR = 7780.87;
-    // Mediana PROFECO de tortilla de maíz 1 kg en tortillerías, mayo 2026
-    const TORTILLA_KG = 29.50;
+    // Todas las constantes salen de data/web/cifras_sitio.csv (las carga js/sitio/main.js en window.CIFRA).
     function runWageCalc(val) {
+      const K = window.CIFRA || {};
+      if (!K.canasta_hogar) return;
+      const CANASTA_HOGAR = K.canasta_hogar, TORTILLA_KG = K.tortilla_kg;
       val = parseFloat(val);
       document.getElementById('wageValDisplay').textContent = '$' + val.toLocaleString('es-MX') + ' MXN';
 
       const salarioDiario = val / 30;
       const salarioHora = salarioDiario / 8;
 
-      const diasIndiv = (2379.47 / salarioDiario).toFixed(1);
-      const horasPollo = (39.00 / salarioHora).toFixed(1);
+      const diasIndiv = (K.canasta_persona / salarioDiario).toFixed(1);
+      const horasPollo = (K.pollo_kg / salarioHora).toFixed(1);
       const pctFam = Math.min((CANASTA_HOGAR / val) * 100, 100).toFixed(1);
 
       document.getElementById('calcDiasIndiv').textContent = diasIndiv + ' días';
@@ -2498,7 +2251,7 @@
           transEl.style.color = '#dc2626';
         } else {
           const tortSobra = (sobrante / TORTILLA_KG).toFixed(1);
-          transEl.textContent = 'Tras la canasta te sobran $' + Math.round(sobrante).toLocaleString('es-MX') + ' MXN = ' + tortSobra + ' kg de tortilla ($29.50/kg)';
+          transEl.textContent = 'Tras la canasta te sobran $' + Math.round(sobrante).toLocaleString('es-MX') + ' MXN = ' + tortSobra + ' kg de tortilla ($' + TORTILLA_KG.toFixed(2) + '/kg)';
           transEl.style.color = '#0d0d0d';
         }
       }
@@ -2568,12 +2321,9 @@
 
     // INICIALIZACIÓN
     window.addEventListener('DOMContentLoaded', () => {
-      animateCount('kpiComercios', 7520);
-      animateCount('kpiPrecios', 28288);
-      animateCount('kpiDelivery', 19.0, true);
-      animateCount('kpiEnoe', 302092);
-      runWageCalc(8364);
+      // Los contadores y el simulador arrancan en js/sitio/main.js, con las cifras de data/web/cifras_sitio.csv.
     });
   </script>
+  <script type="module" src="js/sitio/main.js"></script>
 </body>
 </html>
