@@ -9,7 +9,7 @@
 
 ## Título-hallazgo
 
-**El mes que se come tu sueldo: 28 días pa' la panza**
+**El mes que se come tu sueldo: 27 días pa' la panza**
 
 ## Pregunta del capítulo
 
@@ -23,19 +23,19 @@ Con el salario mínimo, alimentar a un hogar típico de Mérida se lleva casi to
 
 | Cifra | Qué dice | Fuente y corte | Archivo |
 |---|---|---|---|
-| **27.9 días** | de salario mínimo general 2025 ($278.80 diarios) cuesta un mes de canasta alimentaria urbana para un hogar de 3.27 personas ($7,780.87) | CONEVAL (canasta, marzo 2025); INEGI Censo 2020 (ocupantes por vivienda); CONASAMI (salario mínimo 2025) | `datos/escena-1.csv`: `dias_canasta` |
+| **26.9 días** | de salario mínimo general 2026 ($315.04 diarios) cuesta un mes de canasta alimentaria urbana para un hogar de 3.27 personas ($8,483.66) | INEGI, Líneas de Pobreza (canasta, octubre 2026); INEGI Censo 2020 (ocupantes por vivienda); CONASAMI (salario mínimo 2026) | `datos/escena-1.csv`: `dias_canasta` |
 | **+19.0 %** | diferencia mediana del súper frente a la Central de Abasto en 139 productos con la misma presentación; el súper fue más caro en 103 de ellos | PROFECO, Quién es Quién en los Precios, Mérida · mayo 2026 | `datos/escena-2.csv`: mediana de `diferencia_pct` |
 | **+174.3 %** | más cara la cebolla blanca en el súper ($29.90/kg) que en la Central de Abasto ($10.90/kg) | PROFECO, Quién es Quién en los Precios, Mérida · mayo 2026 | `datos/escena-2.csv`: fila «Cebolla · 1 Kg. Granel. Blanca Sin Rabo» |
 
 ## Ilustración de apertura
 
-**«Hasta la cebolla llora: $10.90 en el Abasto, $29.90 en el súper»** (`graficas/apertura.html`, en D3). Dos cebollas: la del súper llora una lágrima por cada 25 % de diferencia (+174.3 %), y debajo de cada una, cuántos kilos compra un día de salario mínimo (25.6 kg en la Central de Abasto, 9.3 kg en el súper). Datos: `datos/escena-2.csv` y `datos/unidad-salario-minimo.csv`.
+**«Hasta la cebolla llora: $10.90 en el Abasto, $29.90 en el súper»** (`graficas/apertura.html`, en D3). Dos cebollas: la del súper llora una lágrima por cada 25 % de diferencia (+174.3 %), y debajo de cada una, cuántos kilos compra un día de salario mínimo (con el salario mínimo 2026, el mismo año de los precios: 28.9 kg en la Central de Abasto, 10.5 kg en el súper). Datos: `datos/escena-2.csv` y `datos/unidad-salario-minimo.csv`.
 
 ## Escenas
 
 | # | Título-hallazgo (se arma con los datos) | Tipo | Datos | Página D3 |
 |---|---|---|---|---|
-| 1 | El mes que se come tu sueldo: 28 días pa' la panza | Calendario de 30 días | `datos/escena-1.csv` | `graficas/escena-1.html` |
+| 1 | El mes que se come tu sueldo: 27 días pa' la panza | Calendario de 30 días | `datos/escena-1.csv` | `graficas/escena-1.html` |
 | 2 | Mismo producto, otro pasillo: la cebolla cuesta 174 % más en el súper | Barras horizontales con mediana (10 que más suben y 3 que más bajan) | `datos/escena-2.csv` | `graficas/escena-2.html` |
 | 3 | El impuesto a la flojera: hasta +56 % por no caminar al súper | Pesas (conveniencia contra súper), 7 productos | `datos/escena-3.csv` | `graficas/escena-3.html` |
 | 4 | David contra Goliat: la tiendita solo le gana al súper en la leche (−29.7 %) | Pesas (tiendita contra súper), 4 productos | `datos/escena-4.csv` | `graficas/escena-4.html` |
@@ -44,7 +44,7 @@ Los títulos y subtítulos de las gráficas se escriben con las cifras que leen 
 
 ### Lectura de cada escena
 
-1. **Calendario.** De 30 días del mes, 27.9 se van en la comida del hogar y quedan 2.1 para renta, luz, transporte, escuela y salud.
+1. **Calendario.** De 30 días del mes, 26.9 se van en la comida del hogar y quedan 3.1 para renta, luz, transporte, escuela y salud.
 2. **Central de Abasto contra súper.** Las verduras y los granos a granel son los que más se encarecen en el súper; en 36 de 139 productos el súper sale más barato.
 3. **Conveniencia contra súper.** En 93 productos comparables la conveniencia fue más cara en 49, con una diferencia mediana de +1.3 %. El sobreprecio grande se concentra en bebidas (suero oral +56.4 %, agua de 1 L +53.3 %, yoghurt bebible +48.9 %) y sopas instantáneas.
 4. **Tiendita contra súper.** En 5 tienditas, la leche LALA de 1 L estaba 29.7 % más barata que en el súper; el pan Bimbo, 39.5 % más caro; la tortilla, el doble (+103.8 %, con solo 2 precios). **Es una muestra chica:** de 2 a 5 precios por producto en tienditas, así que ilustra, no generaliza.
@@ -54,8 +54,8 @@ Los títulos y subtítulos de las gráficas se escriben con las cifras que leen 
 - **Muestra chica en la escena 4:** la bitácora propia es de 5 tienditas, con 2 a 5 precios por producto y visitas del 26 de septiembre al 1 de octubre de 2026. No representa a todas las tienditas de Mérida.
 - **Un solo mes de precios:** PROFECO es de mayo de 2026 y solo cubre las sucursales que visitan sus inspectores. No muestra cómo cambian los precios en el año.
 - **Precios al público, no de mayoreo:** la Central de Abasto también es precio al consumidor; no dice lo que recibe el productor ni el margen del intermediario.
-- **La canasta es nacional:** la línea de CONEVAL es urbana nacional, no específica de Mérida, y está en pesos corrientes de marzo de 2025 (sin deflactar).
-- **Salario mínimo como unidad:** se usa el salario mínimo general 2025 para empatar con el último dato de CONEVAL; no es el ingreso real de los hogares. En 2026 el mínimo general es de $315.04 diarios (CONASAMI).
+- **La canasta es nacional:** la línea de pobreza extrema urbana de INEGI (antes CONEVAL) es nacional, no específica de Mérida, y está en pesos corrientes de octubre de 2026 (sin deflactar).
+- **Salario mínimo como unidad:** se usa el salario mínimo general 2026 ($315.04 diarios, CONASAMI), del mismo año que la canasta y que los precios de PROFECO; no es el ingreso real de los hogares. Con el salario y la canasta de 2025 (CONEVAL, marzo 2025) el resultado era 27.9 días: el cálculo es estable.
 - **Lo que cuesta llegar:** no se incluye el tiempo ni el transporte para ir a la Central de Abasto o al súper.
 - **Promedio y mediana:** la escena 2 usa medianas; la escena 3, promedios con 3 o más registros por canal; la escena 4, medianas. Se indica en cada subtítulo.
 

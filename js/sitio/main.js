@@ -65,7 +65,7 @@ function arrancarContadores(valor) {
 }
 
 function arrancarSimulador(valor) {
-  const mensual = valor("salario_mensual_2025");
+  const mensual = valor("salario_mensual");
   const slider = document.getElementById("wageSlider");
   if (!mensual || !slider) return;
   slider.value = mensual;

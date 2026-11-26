@@ -2,7 +2,8 @@
 // Dos cebollas dibujadas en D3: la de la Central de Abasto (oro, comparación) y la del súper
 // (morado, foco). La del súper llora una lágrima por cada 25 % de diferencia.
 // Debajo, cuántos kilos compra un día de salario mínimo en cada lugar.
-// Datos: ../datos/escena-2.csv (fila de cebolla) y ../datos/unidad-salario-minimo.csv (2025).
+// Datos: ../datos/escena-2.csv (fila de cebolla) y ../datos/unidad-salario-minimo.csv.
+// Se usa el salario mínimo del mismo año que los precios (PROFECO, mayo 2026 → salario 2026).
 
 import { d3, color, fmt, cargar, marco } from "./estilo.js";
 
@@ -10,17 +11,18 @@ export async function apertura(selector, rutas = {}) {
   const comparables = await cargar(rutas.escena2 ?? "../datos/escena-2.csv");
   const salarios = await cargar(rutas.salario ?? "../datos/unidad-salario-minimo.csv");
   const d = comparables.sort((a, b) => b.diferencia_pct - a.diferencia_pct)[0];
-  const salario = salarios.find((s) => s.anio === 2025).salario_minimo_diario_mxn;
+  const anioPrecios = Number(String(d.corte).match(/\d{4}/)[0]);
+  const salario = salarios.find((s) => s.anio === anioPrecios).salario_minimo_diario_mxn;
   const kgCentral = salario / d.precio_central_mxn, kgSuper = salario / d.precio_super_mxn;
   const lagrimas = Math.round(d.diferencia_pct / 25);
 
   const titulo = `Hasta la ${d.producto.toLowerCase()} llora: ${fmt.pesos(d.precio_central_mxn)} en el Abasto, ` +
     `${fmt.pesos(d.precio_super_mxn)} en el súper`;
   const subtitulo = `Mismo kilo de ${d.producto.toLowerCase()} (${d.presentacion.toLowerCase()}), mediana de precio por lugar. ` +
-    `Con un día de salario mínimo 2025 (${fmt.pesos(salario)}) alcanza para ${fmt.dec(kgCentral)} kg en la Central de Abasto ` +
+    `Con un día de salario mínimo ${anioPrecios} (${fmt.pesos(salario)}) alcanza para ${fmt.dec(kgCentral)} kg en la Central de Abasto ` +
     `o ${fmt.dec(kgSuper)} kg en el súper. Una lágrima por cada 25 % de diferencia. Mérida.`;
   const fuente = `Fuente: ${d.fuente} (02-A y 02-B), ${d.registros_central} registros en la Central y ${d.registros_super} en súper; ` +
-    `CONASAMI, salario mínimo 2025 · Corte: ${d.corte}`;
+    `CONASAMI, salario mínimo ${anioPrecios} · Corte: ${d.corte}`;
 
   const ancho = 760, alto = 380;
   const svg = marco(selector, { titulo, subtitulo, fuente, ancho, alto });

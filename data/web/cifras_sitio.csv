@@ -1,21 +1,24 @@
 clave,valor,formato,descripcion,fuente,archivo_origen
 salario_minimo_2025,278.8,pesos,Salario mínimo general diario 2025,"CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales",booklet/datos/unidad-salario-minimo.csv
 salario_minimo_2026,315.04,pesos,Salario mínimo general diario 2026,"CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales",booklet/datos/unidad-salario-minimo.csv
-salario_mensual_2025,8364.0,pesosEnteros,Salario mínimo 2025 × 30 días,"CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales",booklet/datos/unidad-salario-minimo.csv
-salario_mensual_2025_x2,16728.0,pesosEnteros,Dos salarios mínimos mensuales 2025,"CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales",booklet/datos/unidad-salario-minimo.csv
-canasta_persona,2379.47,pesos,"Canasta alimentaria urbana por persona, mar 2025","CONEVAL, líneas de pobreza por ingresos",booklet/datos/escena-1.csv
+salario_minimo,315.04,pesos,Salario mínimo general diario 2026 (mismo año que la canasta),"CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales",booklet/datos/unidad-salario-minimo.csv
+anio_salario,2026,texto,Año del salario mínimo y de la canasta,"CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales",booklet/datos/escena-1.csv
+corte_canasta,octubre 2026,texto,Mes de la canasta alimentaria,"INEGI, Líneas de Pobreza",booklet/datos/escena-1.csv
+salario_mensual,9451.2,pesosEnteros,Salario mínimo 2026 × 30 días,"CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales",booklet/datos/unidad-salario-minimo.csv
+salario_mensual_x2,18902.4,pesosEnteros,Dos salarios mínimos mensuales 2026,"CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales",booklet/datos/unidad-salario-minimo.csv
+canasta_persona,2594.39,pesos,"Canasta alimentaria urbana por persona, octubre 2026","INEGI, Líneas de Pobreza",booklet/datos/escena-1.csv
 ocupantes,3.27,dec2,Promedio de ocupantes por vivienda en Mérida,"INEGI, Censo 2020",booklet/datos/escena-1.csv
-canasta_hogar,7780.87,pesos,Canasta del hogar al mes,CONEVAL; INEGI Censo 2020; CONASAMI,booklet/datos/escena-1.csv
-dias_canasta,27.9,dec,Días de salario mínimo para la canasta del hogar,CONEVAL; INEGI Censo 2020; CONASAMI,booklet/datos/escena-1.csv
-dias_canasta_redondo,27.9,num,Días de salario mínimo (redondeado),CONEVAL; INEGI Censo 2020; CONASAMI,booklet/datos/escena-1.csv
-dias_canasta_indiv,8.5347,dec,Días de salario mínimo para la canasta de una persona,CONEVAL; INEGI Censo 2020; CONASAMI,booklet/datos/escena-1.csv
-pct_sueldo_canasta,93.0281,pct,Parte del salario mínimo mensual que se lleva la canasta del hogar,CONEVAL; INEGI Censo 2020; CONASAMI,booklet/datos/escena-1.csv
-sobrante_canasta,583.13,pesosEnteros,Lo que sobra del salario mínimo tras la canasta,CONEVAL; INEGI Censo 2020; CONASAMI,booklet/datos/escena-1.csv
+canasta_hogar,8483.66,pesos,Canasta del hogar al mes,"INEGI, Líneas de Pobreza; INEGI Censo 2020; CONASAMI",booklet/datos/escena-1.csv
+dias_canasta,26.9,dec,Días de salario mínimo para la canasta del hogar,"INEGI, Líneas de Pobreza; INEGI Censo 2020; CONASAMI",booklet/datos/escena-1.csv
+dias_canasta_redondo,26.9,num,Días de salario mínimo (redondeado),"INEGI, Líneas de Pobreza; INEGI Censo 2020; CONASAMI",booklet/datos/escena-1.csv
+dias_canasta_indiv,8.2351,dec,Días de salario mínimo para la canasta de una persona,"INEGI, Líneas de Pobreza; INEGI Censo 2020; CONASAMI",booklet/datos/escena-1.csv
+pct_sueldo_canasta,89.7628,pct,Parte del salario mínimo mensual que se lleva la canasta del hogar,"INEGI, Líneas de Pobreza; INEGI Censo 2020; CONASAMI",booklet/datos/escena-1.csv
+sobrante_canasta,967.54,pesosEnteros,Lo que sobra del salario mínimo tras la canasta,"INEGI, Líneas de Pobreza; INEGI Censo 2020; CONASAMI",booklet/datos/escena-1.csv
 profeco_registros,28288.0,num,Registros de precios PROFECO en Mérida,"PROFECO, Quién es Quién en los Precios, Mérida, mayo 2026",data/fuente_a/02_datos_gob_profeco/profeco_merida_2026_real.csv
 tortilla_kg,29.5,pesos,Tortilla de maíz 1 kg en tortillerías (mediana),"PROFECO, Quién es Quién en los Precios, Mérida, mayo 2026",data/fuente_a/02_datos_gob_profeco/profeco_merida_2026_real.csv
-sobrante_kg_tortilla,19.7671,dec,Kilos de tortilla que compra lo que sobra,"PROFECO, Quién es Quién en los Precios, Mérida, mayo 2026",data/fuente_a/02_datos_gob_profeco/profeco_merida_2026_real.csv
+sobrante_kg_tortilla,32.798,dec,Kilos de tortilla que compra lo que sobra,"PROFECO, Quién es Quién en los Precios, Mérida, mayo 2026",data/fuente_a/02_datos_gob_profeco/profeco_merida_2026_real.csv
 pollo_kg,39.0,pesos,Pollo entero 1 kg en súper (mediana),"PROFECO, Quién es Quién en los Precios, Mérida, mayo 2026",booklet/datos/escena-2.csv
-horas_pollo,1.1191,dec,Horas de salario mínimo para 1 kg de pollo,"PROFECO, Quién es Quién en los Precios, Mérida, mayo 2026; CONASAMI",booklet/datos/escena-2.csv
+horas_pollo,0.9904,dec,Horas de salario mínimo para 1 kg de pollo,"PROFECO, Quién es Quién en los Precios, Mérida, mayo 2026; CONASAMI",booklet/datos/escena-2.csv
 abasto_pares,139.0,num,Productos comparables Central de Abasto–súper,"PROFECO, Quién es Quién en los Precios, Mérida, mayo 2026",booklet/datos/escena-2.csv
 abasto_mas_caro,103.0,num,Productos más caros en el súper,"PROFECO, Quién es Quién en los Precios, Mérida, mayo 2026",booklet/datos/escena-2.csv
 abasto_pct_mas_caro,74.1007,pct,Porcentaje de productos más caros en el súper,"PROFECO, Quién es Quién en los Precios, Mérida, mayo 2026",booklet/datos/escena-2.csv

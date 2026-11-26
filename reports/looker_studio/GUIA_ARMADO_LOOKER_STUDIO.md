@@ -19,7 +19,7 @@ El informe avanza de lo general a la esquina. Cada página responde una pregunta
 | 2 | El pasillo | ¿Importa dónde compro? | El súper cobra más en 3 de cada 4 productos |
 | 3 | La prisa | ¿Comprar en la tienda de conveniencia sale caro? | La prisa se paga en bebidas, no en todo |
 | 4 | La esquina | ¿Y la tiendita de la colonia? | La tiendita no siempre es la más cara |
-| 5 | El sueldo | ¿Cuánto trabajo cuesta la canasta? | Casi 28 días de salario mínimo para alimentar a un hogar |
+| 5 | El sueldo | ¿Cuánto trabajo cuesta la canasta? | Casi 27 días de salario mínimo para alimentar a un hogar |
 | 6 | El territorio | ¿Dónde están los mercados y quién vive lejos de ellos? | El abasto popular se concentra en el Centro |
 | 7 | La ciudad plana | ¿El terreno ayuda o estorba? | Mérida es plana: 16 m de desnivel en 17 km |
 | 8 | Cierre | ¿Qué significa y de dónde salen los datos? | Dónde compras pesa tanto como cuánto ganas |
@@ -73,7 +73,7 @@ Looker Studio no tiene gráficas ilustradas, así que estas 6 se generan con dat
 | 2 · El pasillo | `n4_cebolla_llorona.png` | Hasta la cebolla llora |
 | 3 · La prisa | `n5_impuesto_flojera.png` | El impuesto a la flojera |
 | 4 · La esquina | `n6_david_vs_goliat.png` | David contra Goliat en la esquina |
-| 5 · El sueldo | `n2_calendario_canasta.png` y `n3_tortillometro.png` | Te quedan 2 días… para todo lo demás · Tu sueldo, en kilos de tortilla |
+| 5 · El sueldo | `n2_calendario_canasta.png` y `n3_tortillometro.png` | Te quedan 3 días… para todo lo demás · Tu sueldo, en kilos de tortilla |
 | 7 · La ciudad plana | `n1_merida_plana_precios_no.png` | Mérida es plana. Sus precios, no. |
 
 Úsalas como **imagen protagonista** de su escena y deja la gráfica de Looker con filtros como apoyo para quien quiera explorar. En la portada puedes usar `n1` como imagen de cabecera, porque resume toda la historia.
@@ -93,7 +93,7 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 |---|---:|---|---|
 | [`looker_01_precios_multicanal.csv`](looker_01_precios_multicanal.csv) | 26,281 | Un precio por fila con `canal`, establecimiento, producto, presentación y `precio_mxn` | 1 |
 | [`looker_02_territorio_geo.csv`](looker_02_territorio_geo.csv) | 65 | Mercados públicos (DENUE) y establecimientos PROFECO con `coordenadas_looker` | 6 |
-| [`looker_03_lineas_pobreza_coneval.csv`](looker_03_lineas_pobreza_coneval.csv) | 87 | Líneas de pobreza CONEVAL, 2018-01 a 2025-03 | 5 |
+| [`looker_03_lineas_pobreza.csv`](looker_03_lineas_pobreza.csv) | 103 | Líneas de pobreza: CONEVAL 2018-01 a 2025-03 e INEGI 2025-07 a 2026-10 (columna `fuente`; abril a junio de 2025 no tienen boletín y quedan como hueco) | 5 |
 | [`looker_04_ageb_censo2020_merida.csv`](looker_04_ageb_censo2020_merida.csv) | 520 | AGEB urbanas habitadas de Mérida (Censo 2020) | 6 |
 | [`looker_05_comparables_por_canal.csv`](looker_05_comparables_por_canal.csv) | 232 | Pares de producto y presentación idénticos por canal, con `diferencia_pct` y `resultado` | 1, 2, 3 |
 | [`looker_06_relieve_ciudades.csv`](looker_06_relieve_ciudades.csv) | 2,400 | Elevación real de Mérida y 5 ciudades de montaña | 7 |
@@ -118,7 +118,7 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 | looker_05 | `mediana_diferencia` | `MEDIAN(diferencia_pct)` |
 | looker_04 | `rango_sin_afiliacion` | `CASE WHEN pct_sin_afiliacion_salud < 15 THEN "0-15 %" WHEN pct_sin_afiliacion_salud < 20 THEN "15-20 %" WHEN pct_sin_afiliacion_salud < 25 THEN "20-25 %" WHEN pct_sin_afiliacion_salud < 30 THEN "25-30 %" WHEN pct_sin_afiliacion_salud < 40 THEN "30-40 %" ELSE "40 % o más" END` |
 | looker_06 | `desnivel_m` | `MAX(elevacion_m_snm) - MIN(elevacion_m_snm)` |
-| looker_03 | **Parámetro** `sueldo_mensual` | Recurso → Administrar fuentes → Editar `looker_03` → **Agregar un parámetro**. Tipo Número (decimal), valor predeterminado `8364` (salario mínimo general 2025: $278.80 × 30, CONASAMI), rango permitido de 1 a 200,000 |
+| looker_03 | **Parámetro** `sueldo_mensual` | Recurso → Administrar fuentes → Editar `looker_03` → **Agregar un parámetro**. Tipo Número (decimal), valor predeterminado `9451.2` (salario mínimo general 2026: $315.04 × 30, CONASAMI), rango permitido de 1 a 200,000 |
 | looker_03 | `canasta_hogar_mxn` | `SUM(lpei_canasta_alimentaria_urbana_mxn) * 3.27` (3.27 ocupantes por vivienda en Mérida, Censo 2020) |
 | looker_03 | `dias_de_trabajo_canasta` | `SUM(lpei_canasta_alimentaria_urbana_mxn) * 3.27 / (sueldo_mensual / 30)` |
 | looker_03 | `pct_sueldo_canasta` | `SUM(lpei_canasta_alimentaria_urbana_mxn) * 3.27 / sueldo_mensual`, formato Porcentaje |
@@ -131,14 +131,14 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 ### Escena 1 · Portada: «Comer cuesta distinto según dónde compras»
 
 - **Pregunta:** ¿CUÁNTO CUESTA COMER EN MÉRIDA?
-- **Bajada:** «Cruzamos precios oficiales de PROFECO, el Censo y el DENUE de INEGI y las líneas de pobreza de CONEVAL con una bitácora propia de cinco tienditas. Este informe sigue el dinero del pasillo del súper a la esquina.»
+- **Bajada:** «Cruzamos precios oficiales de PROFECO, el Censo y el DENUE de INEGI y las líneas de pobreza de INEGI con una bitácora propia de cinco tienditas. Este informe sigue el dinero del pasillo del súper a la esquina.»
 - **Hilo en 4 tarjetas grandes, en orden de lectura** (son la historia completa en una sola vista):
   1. «74.1 %»: productos donde el súper cobra más que la Central de Abasto (`looker_05`, filtro Central de Abasto, métrica `pct_mas_caro`).
   2. «+1.3 %»: lo que cobra de más, en mediana, la tienda de conveniencia (`looker_05`, filtro Conveniencia, `mediana_diferencia`).
-  3. «27.9 días»: de salario mínimo para la canasta de un hogar (escena 5).
+  3. «26.9 días»: de salario mínimo 2026 para la canasta de un hogar (escena 5).
   4. «16»: fuentes con dato real (`looker_07`, recuento).
 - **Debajo:** una línea por escena con su pregunta, como índice.
-- **Fuente:** PROFECO QQP mayo 2026; CONEVAL mar 2025; INEGI Censo 2020 y DENUE.
+- **Fuente:** PROFECO QQP mayo 2026; INEGI, Líneas de Pobreza (oct 2026), Censo 2020 y DENUE.
 - **Botón:** «Empezar: el pasillo →».
 
 ### Escena 2 · El pasillo: «El súper cobra más en 3 de cada 4 productos»
@@ -185,23 +185,23 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 - **Fuente:** Bitácora propia 07-B (5 tienditas, 26 sep-1 oct 2026) y PROFECO QQP mayo 2026.
 - **Botón:** «Siguiente: el sueldo →».
 
-### Escena 5 · El sueldo: «Casi 28 días de salario mínimo para alimentar a un hogar»
+### Escena 5 · El sueldo: «Casi 27 días de salario mínimo para alimentar a un hogar»
 
 - **Fuente de datos:** `looker_03`.
 - **Pregunta:** ¿CUÁNTO TRABAJO CUESTA LA CANASTA?
-- **Bajada:** «La canasta alimentaria urbana de CONEVAL subió 57.1 % entre enero de 2018 y marzo de 2025: de $1,514.91 a $2,379.47 por persona al mes.»
+- **Bajada:** «La canasta alimentaria urbana subió 71.3 % entre enero de 2018 y octubre de 2026: de $1,514.91 a $2,594.39 por persona al mes (CONEVAL hasta marzo de 2025; INEGI desde julio de 2025).»
 - **Gráfica principal:** serie temporal con dimensión `periodo` y métrica `lpei_canasta_alimentaria_urbana_mxn` en morado; agrega `lpi_alimentaria_mas_no_alimentaria_urbana_mxn` en gris.
-- **Anotación:** en el último punto, «$2,379.47 por persona (mar 2025)».
+- **Anotación:** en el último punto, «$2,594.39 por persona (oct 2026)». Marca el cambio de fuente con una línea vertical en julio de 2025 y el texto «Desde aquí, INEGI».
 - **Imágenes:** `n2_calendario_canasta.png` junto a la serie y `n3_tortillometro.png` junto al simulador.
 - **Simulador** (bloque con fondo `#fdf3e3` y título «Prueba con tu sueldo»):
   - Control **Cuadro de entrada** ligado al parámetro `sueldo_mensual`, con la etiqueta «Tu sueldo mensual (MXN)».
-  - Las tarjetas del simulador llevan un **filtro propio** `periodo` = marzo 2025, para que solo sumen el último mes.
-  - Tarjeta `canasta_hogar_mxn` (con el filtro): «Canasta de un hogar de 3.27 personas» → $7,780.87.
-  - Tarjeta `dias_de_trabajo_canasta` (con el filtro): «Días de trabajo para pagarla» → 27.9 con el valor predeterminado.
+  - Las tarjetas del simulador llevan un **filtro propio** `periodo` = octubre 2026, para que solo sumen el último mes.
+  - Tarjeta `canasta_hogar_mxn` (con el filtro): «Canasta de un hogar de 3.27 personas» → $8,483.66.
+  - Tarjeta `dias_de_trabajo_canasta` (con el filtro): «Días de trabajo para pagarla» → 26.9 con el valor predeterminado.
   - Tarjeta `pct_sueldo_canasta` (con el filtro): «Parte del sueldo que se va en comida».
   - Tarjeta `kilos_tortilla`: «Tu sueldo en kilos de tortilla».
-- **¿Qué significa?** «Con el salario mínimo general de 2025 ($278.80 diarios), alimentar a un hogar típico de Mérida se lleva casi todo el mes de trabajo. Por eso pagar 19 % más en el súper pesa.»
-- **Fuente:** CONEVAL, líneas de pobreza por ingresos (mar 2025); INEGI Censo 2020 (ocupantes por vivienda); CONASAMI, salario mínimo 2025; PROFECO (tortilla).
+- **¿Qué significa?** «Con el salario mínimo general de 2026 ($315.04 diarios), alimentar a un hogar típico de Mérida se lleva casi todo el mes de trabajo. Por eso pagar 19 % más en el súper pesa.»
+- **Fuente:** INEGI, Líneas de Pobreza (oct 2026) y CONEVAL (serie 2018–2025); INEGI Censo 2020 (ocupantes por vivienda); CONASAMI, salario mínimo 2026; PROFECO (tortilla).
 - **Botón:** «Siguiente: el territorio →».
 
 ### Escena 6 · El territorio: «El abasto popular se concentra en el Centro»
@@ -237,9 +237,9 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 - **Pregunta:** ¿QUÉ SIGNIFICA Y DE DÓNDE SALEN LOS DATOS?
 - **Tres conclusiones** (cuadros de texto numerados):
   1. «El mismo producto cuesta, en mediana, 19 % más en el súper que en la Central de Abasto.»
-  2. «La canasta de un hogar se lleva casi 28 días de salario mínimo.»
+  2. «La canasta de un hogar se lleva casi 27 días de salario mínimo.»
   3. «El abasto barato está concentrado en el Centro; la distancia es la barrera.»
-- **Metodología** (cuadro de texto): «Solo se usan fuentes con dato real descargado de su origen. PROFECO cubre un mes (mayo 2026) y las sucursales que visitan sus inspectores; CONEVAL es nacional, no de Mérida; la bitácora propia tiene de 2 a 5 precios por producto. Abasto vs. súper = mediana por producto y presentación idénticos, súper / Central − 1. Conveniencia vs. súper = promedio con 3 o más registros por canal.»
+- **Metodología** (cuadro de texto): «Solo se usan fuentes con dato real descargado de su origen. PROFECO cubre un mes (mayo 2026) y las sucursales que visitan sus inspectores; la línea de pobreza de INEGI es nacional, no de Mérida; la bitácora propia tiene de 2 a 5 precios por producto. Abasto vs. súper = mediana por producto y presentación idénticos, súper / Central − 1. Conveniencia vs. súper = promedio con 3 o más registros por canal.»
 - **Tabla:** `id`, `tema`, `institucion`, `registros`, `cobertura`, con el control `bloque`.
 - **Enlaces:** repositorio (https://github.com/valnix140405/visual_modeling) y sitio con el recorrido interactivo (https://valnix140405.github.io/visual_modeling/).
 - **Botón:** «Volver al inicio».
@@ -250,8 +250,8 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 
 - [ ] Cada escena tiene su ilustración y la ilustración dice lo mismo que el título.
 - [ ] Recorre el informe en **Ver** sin tocar filtros: los 8 títulos, leídos seguidos, cuentan la historia.
-- [ ] Las tarjetas coinciden con los textos: 139, 103, 74.1 %, +19.0 %, 93, 49, +1.3 %, $7,780.87, 27.9 días, 15 mercados, 1,661 establecimientos, 16.2 m.
-- [ ] El simulador cambia al escribir otro sueldo; con 8,364 da 27.9 días.
+- [ ] Las tarjetas coinciden con los textos: 139, 103, 74.1 %, +19.0 %, 93, 49, +1.3 %, $8,483.66, 26.9 días, 15 mercados, 1,661 establecimientos, 16.2 m.
+- [ ] El simulador cambia al escribir otro sueldo; con 9,451.2 da 26.9 días.
 - [ ] Cada página tiene su fuente y fecha de corte.
 - [ ] Los colores significan lo mismo en todas las páginas: morado = súper o el protagonista, oro = el canal comparado.
 - [ ] Los controles de filtro afectan solo a su página.

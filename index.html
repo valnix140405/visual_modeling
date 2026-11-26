@@ -1305,22 +1305,22 @@
 
       <div class="slide-grid-split">
         <div class="editorial-col">
-          <h2 class="editorial-title">El Mes que se Come tu Sueldo: <span data-cifra="dias_canasta_redondo">28</span> Días pa' la Panza</h2>
+          <h2 class="editorial-title">El Mes que se Come tu Sueldo: <span data-cifra="dias_canasta_redondo">27</span> Días pa' la Panza</h2>
           <p class="editorial-lead">
-            Con salario mínimo general 2025 (<span data-cifra="salario_minimo_2025">$278.80</span>/día, CONASAMI), alimentar a un hogar típico de Mérida (<span data-cifra="ocupantes">3.27</span> ocupantes por vivienda, Censo 2020) con la canasta alimentaria urbana de CONEVAL (<span data-cifra="canasta_persona">$2,379.47</span> por persona, marzo 2025) cuesta <strong><span data-cifra="canasta_hogar">$7,780.87</span> al mes: <span data-cifra="dias_canasta_redondo">28</span> días de trabajo</strong>. Mueve el control y traduce tu sueldo a <strong>kilos de tortilla (<span data-cifra="tortilla_kg">$29.50</span>/kg en tortillería, PROFECO)</strong>:
+            Con salario mínimo general <span data-cifra="anio_salario">2026</span> (<span data-cifra="salario_minimo">$315.04</span>/día, CONASAMI), alimentar a un hogar típico de Mérida (<span data-cifra="ocupantes">3.27</span> ocupantes por vivienda, Censo 2020) con la canasta alimentaria urbana de INEGI (<span data-cifra="canasta_persona">$2,594.39</span> por persona, <span data-cifra="corte_canasta">octubre 2026</span>) cuesta <strong><span data-cifra="canasta_hogar">$8,483.66</span> al mes: <span data-cifra="dias_canasta_redondo">27</span> días de trabajo</strong>. Mueve el control y traduce tu sueldo a <strong>kilos de tortilla (<span data-cifra="tortilla_kg">$29.50</span>/kg en tortillería, PROFECO)</strong>:
           </p>
 
           <!-- SIMULADOR DINÁMICO DE SALARIO -->
           <div class="wage-calc-panel">
             <div class="wage-slider-label">
               <span style="font-weight: 700; font-size: 14px;">Ajusta el Salario Mensual Neto:</span>
-              <span id="wageValDisplay" class="wage-display-val">$8,364 MXN</span>
+              <span id="wageValDisplay" class="wage-display-val">$9,451 MXN</span>
             </div>
-            <input type="range" id="wageSlider" min="3000" max="35000" step="250" value="8364" class="wage-slider" oninput="runWageCalc(this.value)">
+            <input type="range" id="wageSlider" min="3000" max="35000" step="250" value="9451" class="wage-slider" oninput="runWageCalc(this.value)">
             <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 6px; font-family: 'JetBrains Mono', monospace;">
               <span>$3,000</span>
-              <span><span data-cifra="salario_mensual_2025">$8,364</span> (Mínimo Legal)</span>
-              <span><span data-cifra="salario_mensual_2025_x2">$16,728</span> (2 salarios mínimos)</span>
+              <span><span data-cifra="salario_mensual">$9,451</span> (Mínimo Legal)</span>
+              <span><span data-cifra="salario_mensual_x2">$18,902</span> (2 salarios mínimos)</span>
               <span>$35,000</span>
             </div>
 
@@ -1328,7 +1328,7 @@
               <div class="wage-metric-box">
                 <div style="font-size: 11.5px; color: var(--muted); font-weight: 600;">Días para Canasta Individual</div>
                 <div class="metric-num" id="calcDiasIndiv">8.5 días</div>
-                <div style="font-size: 11px; color: var(--muted); margin-top: 2px;"><span data-cifra="canasta_persona">$2,379.47</span> CONEVAL (urbana, mar 2025)</div>
+                <div style="font-size: 11px; color: var(--muted); margin-top: 2px;"><span data-cifra="canasta_persona">$2,594.39</span> INEGI (urbana, <span data-cifra="corte_canasta">octubre 2026</span>)</div>
               </div>
               <div class="wage-metric-box">
                 <div style="font-size: 11.5px; color: var(--muted); font-weight: 600;">Horas para 1 kg Pollo</div>
@@ -1385,11 +1385,11 @@
       </div>
       <div class="narrativa-row">
         <figure class="narrativa">
-          <img src="reports/figuras/narrativas/n2_calendario_canasta.png" alt="Calendario de 30 días: 27.9 días de salario mínimo se van en la canasta de un hogar y quedan 2.1" loading="lazy" onclick="openZoom('reports/figuras/narrativas/n2_calendario_canasta.png', 'Te quedan 2 días… para todo lo demás')">
-          <figcaption><span>Te quedan 2 días… para todo lo demás</span><a href="reports/figuras/narrativas/n2_calendario_canasta.png" download>PNG</a></figcaption>
+          <img src="reports/figuras/narrativas/n2_calendario_canasta.png" alt="Calendario de 30 días: 26.9 días de salario mínimo 2026 se van en la canasta de un hogar y quedan 3.1" loading="lazy" onclick="openZoom('reports/figuras/narrativas/n2_calendario_canasta.png', 'Te quedan 3 días… para todo lo demás')">
+          <figcaption><span>Te quedan 3 días… para todo lo demás</span><a href="reports/figuras/narrativas/n2_calendario_canasta.png" download>PNG</a></figcaption>
         </figure>
         <figure class="narrativa">
-          <img src="reports/figuras/narrativas/n3_tortillometro.png" alt="Pila de tortillas: un día de salario mínimo compra 9.5 kg de tortilla" loading="lazy" onclick="openZoom('reports/figuras/narrativas/n3_tortillometro.png', 'Tu sueldo, en kilos de tortilla')">
+          <img src="reports/figuras/narrativas/n3_tortillometro.png" alt="Pila de tortillas: un día de salario mínimo 2026 compra 10.7 kg de tortilla" loading="lazy" onclick="openZoom('reports/figuras/narrativas/n3_tortillometro.png', 'Tu sueldo, en kilos de tortilla')">
           <figcaption><span>Tu sueldo, en kilos de tortilla</span><a href="reports/figuras/narrativas/n3_tortillometro.png" download>PNG</a></figcaption>
         </figure>
         <figure class="narrativa">
@@ -1545,10 +1545,10 @@
             <tr data-block="fuente_a" data-cat="siegy">
               <td><strong>03-A</strong></td>
               <td><span class="tag-source">Fuente A</span></td>
-              <td>CONEVAL / Censo 2020</td>
-              <td class="file-name">coneval_lineas_pobreza_2018_2025.csv</td>
+              <td>INEGI y CONEVAL / Censo 2020</td>
+              <td class="file-name">inegi_lineas_pobreza_2025_2026.csv · coneval_lineas_pobreza_2018_2025.csv</td>
               <td>CSV Tabular</td>
-              <td>CONEVAL canasta alimentaria 2018-2025 y Censo 2020 Mérida (sustituye a SIEGY)</td>
+              <td>Canasta alimentaria INEGI 2026 y CONEVAL 2018-2025, Censo 2020 Mérida (sustituye a SIEGY)</td>
               <td><span class="status-dot"></span>Verificado</td>
             </tr>
             <tr data-block="fuente_a" data-cat="sig">
@@ -1691,7 +1691,7 @@
           <h4>1. Pregunta y enfoque</h4>
           <ul>
             <li>¿Para cuánto alcanza el ingreso frente al costo de comer, y cómo cambia el precio según dónde se compra en Mérida?</li>
-            <li>Embudo multiescalar: referencia nacional (CONEVAL), municipio (Censo 2020, Censos Económicos), ciudad (DENUE, PROFECO) y esquina (bitácora propia de tienditas).</li>
+            <li>Embudo multiescalar: referencia nacional (líneas de pobreza de INEGI y CONEVAL), municipio (Censo 2020, Censos Económicos), ciudad (DENUE, PROFECO) y esquina (bitácora propia de tienditas).</li>
           </ul>
         </div>
 
@@ -1699,7 +1699,7 @@
           <h4>2. Fuentes y fecha de corte</h4>
           <ul>
             <li><strong>PROFECO QQP:</strong> registros de inspectores en Mérida, mayo de 2026.</li>
-            <li><strong>CONEVAL:</strong> líneas de pobreza por ingresos, enero de 2018 a marzo de 2025 (último dato del archivo publicado).</li>
+            <li><strong>Líneas de pobreza:</strong> canasta alimentaria urbana de INEGI, <span data-cifra="corte_canasta">octubre 2026</span> (boletín mensual; desde 2025 INEGI las publica en lugar de CONEVAL). La serie de CONEVAL 2018–2025 se usa para la tendencia.</li>
             <li><strong>INEGI:</strong> DENUE (descarga masiva Yucatán), Censo de Población 2020 por AGEB y Censos Económicos 2019 (año de referencia 2018).</li>
             <li><strong>Elevación:</strong> AWS Terrain Tiles (formato Terrarium). No es LiDAR.</li>
             <li><strong>Levantamiento propio:</strong> <span data-cifra="tienditas_n">5</span> tienditas, del 26 de septiembre al 1 de octubre de 2026.</li>
@@ -1722,7 +1722,7 @@
           <ul>
             <li><strong>Central de Abasto vs. súper:</strong> mediana del precio de cada producto con la <em>misma presentación</em> en ambos canales; diferencia % = súper / central − 1.</li>
             <li><strong>Conveniencia vs. súper:</strong> promedio por producto y presentación, solo con 3 o más registros por canal.</li>
-            <li><strong>Canasta por hogar:</strong> línea de pobreza extrema urbana de CONEVAL × promedio de ocupantes por vivienda de Mérida (Censo 2020).</li>
+            <li><strong>Canasta por hogar:</strong> línea de pobreza extrema urbana de INEGI × promedio de ocupantes por vivienda de Mérida (Censo 2020).</li>
             <li><strong>Pendiente del terreno:</strong> diferencia de elevación entre puntos vecinos de la malla.</li>
           </ul>
         </div>
@@ -1732,9 +1732,9 @@
           <ul>
             <li>PROFECO cubre un solo mes y las sucursales que visitan sus inspectores; no es un índice de precios.</li>
             <li>La bitácora propia tiene de <span data-cifra="tienditas_min_precios">2</span> a <span data-cifra="tienditas_max_precios">5</span> precios por producto: sirve como ilustración, no como estimación estadística.</li>
-            <li>Las líneas de CONEVAL son nacionales (urbano/rural), no específicas de Mérida.</li>
+            <li>Las líneas de pobreza (INEGI y CONEVAL) son nacionales (urbano/rural), no específicas de Mérida.</li>
             <li>La elevación tiene resolución de ~30 m: no capta edificios.</li>
-            <li>El cálculo usa el salario mínimo general 2025 (<span data-cifra="salario_minimo_2025">$278.80</span> diarios, CONASAMI) para empatar con el último dato de CONEVAL (marzo 2025). En 2026 el mínimo general es <span data-cifra="salario_minimo_2026">$315.04</span> diarios (CONASAMI).</li>
+            <li>El cálculo usa el salario mínimo general <span data-cifra="anio_salario">2026</span> (<span data-cifra="salario_minimo">$315.04</span> diarios, CONASAMI), del mismo año que la canasta de INEGI y que los precios de PROFECO.</li>
           </ul>
         </div>
 
@@ -1974,7 +1974,7 @@
       { slide: 3, sel: '#explorador', title: 'Explora con filtros',
         text: 'Aquí puedes filtrar todos los productos por tipo de comparación, categoría y resultado, o buscar uno en particular. Cada fila sale de los registros de PROFECO de mayo de 2026.' },
       { slide: 4, sel: '#wageSlider', title: 'Cuánto sueldo se come la canasta',
-        text: 'Alimentar a un hogar típico de Mérida con la canasta urbana de CONEVAL cuesta {canasta_hogar} al mes: {dias_canasta} días de salario mínimo de 2025. Mueve el control para probar con tu sueldo.' },
+        text: 'Alimentar a un hogar típico de Mérida con la canasta urbana de INEGI cuesta {canasta_hogar} al mes: {dias_canasta} días de salario mínimo de {anio_salario}. Mueve el control para probar con tu sueldo.' },
       { slide: 5, sel: '#svg-escena-5', title: 'Una ciudad plana',
         text: 'En {malla_km} kilómetros, Mérida apenas tiene {merida_desnivel} metros de desnivel. En la misma área, San Cristóbal de las Casas tiene {sclc_desnivel}. Los datos son de elevación real, no de LiDAR.' },
       { slide: 6, sel: '#slide-6 .filter-bar', title: 'Catálogo de fuentes',
@@ -2216,7 +2216,7 @@
       if (!K.canasta_hogar) return;
       const CANASTA_HOGAR = K.canasta_hogar, TORTILLA_KG = K.tortilla_kg;
       val = parseFloat(val);
-      document.getElementById('wageValDisplay').textContent = '$' + val.toLocaleString('es-MX') + ' MXN';
+      document.getElementById('wageValDisplay').textContent = '$' + Math.round(val).toLocaleString('es-MX') + ' MXN';
 
       const salarioDiario = val / 30;
       const salarioHora = salarioDiario / 8;

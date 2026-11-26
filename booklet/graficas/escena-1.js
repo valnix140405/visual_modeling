@@ -9,8 +9,8 @@ export async function escena1(selector, ruta = "../datos/escena-1.csv") {
   const [d] = await cargar(ruta);
   const titulo = `El mes que se come tu sueldo: ${fmt.num(d.dias_canasta)} días pa' la panza`;
   const subtitulo =
-    `Días de salario mínimo general 2025 (${fmt.pesos(d.salario_minimo_diario_mxn)} diarios) que cuesta un mes de ` +
-    `canasta alimentaria urbana de CONEVAL para un hogar de ${fmt.dec2(d.ocupantes_por_vivienda)} personas en Mérida: ` +
+    `Días de salario mínimo general ${String(d.corte).match(/\d{4}/)[0]} (${fmt.pesos(d.salario_minimo_diario_mxn)} diarios) que cuesta un mes de ` +
+    `canasta alimentaria urbana (línea de pobreza extrema de INEGI, ${d.corte}) para un hogar de ${fmt.dec2(d.ocupantes_por_vivienda)} personas en Mérida: ` +
     `${fmt.pesos(d.canasta_hogar_mxn)}. Cada cuadro es un día del mes.`;
   const fuente = `Fuente: ${d.fuente} · Corte: ${d.corte}`;
 

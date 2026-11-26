@@ -5,7 +5,7 @@ id,bloque,tema,institucion,archivo,registros,cobertura
 02-A,Fuente A,Precios al consumidor,PROFECO QQP,profeco_merida_2026_real.csv,28288,"Mérida, mayo 2026"
 02-B,Fuente B,Precios en la Central de Abasto,PROFECO QQP,profeco_central_abasto_merida_2026.csv,776,"Mérida, mayo 2026"
 02-C,Fuente C,Artículos y proveedores,DICONSA,DICONSA_8_Listado_de_articulos_por_proveedor.csv,4063,"Nacional, 1er semestre 2018"
-03-A,Fuente A,Líneas de pobreza por ingresos,CONEVAL,coneval_lineas_pobreza_2018_2025.csv,87,"Nacional, 2018-01 a 2025-03"
+03-A,Fuente A,Líneas de pobreza por ingresos,INEGI (antes CONEVAL),inegi_lineas_pobreza_2025_2026.csv,16,"Nacional, 2025-07 a 2026-10 (CONEVAL 2018-2025 en serie aparte)"
 03-B,Fuente B,Indicadores por AGEB urbana,INEGI Censo 2020,censo2020_indicadores_ageb_merida.csv,526,"Mérida, 2020"
 03-C,Fuente C,Inspección fitozoosanitaria,SENASICA,01_actividades-inspeccion-movilizacion_2dotrim2025.csv,19,"Nacional, 2025 2T"
 04-A,Fuente A,Mercados públicos,INEGI DENUE,mercados_publicos_merida_denue.geojson,15,"Mérida, edición 2026"

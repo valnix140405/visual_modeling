@@ -223,6 +223,43 @@ def coneval_lineas(cache, ruta):
 
 
 # ----------------------------------------------------------------------------- PROFECO
+# ----------------------------------------------------------------------------- INEGI (líneas de pobreza 2026)
+# Desde 2025 INEGI publica cada mes las Líneas de Pobreza (antes CONEVAL). El boletín lpAAAA_MM.pdf
+# trae el valor del mes anterior en su primera página. Requiere pdftotext (poppler-utils).
+INEGI_LP_URL = "https://www.inegi.org.mx/contenidos/saladeprensa/boletines/{anio}/lp/lp{anio}_{mm:02d}.pdf"
+MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
+         "noviembre", "diciembre"]
+
+
+def inegi_lineas_pobreza(cache, ruta, anios=(2025, 2026)):
+    import re
+    import subprocess
+    filas = []
+    for anio, mm in ((a, m) for a in anios for m in range(1, 13)):
+        url = INEGI_LP_URL.format(anio=anio, mm=mm)
+        try:
+            pdf = descargar(url, os.path.join(cache, "inegi_lp"))
+        except Exception:
+            continue  # boletín aún no publicado
+        texto = subprocess.run(["pdftotext", "-layout", "-l", "1", pdf, "-"], capture_output=True, text=True).stdout
+        mes = re.search(r"(" + "|".join(MESES) + r") (20\d{2})", texto)
+        valores = [float(v.replace(" ", "")) for v in re.findall(r"\d \d{3}\.\d{2}", texto)[:4]]
+        pub = re.search(r"\d{1,2} de [a-z]+ de \d{4}", texto)
+        if not mes or len(valores) < 4:
+            os.remove(pdf)  # aún no publicado (INEGI responde con una página HTML): no dejarlo en caché
+            continue
+        filas.append([f"{mes.group(2)}-{MESES.index(mes.group(1)) + 1:02d}", *valores,
+                      pub.group(0) if pub else "", url])
+    filas.sort()
+    with open(ruta, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["periodo", "lpei_canasta_alimentaria_rural_mxn", "lpei_canasta_alimentaria_urbana_mxn",
+                    "lpi_alimentaria_mas_no_alimentaria_rural_mxn", "lpi_alimentaria_mas_no_alimentaria_urbana_mxn",
+                    "fecha_publicacion", "url_boletin"])
+        w.writerows(filas)
+    print(f"[ok] {os.path.relpath(ruta, ROOT)}: {len(filas)} meses ({filas[0][0]} a {filas[-1][0]})")
+
+
 def profeco_filtrado(ruta, cadenas=None, giros_contiene=None):
     d = pd.read_csv(PROFECO_CSV, dtype=str, encoding="utf-8-sig")
     m = pd.Series(False, index=d.index)
@@ -394,6 +431,7 @@ def main():
     censo_ageb_merida(a.cache, p("fuente_b/03_conapo_marginacion/censo2020_indicadores_ageb_merida.csv"),
                       p("fuente_a/03_siegy_yucatan/censo2020_totales_municipio_merida.csv"))
     coneval_lineas(a.cache, p("fuente_a/03_siegy_yucatan/coneval_lineas_pobreza_2018_2025.csv"))
+    inegi_lineas_pobreza(a.cache, p("fuente_a/03_siegy_yucatan/inegi_lineas_pobreza_2025_2026.csv"))
     profeco_filtrado(p("fuente_b/02_datos_gob_sniim/profeco_central_abasto_merida_2026.csv"), cadenas=["Central de Abasto"])
     profeco_filtrado(p("fuente_b/06_scraping_farmacias/profeco_farmacias_conveniencia_merida_2026.csv"),
                      cadenas=["Oxxo", "7 Eleven"], giros_contiene="farmacia")
