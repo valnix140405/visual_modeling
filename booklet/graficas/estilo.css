@@ -1,0 +1,49 @@
+/* Booklet · Equipo 2 · estilo de las escenas (paleta y tipografía del Plan del Booklet). */
+:root {
+  --morado: #600d8b;
+  --oro: #ed9f22;
+  --oro-oscuro: #b45309;
+  --gris: #9ca3af;
+  --gris-texto: #555555;
+  --tinta: #0d0d0d;
+  --borde: #e5e7eb;
+  --fondo: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+
+.rotulo { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--morado); }
+h1 { font-size: 30px; line-height: 1.2; margin: 6px 0 10px; }
+.entrada { font-size: 17px; color: #333; }
+
+.escena { margin: 40px 0; padding-top: 24px; border-top: 1px solid var(--borde); }
+.escena-encabezado { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--oro-oscuro); margin: 0 0 6px; }
+
+.grafica-titulo { font-size: 22px; font-weight: 800; line-height: 1.25; margin: 0 0 4px; }
+.grafica-subtitulo { font-size: 14px; color: var(--gris-texto); margin: 0 0 10px; }
+.grafica-fuente { font-size: 11.5px; color: var(--gris-texto); margin: 8px 0 0; }
+.grafica-error { color: var(--oro-oscuro); font-weight: 700; }
+.lectura { font-size: 15px; margin: 10px 0 0; }
+
+svg { display: block; width: 100%; height: auto; font-family: "Outfit", system-ui, sans-serif; }
+svg text { fill: var(--tinta); }
+.cifra-tabla { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+a { color: var(--morado); }
+
+@media print {
+  main { max-width: none; padding: 0; }
+  .escena { break-inside: avoid; }
+  .solo-web { display: none; }
+}

@@ -226,7 +226,7 @@ python scripts/generar_tablas_looker_studio.py # looker_01 a 04 y 06 a 08
 - **Gráfica principal:** barras con dimensión `ciudad` y métrica `desnivel_m`, orden descendente. Mérida en morado y las demás en gris.
 - **Anotación:** «Mérida: 16.2 m. San Cristóbal de las Casas: 1,413 m».
 - **Imagen:** `n1_merida_plana_precios_no.png`, que conecta el relieve con la historia de precios.
-- **Opcional:** Insertar → **Insertar URL** con el visor 3D publicado (`https://valnix140405.github.io/visual_modeling/data/visor_lidar_unificado.html`). Comprueba que cargue dentro de Looker.
+- **Opcional:** Insertar → **Insertar URL** con el visor 3D publicado (`https://valnix140405.github.io/visual_modeling/data/visor_relieve_3d.html`). Comprueba que cargue dentro de Looker.
 - **¿Qué significa?** «En Mérida caminar o pedalear al mercado no cuesta esfuerzo extra, pero el agua de lluvia no escurre sola. La distancia, no la pendiente, es la barrera para llegar al abasto barato.»
 - **Fuente:** AWS Terrain Tiles (elevación, resolución aproximada de 30 m). No es LiDAR.
 - **Botón:** «Siguiente: cierre →».

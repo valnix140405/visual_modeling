@@ -1,0 +1,7 @@
+ciudad,elevacion_minima_m,elevacion_maxima_m,elevacion_promedio_m,desnivel_m,fuente,corte
+Mérida,1.8,18.0,9.6,16.2,"AWS Terrain Tiles (Tilezen, Terrarium, zoom 12), malla de 20 x 20 puntos por ciudad",noviembre 2026
+Ciudad de México,2216.0,2459.0,2251.0,243.0,"AWS Terrain Tiles (Tilezen, Terrarium, zoom 12), malla de 20 x 20 puntos por ciudad",noviembre 2026
+Toluca,2578.6,3036.0,2683.7,457.4,"AWS Terrain Tiles (Tilezen, Terrarium, zoom 12), malla de 20 x 20 puntos por ciudad",noviembre 2026
+Guanajuato,1864.0,2717.0,2243.2,853.0,"AWS Terrain Tiles (Tilezen, Terrarium, zoom 12), malla de 20 x 20 puntos por ciudad",noviembre 2026
+Monterrey,459.0,1751.0,651.4,1292.0,"AWS Terrain Tiles (Tilezen, Terrarium, zoom 12), malla de 20 x 20 puntos por ciudad",noviembre 2026
+San Cristóbal de las Casas,1471.0,2884.0,2317.6,1413.0,"AWS Terrain Tiles (Tilezen, Terrarium, zoom 12), malla de 20 x 20 puntos por ciudad",noviembre 2026

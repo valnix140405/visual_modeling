@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Escena 3: Tienda de conveniencia contra súper · Del Mundo a la Esquina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<main>
+  <p class="solo-web"><a href="index.html">← Capítulo completo</a></p>
+  <section class="escena">
+    <p class="escena-encabezado">Escena 3 · Tienda de conveniencia contra súper</p>
+    <div id="escena-3"></div>
+    <p class="lectura">El sobreprecio se concentra en pocos productos: bebidas (suero oral, agua, yoghurt bebible) y sopas instantáneas. En la mayoría de los productos la diferencia es pequeña.</p>
+  </section>
+</main>
+<script type="module">
+  import { escena3 } from "./escena-3.js";
+  import { mostrarError, listo } from "./estilo.js";
+  listo([escena3("#escena-3").catch((e) => mostrarError("#escena-3", e))]);
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Escena 4: Tiendita contra súper · Del Mundo a la Esquina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<main>
+  <p class="solo-web"><a href="index.html">← Capítulo completo</a></p>
+  <section class="escena">
+    <p class="escena-encabezado">Escena 4 · Tiendita contra súper</p>
+    <div id="escena-4"></div>
+    <p class="lectura">El número de precios de cada fila recuerda que es una muestra chica.</p>
+  </section>
+</main>
+<script type="module">
+  import { escena4 } from "./escena-4.js";
+  import { mostrarError, listo } from "./estilo.js";
+  listo([escena4("#escena-4").catch((e) => mostrarError("#escena-4", e))]);
+</script>
+</body>
+</html>
