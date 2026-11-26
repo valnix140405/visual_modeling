@@ -46,4 +46,4 @@ const texto = (pesos) => `${d3.format(",.1f")(dias(pesos))} días de salario mí
 
 ## Ejemplo del Equipo 2
 
-Un mes de canasta alimentaria urbana para un hogar de Mérida (3.27 personas) cuesta $7,780.87 (CONEVAL, marzo 2025). Dividido entre $278.80 da **27.9 días** de salario mínimo 2025 (`datos/escena-1.csv`).
+Un mes de canasta alimentaria urbana para un hogar de Mérida (3.27 personas) cuesta $8,483.66 (INEGI, Líneas de Pobreza, octubre 2026). Dividido entre $315.04 da **26.9 días** de salario mínimo 2026 (`datos/escena-1.csv`).

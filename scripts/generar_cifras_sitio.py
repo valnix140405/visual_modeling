@@ -40,15 +40,20 @@ def main():
     fuente_sm = "CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales"
     cifra("salario_minimo_2025", sm25, "pesos", "Salario mínimo general diario 2025", fuente_sm, sm_ruta)
     cifra("salario_minimo_2026", sm26, "pesos", "Salario mínimo general diario 2026", fuente_sm, sm_ruta)
-    mensual = sm25 * dias_mes
-    cifra("salario_mensual_2025", mensual, "pesosEnteros", "Salario mínimo 2025 × 30 días", fuente_sm, sm_ruta)
-    cifra("salario_mensual_2025_x2", 2 * mensual, "pesosEnteros", "Dos salarios mínimos mensuales 2025", fuente_sm, sm_ruta)
-
     # --------------------------------------------------------------- canasta (escena 1)
+    # El salario que se usa es el del mismo año que la canasta (escena-1.csv: INEGI, último mes publicado).
     e1 = pd.read_csv(R("booklet/datos/escena-1.csv")).iloc[0]
-    f1 = "CONEVAL; INEGI Censo 2020; CONASAMI"
-    cifra("canasta_persona", e1.canasta_persona_mxn, "pesos", "Canasta alimentaria urbana por persona, mar 2025",
-          "CONEVAL, líneas de pobreza por ingresos", "booklet/datos/escena-1.csv")
+    sm_usado = float(e1.salario_minimo_diario_mxn)
+    anio = str(e1.corte).split()[-1]
+    cifra("salario_minimo", sm_usado, "pesos", f"Salario mínimo general diario {anio} (mismo año que la canasta)", fuente_sm, sm_ruta)
+    cifra("anio_salario", anio, "texto", "Año del salario mínimo y de la canasta", fuente_sm, "booklet/datos/escena-1.csv")
+    cifra("corte_canasta", e1.corte, "texto", "Mes de la canasta alimentaria", "INEGI, Líneas de Pobreza", "booklet/datos/escena-1.csv")
+    mensual = sm_usado * dias_mes
+    cifra("salario_mensual", mensual, "pesosEnteros", f"Salario mínimo {anio} × 30 días", fuente_sm, sm_ruta)
+    cifra("salario_mensual_x2", 2 * mensual, "pesosEnteros", f"Dos salarios mínimos mensuales {anio}", fuente_sm, sm_ruta)
+    f1 = "INEGI, Líneas de Pobreza; INEGI Censo 2020; CONASAMI"
+    cifra("canasta_persona", e1.canasta_persona_mxn, "pesos", f"Canasta alimentaria urbana por persona, {e1.corte}",
+          "INEGI, Líneas de Pobreza", "booklet/datos/escena-1.csv")
     cifra("ocupantes", e1.ocupantes_por_vivienda, "dec2", "Promedio de ocupantes por vivienda en Mérida",
           "INEGI, Censo 2020", "booklet/datos/escena-1.csv")
     cifra("canasta_hogar", e1.canasta_hogar_mxn, "pesos", "Canasta del hogar al mes", f1, "booklet/datos/escena-1.csv")
@@ -56,7 +61,7 @@ def main():
           "booklet/datos/escena-1.csv")
     cifra("dias_canasta_redondo", e1.dias_canasta, "num", "Días de salario mínimo (redondeado)", f1,
           "booklet/datos/escena-1.csv")
-    cifra("dias_canasta_indiv", e1.canasta_persona_mxn / sm25, "dec", "Días de salario mínimo para la canasta de una persona",
+    cifra("dias_canasta_indiv", e1.canasta_persona_mxn / sm_usado, "dec", "Días de salario mínimo para la canasta de una persona",
           f1, "booklet/datos/escena-1.csv")
     cifra("pct_sueldo_canasta", 100 * e1.canasta_hogar_mxn / mensual, "pct",
           "Parte del salario mínimo mensual que se lleva la canasta del hogar", f1, "booklet/datos/escena-1.csv")
@@ -77,7 +82,7 @@ def main():
     pollo = e2[(e2.producto == "Carne Pollo") & e2.presentacion.str.contains("Entero")].iloc[0]
     cifra("pollo_kg", pollo.precio_super_mxn, "pesos", "Pollo entero 1 kg en súper (mediana)", PROFECO,
           "booklet/datos/escena-2.csv")
-    cifra("horas_pollo", pollo.precio_super_mxn / (sm25 / 8), "dec", "Horas de salario mínimo para 1 kg de pollo",
+    cifra("horas_pollo", pollo.precio_super_mxn / (sm26 / 8), "dec", "Horas de salario mínimo para 1 kg de pollo",
           PROFECO + "; CONASAMI", "booklet/datos/escena-2.csv")
 
     # --------------------------------------------------------------- Abasto vs súper (escena 2)
@@ -203,7 +208,7 @@ def main():
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     df = pd.DataFrame(filas)
-    df["valor"] = df.valor.astype(float).round(4)
+    df["valor"] = [v if f == "texto" else round(float(v), 4) for v, f in zip(df.valor, df.formato)]
     df.to_csv(OUT, index=False, encoding="utf-8")
     print(f"[ok] data/web/cifras_sitio.csv: {len(df)} cifras")
 

@@ -6,14 +6,14 @@ Todos los CSV se generan con `python scripts/generar_datos_booklet.py` a partir 
 
 | Columna | Origen |
 |---|---|
-| `canasta_persona_mxn` | CONEVAL, Líneas de pobreza por ingresos, línea de pobreza extrema por ingresos (canasta alimentaria), urbana, marzo 2025: $2,379.47. https://www.coneval.org.mx/Medicion/Documents/Lineas_de_Pobreza_por_Ingresos/Lineas_de_Pobreza_por_Ingresos.zip → `data/fuente_a/03_siegy_yucatan/coneval_lineas_pobreza_2018_2025.csv` |
+| `canasta_persona_mxn` | INEGI, Líneas de Pobreza, línea de pobreza extrema por ingresos (canasta alimentaria), urbana, **octubre 2026: $2,594.39** (boletín del 11 de noviembre de 2026, https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2026/lp/lp2026_11.pdf). Desde 2025 INEGI publica estas líneas cada mes (antes las publicaba CONEVAL) → `data/fuente_a/03_siegy_yucatan/inegi_lineas_pobreza_2025_2026.csv`, serie de julio 2025 a octubre 2026 leída de los boletines oficiales |
 | `ocupantes_por_vivienda` | INEGI, Censo de Población y Vivienda 2020, resultados por AGEB y manzana urbana, columna `PROM_OCUP` del total municipal de Mérida (31050): 3.27. https://www.inegi.org.mx/contenidos/programas/ccpv/2020/datosabiertos/ageb_manzana/ageb_mza_urbana_31_cpv2020_csv.zip → `data/fuente_a/03_siegy_yucatan/censo2020_totales_municipio_merida.csv` |
-| `salario_minimo_diario_mxn` | CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales 2025, zona del salario mínimo general: $278.80 diarios (verificado el 2026-11-24 contra la tabla oficial en gob.mx/conasami). Es la única constante y está documentada en el script |
-| `canasta_hogar_mxn` | Cálculo: `canasta_persona_mxn × ocupantes_por_vivienda` = $7,780.87 |
-| `dias_canasta` | Cálculo: `canasta_hogar_mxn ÷ salario_minimo_diario_mxn` = 27.9 días |
-| `dias_libres` | Cálculo: `dias_mes − dias_canasta` = 2.1 (mes de 30 días) |
+| `salario_minimo_diario_mxn` | CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales **2026**, zona del salario mínimo general: $315.04 diarios. Se usa el salario del mismo año que la canasta |
+| `canasta_hogar_mxn` | Cálculo: `canasta_persona_mxn × ocupantes_por_vivienda` = $8,483.66 |
+| `dias_canasta` | Cálculo: `canasta_hogar_mxn ÷ salario_minimo_diario_mxn` = 26.9 días |
+| `dias_libres` | Cálculo: `dias_mes − dias_canasta` = 3.1 (mes de 30 días) |
 
-**Corte:** marzo 2025 (último dato publicado por CONEVAL en el archivo descargado).
+**Corte:** octubre 2026 (último mes publicado por INEGI al 26 de noviembre de 2026). El script toma siempre el último mes disponible.
 
 ## escena-2.csv · Central de Abasto contra súper (139 filas)
 
@@ -48,4 +48,4 @@ Todos los CSV se generan con `python scripts/generar_datos_booklet.py` a partir 
 
 - **Fuente:** CONASAMI, Tabla de Salarios Mínimos Generales y Profesionales 2025 y 2026, zona del salario mínimo general (aplica en Yucatán). Verificado el 2026-11-24 contra las tablas oficiales en gob.mx/conasami.
 - **Columnas:** `salario_minimo_diario_mxn` (2025: 278.80; 2026: 315.04) y `salario_minimo_mensual_mxn` = diario × 30.
-- **Uso:** la ilustración de apertura y la escena 1 usan 2025; la guía para otros equipos está en `../UNIDAD_SALARIO_MINIMO.md`.
+- **Uso:** la ilustración de apertura y la escena 1 usan 2026, el año de sus precios; la guía para otros equipos está en `../UNIDAD_SALARIO_MINIMO.md`.

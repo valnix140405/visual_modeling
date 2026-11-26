@@ -42,8 +42,10 @@ os.makedirs(OUT, exist_ok=True)
 MORADO, ORO, GRIS, GRIS_CLARO, TINTA = "#600d8b", "#ed9f22", "#8a8a8a", "#e6e6e6", "#1a1a1a"
 plt.rcParams.update({"font.family": ["Inter", "DejaVu Sans"], "font.size": 13, "svg.fonttype": "none"})
 
-# Salario mínimo general 2025: $278.80 diarios (CONASAMI, Tabla de Salarios Mínimos 2025).
-SALARIO_MINIMO_2025 = 278.80
+# Salario mínimo general diario por año (CONASAMI), leído del CSV común del booklet.
+_sm = pd.read_csv(D("booklet/datos/unidad-salario-minimo.csv")).set_index("anio").salario_minimo_diario_mxn
+# Los precios de PROFECO son de mayo 2026 y la canasta de INEGI de 2026: se usa el salario de 2026.
+SALARIO_MINIMO = float(_sm.loc[2026])
 CORTE = "Corte de datos: 24 nov 2026"
 
 # ----------------------------------------------------------------------------- datos
@@ -51,19 +53,19 @@ comp = pd.read_csv(D("reports/looker_studio/looker_05_comparables_por_canal.csv"
 abasto = comp[comp.canal_comparado == "Central de Abasto"].sort_values("diferencia_pct", ascending=False)
 conv = comp[comp.canal_comparado == "Conveniencia"].sort_values("diferencia_pct", ascending=False)
 tiend = pd.read_csv(D("reports/looker_studio/looker_08_tienditas_vs_super.csv"))
-coneval = pd.read_csv(D("data/fuente_a/03_siegy_yucatan/coneval_lineas_pobreza_2018_2025.csv"))
+coneval = pd.read_csv(D("data/fuente_a/03_siegy_yucatan/inegi_lineas_pobreza_2025_2026.csv"))  # INEGI, último mes
 censo = pd.read_csv(D("data/fuente_a/03_siegy_yucatan/censo2020_totales_municipio_merida.csv")).iloc[0]
 profeco = pd.read_csv(D("data/fuente_a/02_datos_gob_profeco/profeco_merida_2026_real.csv"), encoding="utf-8-sig")
 relieve = pd.read_csv(D("data/fuente_c/08_opentopography/topografia_merida_vs_ciudades_montana.csv"))
 
 ocupantes = float(censo.PROM_OCUP)                                   # 3.27 (Censo 2020)
 ult = coneval.iloc[-1]
-canasta_persona = float(ult.lpei_canasta_alimentaria_urbana_mxn)    # $2,379.47 (mar 2025)
+canasta_persona = float(ult.lpei_canasta_alimentaria_urbana_mxn)    # INEGI, último mes publicado
 canasta_hogar = canasta_persona * ocupantes
-dias_canasta = canasta_hogar / SALARIO_MINIMO_2025
+dias_canasta = canasta_hogar / SALARIO_MINIMO
 tortilla = profeco[(profeco.producto == "Tortilla de Maíz") & (profeco.giro == "Tortillerías")]
 precio_tortilla = float(tortilla.precio.median())                   # $29.50/kg
-kg_tortilla_dia = SALARIO_MINIMO_2025 / precio_tortilla
+kg_tortilla_dia = SALARIO_MINIMO / precio_tortilla
 merida = relieve[relieve.ciudad == "Mérida"]
 desnivel_merida = merida.elevacion_m_snm.max() - merida.elevacion_m_snm.min()
 cebolla = abasto[(abasto.producto == "Cebolla") & (abasto.presentacion.str.contains("Sin Rabo"))].iloc[0]
@@ -155,10 +157,10 @@ def n2():
     fig = lienzo()
     libres = 30 - dias_canasta
     encabezado(fig, f"Te quedan {libres:.0f} días… para todo lo demás",
-               f"Alimentar a un hogar de Mérida ({ocupantes:.2f} personas) con la canasta de CONEVAL cuesta "
+               f"Alimentar a un hogar de Mérida ({ocupantes:.2f} personas) con la canasta de INEGI cuesta "
                f"{mx(canasta_hogar)} al mes: {dias_canasta:.1f} días de salario mínimo.",
-               f"CONEVAL, canasta alimentaria urbana mar 2025 ({mx(canasta_persona)} por persona); INEGI Censo 2020; "
-               f"CONASAMI, salario mínimo 2025 ({mx(SALARIO_MINIMO_2025)}/día)")
+               f"INEGI, Líneas de Pobreza, canasta alimentaria urbana {ult.periodo} ({mx(canasta_persona)} por persona); INEGI Censo 2020; "
+               f"CONASAMI, salario mínimo 2026 ({mx(SALARIO_MINIMO)}/día)")
     ax = fig.add_axes([0.05, 0.1, 0.62, 0.68])
     ax.set_xlim(0, 7)
     ax.set_ylim(-5, 0.6)
@@ -188,9 +190,9 @@ def n2():
 def n3():
     fig = lienzo()
     encabezado(fig, "Tu sueldo, en kilos de tortilla",
-               f"Un día de salario mínimo ({mx(SALARIO_MINIMO_2025)}) alcanza para {kg_tortilla_dia:.1f} kg de "
+               f"Un día de salario mínimo ({mx(SALARIO_MINIMO)}) alcanza para {kg_tortilla_dia:.1f} kg de "
                f"tortilla de tortillería ({mx(precio_tortilla)}/kg).",
-               "PROFECO QQP Mérida, mayo 2026 (mediana en tortillerías); CONASAMI, salario mínimo 2025")
+               "PROFECO QQP Mérida, mayo 2026 (mediana en tortillerías); CONASAMI, salario mínimo 2026")
     ax = fig.add_axes([0.05, 0.1, 0.5, 0.7])
     ax.set_xlim(-3, 3)
     enteros = int(kg_tortilla_dia)
@@ -238,13 +240,13 @@ def dibujar_cebolla(ax, cx, cy, r, color_cuerpo, lagrimas):
 
 def n4():
     fig = lienzo()
-    kg_abasto = SALARIO_MINIMO_2025 / cebolla.precio_canal_comparado_mxn
-    kg_super = SALARIO_MINIMO_2025 / cebolla.precio_supermercado_mxn
+    kg_abasto = SALARIO_MINIMO / cebolla.precio_canal_comparado_mxn
+    kg_super = SALARIO_MINIMO / cebolla.precio_supermercado_mxn
     encabezado(fig, "Hasta la cebolla llora",
                f"El mismo kilo de cebolla blanca: {mx(cebolla.precio_canal_comparado_mxn)} en la Central de Abasto, "
                f"{mx(cebolla.precio_supermercado_mxn)} en el súper (+{cebolla.diferencia_pct:.1f} %).",
                f"PROFECO QQP Mérida, mayo 2026 (medianas: {int(cebolla.registros_canal_comparado)} registros en el "
-               f"Abasto, {int(cebolla.registros_supermercado)} en súper); CONASAMI, salario mínimo 2025")
+               f"Abasto, {int(cebolla.registros_supermercado)} en súper); CONASAMI, salario mínimo 2026")
     ax = fig.add_axes([0.05, 0.1, 0.9, 0.7])
     ax.set_xlim(0, 16)
     ax.set_ylim(0, 7)

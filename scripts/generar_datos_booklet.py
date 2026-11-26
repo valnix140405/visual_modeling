@@ -34,26 +34,33 @@ def guardar(df, nombre):
     print(f"[ok] booklet/datos/{nombre}: {len(df)} filas")
 
 
+MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
+         "noviembre", "diciembre"]
+
+
 def escena_1():
-    coneval = pd.read_csv(R("data/fuente_a/03_siegy_yucatan/coneval_lineas_pobreza_2018_2025.csv"))
+    # Canasta: último mes publicado por INEGI (Líneas de Pobreza 2026), con salario mínimo del mismo año.
+    lineas = pd.read_csv(R("data/fuente_a/03_siegy_yucatan/inegi_lineas_pobreza_2025_2026.csv"))
     censo = pd.read_csv(R("data/fuente_a/03_siegy_yucatan/censo2020_totales_municipio_merida.csv")).iloc[0]
-    ult = coneval.iloc[-1]
+    ult = lineas.iloc[-1]
+    anio, mes = (int(x) for x in ult.periodo.split("-"))
+    salario = {2025: SALARIO_MINIMO_2025, 2026: SALARIO_MINIMO_2026}[anio]
     canasta_persona = float(ult.lpei_canasta_alimentaria_urbana_mxn)
     ocupantes = float(censo.PROM_OCUP)
     canasta_hogar = round(canasta_persona * ocupantes, 2)
-    dias = round(canasta_hogar / SALARIO_MINIMO_2025, 1)
+    dias = round(canasta_hogar / salario, 1)
     guardar(pd.DataFrame([{
         "periodo": ult.periodo,
         "canasta_persona_mxn": canasta_persona,
         "ocupantes_por_vivienda": ocupantes,
         "canasta_hogar_mxn": canasta_hogar,
-        "salario_minimo_diario_mxn": SALARIO_MINIMO_2025,
+        "salario_minimo_diario_mxn": salario,
         "dias_mes": DIAS_MES,
         "dias_canasta": dias,
         "dias_libres": round(DIAS_MES - dias, 1),
-        "fuente": "CONEVAL, líneas de pobreza por ingresos (canasta alimentaria urbana); INEGI, Censo 2020 "
-                  "(promedio de ocupantes por vivienda, Mérida); CONASAMI, salario mínimo general 2025",
-        "corte": "marzo 2025",
+        "fuente": f"INEGI, Líneas de Pobreza (canasta alimentaria urbana, boletín del {ult.fecha_publicacion}); "
+                  f"INEGI, Censo 2020 (promedio de ocupantes por vivienda, Mérida); CONASAMI, salario mínimo general {anio}",
+        "corte": f"{MESES[mes - 1]} {anio}",
     }]), "escena-1.csv")
 
 

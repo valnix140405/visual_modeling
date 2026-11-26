@@ -4,7 +4,7 @@ Genera tablas planas (CSV) para Looker Studio en reports/looker_studio/, solo co
     looker_01_precios_multicanal.csv     Tienditas (07-B) + Supermercados, Central de Abasto y
                                          Farmacias/Conveniencia (PROFECO QQP mayo 2026)
     looker_02_territorio_geo.csv         Mercados públicos (DENUE) y establecimientos PROFECO con coordenadas
-    looker_03_lineas_pobreza_coneval.csv Serie mensual CONEVAL 2018-01 a 2025-03
+    looker_03_lineas_pobreza.csv         Serie mensual CONEVAL 2018-01 a 2025-03 + INEGI 2025-07 en adelante
     looker_04_ageb_censo2020_merida.csv  Indicadores por AGEB urbana de Mérida (Censo 2020)
     looker_05_comparables_por_canal.csv  Lo genera scripts/generar_datos_web.py (pares PROFECO por canal)
     looker_06_relieve_ciudades.csv       Elevación real de Mérida y 5 ciudades de montaña (08-C)
@@ -76,8 +76,13 @@ def tabla_territorio():
 
 
 def tabla_coneval():
-    guardar(pd.read_csv(os.path.join(DATA, "fuente_a/03_siegy_yucatan/coneval_lineas_pobreza_2018_2025.csv")),
-            "looker_03_lineas_pobreza_coneval.csv")
+    # Serie continua: CONEVAL (2018-01 a 2025-03) + INEGI (2025-07 en adelante). Abril a junio de 2025 no tienen
+    # boletín publicado; quedan como hueco, no se interpolan.
+    con = pd.read_csv(os.path.join(DATA, "fuente_a/03_siegy_yucatan/coneval_lineas_pobreza_2018_2025.csv"))
+    con["fuente"] = "CONEVAL"
+    ine = pd.read_csv(os.path.join(DATA, "fuente_a/03_siegy_yucatan/inegi_lineas_pobreza_2025_2026.csv"))
+    ine = ine[con.columns.drop("fuente").tolist()].assign(fuente="INEGI")
+    guardar(pd.concat([con, ine], ignore_index=True), "looker_03_lineas_pobreza.csv")
 
 
 def tabla_ageb():
@@ -98,7 +103,7 @@ FUENTES = [  # (id, tema, institución, archivo en data/, cobertura)
     ("02-A", "Precios al consumidor", "PROFECO QQP", "fuente_a/02_datos_gob_profeco/profeco_merida_2026_real.csv", "Mérida, mayo 2026"),
     ("02-B", "Precios en la Central de Abasto", "PROFECO QQP", "fuente_b/02_datos_gob_sniim/profeco_central_abasto_merida_2026.csv", "Mérida, mayo 2026"),
     ("02-C", "Artículos y proveedores", "DICONSA", "fuente_c/02_diconsa_segalmex/DICONSA_8_Listado_de_articulos_por_proveedor.csv", "Nacional, 1er semestre 2018"),
-    ("03-A", "Líneas de pobreza por ingresos", "CONEVAL", "fuente_a/03_siegy_yucatan/coneval_lineas_pobreza_2018_2025.csv", "Nacional, 2018-01 a 2025-03"),
+    ("03-A", "Líneas de pobreza por ingresos", "INEGI (antes CONEVAL)", "fuente_a/03_siegy_yucatan/inegi_lineas_pobreza_2025_2026.csv", "Nacional, 2025-07 a 2026-10 (CONEVAL 2018-2025 en serie aparte)"),
     ("03-B", "Indicadores por AGEB urbana", "INEGI Censo 2020", "fuente_b/03_conapo_marginacion/censo2020_indicadores_ageb_merida.csv", "Mérida, 2020"),
     ("03-C", "Inspección fitozoosanitaria", "SENASICA", "fuente_c/03_imss_boletin/01_actividades-inspeccion-movilizacion_2dotrim2025.csv", "Nacional, 2025 2T"),
     ("04-A", "Mercados públicos", "INEGI DENUE", "fuente_a/04_geoportal_merida/mercados_publicos_merida_denue.geojson", "Mérida, edición 2026"),
@@ -133,7 +138,7 @@ def tabla_fuentes():
 
 
 if __name__ == "__main__":
-    for viejo in ["looker_01_comparativa_precios_multicanal.csv", "looker_02_territorio_mercados_tienditas_geo.csv",
+    for viejo in ["looker_03_lineas_pobreza_coneval.csv", "looker_01_comparativa_precios_multicanal.csv", "looker_02_territorio_mercados_tienditas_geo.csv",
                   "looker_03_salarios_esfuerzo_laboral_merida.csv"]:
         if os.path.exists(os.path.join(OUT, viejo)):
             os.remove(os.path.join(OUT, viejo))
