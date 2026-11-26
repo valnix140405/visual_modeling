@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>El mes que se come tu sueldo · Del Mundo a la Esquina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<main>
+  <span class="rotulo">Acto 2 · Vivir aquí · Equipo 2</span>
+  <h1>El mes que se come tu sueldo</h1>
+  <p class="entrada">¿Alcanza el salario para comer? Las escenas de este capítulo leen sus cifras de <code>../datos/</code>. El texto completo del capítulo está en <a href="../ficha.md">ficha.md</a>.</p>
+
+  <section class="escena">
+    <p class="escena-encabezado">Escena 1 · El calendario de la canasta</p>
+    <div id="escena-1"></div>
+    <p class="lectura">Cada cuadro es un día del mes de trabajo con salario mínimo.</p>
+  </section>
+
+  <section class="escena">
+    <p class="escena-encabezado">Escena 2 · Central de Abasto contra súper</p>
+    <div id="escena-2"></div>
+    <p class="lectura">La línea punteada es la mediana de todos los productos comparables.</p>
+  </section>
+
+  <section class="escena">
+    <p class="escena-encabezado">Escena 3 · Tienda de conveniencia contra súper</p>
+    <div id="escena-3"></div>
+    <p class="lectura">El sobreprecio se concentra en pocos productos: bebidas (suero oral, agua, yoghurt bebible) y sopas instantáneas. En la mayoría de los productos la diferencia es pequeña.</p>
+  </section>
+
+  <section class="escena">
+    <p class="escena-encabezado">Escena 4 · Tiendita contra súper</p>
+    <div id="escena-4"></div>
+    <p class="lectura">El número de precios de cada fila recuerda que es una muestra chica.</p>
+  </section>
+</main>
+<script type="module">
+  import { escena1 } from "./escena-1.js";
+  import { escena2 } from "./escena-2.js";
+  import { escena3 } from "./escena-3.js";
+  import { escena4 } from "./escena-4.js";
+  import { mostrarError, listo } from "./estilo.js";
+  const escenas = [escena1, escena2, escena3, escena4];
+  listo(escenas.map((f, i) => f(`#escena-${i + 1}`).catch((e) => mostrarError(`#escena-${i + 1}`, e))));
+</script>
+</body>
+</html>

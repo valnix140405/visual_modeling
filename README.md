@@ -30,8 +30,9 @@ visual_modeling/
 │   ├── fuente_a/  (Valeria)        # 01-A DENUE · 02-A PROFECO · 03-A CONEVAL+Censo · 04-A Mercados · 06-A Súper · 08-A LiDAR · 09-A AR
 │   ├── fuente_b/  (Ramiro)         # 01-B Censos Económicos · 02-B Central de Abasto · 03-B AGEB · 04-B Tianguis · 06-B Farmacias · 07-B Tienditas · 08-B Elevación · 09-B AR
 │   ├── fuente_c/  (Isaac)          # 01-C ENOE · 02-C DICONSA · 03-C SENASICA · 04-C Transporte · 06-C Delivery · 08-C Relieve · 09-C AR
-│   ├── visor_lidar_unificado.html  # Visor 3D de elevación
+│   ├── visor_relieve_3d.html  # Visor 3D de elevación
 │   └── visor_ar_unificado.html     # Prototipo de recorrido AR
+├── booklet/                      # Capítulo del booklet (Acto 2): ficha.md, datos/ (CSV por escena), graficas/ (D3), img/
 ├── reports/
 │   ├── figuras/                    # Gráficas generadas con datos reales
 │   └── looker_studio/              # Tablas listas para Looker Studio
@@ -59,7 +60,7 @@ Abre los archivos desde el sitio publicado o con un servidor local (`python -m h
 |---|---|
 | [`index.html`](index.html) | Presentación del proyecto |
 | [`data/fuente_a/04_geoportal_merida/visor_mercados_municipales.html`](data/fuente_a/04_geoportal_merida/visor_mercados_municipales.html) | Mercados públicos de Mérida (DENUE) |
-| [`data/visor_lidar_unificado.html`](data/visor_lidar_unificado.html) | Elevación del Centro y relieve de Mérida (AWS Terrain Tiles). No es LiDAR |
+| [`data/visor_relieve_3d.html`](data/visor_relieve_3d.html) | Elevación del Centro y relieve de Mérida (AWS Terrain Tiles). No es LiDAR |
 | [`data/visor_ar_unificado.html`](data/visor_ar_unificado.html) | Prototipo de diseño AR, sin datos de fuente |
 
 ## Publicación
