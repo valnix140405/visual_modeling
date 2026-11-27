@@ -1892,16 +1892,22 @@
     // =====================================================================
     // JUEGO ¿SÚPER O ABASTO? (pares reales PROFECO del explorador)
     // =====================================================================
-    const game = { pool: [], rondas: [], i: 0, aciertos: 0, total: 10, respondida: false };
+    const game = { pool: [], rondas: [], i: 0, aciertos: 0, total: 10, respondida: false, partida: 0 };
     const GAME_OK = ['¡Eso! Ojo de comprador experto.', '¡Bien! Ya hueles los precios.', '¡Correcto! Tu abuela estaría orgullosa.', '¡Exacto! Nadie te ve la cara.'];
     const GAME_NO = ['¡Uy! Ese no te lo esperabas.', 'Nop. Los precios también engañan.', 'Fallaste… pero ahora ya sabes.', '¡Sorpresa! No siempre es como parece.'];
+
+    function gcd(a, b) { return b ? gcd(b, a % b) : a; }
 
     function gameStart() {
       const pool = explorer.filas.filter(x => x.comparacion === 'abasto' && Math.abs(x.dif_pct) >= 5);
       game.poolTotal = pool.length;
       game.poolAbasto = pool.filter(x => x.precio_otro < x.precio_super).length;
-      for (let k = pool.length - 1; k > 0; k--) { const r = Math.floor(Math.random() * (k + 1)); [pool[k], pool[r]] = [pool[r], pool[k]]; }
-      game.rondas = pool.slice(0, game.total); game.i = 0; game.aciertos = 0;
+      // Orden fijo y reproducible (sin azar): productos ordenados por nombre y recorridos con un paso
+      // que salta por toda la lista; cada partida nueva empieza donde terminó la anterior.
+      pool.sort((a, b) => (a.producto + a.presentacion).localeCompare(b.producto + b.presentacion, 'es'));
+      const n = pool.length, paso = gcd(37, n) === 1 ? 37 : 1;
+      game.rondas = Array.from({ length: Math.min(game.total, n) }, (_, k) => pool[(game.partida * game.total + k) * paso % n]);
+      game.partida++; game.i = 0; game.aciertos = 0;
       document.getElementById('gameNext').textContent = 'Siguiente producto \u2192';
       gameShow();
     }
@@ -1931,7 +1937,7 @@
         ? `En el súper costaba <strong>${dif}% más</strong>.`
         : `El súper era <strong>${dif}% más barato</strong>.`;
       document.getElementById('gameReveal').innerHTML =
-        `<span class="${ok ? 'ok' : 'no'}">${frases[Math.floor(Math.random() * frases.length)]}</span><br>` +
+        `<span class="${ok ? 'ok' : 'no'}">${frases[(game.i + game.aciertos) % frases.length]}</span><br>` +
         `Central de Abasto: <strong>${fmtMx(x.precio_otro)}</strong> · Supermercado: <strong>${fmtMx(x.precio_super)}</strong>. ${detalle}`;
       ['gameBtnAbasto', 'gameBtnSuper'].forEach(id => document.getElementById(id).disabled = true);
       game.i++;
