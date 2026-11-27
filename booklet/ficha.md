@@ -72,7 +72,7 @@ Los títulos y subtítulos de las gráficas se escriben con las cifras que leen 
 
 | Falla | Estado |
 |---|---|
-| Gráficas en matplotlib y cifras escritas en el HTML | **Corregida para el booklet:** las 4 escenas están en D3 v7 (`d3@7.9.0`) y todas sus cifras se leen de `datos/*.csv`, que genera `scripts/generar_datos_booklet.py` desde los archivos del repositorio. **El sitio web** (`index.html`) sigue siendo un complemento con cifras escritas en el HTML; se auditaron una por una el 2026-11-24 (`reports/validacion/`), pero no se reescribió en D3 por tiempo. |
+| Gráficas en matplotlib y cifras escritas en el HTML | **Corregida en el booklet y en el sitio.** Booklet: las 4 escenas, la apertura y el puente están en D3 v7 (`d3@7.9.0`) y todas sus cifras se leen de `datos/*.csv`, que genera `scripts/generar_datos_booklet.py`. Sitio web (`index.html`): las 7 gráficas pasaron a D3 y las cifras de los textos se leen de `data/web/cifras_sitio.csv` (`scripts/generar_cifras_sitio.py`), cada una con su fuente y archivo de origen; no usa `Math.random`. Solo quedan escritos en el HTML parámetros de la interfaz (rango del control de salario, 10 rondas del juego), no datos. |
 | `data/visor_lidar_unificado.html` no es LiDAR | **Corregida:** se renombró a `data/visor_relieve_3d.html` y se actualizaron los enlaces. Las carpetas `data/fuente_a/08_lidar_mercado/` y `data/fuente_b/08_lidar_cem_mde/` conservan su nombre original de la matriz de fuentes; sus README aclaran que es elevación, no LiDAR. |
 | Prototipo AR sin datos | **Fuera del booklet.** No aparece en ninguna escena; ya se había retirado del sitio. |
 | La bitácora es de 5 tienditas | **Corregida:** se dice en el subtítulo y en una nota de la escena 4, y en «Lo que estos datos no dicen». |
